@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Elle roche et le papier et ciseaux</title>
+</head>
+
+<style>
+body{
+	background-image: url(bg.jpg);
+	text-align: center;
+    background-size:cover;
+	}
+h1{
+	font-size: 88px;
+	}
+p{
+	font-size: 20px;
+	}
+
+#difficulty{
+    width: 200px;
+    height: 50px;
+    margin: auto;
+    top: 30px;
+    background-color: lightblue;
+    border: 2px solid black;
+    text-align: center
+}
+
+#player{
+    height: 500px;
+	width: 500px;
+	background-image: url(player.jpg);
+    background-size: cover;
+    background-position-x: -3.5cm;
+	position:fixed;
+	top:250px;
+	left:100px;
+}
+
+#enemy{
+    color:white;
+    height: 500px;
+	width: 500px;
+    background-color:red;
+	position:fixed;
+	top:250px;
+	right:100px;
+    font-size: 69px;
+}
+#reset{
+    height:75px;
+    width:75px;
+    background-image: url(refresh.webp);
+    background-size:cover;
+    position:fixed;
+    top:10px;
+    right:10px;
+}
+</style>
+
+<body>
+
+<h1>Roche, Papier, Ciseaux, Gros robots </h1>
+
+<div id="player"></div>
+
+<div id="enemy">Choisissez votre difficulté</div>
+
+<div id="difficulty">
+    Difficulté <br/>
+<input type="button" value="Facile" onClick="ez()" />  
+<input type="button" value="Moyen" onClick="med()" />  
+<input type="button" value="Difficile" onClick="dif()" />      
+</div>
+
+<div id="reset" onclick="refresh()"></div>
+
+<script>
+
+function ez(){
+    window.location.href = "jeuFacile.html";
+}
+
+function med(){
+    window.location.href = "jeuMoyen.html";
+}
+
+function dif(){
+    window.location.href = "jeuDifficile.html";
+}
+
+function refresh(){
+    window.location.href = "ÉcranDeChargement(commencez-ici).html"
+}
+</script>
+</body>
+</html>

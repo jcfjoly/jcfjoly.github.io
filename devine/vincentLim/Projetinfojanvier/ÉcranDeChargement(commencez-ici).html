@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading screen/instructions</title>
+</head>
+
+<style>
+  h1{
+      color: white;
+      font-size: 88px;
+  }
+  p{
+      color: white;
+      font-size: 24px;
+  }
+  body{
+      background-color:black;
+      text-align: center;
+  }
+  #L1{
+      width: 500px;
+      height: 200px;
+      margin-left: auto;
+      margin-right: auto;
+      background-size: cover;
+      background-position-x:center;
+      visibility: hidden;
+      border-radius: 15px;
+  }
+</style>
+
+<body>
+    <h1>Roche, Papier, Ciseaux, Gros Robots</h1>
+    <p>Instructions:</p>
+    <p>Choisissez un niveau de difficulté et essayez de battre l'adversaire à l'aide d'un système de combat avancé de roche, papier, ciseaux. Le sort de l'humanité dépend sur vous. Votre barre de vie est bleue 
+        et la barre de vie de l'ennemi est rouge. Pour réinitialiser le jeu, pesez sur le petit icône en haut à droite. Battez-vous avec tout ce que vous avez! 
+    </p>
+    <p id="loading"></p>
+
+    <img id="L1" src="start_button.png" onclick = "redirect()"></img>
+
+<script>
+
+    loadingTime = 100
+    
+    function countdownForTimer(){
+        if(loadingTime > 0){
+            loadingTime -= 1
+            document.getElementById("loading").innerHTML = "Chargement en cours. Vous pourriez procéder dans <b>" + Math.floor(loadingTime/10) + "</b>..."
+        }else{
+            document.getElementById("loading").innerHTML = "";
+            document.getElementById("L1").setAttribute("style","visibility: visible");
+        }
+    }
+    
+    function redirect(){
+        window.location.href = "jeuPrincipal.html";
+    }
+    setInterval(countdownForTimer, 100)
+    </script>
+</body>
+</html>

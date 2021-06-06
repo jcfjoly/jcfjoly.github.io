@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Elle roche et le papier et ciseaux Le facile VS Gundam</title>
+</head>
+
+<style>
+body{
+	background-image: url(bg.jpg);
+	text-align: center;
+    background-size:cover;
+	}
+h1{
+	font-size: 88px;
+	}
+p{
+	font-size: 20px;
+    text-align: center;
+    color: white;
+    background-color: black;
+    display:inline;
+	}
+#input{
+    width: 200px;
+    height: 50px;
+    margin: auto;
+    top: 30px;
+    background-color: lightblue;
+    border: 2px solid black;
+    text-align: center
+}
+
+#player{
+    height: 500px;
+	width: 500px;
+	background-image: url(player.jpg);
+    background-size: cover;
+    background-position-x: -3.5cm;
+	position:fixed;
+	top:250px;
+	left:100px;
+}
+
+#enemy{
+    height: 500px;
+    width: 500px;
+    background-image: url(facile.jpg);
+    position:fixed;
+    background-size:cover;
+    top:250px;
+    right:100px;
+}
+#reset{
+    height:75px;
+    width:75px;
+    background-image: url(refresh.webp);
+    background-size:cover;
+    position:fixed;
+    top:10px;
+    right:10px;
+}
+#barreVie {
+    width: 30%;
+    height: 20px;
+    background-color: blue;
+    position:fixed;
+    bottom: 100px;
+    left:100px;
+    }
+
+#barreVieEnnemie {
+    width: 30%;
+    height: 20px;
+    background-color: red;
+    position:fixed;
+    bottom: 100px;
+    right: 100px;
+    }
+#choixJ{
+    width:100px;
+    height:100px;
+    background-image: url(rotation.jpg);
+    position:fixed;
+    background-size:cover;
+    left:600px;
+    top:450px;
+}
+#choixE{
+    width:100px;
+    height:100px;
+    background-image: url(rotation.jpg);
+    position:fixed;
+    background-size:cover;
+    right:600px;
+    top:450px;
+}
+</style>
+
+<body>
+
+<h1>Roche, Papier, Ciseaux, Gros robots </h1>
+
+<div id="input">
+	Roche, papier, ciseaux <br/>
+<input type="button" id=B1 value="Roche" onClick="roc()" />   
+<input type="button" id=B2 value="Papier" onClick="pap()" />   
+<input type="button" id=B3 value="Ciseaux" onClick="cis()" />   
+</div>
+
+<div id="reset" onclick="refresh()"></div>
+
+<div id="player"></div>
+
+<div id="enemy"></div>
+
+<div>
+    <p id="message"></p> 
+    <div id="barreVieEnnemie"></div>
+    <div id="barreVie"></div>
+</div>
+
+<div id=choixJ></div>
+<div id=choixE></div>
+
+<script>
+
+var hp = 10;
+var hpe = 5;
+const hpmax = 10;
+const hpemax = 5;
+
+var nd=new Audio();
+    nd.src="nd.mp3"
+function block(){
+    nd.play()
+}
+
+var ed=new Audio();
+    ed.src="attack.mp3"
+function attack(){
+    ed.play()
+}
+
+var pd=new Audio();
+    pd.src="damageG.mp3"
+function damage(){
+    pd.play()
+}
+
+function roc(){
+    var vie = document.getElementById('barreVie');
+    var vieEnnemie = document.getElementById('barreVieEnnemie');
+    var message = document.getElementById('message');
+    var cc = document.getElementById("choixE");
+    console.log("Joueur a choisi roche ");
+   
+    var numHasard=Math.ceil(Math.random()*3)
+        if(numHasard==1){
+			var choixOrdi="roche";
+            cc.setAttribute("style","background-image: url(rock.png)")
+	    }else if(numHasard==2){
+            var choixOrdi="papier";
+            cc.setAttribute("style","background-image: url(paper.png)")
+        }else if(numHasard==3){
+			var choixOrdi="ciseaux"; 
+            cc.setAttribute("style","background-image: url(scissors.png)")
+        }
+            var choixJoueur="roche"
+            document.getElementById("choixJ").setAttribute("style","background-image: url(rock.png)")
+   
+        if(choixJoueur==choixOrdi){
+            message.innerHTML = "Égalité!";
+            block()
+        }else if(choixOrdi=="papier"){
+            message.innerHTML = "Ennemi a choisi papier, ennemi gagne!";
+            hp -= 1;
+            damage()
+        }else if(choixOrdi=="ciseaux"){
+            message.innerHTML = "Ennemi a choisi ciseaux, joueur gagne!";
+            hpe -= 1;
+            attack()
+        }else{
+        alert("error")
+        }
+
+        if (hp <= 0) {
+            hp = 0;
+            document.getElementById("message").setAttribute("style","font-size: 40px; color: red");
+            message.innerHTML = "DÉFAITE!";
+            document.getElementById("B1").disabled=true;
+            document.getElementById("B2").disabled=true;
+            document.getElementById("B3").disabled=true;
+        }
+
+        if (hpe <= 0) {
+            hpe = 0;
+            document.getElementById("message").setAttribute("style","font-size: 40px; color: green");
+            message.innerHTML = "VICTOIRE!";
+            document.getElementById("B1").disabled=true;
+            document.getElementById("B2").disabled=true;
+            document.getElementById("B3").disabled=true;
+        }
+            vie.style.width = `${(30 * hp) / hpmax}%`
+        vieEnnemie.style.width = `${(30 * hpe) / hpemax}%`
+        console.log(choixOrdi)	
+	    console.log(choixJoueur)
+        }
+
+function pap(){
+    var vie = document.getElementById('barreVie');
+    var vieEnnemie = document.getElementById('barreVieEnnemie');
+    var message = document.getElementById('message');
+    var cc = document.getElementById("choixE");
+    console.log("Joueur a choisi papier");
+   
+    var numHasard=Math.ceil(Math.random()*3)
+        if(numHasard==1){
+			var choixOrdi="roche";
+            cc.setAttribute("style","background-image: url(rock.png)")
+	    }else if(numHasard==2){
+            var choixOrdi="papier";
+            cc.setAttribute("style","background-image: url(paper.png)")
+        }else if(numHasard==3){
+			var choixOrdi="ciseaux"; 
+            cc.setAttribute("style","background-image: url(scissors.png)")
+        }
+            var choixJoueur="papier"
+            document.getElementById("choixJ").setAttribute("style","background-image: url(paper.png)")
+   
+        if(choixJoueur==choixOrdi){
+            message.innerHTML = "Égalité!";
+            block()
+        }else if(choixOrdi=="roche"){
+            message.innerHTML = "Ennemi a choisi roche, joueur gagne!";
+            hpe -= 1;
+            attack()
+        }else if(choixOrdi=="ciseaux"){
+            message.innerHTML = "Ennemi a choisi ciseaux, ennemi gagne!";
+            hp -= 1;
+            damage()
+        }else{
+        alert("error")
+        }
+
+        if (hp <= 0) {
+            hp = 0;
+            document.getElementById("message").setAttribute("style","font-size: 40px; color: red");
+            message.innerHTML = "DÉFAITE!";
+            document.getElementById("B1").disabled=true;
+            document.getElementById("B2").disabled=true;
+            document.getElementById("B3").disabled=true;
+        }
+
+        if (hpe <= 0) {
+            hpe = 0;
+            document.getElementById("message").setAttribute("style","font-size: 40px; color: green");
+            message.innerHTML = "VICTOIRE!";
+            document.getElementById("B1").disabled=true;
+            document.getElementById("B2").disabled=true;
+            document.getElementById("B3").disabled=true;
+        }
+            vie.style.width = `${(30 * hp) / hpmax}%`
+        vieEnnemie.style.width = `${(30 * hpe) / hpemax}%`
+        console.log(choixOrdi)	
+	    console.log(choixJoueur)
+        }
+
+function cis(){
+    var vie = document.getElementById('barreVie');
+    var vieEnnemie = document.getElementById('barreVieEnnemie');
+    var message = document.getElementById('message');
+    var cc = document.getElementById("choixE");
+    console.log("Joueur a choisi ciseaux");
+   
+    var numHasard=Math.ceil(Math.random()*3)
+        if(numHasard==1){
+			var choixOrdi="roche";
+            cc.setAttribute("style","background-image: url(rock.png)")
+	    }else if(numHasard==2){
+            var choixOrdi="papier";
+            cc.setAttribute("style","background-image: url(paper.png)")
+        }else if(numHasard==3){
+			var choixOrdi="ciseaux"; 
+            cc.setAttribute("style","background-image: url(scissors.png)")
+        }
+            var choixJoueur="ciseaux"
+            document.getElementById("choixJ").setAttribute("style","background-image: url(scissors.png)")
+   
+        if(choixJoueur==choixOrdi){
+            message.innerHTML = "Égalité!";
+            block()
+        }else if(choixOrdi=="papier"){
+            message.innerHTML = "Ennemi a choisi papier, joueur gagne!";
+            hpe -= 1;
+            attack()
+        }else if(choixOrdi=="roche"){
+            message.innerHTML = "Ennemi a choisi roche, ennemi gagne!";
+            hp -= 1;
+            damage()
+        }else{
+        alert("error")
+        }
+
+        if (hp <= 0) {
+            hp = 0;
+            document.getElementById("message").setAttribute("style","font-size: 40px; color: red");
+            message.innerHTML = "DÉFAITE!";
+            document.getElementById("B1").disabled=true;
+            document.getElementById("B2").disabled=true;
+            document.getElementById("B3").disabled=true;
+        }
+
+        if (hpe <= 0) {
+            hpe = 0;
+            document.getElementById("message").setAttribute("style","font-size: 40px; color: green");
+            message.innerHTML = "VICTOIRE!";
+            document.getElementById("B1").disabled=true;
+            document.getElementById("B2").disabled=true;
+            document.getElementById("B3").disabled=true;
+        }
+            vie.style.width = `${(30 * hp) / hpmax}%`
+        vieEnnemie.style.width = `${(30 * hpe) / hpemax}%`
+        console.log(choixOrdi)	
+	    console.log(choixJoueur)
+        }
+
+function refresh(){
+    window.location.href = "ÉcranDeChargement(commencez-ici).html"
+}
+</script>
+</body>
+</html>
