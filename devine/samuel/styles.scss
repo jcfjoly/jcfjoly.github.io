@@ -1,0 +1,268 @@
+* {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-image: url(images/stone.png);
+  background-size: 200px;
+}
+
+#popup-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1002;
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+  pointer-events: none;
+
+  text-align: center;
+  color: white;
+
+  &[data-shown='true'] {
+    opacity: 100%;
+    pointer-events: all;
+  }
+}
+
+#popup {
+  width: 75vw;
+  height: 75vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url(images/dirt.png);
+  background-size: 200px;
+  border-radius: 25px;
+  z-index: 1001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms ease-in-out;
+
+  &[data-shown='true'] {
+    opacity: 100%;
+    pointer-events: all;
+  }
+}
+
+#overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0;
+  z-index: 1000;
+  pointer-events: none;
+  transition: opacity 500ms ease-in-out;
+
+  &[data-shown='true'] {
+    opacity: 50%;
+    pointer-events: all;
+  }
+}
+
+#start-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 100px;
+  height: 100px;
+  transition: filter 250ms;
+
+  &[data-started='true'] {
+    filter: grayscale(1);
+  }
+
+  &[data-started='false']:hover {
+    filter: hue-rotate(90deg);
+  }
+}
+
+.sound-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 100px;
+  height: 100px;
+}
+
+#difficulty-btn {
+  position: absolute;
+  top: 120px;
+  left: 10px;
+  width: 100px;
+  height: 100px;
+  transition: filter 250ms;
+
+  &[data-started='true'] {
+    filter: grayscale(1);
+  }
+
+  &[data-started='false']:hover {
+    filter: hue-rotate(90deg);
+  }
+}
+
+#restart-btn {
+  width: 100px;
+  height: 100px;
+  transition: filter 250ms;
+
+  &:hover {
+    filter: hue-rotate(90deg);
+  }
+}
+
+#difficulty-slider {
+  height: 45px;
+  width: 100%;
+  background-color: #34495e;
+
+  @mixin slider-thumb {
+    height: 30px;
+    width: 30px;
+    border-radius: 0;
+    background-color: #9b59b6;
+    border: 5px #8e44ad solid;
+  }
+  &::-webkit-slider-thumb {
+    @include slider-thumb();
+  }
+  &::-moz-range-thumb {
+    @include slider-thumb();
+  }
+}
+
+#save-difficulty-btn {
+  width: 100px;
+  height: 100px;
+  transition: filter 250ms;
+
+  &:hover {
+    filter: hue-rotate(90deg);
+  }
+}
+
+#toast {
+  background-image: url(images/toast.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 40vw;
+  height: 8vw;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 250ms;
+
+  &[data-shown='true'] {
+    opacity: 100%;
+  }
+
+  span {
+    font-size: 4vw;
+    color: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 4vw;
+  }
+}
+
+#tutorial {
+  color: white;
+  text-align: center;
+  width: 50vw;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background-image: url(images/dirt.png);
+  background-size: 200px;
+  border-radius: 15px;
+  transition: opacity 250ms ease-in-out;
+  padding: 10px;
+
+  h1,
+  h2,
+  p {
+    margin: 0;
+  }
+
+  &[data-translucid='true'] {
+    opacity: 35%;
+  }
+
+  &:hover {
+    opacity: 100%;
+  }
+}
+
+main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  form {
+    input {
+      background-color: transparent;
+      border: none;
+      background-image: url(images/input.png);
+      width: 60vw;
+      height: 6vw;
+      background-size: contain;
+      background-repeat: no-repeat;
+      font-size: 4vw;
+      text-align: center;
+      color: white;
+    }
+    #submit-btn {
+      position: absolute;
+      top: 3vw;
+      right: 0;
+      transform: translateY(-50%);
+      width: 6vw;
+      height: 6vw;
+      font-size: 2vw;
+      text-align: center;
+      transition: filter 250ms;
+
+      &:hover {
+        filter: hue-rotate(90deg);
+      }
+    }
+  }
+
+  #lifebar {
+    background-image: url(images/lifebar.png);
+    width: 60vw;
+    height: calc(60vw / 8.272727273);
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    & > .live {
+      display: inline-block;
+      width: calc(60vw / 9);
+      height: calc(60vw / 9);
+      margin-left: -4px;
+      background-image: url(images/iron_sword.png);
+      background-size: cover;
+      opacity: 0;
+      transition: opacity 250ms;
+
+      &[data-shown='true'] {
+        opacity: 100%;
+      }
+    }
+  }
+
+  transition: filter 125ms;
+  &[data-started='false'] {
+    filter: grayscale(1);
+  }
+}

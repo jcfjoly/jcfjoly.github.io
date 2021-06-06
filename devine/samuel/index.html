@@ -1,0 +1,53 @@
+<!-- 
+  CRÉDITS:
+    - Textures: PRIME HD TEXTURES (DEMO)
+    - SONS: Minecraft
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Devine le chiffre!</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="main.js"></script>
+  </head>
+  <body>
+    <div id="popup-content" data-shown="false"></div>
+    <div id="popup" data-shown="false"></div>
+    <div id="overlay" data-shown="false"></div>
+
+    <div id="toast" data-shown="false">
+      <span><!--Va être rempli par le JS--></span>
+    </div>
+
+    <img src="images/start.png" id="start-btn" data-started="false" />
+    <img src="images/difficulty.png" id="difficulty-btn" data-started="false" />
+    <img src="images/sound_on.png" class="sound-btn" data-status="on" />
+    <img src="images/sound_off.png" class="sound-btn" data-status="off" />
+
+    <div id="tutorial" data-translucid="false">
+      <h1>🎲 Devine le chiffre 🎲</h1>
+      <h2>
+        C'est très simple: vous devez deviner un chiffre généré aléatoirement
+      </h2>
+      <p>
+        Le bouton <i>Play</i> en haut à gauche démarre la partie. La boutton
+        juste en dessous contrôle la difficulté (<b>1:</b> 9 vies, nombre entre
+        1 et 20<b>, 2:</b> 9 vies, nombre entre 1 et 100<b>, 3:</b> 5 vies,
+        nombre entre 1 et 100). Le formulaire vous permet de tester un chiffre.
+        La barre juste en dessous représente vos vies
+      </p>
+    </div>
+
+    <main data-started="false">
+      <form>
+        <input required disabled type="number" id="number-input" />
+        <img src="images/start.png" id="submit-btn" />
+      </form>
+
+      <div id="lifebar"><!--Va être rempli par le JS--></div>
+    </main>
+  </body>
+</html>
