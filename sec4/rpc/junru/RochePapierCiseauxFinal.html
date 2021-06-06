@@ -1,0 +1,685 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roche, papier, ciseaux</title>
+  <link rel="shortcut icon" type="image/png" href="Images/scissorsFavicon.png">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Stick&display=swap" rel="stylesheet">
+<style>
+
+    body{
+      display:block;
+      align-items:center;
+      font-family: 'Stick', sans-serif;
+
+    }
+    #title{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:75px;
+    }
+    #difficultyTitle{
+      align-items:center;
+      justify-content:center;
+    }
+    #difficultyChoice{
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:150px;
+    }
+    
+    #rockPaperCissor{
+      width:200px;
+      height:100px;
+      margin:auto;
+      margin-top:400px;
+      background-color: lightblue;
+      border:2px black solid;
+      text-align:center;
+      padding:auto;
+    }
+    #message{
+      width:500px;
+      height:50px;
+      border-radius:5px;
+      text-align:center;
+      margin-left:auto;
+      margin-right:auto;
+      margin-top:50px;
+
+    }
+    #playerTitle{
+      position:absolute;
+      top:35%;
+      left:23%;
+    }
+    #player{
+      background-color:lightgray;
+      width:600px;
+      height:250px;
+      border: 2px solid;
+      border-radius:5px;
+      display: flex;
+      align-items:center;
+
+    }
+    #computerTitle{
+      position:absolute;
+      top:35%;
+      left:73%;
+    }
+    #computer{
+      background-color:lightgray;
+      width:600px;
+      height:250px;
+      border: 2px solid;
+      border-radius:5px;
+      display: flex;
+      align-items:center;
+      
+    }
+    #plate{
+      background-image: url("Images/assiette.png");
+      background-size: 100%;
+      width:500px;
+      height:220px;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      background-repeat: no-repeat;
+    }
+    #winningItem{
+      width: 100px;
+      height: 100px;
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+      display: inline-block;
+      align-items:center;
+      font-size: 3.5rem;
+    }
+    #interaction{
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:200px;
+      margin-left:200px;
+      margin-right:200px;
+      
+      
+    }
+    #interaction > *{
+      margin:10px;
+
+    }
+    #playerRock{
+      width: 100px;
+      height: 100px;
+      background-image: url('Images/rock.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+      display: inline-block;
+      
+      margin-left:auto;
+    }
+    #playerPaper{     
+      width: 100px;
+      height: 100px;
+      background-image: url('Images/paper.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+      display: inline-block;
+      margin:auto;
+    }
+    #playerScissors{ 
+      width: 100px;
+      height: 100px;
+      background-image: url('Images/scissors.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+      display: inline-block;
+      margin-right:auto;
+    }
+    #computerRock{
+      width: 100px;
+      height: 100px;
+      background-image: url('Images/rock2.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+      align-items:center;
+      margin-left:auto;
+    }
+    #computerPaper{
+      background-image: url("./Images/paper2.png");
+      width: 100px;
+      height: 100px;
+      background-image: url('Images/paper2.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+      display: inline-block;
+      margin:auto;
+      
+    }
+    #computerScissors{
+      background-image: url("./Images/scissors2.png");
+      width: 100px;
+      height: 100px;
+      background-image: url('Images/scissors2.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+      display: inline-block;
+      margin-right:auto;
+    }
+    #playerRock:hover{
+      background-image: url("./Images/rock.png");
+      width: 96px;
+      height: 96px;
+      border: 2px solid black;
+      border-radius: 5px;
+      
+      background-image: url('Images/rock.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+    }
+    #playerPaper:hover{
+      background-image: url("./Images/paper.png");
+      width: 96px;
+      height: 96px;
+      border: 2px solid black;
+      border-radius: 5px;
+      background-image: url('Images/paper.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+    }
+    #playerScissors:hover{
+      background-image: url("./Images/scissors.png");
+      width: 96px;
+      height: 96px;
+      border: 2px solid black;
+      border-radius: 5px;
+      
+      background-image: url('Images/scissors.png');
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-clip:content-box;
+      background-size: 100%;
+    }
+    #playerLifeBar{
+        width: 20px;
+        height: 200px;
+        background-color: green;
+        border-radius: 5px;
+        margin-left:10px;
+        
+  
+    }
+    #computerLifeBar{
+        width: 20px;
+        height: 200px;
+        background-color: green;
+        border-radius: 5px;
+        margin-right:10px;
+        
+    }
+    #rules{
+      border:2px solid grey;
+      border-radius:5px;
+      position:absolute;
+      padding:2px;
+      bottom:20px;
+      left:20px;
+    }
+    #rules:hover{
+      border:3px solid black;
+      border-radius:5px;
+      position:absolute;
+      padding:2px;
+      bottom:20px;
+      left:20px;
+
+    }
+
+    
+    #music{
+      position:absolute;
+      bottom:20px;
+      right:20px;
+    }
+    #restart{
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:200px;
+      margin-left:200px;
+      margin-right:200px;
+      color:gray;
+    
+    }
+    #restart:hover{
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      margin-top:200px;
+      margin-left:200px;
+      margin-right:200px;
+      color:black;
+
+    }
+
+</style>
+
+<body>
+
+  <h1 id="title">Roche-Papier-Ciseaux</h1>
+
+  <div id="interaction">
+    <h3 id="playerTitle">Joueur</h3>
+    <div id="player">
+      <div id="playerLifeBar"></div>
+      <div id="playerRock" onClick="validateRock()"></div>
+      <div id="playerPaper" onClick="validatePaper()"></div>
+      <div id="playerScissors" onClick="validateScissors()"></div>
+      
+    </div>
+    
+    <div id="plate">
+      <div id="winningItem">
+
+      </div>
+    </div>
+    <h3 id="computerTitle">Ordinateur</h3>
+    <div id="computer">
+      <div id="computerRock"></div>
+      <div id="computerPaper"></div>
+      <div id="computerScissors"></div>
+      <div id="computerLifeBar"></div>
+    </div>
+    </div>
+    </div>
+
+    <div id="restart" onClick="restartButton()">
+      
+    </div>
+
+
+    <div id="rules" onClick="directions()">
+      consignes
+      <div id="description">
+
+      </div>
+    </div>
+
+    <div id="message">
+    
+    </div>
+
+    <div id="music">
+    Musique:
+    <input
+      type="button"
+      value="jouer"
+      onclick="themeStart()"
+      id="startMusic"
+    />
+    <input
+      type="button"
+      value="arreter"
+      onclick="themeStop()"
+      id="stopMusic"
+    />
+    </div>
+  <script>
+
+    function resetImageMessage() {
+        document.getElementById('winningItem').style.backgroundImage = 'none';
+        document.getElementById('winningItem').innerHTML = ''; 
+        document.getElementById('computerRock').style.border = 'none';
+        document.getElementById('computerRock').style.borderRadius = 'none';
+        document.getElementById('computerScissors').style.border = 'none';
+        document.getElementById('computerScissors').style.borderRadius = 'none';
+        document.getElementById('computerPaper').style.border = 'none';
+        document.getElementById('computerPaper').style.borderRadius = 'none';
+        document.getElementById('message').innerHTML = '';
+        document.getElementById('message').style.border = 'none';
+
+    }
+
+    
+  var hp=200  
+
+    function validateRock() {
+        console.log('rock')
+          var choixJoueur=document.getElementById("playerRock").value
+          var choixAi=Math.ceil(Math.random()*3)
+          
+          
+          if(choixAi==1){
+            console.log("Nul, l'ordinateur a choisi roche")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerRock")
+            var message2P=document.getElementById("message")
+            onPlate.innerHTML="NUL"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Nul, l'ordinateur a choisi roche"
+            message2P.style.border="2px solid black"
+            var Sound = new Audio();
+            Sound.src = 'Sons/rockHit.mp3';
+            Sound.play();
+            
+            
+
+          }
+          setTimeout(resetImageMessage, 3000);
+          
+
+          if(choixAi==2){
+            console.log("Victoire, l'ordinateur a choisi ciseaux")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerScissors")
+            var message2P=document.getElementById("message")
+            var LifeBar=document.getElementById("computerLifeBar")
+            onPlate.style.backgroundImage = "url('./Images/rock.png')"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Victoire, l'ordinateur a choisi ciseaux"
+            message2P.style.border="2px solid green"
+            hp=hp-10
+            LifeBar.style.height=hp+"px"
+            if(hp<0){
+              var victoryLoss=document.getElementById("interaction")
+              var victoryLossMessage=document.getElementById("title")
+              var message2P=document.getElementById("message")
+              var restartGame=document.getElementById("restart")
+              message2P.style.display="none"
+              victoryLoss.style.display="none"
+              victoryLossMessage.innerHTML="Victoire, l'ordinateur a perdu!"
+              restartGame.innerHTML="Recommencer"
+              
+            }
+            var Sound = new Audio();
+            Sound.src = 'Sons/rockHit.mp3';
+            Sound.play();
+            
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+          if(choixAi==3){
+            console.log("Perte, l'ordinateur a choisi papier")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerPaper")
+            var message2P=document.getElementById("message")
+            var LifeBar=document.getElementById("playerLifeBar")
+            onPlate.style.backgroundImage = "url('./Images/paper2.png')"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Perte, l'ordinateur a choisi papier"
+            message2P.style.border="2px solid red"
+            hp=hp-10
+            LifeBar.style.height=hp+"px"
+            if(hp==0){
+              var victoryLoss=document.getElementById("interaction")
+              var victoryLossMessage=document.getElementById("title")
+              var message2P=document.getElementById("message")
+              var restartGame=document.getElementById("restart")
+              message2P.style.display="none"
+              victoryLoss.style.display="none"
+              victoryLossMessage.innerHTML="Defaite, l'ordinateur a gagne!"
+              restartGame.innerHTML="Recommencer"
+            }
+            var Sound = new Audio();
+            Sound.src = 'Sons/paperHit.wav';
+            Sound.play();
+            
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+
+        }
+        
+      
+        function validatePaper() {
+          console.log('paper')
+          var choixJoueur=document.getElementById("playerRock").value
+          var choixAi=Math.ceil(Math.random()*3)
+
+        
+          if(choixAi==1){
+            console.log("Victoire, l'ordinateur a choisi roche")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerRock")
+            var message2P=document.getElementById("message")
+            var LifeBar=document.getElementById("computerLifeBar")
+            onPlate.style.backgroundImage = "url('./Images/paper.png')"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Victoire, l'ordinateur a choisi roche"
+            message2P.style.border="2px solid green"
+            hp=hp-10
+            LifeBar.style.height=hp+"px"
+            if(hp<0){
+              var victoryLoss=document.getElementById("interaction")
+              var victoryLossMessage=document.getElementById("title")
+              var message2P=document.getElementById("message")
+              var restartGame=document.getElementById("restart")
+              message2P.style.display="none"
+              victoryLoss.style.display="none"
+              victoryLossMessage.innerHTML="Victoire, l'ordinateur a perdu!"
+              restartGame.innerHTML="Recommencer"
+              
+            }
+            var Sound = new Audio();
+            Sound.src = 'Sons/paperHit.wav';
+            Sound.play();
+            console.log('dong')
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+
+          if(choixAi==2){
+            console.log("l'ordinateur a choisi ciseaux")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerScissors")
+            var message2P=document.getElementById("message")
+            var LifeBar=document.getElementById("playerLifeBar")
+            onPlate.style.backgroundImage = "url('./Images/scissors2.png')"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Perte, l'ordinateur a choisi ciseaux"
+            message2P.style.border="2px solid red"
+            hp=hp-10
+            LifeBar.style.height=hp+"px"
+            if(hp==0){
+              var victoryLoss=document.getElementById("interaction")
+              var victoryLossMessage=document.getElementById("title")
+              var message2P=document.getElementById("message")
+              var restartGame=document.getElementById("restart")
+              message2P.style.display="none"
+              victoryLoss.style.display="none"
+              victoryLossMessage.innerHTML="Defaite, l'ordinateur a gagne!"
+              restartGame.innerHTML="Recommencer"
+            }
+            var Sound = new Audio();
+            Sound.src = 'Sons/scissorsCutPaper.wav';
+            Sound.play();
+            
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+
+          if(choixAi==3){
+            console.log("l'ordinateur a choisi papier")
+            var computerChoice=document.getElementById("computerPaper")
+            var onPlate=document.getElementById("winningItem")
+            var message2P=document.getElementById("message")
+            onPlate.innerHTML="NUL"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Nul, l'ordinateur a choisi papier"
+            message2P.style.border="2px solid black"
+            var Sound = new Audio();
+            Sound.src = 'Sons/paperHit.wav';
+            Sound.play();
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+
+        }
+      
+  
+
+        function validateScissors() {
+          console.log('scissors')
+          var choixJoueur=document.getElementById("player").value
+          var choixAi=Math.ceil(Math.random()*3)
+
+        
+          if(choixAi==1){
+            console.log("l'ordinateur a choisi roche")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerRock")
+            var message2P=document.getElementById("message")
+            var LifeBar=document.getElementById("playerLifeBar")
+            onPlate.style.backgroundImage = "url('./Images/rock2.png')"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Perte, l'ordinateur a choisi roche"
+            message2P.style.border="2px solid red"
+            hp=hp-10
+            LifeBar.style.height=hp+"px"
+            if(hp==0){
+              var victoryLoss=document.getElementById("interaction")
+              var victoryLossMessage=document.getElementById("title")
+              var message2P=document.getElementById("message")
+              var restartGame=document.getElementById("restart")
+              message2P.style.display="none"
+              victoryLoss.style.display="none"
+              victoryLossMessage.innerHTML="Defaite, l'ordinateur a gagne!"
+              restartGame.innerHTML="Recommencer"
+            }
+            var Sound = new Audio();
+            Sound.src = 'Sons/rockHit.mp3';
+            Sound.play();
+            
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+
+          if(choixAi==2){
+            console.log("l'ordinateur a choisi ciseaux")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerScissors")
+            var message2P=document.getElementById("message")
+            onPlate.innerHTML="NUL"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Nul, l'ordinateur a choisi ciseaux"
+            message2P.style.border="2px solid black"
+            var Sound = new Audio();
+            Sound.src = 'Sons/scissorsHit.wav';
+            Sound.play();
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+
+          if(choixAi==3){
+            console.log("l'ordinateur a choisi papier")
+            var onPlate=document.getElementById("winningItem")
+            var computerChoice=document.getElementById("computerPaper")
+            var message2P=document.getElementById("message")
+            var LifeBar=document.getElementById("computerLifeBar")
+            onPlate.style.backgroundImage = "url('./Images/scissors.png')"
+            computerChoice.style.border = "2px solid black"
+            computerChoice.style.borderRadius = "5px"
+            computerChoice.style.height="96px"
+            computerChoice.style.width="96px"
+            message2P.innerHTML="Victoire, l'ordinateur a choisi papier"
+            message2P.style.border="2px solid green"
+            hp=hp-10
+            LifeBar.style.height=hp+"px"
+            if(hp<0){
+              var victoryLoss=document.getElementById("interaction")
+              var victoryLossMessage=document.getElementById("title")
+              var message2P=document.getElementById("message")
+              var restartGame=document.getElementById("restart")
+              message2P.style.display="none"
+              victoryLoss.style.display="none"
+              victoryLossMessage.innerHTML="Victoire, l'ordinateur a perdu!"
+              restartGame.innerHTML="Recommencer"
+              
+            }
+            var Sound = new Audio();
+            Sound.src = 'Sons/scissorsCutPaper.wav';
+            Sound.play();
+            
+            
+          }
+          setTimeout(resetImageMessage, 3000);
+
+        }
+
+        function restartButton() {
+        window.location.reload();
+        }
+
+        function noDirections(){
+          var instructions=document.getElementById("description")
+          instructions.innerHTML=""
+        }
+
+        function directions(){
+          var instructions=document.getElementById("description")
+          instructions.innerHTML="1) Choisir soit roche, papier ou ciseaux <br/> 2) apres a voir clique sur l'objet que vous voulez, attendre 3 secondes pour qu'elle disparaisse et ensuite appuyer sur le prochain objet. <br/> 3) Quand vous n'aurez plus de vie, recommencer. Si l'ordinateur n'a plus de vie, vous avez gagne."
+          setTimeout(noDirections,5000)
+        }
+        var themeMusic = new Audio();
+        themeMusic.src = 'Sons/themeSong.flac'
+        function themeStart() {
+        themeMusic.play();
+        themeMusic.loop = true;
+        }
+
+        function themeStop() {
+        themeMusic.pause();
+        themeMusic.loop = false;
+        }
+
+  </script>
+</body>
+</html>
