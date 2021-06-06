@@ -1,0 +1,335 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+	/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+
+	#cadreTotal{
+		width:1250px;
+		height:700px;
+		position:relative;
+		margin:auto;
+		}
+
+	#level{
+		width:95px;
+		height:70px;
+		position:absolute;
+		top:35px;
+		left:0px;
+		border:2px black solid;
+		border-radius:10px;
+		background-color:yellow;
+		text-align:center;
+		font-size:20px;
+		padding-top:10px;
+		font-family: 'Permanent Marker', cursive;
+		}
+
+	#auteur{
+		width:300px;
+		height:16px;
+
+		position:absolute;
+		padding-bottom:5px;
+		padding-left:20px;
+		top:2px;
+		left:120px;
+
+		border:2px black solid;
+		border-radius:10px;
+
+		background-color:yellow;
+
+		font-family: 'Permanent Marker', cursive;
+		font-size:14px;
+		}
+
+	#cadreJeu{
+		width:1000px;
+		height:700px;
+
+		position:absolute;
+		top:35px;
+		left:120px;
+
+		border:5px black solid;
+		border-radius:10px;
+
+		background-color: darkgray;
+		}
+
+	/*Commencez VOTRE CSS ici*/	
+
+	@font-face{
+		font-family: StarWars;
+		src: url("Fonts/Starjedi.ttf")
+	}
+
+	#background{
+		width: 1000px;
+		height: 700px;
+
+		background-image: url('Images/Kashyyyk.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+
+		opacity: 0.2;
+	}
+
+	#Obi-Wan{
+		width: 240px;
+		height: 500px;
+
+		background-image: url("Images/Obi-Wan.png");
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		position: absolute;
+		top: 165px;
+		left: 35px;
+	}
+
+	#infoLogo{
+		width: 50px;
+		height: 50px;
+
+		background-image: url("Images/InfoLogo.png");
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+
+	#infoLogo:hover{
+		cursor: pointer;
+	}
+
+	#infoBox{
+		width: 760px;
+		height: 432.5px;
+
+		max-width: 800px;
+		max-height: 560px;
+
+		position: absolute;
+		left: 100px;
+		top: 70px;
+
+		background-color: black;
+		opacity: 0.85;
+
+		border: 4px solid white;
+		border-radius: 20px;
+
+		line-height: 2;
+		color: white;
+		font-family: StarWars;
+		font-size: 18px;
+		text-align: center;
+
+		padding-top: 127.5px;
+		padding-left: 20px;
+		padding-right: 20px;
+
+	}
+
+	#starWars{
+		width: 192px;
+		height: 92.5px;
+
+		background-image: url("Images/StarWarsLogo.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+
+		position: absolute;
+		left: 304px;
+		top: 15px;
+	}
+
+	#OK{
+		height: 70px;
+		width: 215px;
+
+		position: absolute;
+		bottom: 30px;
+		left: 295px;
+
+		background-color: grey;
+		
+		border: 2px solid white;
+		border-radius: 10px;
+
+		padding-top: 10px;
+
+		color: gold;
+		font-family: StarWars;
+		font-size: 30px;
+		text-align: center;
+		-webkit-text-stroke: 1.5px black;
+	}
+
+	#OK:hover{
+		cursor: pointer;
+		background-color: rgb(50, 50, 50);
+	}
+
+	#playButton{
+		width: 60px;
+		height: 60px;
+
+		position: absolute;
+		top: 15px;
+		left: 20px;
+
+		background-image: url("Images/playButton.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+
+	#playButton:hover{
+		cursor: pointer;
+	}
+
+	#musicText{
+		width: 315px;
+		height: 35px;
+
+		background-color: gray;		
+		
+		position: absolute;
+		top: 21px;
+		left: 90px;
+
+		color: white;
+		font-family: Garamond, serif;
+		font-size: 17.5px;
+		text-align: center;
+		font-weight: bold;
+
+		padding-top: 10px;
+
+		border: 2px solid white;
+		border-radius: 15px;
+
+		display: none;
+	}
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onclick="nextLevel()"> <b>Conception : Yangxiang Li 408</b></div>
+
+        <div id="cadreJeu">
+			<div id="background">
+				<div id="Obi-Wan" onmouseover="showObiHint()" onmouseout="hideObiHint()">
+
+				</div>
+		
+				<div id="infoLogo" onclick="showInfo()"></div>
+
+				<div id="playButton" onclick="playMusic()"></div>
+				<div id="musicText">(Cliquez ici pour de la musique épique!)</div>
+
+				<div id="ObiWanInteract">(E) Interact</div>
+			</div>
+
+
+
+			<div id="infoBox">
+				<div id="starWars"></div>
+
+				obi-Wan Kenobi a besoin de votre aide! À cause de quelques événements récents inexplicables, vous vous êtes retrouvés sur la planète de Kashyyyk, où une bataille ravageante entre les soldats de la République et de l'alliance Séparatiste est en train de prendre place. Pour sortir de ces lieux dangereux, vous devez aider obi-Wan à retrouver son sabre laser. Sinon, sans armes viables, les deux d'entre vous mourrez inévitable aux mains de l'ennemi!
+				
+				<div id="OK" onclick="hideInfo()">
+					on y va!
+				</div>
+			</div>
+        </div>
+    </div>
+    
+    <script>
+		musicAlreadyHinted = 0
+
+		paused = 0
+
+		var BoTH = new Audio()
+		BoTH.src = "Son/BattleoftheHeroes.mp3"
+
+		var background = document.getElementById("background")
+		var infoBox = document.getElementById("infoBox")
+		var cadreJeu = document.getElementById("cadreJeu")
+		var musicText = document.getElementById("musicText")
+		var playButton = document.getElementById("playButton")
+
+		function hideInfo(){
+			infoBox.style.display = "none"
+			background.style.opacity = 1
+
+			if(musicAlreadyHinted == 0){
+				musicText.style.display = "block"
+
+				black = 0
+
+				blink = setInterval(textBlink, 500)
+				function textBlink(){
+					if(black == 0){
+						musicText.style.backgroundColor = "black"
+						black = 1
+					}
+					else if(black == 1){
+						musicText.style.backgroundColor = "gray"
+						black = 0
+					}
+				}
+			}
+		}
+
+		function showInfo(){
+			infoBox.style.display = "block"
+			background.style.opacity = 0.2
+
+			clearInterval(blink)
+			musicText.style.display = "none"
+		}
+	
+		function playMusic(){
+			clearInterval(blink)
+			musicText.style.display = "none"
+			musicAlreadyHinted = 1
+
+			if(paused == 0){
+				playButton.style.backgroundImage = "url('Images/pauseButton.png')"
+
+				BoTH.play()
+				BoTH.volume = 0.6
+				BoTH.loop = true
+
+				paused += 1
+			}
+			else if(paused == 1){
+				playButton.style.backgroundImage = "url('Images/playButton.png')"
+
+				BoTH.pause()
+
+				paused -= 1
+			}
+
+		}
+	
+		function nextLevel(){
+			//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+			window.location="test.html"
+			}
+    </script>
+</body>
+</html>

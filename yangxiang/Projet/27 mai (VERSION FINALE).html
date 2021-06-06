@@ -1,0 +1,1129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+	/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+
+	#cadreTotal{
+		width:1250px;
+		height:700px;
+		position:relative;
+		margin:auto;
+		}
+
+	#level{
+		width:95px;
+		height:70px;
+		position:absolute;
+		top:35px;
+		left:0px;
+		border:2px black solid;
+		border-radius:10px;
+		background-color:yellow;
+		text-align:center;
+		font-size:20px;
+		padding-top:10px;
+		font-family: 'Permanent Marker', cursive;
+		}
+
+	#auteur{
+		width:300px;
+		height:16px;
+
+		position:absolute;
+		padding-bottom:5px;
+		padding-left:20px;
+		top:2px;
+		left:120px;
+
+		border:2px black solid;
+		border-radius:10px;
+
+		background-color:yellow;
+
+		font-family: 'Permanent Marker', cursive;
+		font-size:14px;
+		}
+
+	#cadreJeu{
+		width:1000px;
+		height:700px;
+
+		position:absolute;
+		top:35px;
+		left:120px;
+
+		border:5px black solid;
+		border-radius:10px;
+
+		background-color: darkgray;
+		}
+
+	/*Commencez VOTRE CSS ici*/	
+
+	@font-face{
+		font-family: StarWars;
+		src: url("Fonts/Starjedi.ttf")
+	}
+
+	#background{
+		width: 1000px;
+		height: 700px;
+
+		background-image: url('Images/Kashyyyk.jpg');
+		background-size: cover;
+		background-repeat: no-repeat;
+
+		opacity: 0.2;
+	}
+
+	#Obi-Wan{
+		width: 240px;
+		height: 500px;
+
+		background-image: url("Images/Obi-Wan.png");
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		position: absolute;
+		top: 165px;
+		left: 35px;
+	}
+
+	#infoLogo{
+		width: 50px;
+		height: 50px;
+
+		background-image: url("Images/InfoLogo.png");
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+
+	#infoLogo:hover{
+		cursor: pointer;
+	}
+
+	#infoBox{
+		width: 760px;
+		height: 432.5px;
+
+		max-width: 800px;
+		max-height: 560px;
+
+		position: absolute;
+		left: 100px;
+		top: 70px;
+
+		background-color: black;
+		opacity: 0.85;
+
+		border: 4px solid white;
+		border-radius: 20px;
+
+		line-height: 2;
+		color: white;
+		font-family: StarWars;
+		font-size: 18px;
+		text-align: center;
+
+		padding-top: 127.5px;
+		padding-left: 20px;
+		padding-right: 20px;
+
+	}
+
+	#starWars{
+		width: 192px;
+		height: 92.5px;
+
+		background-image: url("Images/StarWarsLogo.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+
+		position: absolute;
+		left: 304px;
+		top: 15px;
+	}
+
+	#OK{
+		height: 70px;
+		width: 215px;
+
+		position: absolute;
+		bottom: 30px;
+		left: 295px;
+
+		background-color: grey;
+		
+		border: 2px solid white;
+		border-radius: 10px;
+
+		padding-top: 10px;
+
+		color: gold;
+		font-family: StarWars;
+		font-size: 30px;
+		text-align: center;
+		-webkit-text-stroke: 1.5px black;
+	}
+
+	#OK:hover{
+		cursor: pointer;
+		background-color: rgb(50, 50, 50);
+	}
+
+	#playButton{
+		width: 60px;
+		height: 60px;
+
+		position: absolute;
+		top: 15px;
+		left: 20px;
+
+		background-image: url("Images/playButton.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+
+	#playButton:hover{
+		cursor: pointer;
+	}
+
+	#musicText{
+		width: 315px;
+		height: 35px;
+
+		background-color: gray;		
+		
+		position: absolute;
+		top: 21px;
+		left: 90px;
+
+		color: white;
+		font-family: Garamond, serif;
+		font-size: 17.5px;
+		text-align: center;
+		font-weight: bold;
+
+		padding-top: 10px;
+
+		border: 2px solid white;
+		border-radius: 15px;
+
+		display: none;
+	}
+
+	#musicText:hover{
+		cursor: pointer;
+	}
+
+	#ObiWanInteract{
+		width: 180px;
+		height: 32.5px;
+
+		background-color: gray;
+
+		color: white;
+		font-size: 20px;
+		text-align: center;
+		font-family: StarWars;
+
+		padding-top: 5px;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		position: absolute;
+		top: 230px;
+		left: 30px;
+
+		opacity: 0.85;
+		display: none;
+	}
+
+	#ObiWanInteract:hover{
+		cursor: pointer;
+		background-color: black;
+	}
+
+	#Inventory{
+		width: 260px;
+		height: 80px;
+
+		background-color: lightgray;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		position: absolute;
+		right: 15px;
+		bottom: 15px;
+
+		opacity: 0.8;
+	}
+
+	#slot1{
+		width: 60px;
+		height: 60px;
+
+		position: absolute;
+		left: 20px;
+		top: 10px;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		background-color: gray;
+		background-image: "";
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	#slot1:hover{
+		cursor: pointer;
+	}
+
+	#slot2{
+		width: 60px;
+		height: 60px;
+
+		position: absolute;
+		left: 100px;
+		top: 10px;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		background-color: gray;
+		background-image: "";
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+
+	#slot2:hover{
+		cursor: pointer;
+	}
+
+
+	#slot3{
+		width: 60px;
+		height: 60px;
+
+		position: absolute;
+		left: 180px;
+		top: 10px;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		background-color: gray;
+		background-image: "";
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;		
+	}
+
+	#slot3:hover{
+		cursor: pointer;
+	}
+
+	#StarDestroyer{
+		background-image: url('Images/StarDestroyer.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		width: 288.5px;
+		height: 216.5px;
+
+		position: absolute;
+		top: 200px;
+		left: 285px;
+	}
+
+	#text{
+		background-color: gray;
+		opacity: 0.8;
+
+		color: white;
+		font-size: 20px;
+		font-family: Garamond, serif;
+		text-align: right;
+
+		width: 400px;
+		height: 60px;
+
+		padding-top: 10px;
+		padding-right: 5px;
+
+		position: absolute;
+		bottom: 110px;
+		right: 15px;
+
+		border: 2px solid white;
+
+		display: none;
+	}
+
+	#text:hover{
+		cursor: not-allowed;
+	}
+
+	#fakeDestroyer{
+		width: 250px;
+		height: 200px;
+
+		position: absolute;
+		top: 110px;
+		left: 598.5px;
+	}
+
+	#numberTrials{
+		width: 700px;
+		height: 350px;
+		
+		background-color: gray;
+
+		opacity: 0.85;
+
+		border: 4px solid white;
+		border-radius: 20px;
+
+		position: absolute;
+		top: 115px;
+		left: 150px;
+
+		display: none;
+	}
+
+	#numberTitle{
+		width: 700px;
+		height: 56px;
+
+		padding-top: 4px;
+
+		color: gold;
+		font-family: StarWars;
+		font-size: 48px;
+		text-align: center;
+		-webkit-text-stroke: 1.5px black;
+
+		position: absolute;
+		top: 0px;
+	}
+
+	#numberSubtitle{
+		width: 700px;
+		height: 32px;
+
+		padding-top: 4px;
+
+		color: white;
+		font-family: Garamond, serif;
+		font-weight: bold;
+		font-style: italic;
+		text-align: center;
+		font-size: 24px;
+
+		position: absolute;
+		top: 165px;
+	}
+
+	#userInput{
+		width: 200px;
+		height: 40px;
+
+		background-color: lightgrey;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		position: absolute;
+		top: 215px;
+		left: 182.5px;
+
+		padding-top: 5px;
+		color: black;
+		font-family: Garamond, serif;
+		font-weight: bold;
+		text-align: center;
+		font-size: 25px;
+	}
+
+	#submit{
+		width: 120px;
+		height: 50px;
+
+		background-color: black;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		position: absolute;
+		top: 215px;
+		left: 397.5px;
+
+		color: white;
+		font-family: Garamond, serif;
+		font-weight: bold;
+		text-align: center;
+		font-size: 25px;
+	}
+
+	#submit:hover{
+		cursor: pointer;
+	}
+
+	#hintText{
+		width: 700px;
+		height: 32px;
+
+		position: absolute;
+		top: 280px;
+
+		text-align: center;
+		color: white;
+		font-family: Garamond, serif;
+		font-weight: bold;
+		text-align: center;
+		font-size: 24px;
+
+		padding-top: 8px;
+	}
+
+	#x{
+		width: 60px;
+		height: 60px;
+
+		background-image: url('Images/X.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		position: absolute;
+		top: 115px;
+		left: 865px;
+
+		display: none;
+	}
+
+	#x:hover{
+		cursor: pointer;
+	}
+
+	#crosshair{
+		width: 240px;
+		height: 240px;
+
+		background-image: url('Images/Crosshair.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		position: absolute;
+		left: 25px;
+
+		display: none;
+	}
+
+	#explosion{
+		width: 450px;
+		height: 330px;
+
+		background-image: url('Images/Explosion.gif');
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		position: absolute;
+		top: 200px;
+		left: 300px;
+
+		display: none;
+	}
+
+	#SDInteract{
+		width: 180px;
+		height: 32.5px;
+
+		background-color: gray;
+
+		color: white;
+		font-size: 20px;
+		text-align: center;
+		font-family: StarWars;
+
+		padding-top: 5px;
+
+		border: 2px solid white;
+		border-radius: 5px;
+
+		position: absolute;
+		top: 110px;
+		left: 62.5px;
+
+		display: none;
+
+		opacity: 0.85;
+	}
+
+	#SDInteract:hover{
+		cursor: pointer;
+		background-color: black;
+	}
+
+	#Spaceship{
+		background-image: url('Images/Spaceship.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+
+		width: 500px;
+		height: 250px;
+
+		position: absolute;
+		left: 250px;
+		bottom: 35px;
+
+		display: none;
+	}
+
+	#Spaceship:hover{
+		cursor: pointer;
+	}
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onclick="nextLevel()"> <b>Conception : Yangxiang Li 408</b></div>
+
+        <div id="cadreJeu">
+			<div id="background">
+				<div id="Obi-Wan" onmouseover="showObiHint()" onmouseout="hideObiHint()" onclick="shootObiWan()">
+					<div id="ObiWanInteract" onclick="giveBlaster()">intéragir</div>
+				</div>
+		
+				<div id="infoLogo" onclick="showInfo()"></div>
+
+				<div id="playButton" onclick="playMusic()"></div>
+				<div id="musicText" onclick="playMusic()">(Cliquez ici pour de la musique épique!)</div>
+				<div id="Inventory">
+					<div id="slot1" onclick="equipBlaster()"></div>
+					<div id="slot2" onclick="equipLightsaber()"></div>
+					<div id="slot3"></div>
+				</div>
+
+				<div id="StarDestroyer" onclick="guessNumber()" onmouseover="showStarHint()" onmouseout="hideStarHint()">
+					<div id="crosshair"></div>
+					<div id="SDInteract" onclick="giveLightsaber()">intéragir</div>
+				</div>
+
+				<div id="fakeDestroyer" onclick="friendlyFire()"></div>
+
+				<div id="text">(Le chancellier Palpatine vous parle à partir d'ici.)</div>
+
+				<div id="numberTrials">
+					<div id="numberTitle">Devinez le chiffre entre 1 et 100.</div>
+					<div id="numberSubtitle">Vous avez 12 essais avant que le nombre change...</div>
+					<input type="text" id="userInput" value="">
+					<input type="button" id="submit" value="Essayer" onclick="tryNumber()">
+					<div id="hintText">Indice: (Essayez quelque chose pour obtenir des indices...)</div>
+				</div>
+
+				<div id="x" onclick="closeTrial()"></div>
+
+				<div id="explosion"></div>
+
+				<div id="Spaceship" onclick="nextLevel()"></div>
+			</div>
+
+
+
+			<div id="infoBox">
+				<div id="starWars"></div>
+
+				obi-Wan Kenobi a besoin de votre aide! À cause de quelques événements récents inexplicables, vous vous êtes retrouvés sur la planète de Kashyyyk, où une bataille ravageante entre les soldats de la République et de l'alliance Séparatiste est en train de prendre place. Pour sortir de ces lieux dangereux, vous devez aider obi-Wan à retrouver son sabre laser. Sinon, sans armes viables, les deux d'entre vous mourrez inévitable aux mains de l'ennemi!
+				
+				<div id="OK" onclick="hideInfo()">
+					on y va!
+				</div>
+			</div>
+        </div>
+    </div>
+    
+    <script>
+		musicAlreadyHinted = 0
+
+		paused = 0
+
+		infoHide = 0
+
+		ownBlaster = 0
+
+		usingBlaster = 0
+
+		infoGiven = 0
+		
+		guessingNumber = 0
+
+		life = 12
+
+		trialSuccess = 0
+
+		explosionStop = 0
+
+		ownLightsaber = 0
+
+		usingLightsaber = 0
+
+		realNumber = Math.ceil(Math.random() * 99)
+		console.log(realNumber)
+
+		var BoTH = new Audio()
+		BoTH.src = "Son/BattleoftheHeroes.mp3"
+
+		var HelloThere = new Audio()
+		HelloThere.src = "Son/HelloThere.mp3"
+
+		var DingDing = new Audio()
+		DingDing.src = "Son/DingDing.mp3"
+
+		var xpError = new Audio()
+		xpError.src = "Son/xpError.mp3"
+
+		var Shooting = new Audio()
+		Shooting.src = "Son/Shooting.mp3"
+
+		var Explosion = new Audio()
+		Explosion.src = "Son/Explosion.mp3"
+
+		var background = document.getElementById("background")
+		var infoBox = document.getElementById("infoBox")
+		var cadreJeu = document.getElementById("cadreJeu")
+		var musicText = document.getElementById("musicText")
+		var playButton = document.getElementById("playButton")
+		var ObiWanInteract = document.getElementById("ObiWanInteract")
+		var Inventory = document.getElementById("Inventory")
+		var slot1 = document.getElementById("slot1")
+		var slot2 = document.getElementById("slot2")
+		var slot3 = document.getElementById("slot3")
+		var body = document.getElementById("body")
+		var text = document.getElementById("text")
+		var ObiWan = document.getElementById("Obi-Wan")
+		var infoLogo = document.getElementById("infoLogo")
+		var StarDestroyer = document.getElementById("StarDestroyer")
+		var fakeDestroyer = document.getElementById("fakeDestroyer")
+		var numberTrials = document.getElementById("numberTrials")
+		var hintText = document.getElementById("hintText")
+		var x = document.getElementById("x")
+		var crosshair = document.getElementById("crosshair")
+		var explosionGif = document.getElementById("explosion")
+		var SDInteract = document.getElementById("SDInteract")
+		var Spaceship = document.getElementById("Spaceship")
+
+		function textFlash(element, element2){
+			blink = setInterval(textBlink, 500)
+			function textBlink(){
+				if(element2 == 0){
+					element.style.backgroundColor = "black"
+					element2 = 1
+				}
+				else if(element2 == 1){
+					element.style.backgroundColor = "gray"
+					element2 = 0
+				}
+
+			}
+
+			setTimeout(stopBlink, 2000)
+			function stopBlink(){
+				clearInterval(blink)
+			}
+		}
+
+		function hideInfo(){
+			infoBox.style.display = "none"
+			background.style.opacity = 1
+
+
+			
+
+			if(musicAlreadyHinted == 0 && infoGiven == 0){
+				musicText.style.display = "block"
+				black1 = 0
+				textFlash(musicText, black1)
+	
+				DingDing.currentTime = 0
+				DingDing.play()
+				DingDing.volume = 0.4
+				DingDing.loop = false
+			}
+			
+			if(infoGiven == 0){
+				ObiWan.style.display = "none"
+				Inventory.style.display = "none"
+				infoLogo.style.display = "none"
+				StarDestroyer.style.display = "none"
+				fakeDestroyer.style.display = "none"
+
+				setTimeout(showText, 3100)
+				function showText(){
+					text.style.display = "block"
+					black3 = 0
+					textFlash(text, black3)
+
+					setTimeout(giveInfo, 2100)
+					function giveInfo(){
+						infoGiven = 1
+						ObiWan.style.display = "block"
+						Inventory.style.display = "block"
+						infoLogo.style.display = "block"
+						StarDestroyer.style.display = "block"
+						fakeDestroyer.style.display = "block"
+					}
+				}
+			}
+
+			infoHide = 1
+		}
+
+		function showInfo(){
+			infoBox.style.display = "block"
+			background.style.opacity = 0.2
+
+			clearInterval(blink)
+			musicText.style.display = "none"
+		}
+	
+		function playMusic(){
+			clearInterval(blink)
+			musicText.style.display = "none"
+			musicAlreadyHinted = 1
+
+			if(paused == 0){
+				playButton.style.backgroundImage = "url('Images/pauseButton.png')"
+
+				BoTH.play()
+				BoTH.volume = 0.35
+				BoTH.loop = true
+
+				paused += 1
+			}
+			else if(paused == 1){
+				playButton.style.backgroundImage = "url('Images/playButton.png')"
+
+				BoTH.pause()
+
+				paused -= 1
+			}
+
+		}
+
+		function showObiHint(){
+			if(infoGiven == 1 && usingBlaster == 0 && guessingNumber == 0){
+				ObiWanInteract.style.display = "block"
+			}
+		}
+
+		function hideObiHint(){
+			if(infoGiven == 1 && usingBlaster == 0 && guessingNumber == 0){
+				ObiWanInteract.style.display = "none"
+			}
+		}
+
+		function giveBlaster(){
+			if(ownBlaster == 0){
+				HelloThere.play()
+				HelloThere.volume = 1
+				HelloThere.loop = false
+
+				slot1.style.backgroundImage = "url('Images/Blaster.png')"
+				
+				text.innerHTML = "Vous saluez Obi-Wan. Il vous donne son blaster puisque les Jedis n'en utilisent pas."
+
+				black2 = 0
+				textFlash(text, black2)
+				
+				setTimeout(playDing1, 100)
+				function playDing1(){
+					DingDing.currentTime = 0
+					DingDing.play()
+					DingDing.volume = 0.4
+					DingDing.loop = false
+				}
+				
+				ownBlaster = 1
+			}
+		}
+
+		function equipBlaster(){
+			if(ownBlaster == 1){
+				if(usingBlaster == 0){
+					slot1.style.backgroundImage = ""
+					cadreJeu.style.cursor = "url('Images/smallBlaster.png'), pointer"
+					usingBlaster = 1
+				}
+				else if(usingBlaster == 1){
+					slot1.style.backgroundImage = "url('Images/Blaster.png')"
+					cadreJeu.style.cursor = "default"
+					usingBlaster = 0
+				}
+			}
+
+
+		}
+
+		function shootObiWan(){
+			if(usingBlaster == 1){
+				xpError.currentTime = 0
+				xpError.play()
+				xpError.volume = 1
+				xpError.loop = false
+
+				text.innerHTML = "Pourquoi tirerais-tu Obi-Wan, espèce de traître?"
+
+				setTimeout(ObiWanFlash, 500)
+				function ObiWanFlash(){
+					black4 = 0
+					textFlash(text, black4)
+
+					setTimeout(function(){
+						text.style.backgroundColor = "gray"
+						black4 = 0
+					}, 2000)
+				}
+			}
+			else if(usingLightsaber == 1){
+				DingDing.currentTime = 0
+				DingDing.play()
+				DingDing.volume = 0.4
+				DingDing.loop = false
+
+				cadreJeu.style.cursor = "default"
+				slot2.style.backgroundImage = "url('Lightsaber.png')"
+
+				Spaceship.style.display = "block"
+
+				text.innerHTML = "Excellent travail. En échange, Obi-Wan va vous donner son vaisseau d'urgence... Bonne chance!"
+				setTimeout(function(){
+					black6 = 0
+					textFlash(text, black6)
+				}, 500)
+
+				setTimeout(function(){
+					text.style.backgroundColor = "gray"
+					black6 = 0
+				}, 2500)
+
+			}
+		}
+
+		function friendlyFire(){
+			if(usingBlaster == 1 && guessingNumber == 0){
+				xpError.currentTime = 0
+				xpError.play()
+				xpError.volume = 1
+				xpError.loop = false
+
+				text.innerHTML = "Tu n'es clairement pas très brillant(e) si tu veux tirer un vaisseau de la République..."
+				
+				setTimeout(function(){
+					black5 = 0
+					textFlash(text, black5)
+				}, 500)
+
+				setTimeout(function(){
+					text.style.backgroundColor = "gray"
+					black5 = 0
+				}, 2500)
+			}
+		}
+
+		function guessNumber(){
+			if(usingBlaster == 1 && guessingNumber == 0){
+				DingDing.currentTime = 0
+				DingDing.play()
+				DingDing.volume = 0.4
+				DingDing.loop = false
+
+				text.innerHTML = "Vous essayez de tirer le vaisseau, mais le blaster est bloqué. Pour la débloquer, suivez les instructions."
+
+				setTimeout(function(){
+					black6 = 0
+					textFlash(text, black6)
+				}, 500)
+
+				setTimeout(function(){
+					text.style.backgroundColor = "gray"
+					black6 = 0
+				}, 2500)
+
+				usingBlaster = 0
+				slot1.style.backgroundImage = "url('Images/Blaster.png')"
+				cadreJeu.style.cursor = "default"
+
+				numberTrials.style.display = "block"
+				
+				guessingNumber = 1
+			}
+			else if(guessingNumber == 2 && usingBlaster == 1){
+				if(explosionStop == 0){
+					Shooting.play()
+					Shooting.volume = 1
+					Shooting.loop = false
+
+					setTimeout(playExplosion, 2250)
+					function playExplosion(){
+						Explosion.play()
+						Explosion.volume = 1
+						Explosion.loop = false
+
+						explosionGif.style.display = "block"
+						crosshair.style.display = "none"
+					}
+
+					setTimeout(stopExplosion, 3750)
+					function stopExplosion(){
+						explosionGif.style.display = "none"
+						StarDestroyer.style.backgroundImage = "url('Images/DestroyedSD.png')"
+						StarDestroyer.style.backgroundSize = "cover"
+						StarDestroyer.style.backgroundRepeat = "no-repeat"
+						StarDestroyer.style.width = "200px"
+						StarDestroyer.style.height = "325px"
+						StarDestroyer.style.backgroundPosition = "center"
+						StarDestroyer.style.top = "140px"
+
+						slot1.style.backgroundImage = "url('Images/Blaster.png')"
+						cadreJeu.style.cursor = "default"
+						
+						explosionStop = 1
+					}
+				}
+
+				
+				usingBlaster = 0
+			}
+		}
+	
+		function tryNumber(){
+			var userNumber = parseInt(document.getElementById("userInput").value)
+			
+			if(life > 0  && trialSuccess == 0){
+				if(userNumber > 100 || userNumber < 1){
+					life -= 1
+					hintText.innerHTML = "Vous n'avez pas mis un chiffre entre 1 et 100! Il vous reste " + life + " vies."
+				}
+				else{
+					if(userNumber > realNumber){
+						life -= 1
+						xpError.currentTime = 0
+						xpError.play()
+						xpError.volume = 1
+						xpError.loop = false
+						hintText.innerHTML = "Votre chiffre est trop grand! Il vous reste " + life + " vies."
+					}
+					else if(userNumber < realNumber){
+						life -= 1
+						xpError.currentTime = 0
+						xpError.play()
+						xpError.volume = 1
+						xpError.loop = false
+						hintText.innerHTML = "Votre chiffre est trop petit! Il vous reste " + life + " vies."
+					}
+
+					if(userNumber == realNumber){
+						DingDing.currentTime = 0
+						DingDing.play()
+						DingDing.volume = 0.4
+						DingDing.loop = false
+
+						hintText.innerHTML = "Bravo! Vous pouvez maintenant tirer votre arme... (et fermer ce cadre)"
+						x.style.display = "block"
+
+						trialSuccess = 1
+					}
+				}
+			}
+			
+			if(life <= 0 && trialSuccess == 0){
+				hintText.innerHTML = "Malheureusement, vous n'avez plus d'essais. Je génère maintenant un nouveau chiffre..."
+
+				realNumber = Math.ceil(Math.random() * 99)
+				console.log(realNumber)
+
+				life = 12
+			}
+		}
+
+		function closeTrial(){
+			numberTrials.style.display = "none"
+			crosshair.style.display = "block"
+
+			guessingNumber = 2
+
+			x.style.display = "none"
+		}
+
+		function showStarHint(){
+			if(explosionStop == 1){
+				SDInteract.style.display = "block"
+			}
+		}
+
+		function hideStarHint(){
+			if(explosionStop == 1){
+				SDInteract.style.display = "none"
+			}
+		}
+
+		function giveLightsaber(){
+			DingDing.currentTime = 0
+			DingDing.play()
+			DingDing.volume = 0.4
+			DingDing.loop = false
+
+			slot2.style.backgroundImage = "url('Images/Lightsaber.png')"
+
+			text.innerHTML = "Wow! Donc c'est là où ils cachaient son arme! Portez-le-lui et il vous récompensera..."
+			setTimeout(function(){
+				black5 = 0
+				textFlash(text, black5)
+			}, 500)
+
+			setTimeout(function(){
+				text.style.backgroundColor = "gray"
+				black5 = 0
+			}, 2500)
+
+			ownLightsaber = 1
+		}
+
+		function equipLightsaber(){
+			if(ownLightsaber == 1 && usingLightsaber == 0){
+				slot2.style.backgroundImage = ""
+				cadreJeu.style.cursor = "url('Images/smallLightsaber.png'), pointer"
+
+				usingLightsaber = 1
+			}
+			else if(ownLightsaber == 1 && usingLightsaber == 1){
+				slot2.style.backgroundImage = "url('Images/Lightsaber.png')"
+				cadreJeu.style.cursor = "default"
+
+				usingLightsaber = 0
+			}
+		}
+		function nextLevel(){
+			//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+			window.location="test.html"
+			}
+    </script>
+</body>
+</html>
