@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Page d'acceuil</title>
+
+<style>
+    
+    #rpc{
+        width:200px ;
+        height: 100px;
+        margin-top: 50px;
+        background-color: lightblue;
+        border: 2px black solid;
+        text-align: center;
+    }
+
+
+
+
+
+
+
+</style>
+
+
+
+</head>
+
+<body>
+    <div id=rpc>   
+
+    
+     <p id="enter"></p>
+
+    <input type="text" id="reponse">
+
+    <input type="button" onclick="Enter()" value="enter">  
+
+    
+    </div>
+
+    
+
+
+</body>
+
+<script>
+    function Enter(){
+        
+
+        var choixJoueur=document.getElementById("reponse").value
+        var choixOrdi=Math.ceil(Math.random()*3)
+        
+        if(choixJoueur=="roche"){
+
+            if(choixOrdi==1){
+                alert("Match nul: l'ordinateur avait pris roche")
+            }
+
+            if(choixOrdi==2){
+                alert("Victoire: l'ordinateur avait pris ciseau")
+            }
+
+            if(choixOrdi==3){
+                alert("Défaite: l'ordinateur avait pris papier")
+            }
+        }
+        
+        if(choixJoueur=="papier"){
+
+
+            if(choixOrdi==1){
+            alert("Victoire: l'ordinateur avait pris roche")
+            }
+
+            if(choixOrdi==2){
+            alert("Défaite: l'ordinateur avait pris ciseau")
+            }
+
+            if(choixOrdi==3){
+            alert("Nul: l'ordinateur avait pris papier")
+            }
+        }
+        
+        
+        if(choixJoueur=="ciseau"){
+
+
+            if(choixOrdi==1){
+                alert("Défaite: l'ordinateur avait pris roche")
+            }
+
+            if(choixOrdi==2){
+                alert("Nul: l'ordinateur avait pris ciseau")
+            }
+
+            if(choixOrdi==3){
+                alert("Victoire: l'ordinateur avait pris papier")
+            }
+        }
+        
+        
+        console.log(Enter)
+   
+   
+   
+   
+    }
+
+    
+
+
+
+</script>
+</html>

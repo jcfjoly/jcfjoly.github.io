@@ -1,0 +1,191 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>accueil</title>
+</head>
+
+<style>
+
+    body{
+        background-image: url(https://i.imgur.com/CwIu4q2.png);
+
+    }
+
+    h1{
+        height: 45px;
+        width: 380px;
+        font-size: 36px;
+        background: rgb(0,224,168);
+        background: linear-gradient(90deg, rgba(0,224,168,0.6965161064425771) 0%, rgba(0,219,119,0.6965161064425771) 48%, rgba(34,99,7,0.7021183473389356) 96%);
+        padding: 20px;
+        text-align: center;
+        margin: auto;
+        margin-top: 60px;
+        border: outset rgb(1, 143, 23) 15px;
+        border-radius: 20px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    #menu{
+        background: rgb(0,224,168);
+        background: linear-gradient(90deg, rgba(0,224,168,0.6965161064425771) 0%, rgba(0,219,119,0.6965161064425771) 48%, rgba(34,99,7,0.7021183473389356) 96%);
+        height: 300px;
+        width: 450;
+        margin:auto;
+		margin-top:50px; 
+        border-radius: 15px;
+        border:outset rgb(1, 143, 23) 10px;
+        padding: 20px;
+        
+    }
+
+    a{
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-size: 30px;
+        padding: 15px;
+        color: black;
+        text-decoration:none;
+        display:block;
+        border: solid 5px rgb(1, 143, 23);
+        margin: 10px;
+        text-align: center;
+        background: rgb(0,224,168);
+        background: linear-gradient(90deg, rgba(0,224,168,0.6965161064425771) 0%, rgba(0,219,119,0.6965161064425771) 48%, rgba(34,99,7,0.7021183473389356) 96%);
+       
+    }
+
+    a:hover{
+        border-radius: 15px;
+
+    }
+    #imglink{
+        margin-top: 20px ;
+        width: 80px;
+        margin-left: 180;
+        position: fixed;
+
+    }
+    #musicbutton{
+        background-color: Transparent;
+    	background-repeat:no-repeat;
+        border: none;
+    	cursor:pointer;
+    	overflow: hidden;
+    	outline:none;
+
+    }
+
+    #imgkorogu{
+        width: 150%;
+
+
+
+    }
+    #korogu{
+        position: absolute;
+        margin-left:50px;
+        bottom: 50px;
+    }   
+    
+    #txtsecret{
+        background-color: rgba(0,219,119,0.6965161064425771);
+        max-width: fit-content;
+        border-radius: 15px;
+        border:double rgb(1, 143, 23) 10px;
+        display: none;
+        margin-left:850px;
+        bottom: 100px;
+        position: fixed;
+    
+    }
+
+    h2{
+        padding: 15px;
+        color: #fff;
+        font-size: 20px;
+        font-family: monospace;
+        overflow: hidden; 
+        border-right: .15em solid white;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: .10em;
+        animation: 
+            typing 3.5s steps(30, end),
+            blink-caret .5s step-end infinite;
+
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+   
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: white }
+    }
+
+
+
+
+</style>
+
+<body>
+    
+    <h1>MENU</h1>
+
+    <div id="korogu"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/i/ba8a06b3-ed1c-493d-ba34-b183154842f9/dcgzdk0-5d808f00-4e12-422f-a0b5-b9acf24f3c5d.gif" id="imgkorogu"> </div>
+
+    <div id="txtsecret">
+        <h2>Clique sur Link pour une surprise!</h2>
+    </div>
+
+    <div id="menu">
+        <a href="Page principale.html" onclick="select()">JOUER</a>
+        <a href="Regles.html" onclick="select()">COMMENT JOUER?</a>
+        <button id="musicbutton" onclick="song()"><img src="https://i.pinimg.com/originals/0a/93/f1/0a93f1860c438efd1ad61863d5d6d312.gif" id="imglink"></button>
+    </div>
+
+</body>
+
+<script>
+
+setInterval
+
+var musique=new Audio();
+    musique.src="The Legend of Zelda Breath of the Wild - Theme (SoundTrack).mp3";
+
+var distance=0
+var deplace=1
+
+function song(){
+    musique.play()
+    musique.volume=0.01
+    musique.loop=true
+}  
+
+setInterval(function() { koro(); }, 10);
+
+
+
+function koro(){
+    distance=distance+deplace
+    korogu.style.marginLeft=distance+"px"
+    console.log(distance)
+    
+    if(distance==650){
+        clearInterval(deplace);
+        document.getElementById("txtsecret").style.display="block"
+
+    }
+        
+        
+}
+
+
+</script>
+
+
+</html>
