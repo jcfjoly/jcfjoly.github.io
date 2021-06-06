@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scuffed TypeRacer</title>
+</head>
+
+<style>
+    body {
+        background-color: gray;
+
+        width: 1920px;
+        height: 1000px;
+
+        max-width: 1000px;
+        max-height: 1000px;
+    }
+
+    #Word1{
+        background-color: goldenrod;
+        opacity: 0.8;
+        
+        width: 150px;
+        height: 40px;
+
+        position: absolute;
+        top: 0px;
+        left: 585px;
+
+        border: 2px solid white;
+        border-radius: 15px;
+
+        color: white;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 25px;
+        text-align: center;
+
+        padding-top: 15px;
+    }
+
+    #Word2{
+        background-color: goldenrod;
+        opacity: 0.8;
+        
+        width: 150px;
+        height: 40px;
+
+        position: absolute;
+        top: 0px;
+        left: 785px;
+
+        border: 2px solid white;
+        border-radius: 15px;
+
+        color: white;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 25px;
+        text-align: center;
+
+        padding-top: 15px;
+    }
+
+    #Word3{
+        background-color: goldenrod;
+        opacity: 0.8;
+        
+        width: 150px;
+        height: 40px;
+
+        position: absolute;
+        top: 0px;
+        left: 985px;
+
+        border: 2px solid white;
+        border-radius: 15px;
+
+        color: white;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 25px;
+        text-align: center;
+
+        padding-top: 15px;
+    }
+
+    #Word4{
+        background-color: goldenrod;
+        opacity: 0.8;
+        
+        width: 150px;
+        height: 40px;
+
+        position: absolute;
+        top: 0px;
+        left: 1185px;
+
+        border: 2px solid white;
+        border-radius: 15px;
+
+        color: white;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 25px;
+        text-align: center;
+
+        padding-top: 15px;
+    }
+
+    #Floor{
+        background-color: goldenrod;
+        opacity: 1;
+
+        border: 4px solid white;
+
+        width: 1895px;
+        height: 150px;
+
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+    }
+
+    #yourWord{
+        width: 350px;
+        height: 50px;
+        
+        padding-top: 15px;
+        color: white;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 35px;
+        text-align: center;
+
+        position: absolute;
+        left: 560px;
+        top: 57.5px;
+    }
+
+    #userText{
+        width: 350px;
+        height: 50px;
+
+        padding-top: 15px;
+        color: black;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 35px;
+        text-align: center;
+
+        border: 2px solid goldenrod;
+        border-radius: 10px;
+
+        position: absolute;
+        left: 960px;
+        top: 57.5px;
+
+    }
+</style>
+
+<body>
+    <div id="Word1"></div>       
+
+    <div id="Word2"></div>
+
+    <div id="Word3"></div>
+
+    <div id="Word4"></div>
+ 
+    <div id="Floor">
+        <div id="yourWord">
+            Your word:
+        </div>
+
+        <input id="userText" type="text">
+    </div>
+</body>
+
+<script>
+    var Word1 = document.getElementById("Word1")
+    var Word2 = document.getElementById("Word2")
+    var Word3 = document.getElementById("Word3")
+    var Word4 = document.getElementById("Word4")
+
+    var Words = [Word1, Word2, Word3, Word4]
+
+    var topValue1 = 0
+    var topValue2 = 0
+    var topValue3 = 0
+    var topValue4 = 0
+
+    var topValue = [topValue1, topValue2, topValue3, topValue4]
+
+    var list1 = ["Kenobi", "Skywalker", "Yoda", "Chewbacca", "Dooku", "Maul", "Grievous", "Vader", "Palpatine", "Luke", "Solo", "Leia"]
+    var list2 = ["Banane", "Pomme", "Orange", "Citron", "Ananas", "Peche", "Melon", "Tomate", "Fraise", "Framboise", "Cantaloup", "Kiwi"]
+    var list3 = ["USA", "Russie", "Canada", "Mexique", "Japon", "Chine", "Mongolie", "Tunisie", "Turquie", "France", "Belgique", "Slovenia"]
+    var list4 = ["Tatooine", "Coruscant", "Naboo", "Hoth", "Alderaan", "Mustafar", "Dagobah", "Bespin", "Kashyyyk", "Kamino", "Geonosis", "Yavin"]
+
+    randomNumber1 = Math.ceil(Math.random() * 10) + 7.5
+    randomNumber2 = Math.ceil(Math.random() * 10) + 7.5
+    randomNumber3 = Math.ceil(Math.random() * 10) + 7.5
+    randomNumber4 = Math.ceil(Math.random() * 10) + 7.5
+
+    listOrder1 = 0
+    listOrder2 = 0
+    listOrder3 = 0
+    listOrder4 = 0
+
+    setInterval(goDown, 150)
+    function goDown(){
+        if(listOrder1 >= list1.length){
+            listOrder1 = 0
+        }
+
+        if(listOrder2 >= list2.length){
+            listOrder2 = 0
+        }
+
+        if(listOrder3 >= list3.length){
+            listOrder3 = 0
+        }
+
+        if(listOrder4 >= list4.length){
+            listOrder4 = 0
+        }
+
+        function changeWord(){
+            Word1.innerHTML = list1[listOrder1]
+            Word2.innerHTML = list2[listOrder2]
+            Word3.innerHTML = list3[listOrder3]
+            Word4.innerHTML = list4[listOrder4]
+        }
+
+        changeWord()
+
+        topValue1 += randomNumber1
+        Words[0].style.top = topValue1 + "px"
+
+        topValue2 += randomNumber2
+        Words[1].style.top = topValue2 + "px"
+
+        topValue3 += randomNumber3
+        Words[2].style.top = topValue3 + "px"
+
+        topValue4 += randomNumber4
+        Words[3].style.top = topValue4 + "px"
+
+        if(topValue1 >= 840){
+            Word1.style.top = "0px"
+            topValue1 = 0
+
+            randomNumber1 = Math.ceil(Math.random() * 10) + 7.5
+
+            listOrder1++
+            changeWord()
+        }
+
+        if(topValue2 >= 840){
+            Word2.style.top = "0px"
+            topValue2 = 0
+
+            randomNumber2 = Math.ceil(Math.random() * 10) + 7.5
+
+            listOrder2++
+            changeWord()
+        }
+
+        if(topValue3 >= 840){
+            Word3.style.top = "0px"
+            topValue3 = 0
+
+            randomNumber3 = Math.ceil(Math.random() * 10) + 7.5
+
+            listOrder3++
+            changeWord()
+        }
+
+        if(topValue4 >= 840){
+            Word4.style.top = "0px"
+            topValue4 = 0
+
+            randomNumber4 = Math.ceil(Math.random() * 10) + 7.5
+
+            listOrder4++
+            changeWord()
+        }
+    }
+
+    addEventListener("keypress", checkWord)
+        function checkWord(key){
+            if(key.keyCode == 13){
+                userText = document.getElementById("userText").value 
+                console.log(userText)
+
+                document.getElementById("userText").value = ""
+
+                if(userText == Word1.innerHTML){
+                    Word1.style.top = "0px"
+                    topValue1 = 0
+
+                    randomNumber1 = Math.ceil(Math.random() * 10) + 7.5
+
+                    listOrder1++
+                    changeWord()
+                }
+
+                if(userText == Word2.innerHTML){
+                    Word2.style.top = "0px"
+                    topValue2 = 0
+
+                    randomNumber2 = Math.ceil(Math.random() * 10) + 7.5
+
+                    listOrder2++
+                    changeWord()
+                }
+
+                if(userText == Word3.innerHTML){
+                    Word3.style.top = "0px"
+                    topValue3 = 0
+
+                    randomNumber3 = Math.ceil(Math.random() * 10) + 7.5
+
+                    listOrder3++
+                    changeWord()
+                }
+
+                if(userText == Word4.innerHTML){
+                    Word4.style.top = "0px"
+                    topValue4 = 0
+
+                    randomNumber4 = Math.ceil(Math.random() * 10) + 7.5
+
+                    listOrder4++
+                    changeWord()
+                }
+
+            }
+        }
+
+</script>
+</html>
