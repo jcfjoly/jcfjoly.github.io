@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Roche Papier Ciseaux</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+<style>
+#champTexte{
+    font-size: 20px;
+    text-align:left;
+    width:800px;
+    position:fixed;
+    bottom:100px;
+    left:20px;
+    user-select: none;
+    color:white;
+}
+body{
+    background-image: url("src/img/bg.png");
+    background-size:cover;
+    background-repeat: no-repeat;
+    font-family: 'Quicksand', sans-serif;
+    color:white;
+}
+#title{
+    font-size: 50px;
+    margin:auto;
+    text-align:center;
+    align-items: center;
+}
+.choixJ{
+    width:150px;
+    height:150px;
+    background-size: cover;
+    border-radius: 40px;
+    margin: 10px;
+    transition:0.5s;
+}
+.choixC{
+    width:150px;
+    height:150px;
+    background-size: cover;
+    border-radius: 40px;
+    margin: 10px;
+    transition:0.5s;
+}
+#rocheJ{
+    background-image:url("src/img/roche.png");
+    position: fixed;
+    left:20px;
+}
+#papierJ{
+    background-image:url("src/img/papier.png");
+    position: fixed;
+    left:20px;
+    top:235px;
+}
+#ciseauxJ{
+    background-image:url("src/img/ciseaux.png");
+    position: fixed;
+    left:20px;
+    top:400px;
+}
+#rocheC{
+    background-image:url("src/img/roche.png");
+    position: fixed;
+    right:20px;
+}
+#papierC{
+    background-image:url("src/img/papier.png");
+    position: fixed;
+    right:20px;
+    top:235px;
+}
+#ciseauxC{
+    background-image:url("src/img/ciseaux.png");
+    position: fixed;
+    right:20px;
+    top:400px;
+}
+.choixJ:hover{
+    box-shadow: 0px 0px 9px 7px grey inset;
+}
+#go{
+    background-color: #168439;
+    color:white;
+    font-size: 35px;
+    width:70px;
+    text-align:center;
+    margin-left:44%;
+    position:fixed;
+    bottom:20px;
+    border-radius: 20px;
+}
+#bouton{
+    width:150px;
+    height: 50px;
+    margin:auto;
+    margin-left:44%;
+    position:fixed;
+    bottom:10px;
+}
+#ptJ{
+    font-size: 20px;
+    text-align:left;
+    width:800px;
+    position:fixed;
+    bottom:20px;
+    left:20px;
+}
+#ptC{
+    font-size: 20px;
+    text-align:right;
+    width:800px;
+    position:fixed;
+    bottom:20px;
+    right:20px;
+}
+</style>
+</head>
+<body>
+    <!-- Titre -->
+    <p id=title>Roche Papier Ciseaux</p>
+    <!-- Menu Joueur -->
+    <div id=menu>
+        <div id=menuJ>
+            <div id=choixJoueur>
+                <div class=choixJ id=rocheJ onclick="rocheJchoix()"></div>
+                <div class=choixJ id=papierJ onclick="papierJchoix()"></div>
+                <div class=choixJ id=ciseauxJ onclick="ciseauxJchoix()"></div>
+            </div>
+        </div>
+        <!-- Menu CPU -->
+        <div id=menuC>
+            <div id=choixCPU>
+                <div class=choixC id=rocheC></div>
+                <div class=choixC id=papierC></div>
+                <div class=choixC id=ciseauxC></div>
+            </div>
+        </div>
+    </div>
+    <!-- Champ de texte avec usage diverse -->
+    <p id=champTexte>Veuillez choisir votre objet à partir de la liste de gauche, et appuyez sur « Go! »</p>
+    <!-- Button pour activer le jeu -->
+    <input type=button id=go value="Go!" onclick="verif()"/>
+    <!-- Pointage -->
+    <p id=ptJ>Points Joueur: 0</p>
+    <p id=ptC>Points CPU: 0</p>
+<script>
+    //Choix Joueur
+    var choixJou
+    //Pointage
+    var pointsJ=0
+    var pointsC=0
+	var ptJ = "Points Joueur: "+pointsJ
+	var ptC = "Points CPU: "+pointsC
+    //Sons
+    var sonFail= new Audio()
+    sonFail.src="src/sfx/fail.wav"
+    var sonWin= new Audio()
+    sonWin.src="src/sfx/win.wav"
+    var sonTie= new Audio()
+    sonTie.src="src/sfx/tie.wav"
+    //Tuiles qui bougent
+    function rocheJchoix(){
+        choixJou = "Roche"
+        console.log("Vous avez choisi: "+choixJou)
+        document.getElementById("rocheJ").style.left="35%"
+        document.getElementById("papierJ").style.left="20px"
+        document.getElementById("ciseauxJ").style.left="20px"
+    }
+    function papierJchoix(){
+        choixJou = "Papier"
+        console.log("Vous avez choisi: "+choixJou)
+        document.getElementById("rocheJ").style.left="20px"
+        document.getElementById("papierJ").style.left="35%"
+        document.getElementById("ciseauxJ").style.left="20px"
+    }
+    function ciseauxJchoix(){
+        choixJou = "Ciseaux"
+        console.log("Vous avez choisi: "+choixJou)
+        document.getElementById("rocheJ").style.left="20px"
+        document.getElementById("papierJ").style.left="20px"
+        document.getElementById("ciseauxJ").style.left="35%"
+    }
+    function rocheCchoix(){
+        document.getElementById("rocheC").style.right="35%"
+        document.getElementById("papierC").style.right="20px"
+        document.getElementById("ciseauxC").style.right="20px"
+    }
+    function papierCchoix(){
+        document.getElementById("rocheC").style.right="20px"
+        document.getElementById("papierC").style.right="35%"
+        document.getElementById("ciseauxC").style.right="20px"
+    }
+    function ciseauxCchoix(){
+        document.getElementById("rocheC").style.right="20px"
+        document.getElementById("papierC").style.right="20px"
+        document.getElementById("ciseauxC").style.right="35%"
+    }
+    //Verification
+    function verif(){
+        var choixOrdi=Math.ceil(Math.random()*3)
+        //Si le choix est roche
+        if(choixJou=="Roche"){
+            if(choixOrdi==1){
+                rocheCchoix()
+                sonTie.play()
+                champTexte.innerHTML="C'est un match-nul! L'ordi et vous avez choisi Roche!"
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)
+            }else if(choixOrdi==2){
+                papierCchoix()
+                sonFail.play()
+                pointsC=pointsC+1
+                console.log(pointsC)
+                champTexte.innerHTML="Vous avez perdu! Vous avez choisi Roche et l'ordi a choisi Papier!"      
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)
+            }else if(choixOrdi==3){
+                ciseauxCchoix()
+                sonWin.play()
+                pointsJ=pointsJ+1
+                console.log(pointsJ)
+                champTexte.innerHTML="Vous avez gagné! Vous avez choisi Roche et l'ordi a choisi Ciseaux!"  
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)
+            }
+        //Si le choix est papier
+        }else if(choixJou=="Papier"){
+            if(choixOrdi==1){
+                rocheCchoix()
+                sonWin.play()
+                pointsJ=pointsJ+1
+                champTexte.innerHTML="Vous avez gagné! Vous avez choisi Papier et l'ordi a choisi Roche!"  
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)
+            }else if(choixOrdi==2){
+                papierCchoix()
+                sonTie.play()
+                champTexte.innerHTML="C'est un match-nul! L'ordi et vous avez choisi Papier!"
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)
+            }else if(choixOrdi==3){
+                ciseauxCchoix()
+                sonFail.play()
+                pointsC=pointsC+1
+                champTexte.innerHTML="Vous avez perdu! Vous avez choisi Papier et l'ordi a choisi Ciseaux!"   
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)           
+            }
+        //Si le choix est ciseaux
+        }else if(choixJou=="Ciseaux"){
+            if(choixOrdi==1){
+                rocheCchoix()
+                sonFail.play()
+                pointsC=pointsC+1
+                champTexte.innerHTML="Vous avez perdu! Vous avez choisi Ciseaux et l'ordi a choisi Roche!"   
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)          
+            }else if(choixOrdi==2){
+                papierCchoix()
+                sonWin.play()
+                pointsJ=pointsJ+1
+                champTexte.innerHTML="Vous avez gagné! Vous avez choisi Ciseaux et l'ordi a choisi Papier!"  
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)
+            }else if(choixOrdi==3){
+                ciseauxCchoix()
+                sonTie.play()
+                champTexte.innerHTML="C'est un match-nul! L'ordi et vous avez choisi Ciseaux!"        
+                document.getElementById("go").style.visibility="hidden"
+                setTimeout(clear, 1500)      
+            }
+        }   
+        //Fonction pour remettre le jeu à son état de départ
+        function clear(){
+            ptJ = "Points Joueur: "+pointsJ
+            ptC = "Points CPU: "+pointsC
+            document.getElementById("ptJ").innerHTML=ptJ
+            document.getElementById("ptC").innerHTML=ptC
+            console.log(ptJ)
+            console.log(ptC)
+	        document.getElementById("rocheC").style.right="20px"
+	        document.getElementById("papierC").style.right="20px"
+	        document.getElementById("ciseauxC").style.right="20px"
+	        document.getElementById("rocheJ").style.left="20px"
+	        document.getElementById("papierJ").style.left="20px"
+	        document.getElementById("ciseauxJ").style.left="20px"
+            document.getElementById("go").style.visibility="visible"
+        }
+    }
+	</script>
+</body>
+</html>
