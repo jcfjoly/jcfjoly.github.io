@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roche, papiers, ciseaux!</title>
+</head>
+
+<style>
+    @font-face{
+        font-family: chalkboard;
+        src: url('Miss\ Chalkboard.ttf');
+    }
+
+    @font-face{
+        font-family: chalkboardI;
+        src: url('Miss\ Chalkboard\ Italic.ttf');
+    }
+
+    body{
+        width: auto;
+        height: auto;
+
+        max-width: 100%;
+        max-height: 100%;
+
+        background-image: url('stoneBG.jpg');
+    }
+
+    #absolute{
+        width: 100%;
+        height: 100%;
+    }
+
+    #intro{
+        width: 1280px;
+        height: 240px;
+
+        position: absolute;
+        left: 320px;
+        top: 420px;
+
+        background-color: gray;
+
+        opacity: 0.8;
+
+        border: 4px outset white;
+
+        
+    }
+
+    @keyframes toTop{
+        from {top: 420px; width: 1280px; height: 240px; left: 320px;}
+        to {top: 30px; width: 1024px; height: 192px; left: 448px;}
+    }
+
+    #introText{
+        width: 1000px;
+        height: 75px;
+
+        color: white;
+        font-family: chalkboard;
+        font-size: 50px;
+        text-align: center;
+
+        position: absolute;
+        top: 75px;
+        left: 140px;
+    }
+
+    #start{
+        width: 256px;
+        height: 96px;
+
+        position: absolute;
+        left: 832px;
+        top: 685px;
+
+        background-color: gray;
+
+        opacity: 0.8;
+
+        border: 2px solid white;
+
+        color: white;
+        font-family: chalkboard;
+        font-size: 25px;
+        text-align: center;
+    }
+
+    #start:hover{
+        background-color: darkgray;
+        opacity: 1;
+
+        cursor: pointer;
+    }
+
+    #Option1{
+        width: 384px;
+        height: 384px;
+
+        position: absolute;
+        left: 334px;
+        top: 302px;
+
+        background-color: gray;
+
+        opacity: 0;
+        display: none;
+
+        border: 4px solid white;
+
+        background-image: url('Jebaited.png');
+        background-size: contain;
+    }
+
+    #Option1:hover{
+        background-color: darkgray;
+        cursor: pointer;
+    }
+
+    #Option2{
+        width: 384px;
+        height: 384px;
+
+        position: absolute;
+        left: 768px;
+        top: 302px;
+
+        background-color: gray;
+
+        opacity: 0;
+        display: none;
+
+        border: 4px solid white;
+    }
+
+    #Option2:hover{
+        background-color: darkgray;
+        cursor: pointer;
+    }
+
+    #BO9{
+        width: 384px;
+        height: 220px;
+
+        position: absolute;
+        top: 82px;
+
+        color: white;
+        font-family: chalkboard;
+        font-size: 100px;
+        text-align: center;
+
+        opacity: 0;
+    }
+
+    #Option3{
+        width: 384px;
+        height: 384px;
+
+        position: absolute;
+        left: 1202px;
+        top: 302px;
+
+        background-color: gray;
+        background-image: url('Jebaited.png');
+        background-size: contain;
+
+        opacity: 0;
+        display: none;
+
+        border: 4px solid white;
+    }
+
+    #Option3:hover{
+        background-color: darkgray;
+        cursor: pointer;
+    }
+
+    @keyframes fadeIn{
+        from {opacity: 0}
+        to {opacity: 0.8;}
+    }
+
+    @keyframes fadeOut{
+        from {opacity: 0.8;}
+        to {opacity: 0;}
+    }
+
+    #userContent{
+        width: 480px;
+        height: 480px;
+
+        position: absolute;
+        top: 432px;
+        left: 333px;
+
+        border: 4px outset white;
+
+        background-color: gray;
+
+        opacity: 0.8;
+        display: none;
+    }
+
+    @keyframes transition{
+        from {top: 432px}
+        to {top: 297px}
+    }
+
+    #cpuContent{
+        width: 480px;
+        height: 480px;
+
+        position: absolute;
+        top: 432px;
+        right: 333px;
+
+        border: 4px outset white;
+
+        background-color: gray;
+
+        opacity: 0.8;
+        display: none;
+    }
+
+    #sfVS{
+        width: 210px;
+        height: 180px;
+
+        position: absolute;
+        left: 855px;
+        top: 400px;
+
+        background-image: url('sfVS.png');
+        background-size: contain;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #userHP{
+        width: 450px;
+        height: 50px;
+
+        position: absolute;
+        top: 802px;
+        left: 363px;
+        
+        border: 4px double black;
+        border-radius: 15px;
+
+        background-color: rgb(100, 100, 100);
+
+        display: none;
+        opacity: 0;
+    }
+
+    #userHeart{
+        width: 80px;
+        height: 80px;
+
+        position: absolute;
+        top: 792px;
+        left: 333px;
+
+        background-image: url('Heart.png');
+        background-size: contain;
+
+        display: none;
+        opacity: 0;
+    }
+
+    #cpuHP{
+        width: 450px;
+        height: 50px;
+
+        position: absolute;
+        top: 802px;
+        right: 363px;
+        
+        border: 4px double black;
+        border-radius: 15px;
+
+        background-color: rgb(100, 100, 100);
+
+        display: none;
+        opacity: 0;
+    }
+
+    #cpuHeart{
+        width: 80px;
+        height: 80px;
+
+        position: absolute;
+        top: 792px;
+        right: 333px;
+
+        background-image: url('Heart.png');
+        background-size: contain;
+
+        display: none;
+        opacity: 0;
+    }
+
+    #fight{
+        width: 210px;
+        height: 75px;
+
+        border: 2px solid white;
+        border-radius: 10px;
+
+        background-color: gray;
+
+        position: absolute;
+        left: 855px;
+        top: 600px;
+
+        display: none;
+        opacity: 0;
+    }
+
+    #fight:hover{
+        background-color: darkgray;
+        cursor: pointer;
+    }
+
+    #GO{
+        width: 210px;
+        height: 50px;
+
+        position: absolute;
+        top: 12.5px;
+
+        color: white;
+        font-size: 50px;
+        font-family: chalkboard;
+        text-align: center;
+    }
+
+    #userText{
+        width: 480px;
+        height: 60px;
+
+        position: absolute;
+        top: 10px;
+
+        color: white;
+        font-size: 60px;
+        font-family: chalkboard;
+        text-align: center;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #cpuText{
+        width: 480px;
+        height: 60px;
+
+        position: absolute;
+        top: 10px;
+
+        color: white;
+        font-size: 60px;
+        font-family: chalkboard;
+        text-align: center;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #userRock{
+        width: 150px;
+        height: 100px;
+
+        position: absolute;
+        top: 345.5px;
+        left: 163px;
+
+        background-image: url('Rock.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: darkgray;
+
+        border: 2px double white;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #userRock:hover{
+        background-color: gray;
+        cursor: pointer;
+    }
+
+    #userPaper{
+        width: 150px;
+        height: 120px;
+
+        position: absolute;
+        top: 465.5px;
+        left: 163px;
+
+        background-image: url('Paper.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: darkgray;
+
+        border: 2px double white;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #userPaper:hover{
+        background-color: gray;
+        cursor: pointer;
+    }
+
+    #userScissors{
+        width: 150px;
+        height: 123.33px;
+
+        position: absolute;
+        top: 605.5px;
+        left: 163px;
+
+        background-image: url('Scissors.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: darkgray;
+
+        border: 2px double white;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #userScissors:hover{
+        background-color: gray;
+        cursor: pointer;
+    }
+
+    #cpuRock{
+        width: 150px;
+        height: 100px;
+
+        position: absolute;
+        top: 345.5px;
+        right: 163px;
+
+        background-image: url('Rock.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: darkgray;
+
+        border: 2px double white;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #cpuRock:hover{
+        background-color: gray;
+        cursor: not-allowed;
+    }
+
+    #cpuPaper{
+        width: 150px;
+        height: 120px;
+
+        position: absolute;
+        top: 465.5px;
+        right: 163px;
+
+        background-image: url('Paper.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: darkgray;
+
+        border: 2px double white;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #cpuPaper:hover{
+        background-color: gray;
+        cursor: not-allowed;
+    }
+
+    #cpuScissors{
+        width: 150px;
+        height: 123.33px;
+
+        position: absolute;
+        top: 605.5px;
+        right: 163px;
+
+        background-image: url('Scissors.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-color: darkgray;
+
+        border: 2px double white;
+
+        opacity: 0;
+        display: none;
+    }
+
+    #cpuScissors:hover{
+        background-color: gray;
+        cursor: not-allowed;
+    }
+
+    #userImage{
+        width: 360px;
+        height: 360px;
+
+        position: absolute;
+        top: 80px;
+        left: 60px;
+
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    #cpuImage{
+        width: 360px;
+        height: 360px;
+
+        position: absolute;
+        top: 80px;
+        right: 60px;
+
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    #msgBox{
+        width: 210px;
+        height: 150px;
+
+        position: absolute;
+        top: 690px;
+        left: 855px;
+
+        color: white;
+        text-align: center;
+        font-size: 25px;
+        font-family: chalkboard;
+
+        display: none;
+    }
+</style>
+
+<body>
+    <div id="absolute">
+        <div id="intro">
+            <div id="introText">
+                Welcome to the most scuffed rock paper scissors game ever!
+            </div>
+        </div>
+        
+        <button id="start" onclick="introAnimation()">Start</button>
+
+        <div id="Option1" onclick="jebaited()">
+        </div>
+
+        <div id="Option2" onclick="startGame5()">
+            <div id="BO9">
+                First to 9
+            </div>
+        </div>
+
+        <div id="Option3" onclick="jebaited()">
+        </div>
+
+        <div id="userContent">
+            <div id="userText">
+                Your choice:
+            </div>
+
+            <div id="userImage"></div>
+        </div>
+
+        <div id="cpuContent">
+            <div id="cpuText">
+                CPU's choice:
+            </div>
+            <div id="cpuImage"></div>
+        </div>
+
+        <div id="userRock" onclick="rock()"></div>
+        <div id="userPaper" onclick = "paper()"></div>
+        <div id="userScissors" onclick = "scissors()"></div>
+
+        <div id="cpuRock"></div>
+        <div id="cpuPaper"></div>
+        <div id="cpuScissors"></div>
+
+        <div id="sfVS"></div>
+
+        <div id="userHP"></div>
+        <div id="userHeart"></div>
+
+        <div id="cpuHP"></div>
+        <div id="cpuHeart"></div>
+
+        <div id="fight" onclick="playGame()">
+            <div id="GO">
+                GO!
+            </div>
+        </div>
+
+        <div id="msgBox"></div>
+    </div>
+</body>
+
+<script>
+    introText = document.getElementById("introText")
+    intro = document.getElementById("intro")
+    start = document.getElementById("start")
+
+    Option1 = document.getElementById("Option1")
+    Option2 = document.getElementById("Option2")
+    Option3 = document.getElementById("Option3")
+
+    BO9 = document.getElementById("BO9")
+
+    var OptionArray = [Option1, Option2, Option3, BO9]
+
+    userContent = document.getElementById("userContent")
+    userImage = document.getElementById("userImage")
+
+    cpuContent = document.getElementById("cpuContent")
+    cpuImage = document.getElementById("cpuImage")
+
+    sfVS = document.getElementById("sfVS")
+
+    userHP = document.getElementById("userHP")
+    userHeart = document.getElementById("userHeart")
+
+    cpuHP = document.getElementById("cpuHP")
+    cpuHeart = document.getElementById("cpuHeart")
+
+    fight = document.getElementById("fight")
+
+    cpuText = document.getElementById("cpuText")
+    userText = document.getElementById("userText")
+
+    var hpArray = [userHP, userHeart, cpuHP, cpuHeart, fight, cpuText, userText]
+
+    userRock = document.getElementById("userRock")
+    userPaper = document.getElementById("userPaper")
+    userScissors = document.getElementById("userScissors")
+
+    cpuRock = document.getElementById("cpuRock")
+    cpuPaper = document.getElementById("cpuPaper")
+    cpuScissors = document.getElementById("cpuScissors")
+
+    var rpsArray = [userRock, userPaper, userScissors, cpuRock, cpuPaper, cpuScissors]
+
+    msgBox = document.getElementById("msgBox")
+
+    var coolJAM = new Audio();
+    coolJAM.src = "coolJAM.mp3"
+
+    var vsSound = new Audio();
+    vsSound.src = "vsSound.mp3"
+
+    var roundDraw = new Audio();
+    roundDraw.src = "roundDraw.mp3"
+
+    var Ding = new Audio();
+    Ding.src = "Ding.mp3"
+
+    var Congratulations = new Audio();
+    Congratulations.src = "Congratulations.mp3"
+
+    timeToSwitch = 0
+    var switchIntroText = setInterval(switchIntroText, 2000)
+    function switchIntroText(){
+        if(timeToSwitch == 0){
+            introText.innerHTML = "I hope you enjoy. :D"
+            introText.style.top = "90px"
+            timeToSwitch = 1
+            console.log(1)
+        }
+        
+        else if(timeToSwitch == 1){
+            introText.innerHTML = "Welcome to the most scuffed rock paper scissors game ever!"
+            introText.style.top = "75px"
+            timeToSwitch = 0
+            console.log(0)
+        }
+    }
+
+    function introAnimation(){
+        coolJAM.play()
+        coolJAM.loop = true
+        coolJAM.volume = 0.2
+
+        clearInterval(switchIntroText)
+        introText.style.display = "none"
+
+        setTimeout(toTop, 1000)
+        function toTop(){
+            document.getElementById("intro").style.animationName = "toTop"
+            document.getElementById("intro").style.animationDuration = "4s"
+            document.getElementById("intro").style.animationFillMode = "forwards"
+        }
+
+        start.style.display = "none"
+
+        setTimeout(chooseScoring, 5500)
+        function chooseScoring(){
+            introText.innerHTML = "Choose your scoring system."
+            introText.style.display = "block"
+            introText.style.left = "12px"
+            introText.style.top = "75px"
+
+            OptionArray.forEach(fadeIn)
+            function fadeIn(element){
+                element.style.display = "block"
+                element.style.animationName = "fadeIn"
+                element.style.animationDuration = "3s"
+                element.style.animationFillMode = "forwards"
+            }
+        }
+    }
+
+    function fadeOut(element){
+        element.style.animationName = "fadeOut"
+        element.style.animationDuration = "2s"
+        element.style.animationFillMode = "forwards"
+        
+        setTimeout(disappear, 3000)
+        function disappear(){
+            element.style.display = "none"
+        }
+    }
+
+    function startGame5(){
+        setTimeout(beginAnimation, 500)
+        function beginAnimation(){
+            OptionArray.forEach(fadeOut)
+            fadeOut(introText)
+            
+            setTimeout(textFadeIn, 3500)
+            function textFadeIn(){
+                introText.innerHTML = "Let the games begin!"
+                introText.style.display = "block"
+                introText.style.animationName = "fadeIn"
+                introText.style.animationDuration = "1500ms"
+                introText.style.animationFillMode = "forwards"
+
+                setTimeout(transition, 1500)
+                function transition(){
+                    userContent.style.display = "block"
+                    userContent.style.animationName = "transition"
+                    userContent.style.animationDuration = "2s"
+                    userContent.style.animationFillMode = "forwards"
+
+                    cpuContent.style.display = "block"
+                    cpuContent.style.animationName = "transition"
+                    cpuContent.style.animationDuration = "2s"
+                    cpuContent.style.animationFillMode = "forwards"
+
+                    sfVS.style.display = "block"
+                    sfVS.style.animationName = "fadeIn"
+                    sfVS.style.animationDuration = "2s"
+                    sfVS.style.animationFillMode = "forwards"
+
+                    msgBox.style.display = "block"
+
+                    setTimeout(playVS, 500)
+                    function playVS(){
+                        vsSound.play()
+                        vsSound.loop = false
+                        vsSound.volume = 0.3
+                    }
+                }
+
+                setTimeout(hpAnimation, 4500)
+                function hpAnimation(){
+                    hpArray.forEach(fadeIn)
+                    function fadeIn(element){
+                        element.style.display = "block"
+                        element.style.animationName = "fadeIn"
+                        element.style.animationDuration = "2s"
+                        element.style.animationFillMode = "forwards"
+                    }
+
+                    rpsArray.forEach(fadeIn)
+                    function fadeIn(element){
+                        element.style.display = "block"
+                        element.style.animationName = "fadeIn"
+                        element.style.animationDuration = "2s"
+                        element.style.animationFillMode = "forwards"
+                    }
+                }
+            }
+        }
+    }
+
+    playerChoice = 0
+
+    function rock(){
+        playerChoice = 1
+
+        userImage.style.backgroundImage = "url('Rock.png')"
+        userImage.style.top = "120px"
+
+        userRock.style.backgroundColor = "gray"
+        userPaper.style.backgroundColor = "darkgray"
+        userScissors.style.backgroundColor = "darkgray"
+    } 
+
+    function paper(){
+        playerChoice = 2
+        
+        userImage.style.backgroundImage = "url('Paper.png')"
+        userImage.style.top = "110px"
+
+        userRock.style.backgroundColor = "darkgray"
+        userPaper.style.backgroundColor = "gray"
+        userScissors.style.backgroundColor = "darkgray"
+    }
+
+    function scissors(){
+        playerChoice = 3
+
+        userImage.style.backgroundImage = "url('Scissors.png')"
+        userImage.style.top = "110px"
+
+        userRock.style.backgroundColor = "darkgray"
+        userPaper.style.backgroundColor = "darkgray"
+        userScissors.style.backgroundColor = "gray"
+    }
+
+    p1HP = 450
+    p2HP = 450
+
+    dmg = 50
+
+    alreadyDone = 0
+
+    function playGame(){
+        if(playerChoice == 0){
+            var xpError = new Audio()
+            xpError.src = "xpError.mp3"
+
+            xpError.play()
+            xpError.loop = false
+
+            introText.innerHTML = "Go again, but choose an option this time."
+            introText.style.top = "50px"
+
+            flashTempo = 0
+            var flashAnim = setInterval(introFlash, 250)
+            function introFlash(){
+                if(flashTempo == 0){
+                    intro.style.backgroundColor = "darkgray"
+                    flashTempo = 1
+                    console.log(1)
+                }
+                else if(flashTempo == 1){
+                    intro.style.backgroundColor = "gray"
+                    flashTempo = 0
+                    console.log(0)
+                }
+            }
+
+            setTimeout(stopFlash, 2500)
+            function stopFlash(){
+                clearInterval(flashAnim)
+                intro.style.backgroundColor = "gray"
+            }
+        }
+        else{
+            clearInterval(flashAnim)
+
+            if(alreadyDone == 0){
+                introText.innerHTML = "Let the games begin!"
+                introText.style.top = "75px"
+
+                var cpuFlashStart = setInterval(cpuFlash, 10)
+                function cpuFlash(){
+                    cpuChoice = Math.ceil(Math.random() * 3)
+
+                    if(cpuChoice == 1){
+                        cpuImage.style.backgroundImage = "url('Rock.png')"
+                        cpuImage.style.top = "120px"
+
+                        cpuRock.style.backgroundColor = "gray"
+                        cpuPaper.style.backgroundColor = "darkgray"
+                        cpuScissors.style.backgroundColor = "darkgray"
+                    }
+                    else if(cpuChoice == 2){
+                        cpuImage.style.backgroundImage = "url('Paper.png')"
+                        cpuImage.style.top = "110px"
+
+                        cpuRock.style.backgroundColor = "darkgray"
+                        cpuPaper.style.backgroundColor = "gray"
+                        cpuScissors.style.backgroundColor = "darkgray"
+                    }
+                    else if(cpuChoice == 3){
+                        cpuImage.style.backgroundImage = "url('Scissors.png')"
+                        cpuImage.style.top = "110px"
+
+                        cpuRock.style.backgroundColor = "darkgray"
+                        cpuPaper.style.backgroundColor = "darkgray"
+                        cpuScissors.style.backgroundColor = "gray"
+                    }
+                }
+            }
+
+
+            setTimeout(stopCpuFlash, 2500)
+            function stopCpuFlash(){
+                clearInterval(cpuFlashStart)
+                console.log(cpuChoice)
+
+                function hpFlash(element){
+                    flash2Tempo = 0
+
+                    var flash2 = setInterval(flash, 100)
+                    function flash(){
+                        if(flash2Tempo == 0){
+                            element.style.backgroundColor = "lightgray"
+                            flash2Tempo = 1
+                        }
+                        else if(flash2Tempo == 1){
+                            element.style.backgroundColor = "rgb(100, 100, 100)"
+                            flash2Tempo = 0
+                        }
+                    }
+
+                    setTimeout(stopFlash2, 1500)
+                    function stopFlash2(){
+                        clearInterval(flash2)
+                        element.style.backgroundColor = "rgb(100, 100, 100)"
+                    }
+                }
+
+                if(alreadyDone == 0){
+                    if(playerChoice == 1){
+                        if(cpuChoice == 1){
+                            /* Play draw game audio here */
+                            roundDraw.play()
+                            roundDraw.loop = false
+
+                            msgBox.innerHTML = "Round Draw"
+                        }
+                        else if(cpuChoice == 2){
+                            /* Play damage sound here */
+                            OOF.play()
+                            OOF.loop = false
+
+                            p1HP = p1HP - 50
+                            userHP.style.width = p1HP + "px"
+                            hpFlash(userHP)
+
+                            msgBox.innerHTML = "Round Lost"
+                        }
+                        else if(cpuChoice == 3){
+                            /* Play hit sound here */
+
+                            p2HP = p2HP - 50
+                            cpuHP.style.width = p2HP + "px"
+                            hpFlash(cpuHP)
+
+                            msgBox.innerHTML = "Round Won"
+
+                            Ding.play()
+                            Ding.loop = false
+                        }
+                    }
+                    else if(playerChoice == 2){
+                        if(cpuChoice == 1){
+                            p2HP = p2HP - 50
+                            cpuHP.style.width = p2HP + "px"
+                            hpFlash(cpuHP)
+
+                            msgBox.innerHTML = "Round Won"
+
+                            Ding.play()
+                            Ding.loop = false
+                        }
+                        else if(cpuChoice == 2){
+                            /* Play draw game audio here */
+                            roundDraw.play()
+                            roundDraw.loop = false
+
+                            msgBox.innerHTML = "Round Draw"
+                        }
+                        else if(cpuChoice == 3){
+                            p1HP = p1HP - 50
+                            userHP.style.width = p1HP + "px"
+                            hpFlash(userHP)
+
+                            msgBox.innerHTML = "Round Lost"
+
+                            OOF.play()
+                            OOF.loop = false
+                        }
+                    }
+                    else if(playerChoice == 3){
+                        if(cpuChoice == 1){
+                            p1HP = p1HP - 50
+                            userHP.style.width = p1HP + "px"
+                            hpFlash(userHP)
+
+                            msgBox.innerHTML = "Round Lost"
+
+                            OOF.play()
+                            OOF.loop = false
+                        }
+                        else if(cpuChoice == 2){
+                            p2HP = p2HP - 50
+                            cpuHP.style.width = p2HP + "px"
+                            hpFlash(cpuHP)
+
+                            msgBox.innerHTML = "Round Won"
+
+                            Ding.play()
+                            Ding.loop = false
+                        }
+                        else if(cpuChoice == 3){
+                            /* Play draw game audio here */
+                            roundDraw.play()
+                            roundDraw.loop = false
+
+                            msgBox.innerHTML = "Round Draw"
+                        }
+                    }
+                }
+
+                
+                if(p2HP < 1){
+                    if(alreadyDone == 0){
+                        introText.innerHTML = "Congratulations! You fluked a win!"
+                        introText.style.top = "50px"
+
+                        Congratulations.play()
+                        Congratulations.loop = false
+                        Congratulations.volume = 1
+
+                        flashTempo = 0
+                        var flashAnim = setInterval(introFlash, 250)
+                        function introFlash(){
+                            if(flashTempo == 0){
+                                intro.style.backgroundColor = "darkgray"
+                                flashTempo = 1
+                                console.log(1)
+                                }
+                            else if(flashTempo == 1){
+                                intro.style.backgroundColor = "gray"
+                                flashTempo = 0
+                                console.log(0)
+                                }
+                        }
+
+                        setTimeout(stopFlash, 2500)
+                        function stopFlash(){
+                            clearInterval(flashAnim)
+                            intro.style.backgroundColor = "gray"
+                        }
+
+                        alreadyDone = 1
+                    }
+
+                    else if(alreadyDone == 1){
+                        introText.innerHTML = "Stop being greedy you already won."
+
+                        xpError.play()
+
+                        flashTempo = 0
+                        var flashAnim = setInterval(introFlash, 250)
+                        function introFlash(){
+                            if(flashTempo == 0){
+                                intro.style.backgroundColor = "darkgray"
+                                flashTempo = 1
+                                console.log(1)
+                                }
+                            else if(flashTempo == 1){
+                                intro.style.backgroundColor = "gray"
+                                flashTempo = 0
+                                console.log(0)
+                                }
+                        }
+
+                        setTimeout(stopFlash, 2500)
+                        function stopFlash(){
+                            clearInterval(flashAnim)
+                            intro.style.backgroundColor = "gray"
+                        }
+                    }
+                }
+                else if(p1HP < 1){
+                    if(alreadyDone == 0){
+                        introText.innerHTML = "Imagine losing to a bot made by me. So bad lol."
+                        introText.style.top = "50px"
+
+                        var gameOver = new Audio()
+                        gameOver.src = "gameOver.mp3"
+
+                        gameOver.play()
+                        gameOver.loop = false
+                        gameOver.volume = 0.5
+
+                        flashTempo = 0
+                        var flashAnim = setInterval(introFlash, 250)
+                        function introFlash(){
+                            if(flashTempo == 0){
+                                intro.style.backgroundColor = "darkgray"
+                                flashTempo = 1
+                                console.log(1)
+                            }
+                            else if(flashTempo == 1){
+                                intro.style.backgroundColor = "gray"
+                                flashTempo = 0
+                                console.log(0)
+                            }
+                        }
+
+                        setTimeout(stopFlash, 2500)
+                        function stopFlash(){
+                            clearInterval(flashAnim)
+                            intro.style.backgroundColor = "gray"
+                        }
+
+                        alreadyDone = 1
+                    }
+
+                    else if(alreadyDone == 1){
+                        introText.innerHTML = "Quit trying to cheat. I know you lost."
+
+                        xpError.play()
+
+                        flashTempo = 0
+                        var flashAnim = setInterval(introFlash, 250)
+                        function introFlash(){
+                            if(flashTempo == 0){
+                                intro.style.backgroundColor = "darkgray"
+                                flashTempo = 1
+                                console.log(1)
+                                }
+                            else if(flashTempo == 1){
+                                intro.style.backgroundColor = "gray"
+                                flashTempo = 0
+                                console.log(0)
+                                }
+                        }
+
+                        setTimeout(stopFlash, 2500)
+                        function stopFlash(){
+                            clearInterval(flashAnim)
+                            intro.style.backgroundColor = "gray"
+                        }
+                    }
+                }
+                
+            }
+
+
+        }
+
+    }
+
+    function jebaited(){
+        var xpError = new Audio()
+        xpError.src = "xpError.mp3"
+
+        xpError.play()
+        xpError.loop = false
+    }
+
+    var OOF = new Audio()
+    OOF.src = "OOF.wav"
+</script>
+</html>
