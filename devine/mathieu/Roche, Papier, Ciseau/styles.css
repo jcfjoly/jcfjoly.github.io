@@ -1,0 +1,340 @@
+@keyframes movingBackground {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+body {
+  animation: movingBackground 10s linear infinite alternate;
+  background-image: linear-gradient(to bottom left, #14274e, #394867, #9ba4b4);
+  background-size: 300%;
+  margin: 0;
+}
+
+/* Cette section concerne les boutons de la barre de navigation */
+.btn {
+  width: 180px;
+  position: absolute;
+  left: 0;
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  padding: 7px;
+  border: #9ba4b4 solid 1px;
+  background-color: #14274e;
+  color: #9ba4b4;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #394867;
+}
+
+/* Cette section concerne le leaderboard */
+.leaderboardBox {
+  top: 0;
+  display: none;
+  width: 60%;
+  height: 30%;
+  position: absolute;
+  left: 19.74%;
+  top: 20%;
+  background-color: #9ba4b4;
+  border: #394867 solid 4px;
+  border-radius: 30px;
+  text-align: left;
+  font-family: "Nunito", sans-serif;
+  line-height: 200%;
+  display: none;
+  z-index: 2;
+}
+
+.title {
+  text-align: center;
+}
+
+.easy {
+  position: absolute;
+  left: 15%;
+  top: 40%;
+}
+
+.normal {
+  position: absolute;
+  left: 41.94%;
+  top: 40%;
+}
+
+.hard {
+  position: absolute;
+  right: 15%;
+  top: 40%;
+}
+
+/* Cette section concerne les règlements */
+.rulesBtn {
+  top: 34.4px;
+}
+
+.rulesBox {
+  width: 50%;
+  height: 60%;
+  position: absolute;
+  left: 22.76%;
+  top: 15%;
+  background-color: #9ba4b4;
+  border: #394867 solid 4px;
+  border-radius: 30px;
+  text-align: left;
+  font-family: "Nunito", sans-serif;
+  line-height: 200%;
+  padding: 30px;
+  display: none;
+  z-index: 2;
+}
+
+.rulesTitle {
+  text-align: center;
+}
+
+.closeBtn {
+  padding: 5px;
+  padding-left: 19px;
+  padding-right: 19px;
+  border: 3px solid black;
+  border-radius: 5px;
+  background-color: #b72125;
+  transition: 0.5s;
+  color: black;
+  font-size: 15px;
+  position: absolute;
+  right: 35px;
+  top: 25px;
+  cursor: pointer;
+}
+
+.closeBtn:hover {
+  background-color: #6d0003;
+}
+
+/* Cette section concerne le bouton pour recommencer */
+.restartBtn {
+  top: 68.8px;
+}
+
+/* Cette section concerne la difficulté */
+.difficulty {
+  width: 25%;
+  height: 16%;
+  position: absolute;
+  left: 37.1%;
+  top: 10%;
+  text-align: center;
+  background-color: #9ba4b4;
+  border: #394867 solid 4px;
+  border-radius: 15px;
+  font-family: "Nunito", sans-serif;
+}
+
+.slider {
+  width: 90%;
+  height: 15px;
+  appearance: none;
+  background: #d3d3d3;
+  border: #14274e solid 1px;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.5;
+  transition: 0.5s;
+}
+
+h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: x-large;
+}
+
+h4 {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: large;
+}
+
+.slider:hover {
+  opacity: 0.8;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #394867;
+  cursor: pointer;
+}
+
+/* Cette section concerne la boite du jeu */
+.gameBox {
+  width: 65%;
+  height: 50%;
+  position: absolute;
+  left: 17.1%;
+  top: 28%;
+  background-color: #9ba4b4;
+  border: #394867 solid 4px;
+  border-radius: 30px;
+}
+
+h2 {
+  font-family: "Nunito", sans-serif;
+  font-weight: 900;
+  font-size: xx-large;
+  text-align: center;
+}
+
+img {
+  width: 65px;
+}
+
+.playerRock {
+  position: absolute;
+  left: 10%;
+  top: 42%;
+  transform: rotate(90deg);
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.playerRock:hover {
+  top: 40%;
+}
+
+.playerPaper {
+  position: absolute;
+  left: 21%;
+  top: 41%;
+  transform: scaleX(-1);
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.playerPaper:hover {
+  top: 39%;
+}
+
+.playerScissor {
+  position: absolute;
+  left: 32%;
+  top: 42%;
+  transform: scaleX(-1);
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.playerScissor:hover {
+  top: 40%;
+}
+
+.botRock {
+  position: absolute;
+  right: 10%;
+  top: 42%;
+  transform: rotate(90deg) scaleY(-1);
+  transition: 0.5s;
+}
+
+.botPaper {
+  position: absolute;
+  right: 21%;
+  top: 41%;
+  transition: 0.5s;
+}
+
+.botScissor {
+  position: absolute;
+  right: 32%;
+  top: 42%;
+  transition: 0.5s;
+}
+
+.vs {
+  position: absolute;
+  left: 48%;
+  top: 40%;
+}
+
+.playerHealthBar {
+  width: 25%;
+  height: 2%;
+  background-color: #105f25;
+  border: black solid 2px;
+  border-radius: 50px;
+  position: absolute;
+  top: 70%;
+  left: 12%;
+  z-index: 1;
+}
+
+.botHealthBar {
+  width: 25%;
+  height: 2%;
+  background-color: #105f25;
+  border: black solid 2px;
+  border-radius: 50px;
+  position: absolute;
+  top: 70%;
+  right: 12%;
+  z-index: 1;
+}
+
+.fakeHealthBar {
+  background-color: #e7e6e1;
+  border: black solid 2px;
+  z-index: 0;
+}
+
+.message {
+  margin-top: 22%;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Cette section concerne la boite de fin de la partie */
+.endBox {
+  width: 50%;
+  height: 30%;
+  position: absolute;
+  left: 21.5%;
+  top: 20%;
+  padding: 50px;
+  font-family: "Nunito", sans-serif;
+  text-align: center;
+  background-color: #9ba4b4;
+  border: #394867 solid 4px;
+  border-radius: 30px;
+  display: none;
+}
+
+/* Cette section concerne le volume */
+.volumeBtn {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  opacity: 0.5;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.volumeBtn:hover {
+  opacity: 1;
+}
+
+.onBtn {
+  display: none;
+}
