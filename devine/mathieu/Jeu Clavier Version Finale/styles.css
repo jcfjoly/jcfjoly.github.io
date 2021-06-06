@@ -1,0 +1,55 @@
+body {
+  background-color: #ccffbd;
+  overflow: hidden;
+  text-align: center;
+  font-family: "Nunito", sans-serif;
+}
+
+.playBtn {
+  padding: 15px;
+  width: 125px;
+  border: 2px solid #1c1427;
+  border-radius: 10px;
+  background-color: #7eca9c;
+  position: absolute;
+  top: 30%;
+  left: 44%;
+  cursor: pointer;
+}
+
+.wordSpace {
+  height: 100%;
+}
+
+.words {
+  width: 125px;
+  padding: 15px;
+  border: 2px solid #1c1427;
+  border-radius: 10px;
+  background-color: #7eca9c;
+  position: absolute;
+  top: -45px;
+}
+
+.word1 {
+  left: 15%;
+}
+
+.word2 {
+  left: 35%;
+}
+
+.word3 {
+  left: 55%;
+}
+
+.word4 {
+  left: 75%;
+}
+
+.answerBox {
+  width: 20%;
+  position: absolute;
+  bottom: 20%;
+  left: 39%;
+}
