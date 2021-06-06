@@ -1,0 +1,200 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infernal</title>
+
+    <style>
+      body {
+        background-image: url(bg4.jpg);
+        background-size: cover;
+      }
+
+      #monster {
+        background-image: url(goremagalapng.png);
+        background-size: contain;
+        background-position: center;
+        height: 67.9%;
+        width: 100%;
+        background-repeat: no-repeat;
+      }
+
+      #barreVie {
+        width: 70%;
+        height: 20px;
+        background-color: greenyellow;
+      }
+
+      #barreVieMonstre {
+        width: 100%;
+        height: 10px;
+        background-color: greenyellow;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      #pvm {
+        text-align: center;
+      }
+
+      #input {
+          background-color: rgb(221, 181, 107);
+          border: 5px solid rgb(20, 13, 0);
+          padding: 25px;
+          min-width: 50%;
+          display:inline-block;  
+      }
+
+      #health {
+          background-color: rgb(221, 181, 107);
+          border: 5px solid rgb(20, 13, 0);
+          padding: 25px;
+          min-width: 175%;
+          max-width: 175%;
+          display:inline-block;
+      }
+
+      #controls {
+          display:inline-flex;
+          background-position: center;
+
+      }
+      a{
+    background-color: white
+}
+    </style>
+  </head>
+  <body>
+    <h1>Gore Magala</h1>
+    <div id="barreVieMonstre"></div>
+    <div id="pvm">PV Monstre = 10000</div>
+
+    <div id="monster"></div>
+
+<div id="controls">
+
+
+    <div id="health">
+     <h2>Vos Points de vie</h2>
+    <div id="barreVie"></div>
+    <p id="points">PV = 1000</p>
+    <p id="message"></p>
+    <p id="messagetwo"></p>   
+    </div>
+    
+
+    <div id="input">
+        Devine le chiffre entre 1 à 100 <br/>
+     <input type="text" id="num" />
+    <input type="button" value="Attaquer!" onClick="valider()" />   
+    </div>
+
+</div>
+<br/>
+<a href="menu-minigame.html" class="L1">Retourner au menu</a>
+    
+</body>
+
+<script>
+    var hp = 1000;
+    var hpm = 10000;
+    var cc = Math.round(Math.random() * 99 + 1);
+    const hpmax = 1000;
+    const hpmmax = 10000;
+    
+    var attack=new Audio();
+    attack.src="attack.mp3"
+
+    var dmg=new Audio();
+    dmg.src="fireball.wav"
+    
+    console.log(cc)
+    
+    function gameOver(){
+        window.location.href = "defeat1.html";
+    }
+
+    function victory(){
+        window.location.href = "victory4.html";
+    }
+
+    function weapon(){
+        attack.play()
+    }
+
+    function damage(){
+        dmg.play()
+    }
+
+    function valider(){
+    var isReturn = false;
+    var num = document.getElementById('num').value;
+    var vie = document.getElementById('barreVie');
+    var points = document.getElementById('points');
+    var message = document.getElementById('message');
+    var messagetwo = document.getElementById('messagetwo');
+    var pvm = document.getElementById('pvm');
+    var vieMonstre = document.getElementById('barreVieMonstre');
+    console.log("Joueur a deviné: " + num);
+
+    if (num == cc) {
+        var ac = Math.round(Math.random() * 500 + 1000)
+        hpm -= ac
+        message.innerHTML = "Tu infliges " + ac + " dégâts!"
+        cc = Math.round(Math.random() * 99 + 1)
+        console.log("Joueur a bien deviné")
+        weapon()
+    }else if(num>cc){
+        var bc = Math.round(Math.random() * 100 + 200);
+        hp -= bc;
+        points.innerHTML = "PV = " + hp;
+        message.innerHTML = "Oops, ton numéro est trop grand! Try again! :)";
+        damage()
+    }else if(num < cc){
+        var bc = Math.round(Math.random() * 100 + 200);
+        hp -= bc;
+        points.innerHTML = "PV = " + hp;
+        message.innerHTML = "Oops, ton numéro est trop petit! Try again! :)";
+        damage()
+    }
+
+    
+    console.log("Nouveau bon chiffre: " + cc)
+    pvm.innerHTML = "PV Monstre = " + hpm
+    points.innerHTML = "PV = " + hp
+    vie.style.width = `${(70 * hp) / hpmax}%`
+    vieMonstre.style.width = `${(90 * hpm) / hpmmax}%`
+
+    if (hp < 501) {
+    vie.style.backgroundColor = "yellow";
+    }
+    if (hp < 251) {
+    vie.style.backgroundColor = "red";
+    }
+    if (hp <= 0) {
+    points.innerHTML = "PV = 0";
+    hp = 0;
+    message.innerHTML = "Uh oh, tu es mort! RIP! Ehehehehehe! :D";
+    gameOver()
+    }
+    
+    
+    if (hpm < 5001) {
+    vieMonstre.style.backgroundColor = "yellow";
+    }
+    if (hpm < 2501) {
+    vieMonstre.style.backgroundColor = "red";
+    }
+    if (hpm <= 0) {
+    pvm.innerHTML = "PV Monstre = 0";
+    hpm = 0;
+    message.innerHTML = "Uh oh, tu es mort! RIP! Ehehehehehe! :D";
+    victory()
+    }
+}
+
+    
+  </script>
+</html>
