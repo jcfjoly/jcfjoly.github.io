@@ -1,0 +1,192 @@
+body {
+  background-image: url(images/background.png);
+  background-size: cover;
+  font-family: "Quicksand", sans-serif;
+}
+
+.consigne {
+  height: 77%;
+  width: 50%;
+  margin: auto;
+  background-color: #394867;
+  color: #9ba4b4;
+  border: 10px solid #14274e;
+  border-radius: 50px;
+  z-index: 2;
+  position: absolute;
+  top: 10%;
+  left: 24.5%;
+}
+
+.closeBtn {
+  padding: 13px;
+  padding-left: 19px;
+  padding-right: 19px;
+  border: 3px solid black;
+  border-radius: 5px;
+  background-color: #b72125;
+  transition: 0.5s;
+  color: black;
+  font-size: 15px;
+  position: absolute;
+  right: 35px;
+  top: 25px;
+}
+
+.closeBtn:hover {
+  background-color: #6d0003;
+}
+
+.consigneTitre {
+  text-align: center;
+  padding: 25px;
+}
+
+.consigneText {
+  padding-left: 50px;
+  padding-right: 50px;
+  line-height: 30px;
+}
+
+.openBtn {
+  position: absolute;
+  right: 30px;
+  bottom: 20px;
+}
+
+.songBtn {
+  position: absolute;
+  left: 30px;
+  bottom: 20px;
+}
+
+.playBtn {
+  opacity: 100;
+  z-index: 1;
+}
+
+.stopBtn {
+  opacity: 0;
+  z-index: 0;
+}
+
+.difficulty {
+  width: 36%;
+  height: 30%;
+  text-align: center;
+  background-color: #394867;
+  color: #9ba4b4;
+  border: 10px solid #14274e;
+  border-radius: 50px;
+  position: absolute;
+  top: 45%;
+  left: 31.5%;
+  z-index: 1;
+  opacity: 100;
+}
+
+.checkbox {
+  width: 15px;
+  height: 15px;
+  margin: 10px;
+  transition: 0.5s;
+}
+
+.checkbox:hover {
+  width: 30px;
+}
+
+.barreVie {
+  width: 39%;
+  height: 85px;
+  background-image: url(images/ghost.png);
+  background-size: contain;
+  margin: auto;
+  margin-top: 10%;
+  opacity: 0;
+}
+
+.titre {
+  margin-top: 40px;
+}
+
+.gameBox {
+  height: 58%;
+  width: 40%;
+  text-align: center;
+  background-color: #394867;
+  color: #9ba4b4;
+  border: 10px solid #14274e;
+  border-radius: 50px;
+  position: absolute;
+  top: 35%;
+  left: 29.5%;
+  opacity: 0;
+  z-index: 0;
+}
+
+.boxModel {
+  height: 33%;
+  width: 40%;
+  text-align: center;
+  background-color: #394867;
+  color: #9ba4b4;
+  border: 7px solid #14274e;
+  border-radius: 25px;
+  position: absolute;
+  top: 45%;
+  left: 29.5%;
+  z-index: 0;
+  opacity: 0;
+}
+
+.winLoseImg {
+  height: 100px;
+  position: absolute;
+}
+
+.leftImg {
+  left: 35px;
+}
+
+.rightImg {
+  right: 35px;
+}
+
+.restartText {
+  padding-bottom: 15px;
+}
+
+.text {
+  padding: 20px;
+  border: 4px double #14274e;
+  border-radius: 5px;
+  font-size: large;
+  text-align: center;
+  font-weight: 500;
+  background-color: #394867;
+  color: #9ba4b4;
+}
+
+.button {
+  padding: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  border: 3px solid #14274e;
+  border-radius: 5px;
+  background-color: #394867;
+  transition: 0.5s;
+  color: #9ba4b4;
+  font-size: 15px;
+}
+
+.button:hover {
+  background-color: #14274e;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.restart {
+  margin-top: -20px;
+}

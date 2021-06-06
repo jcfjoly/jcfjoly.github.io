@@ -1,0 +1,1 @@
+Il y a erreur "Bravo.html:89 Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first" quand je roule le jeu dans GOOGLE CHROME et le fichier de son ne joue pas mais dans MICROSOFT EDGE, le son joue san problème.

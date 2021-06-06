@@ -1,0 +1,90 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        background-image: url('./Images/TetrisBg.png');
+        background-size: cover;
+        font-family: 'VT323', monospace;
+      }
+      h1 {
+        text-align: center;
+        padding: 25px;
+        color: 23ff00;
+        font-size: 10rem;
+        font-family: 'VT323', monospace;
+      }
+      #main {
+        text-align: center;
+        font-size: 2rem;
+        border: solid 2px;
+        background-color: black;
+        border-color: white;
+        color: red;
+        border-width: 5px;
+        width: 600px;
+        margin: auto;
+        padding-bottom: 60px;
+        padding-left: 30px;
+        padding-right: 30px;
+        border-radius: 10px;
+        font-family: 'VT323', monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: content;
+      }
+      #gameOver {
+        font-size: 4rem;
+      }
+      #menuBtn {
+        text-align: center;
+        background-color: black;
+        border: solid 2px white;
+        color: white;
+        padding: 5px;
+        margin-top: 30px;
+        width: 100px;
+      }
+      #menuBtn:hover {
+        color: red;
+        border: solid 2px red;
+      }
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      <span style="color: red">D</span><span style="color: orange">e</span
+      ><span style="color: yellow">v</span><span style="color: 1cd000">i</span
+      ><span style="color: turquoise">n</span
+      ><span style="color: blue">e</span> <span style="color: violet">l</span
+      ><span style="color: red">e</span> <span style="color: orange">c</span
+      ><span style="color: yellow">h</span><span style="color: 1cd000">i</span
+      ><span style="color: turquoise">f</span><span style="color: blue">f</span
+      ><span style="color: violet">r</span><span style="color: red">e</span
+      ><span style="color: orange">!</span>
+    </h1>
+
+    <div id="main">
+      <p id="gameOver">Game Over</p>
+      <p>Vous n'avez pas trouvé le chiffre</p>
+      <a href="Devine le chiffre.html"><div id="menuBtn">Menu</div></a>
+    </div>
+    <script>
+      var loseSound = new Audio();
+      loseSound.src = 'Sons/Lose.mp3';
+      loseSound.play();
+    </script>
+  </body>
+</html>

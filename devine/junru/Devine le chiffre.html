@@ -1,0 +1,226 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.8" />
+    <title>Devine le chiffre</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-image: url('./Images/TetrisBg.png');
+        background-size: cover;
+        font-family: 'VT323', monospace;
+      }
+      h1 {
+        text-align: center;
+        padding: 25px;
+        color: 23ff00;
+        font-size: 10rem;
+        font-family: 'VT323', monospace;
+      }
+      p {
+        color: FFE105;
+        font-size: 2rem;
+        font-family: 'VT323', monospace;
+      }
+      #main {
+        text-align: center;
+        border: solid 2px;
+        background-color: black;
+        border-color: white;
+        border-width: 5px;
+        width: 300px;
+        margin: auto;
+        padding: 50px;
+        padding-top: 20px;
+        border-radius: 10px;
+        font-size: 2rem;
+        font-family: 'VT323', monospace;
+      }
+      #aN1 {
+        display: block;
+        background-color: red;
+        border: solid 1px white;
+        margin: 5px;
+        color: blue;
+        padding: 2px;
+        font-family: 'VT323', monospace;
+      }
+      #aN1:hover {
+        display: block;
+        background-color: orange;
+        border: solid 1px white;
+        margin: 5px;
+        color: turquoise;
+        padding: 2px;
+        font-family: 'VT323', monospace;
+      }
+      #aN2 {
+        display: block;
+        background-color: 1cd000;
+        border: solid 1px white;
+        margin: 5px;
+        color: red;
+        padding: 2px;
+        font-family: 'VT323', monospace;
+      }
+      #aN2:hover {
+        display: block;
+        background-color: turquoise;
+        border: solid 1px white;
+        margin: 5px;
+        color: 1cd000;
+        padding: 2px;
+        font-family: 'VT323', monospace;
+      }
+      #aN3 {
+        display: block;
+        background-color: blue;
+        border: solid 1px white;
+        margin: 5px;
+        color: yellow;
+        padding: 2px;
+        font-family: 'VT323', monospace;
+      }
+      #aN3:hover {
+        display: block;
+        background-color: yellow;
+        border: solid 1px white;
+        margin: 5px;
+        color: blue;
+        padding: 2px;
+        font-family: 'VT323', monospace;
+      }
+      #consignes {
+        background-color: black;
+        border: solid 2px white;
+        padding: 3px;
+        color: white;
+        position: absolute;
+        bottom: 50px;
+        right: 50px;
+      }
+      #consignes:hover {
+        background-color: black;
+        border: solid 2px red;
+        padding: 3px;
+        color: red;
+        position: absolute;
+        bottom: 50px;
+        right: 50px;
+      }
+      #music {
+        color: white;
+        background-color: black;
+        border: solid 2px white;
+        padding: 3px;
+        position: absolute;
+        bottom: 50px;
+        left: 50px;
+      }
+      #music:hover {
+        color: red;
+        background-color: black;
+        border: solid 2px red;
+        padding: 3px;
+        position: absolute;
+        bottom: 50px;
+        left: 50px;
+      }
+      #startMusic {
+        color: white;
+        background-color: black;
+        border-color: white;
+        font-family: 'VT323', monospace;
+      }
+      #startMusic:hover {
+        color: red;
+        background-color: black;
+        border-color: red;
+        font-family: 'VT323', monospace;
+      }
+      #stopMusic {
+        color: white;
+        background-color: black;
+        border-color: white;
+        font-family: 'VT323', monospace;
+      }
+      #stopMusic:hover {
+        color: red;
+        background-color: black;
+        border-color: red;
+
+        font-family: 'VT323', monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>
+      <span style="color: red">D</span><span style="color: orange">e</span
+      ><span style="color: yellow">v</span><span style="color: 1cd000">i</span
+      ><span style="color: turquoise">n</span
+      ><span style="color: blue">e</span> <span style="color: violet">l</span
+      ><span style="color: red">e</span> <span style="color: orange">c</span
+      ><span style="color: yellow">h</span><span style="color: 1cd000">i</span
+      ><span style="color: turquoise">f</span><span style="color: blue">f</span
+      ><span style="color: violet">r</span><span style="color: red">e</span
+      ><span style="color: orange">!</span>
+    </h1>
+    <div id="main">
+      <p>
+        <span style="color: red">C</span><span style="color: orange">h</span
+        ><span style="color: yellow">o</span><span style="color: 1cd000">i</span
+        ><span style="color: turquoise">s</span
+        ><span style="color: blue">i</span><span style="color: violet">s</span
+        ><span style="color: red">s</span><span style="color: orange">e</span
+        ><span style="color: yellow">z</span>
+        <span style="color: 1cd000">l</span
+        ><span style="color: turquoise">e</span>
+        <span style="color: blue">n</span><span style="color: violet">i</span
+        ><span style="color: red">v</span><span style="color: orange">e</span
+        ><span style="color: yellow">a</span
+        ><span style="color: 1cd000">u</span>
+      </p>
+
+      <a href="Devine le chiffre N1.html" id="aN1">Facile</a>
+      <a href="Devine le chiffre N2.html" id="aN2">Normal</a>
+      <a href="Devine le chiffre N3.html" id="aN3">Difficile</a>
+    </div>
+
+    <a href="Consignes.html" id="consignes">Consignes</a>
+
+    <div id="music">
+      Musique:
+      <input
+        type="button"
+        value="Jouer"
+        onclick="themeStart()"
+        id="startMusic"
+      />
+      <input
+        type="button"
+        value="Arrêter"
+        onclick="themeStop()"
+        id="stopMusic"
+      />
+    </div>
+
+    <script>
+      var themeMusic = new Audio();
+      themeMusic.src = 'Sons/Tetris_theme.ogg';
+
+      function themeStart() {
+        themeMusic.play();
+        themeMusic.loop = true;
+      }
+
+      function themeStop() {
+        themeMusic.pause();
+        themeMusic.loop = false;
+      }
+    </script>
+  </body>
+</html>

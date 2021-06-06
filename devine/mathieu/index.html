@@ -1,0 +1,395 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Devine le chiffre</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+  </head>
+  <body>
+    <div class="consigne" id="consigne">
+      <input
+        type="button"
+        value="Fermer"
+        class="closeBtn"
+        id="closeBtn"
+        onclick="fermer()"
+      />
+      <h1 class="consigneTitre">Voici les consignes du jeu</h1>
+      <ul class="consigneText">
+        <li>Le but du jeu est de réussir à deviner un chiffre mystère.</li>
+        <li>
+          Selon la difficulté que vous choisirez, votre nombre de vie va
+          changer.
+          <ul>
+            <li>Vous aurez 7 vies en mode Facile.</li>
+            <li>Vous aurez 5 vies en mode Intermediaire.</li>
+            <li>Vous aurez 4 vies en mode Difficile.</li>
+          </ul>
+        </li>
+        <li>
+          Vous perdrez une vie chaque fois que vous essayez un mauvais chiffre.
+        </li>
+        <li>
+          Votre nombre de vies correspond au nombre de fantômes qu'il y a en
+          haut de votre page, mais il est aussi affiché en dessous du bouton
+          Envoyer.
+        </li>
+        <li>
+          Vous pouvez recommencer votre partie n'importe quand en appuyant sur
+          le bouton Recommencer.
+        </li>
+      </ul>
+
+      <h2 class="consigneTitre">Bonne chance!</h2>
+    </div>
+
+    <input
+      type="button"
+      class="button songBtn playBtn"
+      id="playBtn"
+      value="Démarrer la musique"
+      onclick="playMusic()"
+    />
+
+    <input
+      type="button"
+      class="button songBtn stopBtn"
+      id="stopBtn"
+      value="Arrêter la musique"
+      onclick="stopMusic()"
+    />
+
+    <input
+      type="button"
+      class="button openBtn"
+      value="Consigne"
+      onclick="ouvrir()"
+    />
+
+    <div class="barreVie" id="barreVie"></div>
+
+    <div class="difficulty" id="difficult">
+      <h2>Choisissez votre niveau de difficulté</h2>
+      Facile :
+      <input
+        type="checkbox"
+        class="facile checkbox"
+        id="facile"
+        value="Facile"
+        onclick="difficulty()"
+      />
+      <br />
+      Intermédiaire :
+      <input
+        type="checkbox"
+        class="intermediaire checkbox"
+        id="intermediaire"
+        value="Intermédiaire"
+        onclick="difficulty()"
+      />
+      <br />
+      Difficile :
+      <input
+        type="checkbox"
+        class="difficile checkbox"
+        id="difficile"
+        value="Difficile"
+        onclick="difficulty()"
+      />
+    </div>
+
+    <div class="gameBox" id="gameBox">
+      <h1 class="titre">Devinez le chiffre entre 1 et 100 :</h1>
+      <input
+        type="text"
+        class="text"
+        id="numero"
+        placeholder="Veuillez entrer un numéro"
+      /><br />
+      <input
+        type="button"
+        class="button"
+        id="sendBtn"
+        value="Envoyer!"
+        onclick="valider()"
+      />
+      <h3 class="message" id="message">Trouverez-vous le bon chiffre?</h3>
+      <h3 id="numEssayé">Vous n'avez essayé aucun chiffre!</h3>
+      <br />
+      <input
+        type="button"
+        class="button restart"
+        id="restartBtn"
+        value="Recommencer"
+        onclick="restart()"
+      />
+    </div>
+
+    <div class="boxModel" id="winBox">
+      <h1>Félicitation! Vous avez gagné!</h1>
+      <h3 id="winMessage"></h3>
+      <img
+        src="images/winPacman.png"
+        class="winLoseImg leftImg"
+        alt="leftImg"
+      />
+      <img
+        src="images/winPacman.png"
+        class="winLoseImg rightImg"
+        alt="rightImg"
+      />
+      <h3 class="restartText">Voulez-vous recommencer?</h3>
+      <input
+        type="button"
+        class="button restart"
+        id="restartBtn"
+        value="Recommencer"
+        onclick="restart()"
+      />
+    </div>
+
+    <div class="boxModel" id="loseBox">
+      <h1>Dommage, vous avez perdu.</h1>
+      <h3 id="loseMessage"></h3>
+      <img
+        src="images/losePacman.png"
+        class="winLoseImg leftImg"
+        alt="leftImg"
+      />
+      <img
+        src="images/losePacman.png"
+        class="winLoseImg rightImg"
+        alt="rightImg"
+      />
+      <h3 class="restartText">Voulez-vous recommencer?</h3>
+      <input
+        type="button"
+        class="button restart"
+        id="restartBtn"
+        value="Recommencer"
+        onclick="restart()"
+      />
+    </div>
+
+    <script>
+      var bonNumero = Math.ceil(Math.random() * 100);
+      console.log("Le bon numéro est : " + bonNumero);
+      var vie = 7;
+      var guesses = 0;
+      console.log("Vous avez essayé " + guesses + " numéros!");
+      var barreVie = document.getElementById("barreVie");
+      var message = document.getElementById("message");
+      var difficult = document.getElementById("difficult");
+      var gameBox = document.getElementById("gameBox");
+      var numEssayé = document.getElementById("numEssayé");
+      var gameOver = new Audio();
+      gameOver.src = "sons/gameOver.wav";
+      var winSound = new Audio();
+      winSound.src = "sons/winSound.wav";
+      var gameSound = new Audio();
+      gameSound.src = "sons/gameSound.wav";
+      var winBox = document.getElementById("winBox");
+      var winMessage = document.getElementById("winMessage");
+      var loseBox = document.getElementById("loseBox");
+      var loseMessage = document.getElementById("loseMessage");
+      var consigne = document.getElementById("consigne");
+      var playBtn = document.getElementById("playBtn");
+      var stopBtn = document.getElementById("stopBtn");
+
+      function playMusic() {
+        gameSound.play();
+        gameSound.loop = true;
+        gameSound.volume = "0.1";
+
+        stopBtn.style.opacity = "100";
+        stopBtn.style.zIndex = "1";
+
+        playBtn.style.opacity = "0";
+        playBtn.style.zIndex = "0";
+      }
+
+      function stopMusic() {
+        gameSound.pause();
+
+        stopBtn.style.opacity = "0";
+        stopBtn.style.zIndex = "0";
+
+        playBtn.style.opacity = "100";
+        playBtn.style.zIndex = "1";
+      }
+
+      function fermer() {
+        consigne.style.opacity = "0";
+        consigne.style.zIndex = "0";
+      }
+
+      function ouvrir() {
+        consigne.style.opacity = "100";
+        consigne.style.zIndex = "2";
+      }
+
+      function difficulty() {
+        var facile = document.getElementById("facile");
+        var intermediaire = document.getElementById("intermediaire");
+        var difficile = document.getElementById("difficile");
+
+        if (
+          (facile.checked == true) &
+          (intermediaire.checked == false) &
+          (difficile.checked == false)
+        ) {
+          vie = 7;
+          barreVie.style.width = "39%";
+          console.log("Vous avez " + vie + " vies restantes!");
+          console.log("Le jeu est en mode facile!");
+        } else if (
+          (intermediaire.checked == true) &
+          (facile.checked == false) &
+          (difficile.checked == false)
+        ) {
+          vie = 5;
+          barreVie.style.width = "27.86%";
+          console.log("Vous avez " + vie + " vies restantes!");
+          console.log("Le jeu est en mode intermédiaire!");
+        } else if (
+          (difficile.checked == true) &
+          (facile.checked == false) &
+          (intermediaire.checked == false)
+        ) {
+          vie = 4;
+          barreVie.style.width = "22.29%";
+          console.log("Vous avez " + vie + " vies restantes!");
+          console.log("Le jeu est en mode difficile!");
+        }
+
+        difficult.style.opacity = "0";
+        difficult.style.zIndex = "0";
+
+        barreVie.style.opacity = "100";
+        gameBox.style.opacity = "100";
+        gameBox.style.zIndex = "1";
+
+        facile.checked = false;
+        intermediaire.checked = false;
+        difficile.checked = false;
+      }
+
+      function valider() {
+        var numero = document.getElementById("numero").value;
+
+        if (numero == bonNumero) {
+          winSound.play();
+
+          guesses = guesses + 1;
+
+          winMessage.innerHTML =
+            "Il vous restait " +
+            vie +
+            " vies et vous n'avez essayé que " +
+            guesses +
+            " chiffres!";
+
+          gameBox.style.opacity = "0";
+          gameBox.style.zIndex = "0";
+
+          barreVie.style.opacity = "0";
+
+          winBox.style.opacity = "100";
+          winBox.style.zIndex = "1";
+        } else if (numero == 0) {
+          message.innerHTML = "Veuillez entrer un numéro";
+        } else if (numero < bonNumero && vie > 1) {
+          message.innerHTML = "Votre numéro est trop petit!";
+          vie = vie - 1;
+          guesses = guesses + 1;
+
+          numEssayé.innerHTML =
+            "Vous avez essayé " +
+            guesses +
+            " chiffre! Il vous reste " +
+            vie +
+            " vies";
+        } else if (numero > bonNumero && vie > 1) {
+          message.innerHTML = "Votre numéro est trop grand!";
+          vie = vie - 1;
+          guesses = guesses + 1;
+
+          numEssayé.innerHTML =
+            "Vous avez essayé " +
+            guesses +
+            " chiffre! Il vous reste " +
+            vie +
+            " vies";
+        } else {
+          barreVie.style.opacity = "0";
+
+          guesses = guesses + 1;
+
+          gameOver.play();
+
+          loseMessage.innerHTML =
+            "Le bon numéro était " +
+            bonNumero +
+            "! Vous avez essayez " +
+            guesses +
+            " chiffres.";
+
+          gameBox.style.opacity = "0";
+          gameBox.style.zIndex = "0";
+
+          barreVie.style.opacity = "0";
+
+          loseBox.style.opacity = "100";
+          loseBox.style.zIndex = "1";
+        }
+
+        if (vie == 7) {
+          barreVie.style.width = "39%";
+        } else if (vie == 6) {
+          barreVie.style.width = "33.43%";
+        } else if (vie == 5) {
+          barreVie.style.width = "27.86%";
+        } else if (vie == 4) {
+          barreVie.style.width = "22.29%";
+        } else if (vie == 3) {
+          barreVie.style.width = "16.72%";
+        } else if (vie == 2) {
+          barreVie.style.width = "11.15%";
+        } else if (vie == 1) {
+          barreVie.style.width = "5.58%";
+        }
+
+        console.log("Vous avez " + vie + " vies restantes!");
+        console.log("Vous avez essayé " + guesses + " numéros!");
+      }
+
+      function restart() {
+        bonNumero = Math.ceil(Math.random() * 100);
+        console.log("Le bon numéro est : " + bonNumero);
+        numero.value = "";
+        message.innerHTML = "Trouverez-vous le bon chiffre?";
+        guesses = 0;
+        numEssayé.innerHTML = "Vous n'avez essayé aucun chiffre!";
+
+        difficult.style.opacity = "100";
+        difficult.style.zIndex = "1";
+
+        barreVie.style.opacity = "0";
+        gameBox.style.opacity = "0";
+        gameBox.style.zIndex = "0";
+
+        winBox.style.opacity = "0";
+        winBox.style.zIndex = "0";
+
+        loseBox.style.opacity = "0";
+        loseBox.style.zIndex = "0";
+      }
+    </script>
+  </body>
+</html>

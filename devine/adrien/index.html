@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet"> 
+    <title>Document</title>
+    <style>
+        body{
+            background-image: url(Images/bg.gif);
+            background-size: cover;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+        }
+        #titre{
+            color:white;
+            font-size: 50px;
+            text-align:center;
+            background-color:#E91397;
+            border:5px solid #001095;
+            margin-left: 390px;
+            margin-right: 390px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 20px;
+            text-shadow: 2px 2px 0 #000, 2px 2px 0 #000, -5px 5px 0 #000, 1px 1px 0 #000;
+            transition:0.5s
+        }
+        #jeu{
+            background-color:#E91397;
+            border: 5px solid#001095;
+            border-radius:15px;
+            margin:auto;
+            width: 600px;
+            padding-bottom:20px;
+            transition: 0.5s;
+        }
+        #reaction{
+            background-color:#E91397;
+            border: 5px solid#001095;
+            border-radius:15px;
+            margin:auto;
+            width: 600px;
+            margin-top:10px;
+            margin-bottom:10px;
+            transition:0.5s
+        }
+        #numero{
+            position:relative;
+            left: 5px;
+            margin: 10px;
+        }
+        #play{
+            height:50px;
+	        width:100px;
+	        margin:auto;
+	        margin-top:200px;
+	        text-align:center;
+	        background-color:black;
+	        color:black;}
+        #stop{
+            height:25px;
+	        width:100px;
+	        margin:auto;
+	        margin-top:100px;
+	        text-align:left;
+	        background-color:white;
+	        color:white;}
+        #reaction{
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            padding-top:5px;
+            padding-bottom:5px;
+            text-shadow: 2px 2px 0 #000, 2px 2px 0 #000, -5px 5px 0 #000, 1px 1px 0 #000;
+        }
+        #barreArriere{
+            width: 600px;
+            height: 20px;
+            background-color:#E91397;
+            transition: 0.5s;
+            border-radius: 15px;
+            margin:auto;
+            border:5px solid #E91397;
+        }
+        #barreVie{
+            width: 600px;
+            height: 20px;
+            background-color:#6de94e;
+            border: 5px solid #001095;
+            transition: 0.5s;
+            border-radius: 15px;
+            text-align:left;
+            position:relative;
+            bottom:5px;
+            right:5px;
+            transition: 1s;
+        }
+        #points{
+            color:white;
+            opacity: 0%;
+        }
+        #paragraphe{
+            color: white;
+            text-shadow: 2px 2px 0 #000, 2px 2px 0 #000, -5px 5px 0 #000, 1px 1px 0 #000;
+        }
+        .diff{
+            list-style-type: none;
+            border-radius:15px;
+            margin:auto;
+            width: 150px;
+            margin-bottom:15px;
+            padding-bottom: 5px;
+            padding-top: 5px;
+        }
+        #facile{
+            background-color: #6de94e;
+            color: white;
+            border: 5px solid#001095;
+            text-shadow: 2px 2px 0 #000, 2px 2px 0 #000, -5px 5px 0 #000, 1px 1px 0 #000;
+        }
+        #moyen{
+            background-color: rgb(255, 217, 0);
+            color: white;
+            border: 5px solid#001095;
+            text-shadow: 2px 2px 0 #000, 2px 2px 0 #000, -5px 5px 0 #000, 1px 1px 0 #000;
+        }
+        #difficile{
+            background-color: red;
+            color: white;
+            border: 5px solid#001095;
+            text-shadow: 2px 2px 0 #000, 2px 2px 0 #000, -5px 5px 0 #000, 1px 1px 0 #000;
+        }
+        #text{
+            opacity: 0%;
+
+        }
+        #button{
+            opacity: 0%;
+        }
+        #refresh{
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-color:#E91397;
+            border: 5px solid #001095;
+            border-radius:50%;
+            background-image: url(Images/Refresh.png);
+            position:absolute;
+            top:5%;
+            left:5%
+
+        }
+    </style>
+</head>
+<body>
+    <h1 id="titre">Devine le chiffre entre 1 et 100<h1/>
+    <div>
+    <div id="refresh" onclick="refresh()"></div>
+    <p class="diff" id="facile" onclick="facile()">Facile</p>
+    <p class="diff" id="moyen" onclick="moyen()">Moyen</p>
+    <p class="diff" id="difficile" onclick="difficile()">Difficile</p>
+    </div>
+    <div id="jeu">
+    <p id="paragraphe">Essaie de deviner le chiffre magique!</p>
+    <input id="text" type="text">
+    <input id="button" type="button" value="Envoyer" onclick="valider()"> 
+    </div>
+    <p id="reaction">Choisissez une difficulté</p>
+    <div id=barreArriere><div id="barreVie"></div></div>
+    <p id="points">Essaie ta chance!</p>
+<script>
+//Difficultés
+    var diff=facile
+    var diffEz=document.getElementById("facile")
+    var diffNrm=document.getElementById("moyen")
+    var diffHd=document.getElementById("difficile")
+//Technique (Système de vies)
+    var hp=600
+    console.log("HP: "+hp)
+    var essaies=0
+    console.log("Essaies: "+essaies)
+    var damage
+    var numEss=0
+    var restants=0
+//Génération de nombre
+    var bonChiffre=Math.ceil(Math.random()*100)
+    console.log("Le bon chiffre est: "+bonChiffre)
+//Sons
+    var sonSucces=new Audio()
+    sonSucces.src="Audio/success.wav"
+    var sonFail=new Audio()
+    sonFail.src="Audio/fail.wav"
+    var sonGO=new Audio()
+    sonGO.src="Audio/go.mp3"
+//Fonctions
+    //Facile
+    function facile(){
+        diff=facile
+        diffNrm.style.opacity="0%"
+        diffHd.style.opacity="0%"
+        reaction.innerHTML="Veuillez entrer un nombre"
+        document.getElementById("text").style.opacity=100
+        document.getElementById("button").style.opacity=100
+        document.getElementById("points").style.opacity=100
+        damage=60
+        numEss=numEss+10
+        console.log(damage)
+    }
+    //Moyen
+    function moyen(){
+        diff=moyen
+        diffEz.style.opacity="0%"
+        diffHd.style.opacity="0%"
+        reaction.innerHTML="Veuillez entrer un nombre"
+        document.getElementById("text").style.opacity=100
+        document.getElementById("button").style.opacity=100
+        document.getElementById("points").style.opacity=100
+        damage=100
+        numEss=numEss+6
+        console.log(damage)
+    }
+    //Difficile
+    function difficile(){
+        diff=difficile
+        diffEz.style.opacity="0%"
+        diffNrm.style.opacity="0%"
+        reaction.innerHTML="Veuillez entrer un nombre"
+        document.getElementById("text").style.opacity=100
+        document.getElementById("button").style.opacity=100
+        document.getElementById("points").style.opacity=100
+        damage=120
+        numEss=numEss+5
+        console.log(damage)
+    }
+
+    //Validation
+    function valider(){
+        var numero=document.getElementById("text").value
+        if(numero==""){
+            reaction.innerHTML="Veuillez entrer un nombre"
+            document.getElementById("reaction").style.color="orangered"
+        }else if(numero==bonChiffre){
+            reaction.innerHTML="Bravo! Le nombre était "+bonChiffre+"!"
+            document.getElementById("reaction").style.color="white"
+            essaies=essaies+1
+            points.innerHTML="Tu as pris "+essaies+" essaie(s)"
+            document.getElementById("reaction").style.backgroundColor="#6de94e"
+            document.getElementById("jeu").style.backgroundColor="#6de94e"
+            document.getElementById("titre").style.backgroundColor="#6de94e"
+            sonSucces.play()
+        }else if(numero<bonChiffre){
+            reaction.innerHTML="Oh non! Ton nombre est trop bas!"
+            document.getElementById("reaction").style.color="white"
+            essaies=essaies+1
+            restants=numEss-essaies
+            console.log("Essaies restants: "+restants)
+            points.innerHTML="Il te reste "+restants+" essaies!"
+            sonFail.play()
+            echoue()
+            barredevie()
+        }else if(numero>bonChiffre){
+            reaction.innerHTML="Oh non! Ton nombre est trop haut!"
+            document.getElementById("reaction").style.color="white"
+            essaies=essaies+1
+            restants=numEss-essaies
+            console.log("Essaies restants: "+restants)
+            points.innerHTML="Il te reste "+restants+" essaies!"
+            sonFail.play()
+            echoue()
+            barredevie()
+        }
+    }
+    //Barre de vie
+    function barredevie(){
+        hp=hp-damage
+        console.log("Vie=" + hp)
+        document.getElementById("barreVie").style.width=hp+"px"
+    }
+    //Lorsqu'on atteint 0
+    function echoue(){
+        if(restants<=0){
+            reaction.innerHTML="Ah zut! Le nombre était "+bonChiffre+"!"
+            document.getElementById("reaction").style.backgroundColor="red"
+            document.getElementById("jeu").style.backgroundColor="red"
+            document.getElementById("titre").style.backgroundColor="red"
+            document.getElementById("points").style.opacity=0
+            sonGO.play()
+        }
+    }
+    //Recommencer le jeu    
+    function refresh(){
+        location.reload()
+    }
+</script>
+</body>
+</html>
