@@ -1,0 +1,132 @@
+<html lang="en">
+<head>
+    <style>
+    body{
+         background-image: url(PageQuad.jfif);
+        }
+    #ScrollH{
+		height:1200px;
+		}
+    #FightZone{
+		background-image: url(BG.jpg);
+		background-size: 1200px 300px;
+		height: 300px;
+		width: 1200px;
+		position:fixed;
+		left: 100px;
+		top: 100px;
+		border: black 7px double;
+        border-radius: 10px;
+		}
+    #Retry{
+        background-color:black;
+        background-size: cover;
+        height: 100px;
+		width: 300px;
+        border-style: dashed;
+		position:fixed;
+        cursor:pointer;
+        left: 500px;
+		top: 500px;
+        border: black 7px double;
+        border-radius: 10px;
+    }
+    h1{
+        font-size: 50px;
+        margin-top: 20px;
+        margin-left: 20px;
+        position: fixed;
+        color: green;
+        font-family: fantasy;
+        text-align: center;
+        animation-name: pog;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        }
+    @keyframes pog {
+        from {color:grey;}
+        to {color: white;}
+        }	
+    #Retry:hover{
+		background-color: black;
+		animation-name: hover;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;       
+		width: 310px;
+		height: 110px;
+		}
+    #MC{
+		background-image: url(MC.png);
+		background-size: cover;
+		height: 280px;
+		width: 230px;
+		position:fixed;
+		left: 190px;
+		top: 120px
+		}
+    #MCouche{
+		background-image: url(MCouche.png);
+		background-size: cover;
+		height: 220px;
+		width: 230px;
+        position: fixed;
+        left: 980px;
+		top: 150px
+		}
+    #win{
+        background-color: grey;
+        background-size: cover;
+        height: 100px;
+        width: 540px;
+        opacity: 0.9;
+        border: black 3px solid;
+        position: fixed;
+        left: 420px;
+		top: 170px;
+        }
+    h2{
+        font-size: 70px;
+        margin-top: 20px;
+        margin-left: 10px;
+        position: fixed;
+        color: green;
+        font-family: "Lucida Console", monospace;
+        text-align: center;
+        animation-name: flash;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        }
+    @keyframes flash {
+        from {color:green;}
+        to {color: greenyellow;}
+        }
+    </style>
+<body onload="Music()">
+
+<div id=FightZone></div>
+<div id=ScrollH></div>
+<div id=Retry onclick="retry()"><h1>Play Again?</h1></div>
+
+<div id=Win><h2>You've Won!!</h2></div>
+
+<div id=MCouche></div>
+<div id=MC></div>
+
+    <script>
+        var VICTORY = new Audio("Victory.mp3")
+        VICTORY.src="Victory.mp3"
+
+        function Music(){	  
+            VICTORY.play()
+        }
+
+        function retry(){
+           window.location.href="Jeu2(R-P-C).html"
+        }
+
+    </script>
+</body>
+</head>

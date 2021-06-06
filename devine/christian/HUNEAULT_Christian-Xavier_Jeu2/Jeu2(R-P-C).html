@@ -1,0 +1,601 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Jeu2(R-P-C)</title>
+
+<style>
+	body{
+         background-image: url(PageQuad.jfif);
+        }
+	#ScrollH{
+		height:1200px;
+		}
+
+
+	#FightZone{
+		background-image: url(BG.jpg);
+		background-size: 1200px 300px;
+		height: 300px;
+		width: 1200px;
+		position:fixed;
+		left: 100px;
+		top: 100px;
+		border: black 7px double;
+        border-radius: 10px;
+		}
+	#YourZone{
+		background-color: white;
+		background-size: cover;
+		height: 300px;
+		width: 300px;
+		position: fixed;
+		top: 500px;
+		left: 100px;
+		border: black 7px double;
+		border-radius: 10px ;
+	}
+	#EnemyZone{
+		background-color: white;
+		background-size: cover;
+		height: 300px;
+		width: 300px;
+		position: fixed;
+		top: 500px;
+		left: 1000px;
+		border: black 7px double;
+		border-radius: 10px;
+	}
+	#ResultZone{
+		background-color: white;
+		background-size: cover;
+		height: 100px;
+		width: 300px;
+		position: fixed;
+		top: 500px;
+		left: 550px;
+		border: black 7px double;
+		border-radius: 10px;
+		cursor:grabbing;
+	}
+	#TipsZone{
+		background-color: white;
+		background-size: cover;
+		height: 50px;
+		width: 300px;
+		position: fixed;
+		top: 700px;
+		left: 550px;
+		border: black 7px double;
+		border-radius: 10px;
+	}
+
+
+	h3{
+		font-size: 30px;
+		font-family: fantasy;
+		color: black;
+		text-align: center;
+		margin-top: 15px;
+	}
+	h4{
+		font-size: 20px;
+		font-family:cursive;
+		color: black;
+		text-align: center;
+		margin-top: 10px;
+	}
+
+
+	#MC{
+		background-image: url(MC.png);
+		background-size: cover;
+		height: 280px;
+		width: 230px;
+		position:fixed;
+		left: 490px;
+		top: 120px
+		}
+	#Grunt{
+		background-image: url(Mechant.png);
+		background-size: cover;
+		height: 220px;
+		width: 230px;
+		position:fixed;
+		left: 950px;
+		top: 180px
+		}
+	#CoeurMC{
+		background-image: url(Coeur.png);
+		background-size:contain;
+		height: 260px;
+		width: 70px;
+		position:fixed;
+		left: 430px;
+		top: 120px
+		}
+	#CoeurGrunt{
+		background-image: url(Coeur.png);
+		background-size:contain;
+		height: 260px;
+		width: 70px;
+		position:fixed;
+		left: 1150px;
+		top: 120px
+		}
+
+
+	#Dead{
+		background-image: url(Dead.png);
+		background-size:cover;
+		height: 108px;
+		width: 60px;
+		visibility: hidden;
+		position:fixed;
+		left: 435px;
+		top: 105px
+		}
+	#Dead2{
+		background-image: url(Dead.png);
+		background-size:cover;
+		height: 108px;
+		width: 60px;
+		visibility: hidden;
+		position:fixed;
+		left: 435px;
+		top: 190px
+		}
+	#Dead3{
+		background-image: url(Dead.png);
+		background-size:cover;
+		height: 108px;
+		width: 60px;
+		visibility: hidden;
+		position:fixed;
+		left: 435px;
+		top: 275px
+		}
+	#Dead4{
+		background-image: url(Dead.png);
+		background-size:cover;
+		height: 108px;
+		width: 60px;
+		visibility: hidden;
+		position:fixed;
+		left: 1155px;
+		top: 105px
+		}
+	#Dead5{
+		background-image: url(Dead.png);
+		background-size:cover;
+		height: 108px;
+		width: 60px;
+		visibility: hidden;
+		position:fixed;
+		left: 1155px;
+		top: 190px
+		}
+	#Dead6{
+		background-image: url(Dead.png);
+		background-size:cover;
+		height: 108px;
+		width: 60px;
+		visibility: hidden;
+		position:fixed;
+		left: 1155px;
+		top: 275px
+		}
+
+		
+	#Roche{
+		background-color:#CCC;
+		height: 80px;
+		width: 250px;
+		border-radius: 6px;
+		position:fixed;
+		left:115px;
+		top:118px;
+		text-align:center;
+		color: white;
+        font-size: 60px;
+        font-family: "Rockwell", Rockwell;
+		cursor:grab;
+		}
+	#Roche:hover{
+		background-color:#CCC;
+		color:#6C0;
+		animation-name: hover;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;       
+		width: 300px;
+		height: 85px;
+		}	
+	#Papier{
+		background-color:#CCC;
+		height: 80px;
+		width: 250px;
+		border-radius: 6px;
+		position:fixed;
+		left:115px;
+		top:218px;
+		text-align:center;
+		color: white;
+        font-size: 60px;
+        font-family: "Rockwell", Rockwell;
+		cursor:grab;          
+		}
+	#Papier:hover{
+		background-color:#CCC;
+		color:#6C0;
+		animation-name: hover;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;       
+		width: 300px;
+		height: 85px;
+		}	
+	#Ciseau{
+		background-color:#CCC;
+		height: 80px;
+		width: 250px;
+		border-radius: 6px;
+		position:fixed;
+		left:115px;
+		top:318px;
+		text-align:center;
+		color: white;
+        font-size: 50px;
+        font-family: "Rockwell", Rockwell;
+		cursor:grab;        
+		}
+	#Ciseau:hover{
+		background-color:#CCC;
+		color:#6C0;
+		animation-name: hover;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;       
+		width: 300px;
+		height: 85px;
+		}	
+	@keyframes hover {
+        from {color: black;}
+        to {color: white;}
+        }
+	#imageRoche{
+		background-image: url(Roche.png);
+		background-size: cover;
+		height: 256px;
+		width: 256px;
+		visibility: hidden;
+		position:fixed;
+		left:125px;
+		top:520px;      
+		}
+	#imagePapier{
+		background-image: url(Papier.png);
+		background-size: cover;
+		height: 190px;
+		width: 155px;
+		visibility: hidden;
+		position:fixed;
+		left:170px;
+		top: 550px;      
+		}
+	#imageCiseau{
+		background-image: url(Ciseau.png);
+		background-size: cover;
+		height: 256px;
+		width: 256px;
+		visibility: hidden;
+		position:fixed;
+		left:125px;
+		top: 525px;      
+		}
+	#imageRoche2{
+		background-image: url(Roche.png);
+		background-size: cover;
+		height: 256px;
+		width: 256px;
+		visibility: hidden;
+		position:fixed;
+		left:1050px;
+		top:520px;      
+		}
+	#imagePapier2{
+		background-image: url(Papier.png);
+		background-size: cover;
+		height: 190px;
+		width: 155px;
+		visibility: hidden;
+		position:fixed;
+		left:1100px;
+		top: 550px;      
+		}
+	#imageCiseau2{
+		background-image: url(Ciseau.png);
+		background-size: cover;
+		height: 256px;
+		width: 256px;
+		visibility: hidden;
+		position:fixed;
+		left:1050px;
+		top: 525px;      
+		}				
+</style>
+</head>
+<body onload="Music()">
+
+<div id=ScrollH></div>
+
+<div id=FightZone></div>
+<div id=YourZone></div>
+<div id=EnemyZone></div>
+<div id=ResultZone onclick="NextRound()"><h3>!CLICK HERE TO GO TO THE NEXT ROUND!</h3></div>
+<div id=TipsZone><h4>Each fight count as a round</h4></div>
+
+<div id=MC></div>
+<div id=Grunt></div>
+<div id=CoeurMC></div>
+<div id=Dead></div>
+<div id=Dead2></div>
+<div id=Dead3></div>
+
+<div id=CoeurGrunt></div>
+<div id=Dead4></div>
+<div id=Dead5></div>
+<div id=Dead6></div>
+
+<div id=imageRoche></div>
+<div id=imagePapier></div>
+<div id=imageCiseau></div>
+<div id=imageRoche2></div>
+<div id=imagePapier2></div>
+<div id=imageCiseau2></div>
+
+
+
+<div id=Roche onClick="ValiderRoche()" onClick="imageRoche()" >STONE</div>
+<div id=Papier onClick="ValiderPapier()" onClick="imagePapier()">PAPER</div>
+<div id=Ciseau onClick="ValiderCiseau()" onClick="imageCiseau()">SCISSORS</div>
+    
+	<script>	
+		var choixJoueur
+		var choixOrdi=Math.ceil(Math.random()*3)
+		
+		var Display1=false
+		var Display2=false
+		var Display3=false
+		var Display4=false
+		var Display5=false
+		var Display6=false
+
+		var DisplayRoche=false
+		var DisplayPapier=false
+		var DisplayCiseau=false
+		var DisplayRoche2=false
+		var DisplayPapier2=false
+		var DisplayCiseau2=false
+			
+		var NextRoundColour = setInterval(setColor, 300)
+
+		var ThemePrincipal = new Audio("MainTheme.mp3")
+		ThemePrincipal.src="MainTheme.mp3"
+
+
+		function setColor(){
+			var NRcolor = document.getElementById("ResultZone");
+			NRcolor.style.backgroundColor = NRcolor.style.backgroundColor =="yellow" ? "pink" : "yellow";
+		}
+
+
+
+		function Music(){	  
+            ThemePrincipal.play()
+        }
+
+
+
+        function ValiderRoche(){
+				choixJoueur="Roche"
+				choixOrdi=Math.ceil(Math.random()*3)
+				DisplayRoche=true
+
+                if(choixJoueur == "Roche"){
+                            if(choixOrdi==1){
+								alert("NUL")
+								DisplayRoche2=true
+								imageRoche2()
+                            }
+                            if(choixOrdi==2){
+								alert("Defaite")
+								Display1=true
+								DisplayPapier2=true
+								imagePapier2()
+                            }
+                            if(choixOrdi==3){
+								alert("Victoire!")
+								Display4=true
+								DisplayCiseau2=true
+								imageCiseau2()
+                            }
+					}
+					Display()
+					Resulat()
+					imageRoche()
+					setColor()
+		}
+
+
+
+		function ValiderPapier(){
+				choixJoueur="Papier"
+				choixOrdi=Math.ceil(Math.random()*3)
+				DisplayPapier=true
+
+                if(choixJoueur == "Papier"){
+                            if(choixOrdi==1){
+								alert("Victoire!")
+								Display5=true
+								DisplayRoche2=true
+								imageRoche2()
+                            }
+                            if(choixOrdi==2){
+								alert("Nul")
+								DisplayPapier2=true
+								imagePapier2()
+                            }
+                            if(choixOrdi==3){
+								alert("Defaite")
+								Display2=true
+								DisplayCiseau2=true
+								imageCiseau2()
+								
+                            }
+					}
+					Display()
+					Resulat()
+					imagePapier()
+					setColor()
+		}
+
+
+
+		function ValiderCiseau(){
+				choixJoueur="Ciseau"
+				choixOrdi=Math.ceil(Math.random()*3)
+				DisplayCiseau=true
+
+                if(choixJoueur == "Ciseau"){
+                            if(choixOrdi==1){
+								alert("Defaite")
+								Display3=true
+								DisplayRoche2=true
+								imageRoche2()
+
+                            }
+                            if(choixOrdi==2){
+								alert("Victoire!")
+								Display6=true
+								DisplayPapier2=true
+								imagePapier2()
+                            }
+                            if(choixOrdi==3){
+								alert("Nul")
+								DisplayCiseau2=true
+								imageCiseau2()
+							}
+					}
+					Display()
+					Resulat()
+					imageCiseau()
+					setColor()
+		}
+
+
+
+		function imageRoche(){
+			if(DisplayRoche==true){
+			document.getElementById("imageRoche").setAttribute("style", "visibility: visible")
+			}
+		}
+		function imageCiseau(){
+			if(DisplayCiseau==true){
+			document.getElementById("imageCiseau").setAttribute("style", "visibility: visible")
+			}
+		}
+		function imagePapier(){
+			if(DisplayPapier==true){
+				document.getElementById("imagePapier").setAttribute("style", "visibility: visible")
+			}
+		}
+
+
+		function imageRoche2(){
+			if(DisplayRoche2==true){
+			document.getElementById("imageRoche2").setAttribute("style", "visibility: visible")
+			}
+		}
+		function imageCiseau2(){
+			if(DisplayCiseau2==true){
+			document.getElementById("imageCiseau2").setAttribute("style", "visibility: visible")
+			}
+		}
+		function imagePapier2(){
+			if(DisplayPapier2==true){
+				document.getElementById("imagePapier2").setAttribute("style", "visibility: visible")
+			}
+		}
+
+
+
+		function Display(){
+			if(Display1==true){
+				document.getElementById("Dead").setAttribute("style", "visibility: visible")
+			}
+			if(Display2==true){
+				document.getElementById("Dead2").setAttribute("style", "visibility: visible")
+			}
+			if(Display3==true){
+				document.getElementById("Dead3").setAttribute("style", "visibility: visible")
+			}
+			if(Display4==true){
+				document.getElementById("Dead4").setAttribute("style", "visibility: visible")
+			}
+			if(Display5==true){
+				document.getElementById("Dead5").setAttribute("style", "visibility: visible")
+			}
+			if(Display6==true){
+				document.getElementById("Dead6").setAttribute("style", "visibility: visible")
+			}
+		}
+
+
+
+		function Resulat(){
+			if(Display1==true){
+
+				if(Display2==true){
+
+					if(Display3==true){
+						window.location.href="Jeu2_Defaite.html"
+					}
+				}
+			}
+			if(Display4==true){
+
+				if(Display5==true){
+
+					if(Display6==true){
+						window.location.href="Jeu2_Victory.html"
+					}
+				}
+			}
+		}
+
+
+		function NextRound(){
+		
+			if(DisplayRoche==true){
+			document.getElementById("imageRoche").setAttribute("style", "visibility: hidden")
+			}
+			if(DisplayCiseau==true){
+			document.getElementById("imageCiseau").setAttribute("style", "visibility: hidden")
+			}
+			if(DisplayPapier==true){
+				document.getElementById("imagePapier").setAttribute("style", "visibility: hidden")
+			}
+			if(DisplayRoche2==true){
+			document.getElementById("imageRoche2").setAttribute("style", "visibility: hidden")
+			}
+			if(DisplayCiseau2==true){
+			document.getElementById("imageCiseau2").setAttribute("style", "visibility: hidden")
+			}
+			if(DisplayPapier2==true){
+				document.getElementById("imagePapier2").setAttribute("style", "visibility: hidden")
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<html lang="en">
+<head>
+    <style>
+        body{
+         background-image: url(PageQuad.jfif);
+        }
+
+    </style>
+<body>
+    <script>
+        
+    </script>
+</body>
+</head>
