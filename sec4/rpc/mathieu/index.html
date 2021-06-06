@@ -1,0 +1,577 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roche, Papier, Ciseau</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+  </head>
+  <body id="body">
+    <!--Bouton pour activer et éteindre la musique-->
+    <div>
+      <div>
+        <img
+          src="Images/volumeon.png"
+          alt="Volume On"
+          class="volumeBtn onBtn"
+          id="volumeOn"
+          onclick="turnOff()"
+        />
+        <img
+          src="Images/volumeoff.png"
+          alt="Volume Off"
+          class="volumeBtn"
+          id="volumeOff"
+          onclick="turnOn()"
+        />
+      </div>
+    </div>
+
+    <!--Boite pour choisir la difficulté-->
+    <div class="difficulty" id="difficultyBox">
+      <h3>Difficulté :</h3>
+      <input
+        type="range"
+        min="1"
+        max="3"
+        value="2"
+        class="slider"
+        id="slider"
+      />
+      <h4 id="difficultyName">Intermédiaire</h4>
+    </div>
+
+    <!--Barre de navigation-->
+    <h5 class="leaderBoard btn" onclick="leaderboardOpen()">
+      Meilleures scores
+    </h5>
+    <h5 class="rulesBtn btn" id="rulesBtn" onclick="rulesOpen()">Consignes</h5>
+    <h5 class="restartBtn btn" onclick="restart()">Recommencer</h5>
+
+    <!--Boite du leaderboard-->
+    <div class="leaderboardBox" id="leaderboardBox">
+      <div class="closeBtn" onclick="leaderboardClose()">Fermer</div>
+
+      <h1 class="title">Meilleures scores</h1>
+
+      <div class="easy title">
+        <h3>Facile</h3>
+        <p id="f1">---</p>
+      </div>
+
+      <div class="normal title">
+        <h3>Intermédiaire</h3>
+        <p id="i1">---</p>
+      </div>
+
+      <div class="hard title">
+        <h3>Difficile</h3>
+        <p id="d1">---</p>
+      </div>
+    </div>
+
+    <!--Boite des règlements-->
+    <div class="rulesBox" id="rulesBox">
+      <h1 class="rulesTitle">Règlements</h1>
+      <div class="closeBtn" onclick="rulesClose()">Fermer</div>
+
+      <ul>
+        <li>C'est un simple jeu de Roche, Papier et Ciseau.</li>
+        <li>
+          Vous commencez avec 100 vies, selon la difficulté vous allez perdre un
+          certains nombre de vie lorsque l'ordinateur gagne la manche.
+        </li>
+        <li>
+          En difficulté Facile, vous ne perdez que 12.5 vies lorsque
+          l'ordinateur gagne la manche, vous allez donc perdre la partie près 8
+          manche perdu.
+        </li>
+        <li>
+          En difficulté Intermédiaire, vous perdez 20 vies lorsque l'ordinateur
+          gagne la manche, vous allez donc perdre la partie près 5 manche perdu.
+        </li>
+        <li>
+          En difficulté Difficile, vous perdez 25 vies lorsque l'ordinateur
+          gagne la manche, vous allez donc perdre la partie près 4 manche perdu.
+        </li>
+        <li>
+          Pour faire votre choix d'objet pour la manche, cliquez sur la Roche,
+          le Papier ou le Ciseau à gauche.
+        </li>
+      </ul>
+    </div>
+
+    <!--Boite où le jeu prend place-->
+    <div class="gameBox" id="gameBox">
+      <h2>Choisissez la Roche, le Papier ou le Ciseau</h2>
+      <div class="playerImg">
+        <img
+          src="Images/rock.png"
+          alt="Roche"
+          class="playerRock"
+          id="playerRock"
+        />
+        <img
+          src="Images/paper.png"
+          alt="Papier"
+          class="playerPaper"
+          id="playerPaper"
+        />
+        <img
+          src="Images/scissor.png"
+          alt="Ciseau"
+          class="playerScissor"
+          id="playerScissor"
+        />
+      </div>
+      <div class="playerHealthBar" id="playerHealthBar"></div>
+      <div class="playerHealthBar fakeHealthBar"></div>
+      <h2 class="VS">vs</h2>
+      <div class="botImg">
+        <img src="Images/rock.png" alt="Roche" class="botRock" id="botRock" />
+        <img
+          src="Images/paper.png"
+          alt="Papier"
+          class="botPaper"
+          id="botPaper"
+        />
+        <img
+          src="Images/scissor.png"
+          alt="Ciseau"
+          class="botScissor"
+          id="botScissor"
+        />
+      </div>
+      <div class="botHealthBar" id="botHealthBar"></div>
+      <div class="botHealthBar fakeHealthBar"></div>
+      <h3 class="message" id="message"></h3>
+    </div>
+
+    <!--Boite qui apparait lors de la victoire ou de la défaite-->
+    <div class="endBox" id="endBox">
+      <h1 class="endTitle" id="endTitle"></h1>
+      <p class="endText" id="endText"></p>
+      <h3 id="timer"></h3>
+    </div>
+
+    <script>
+      //La majorité des variables sont représenté ici
+      var music = new Audio();
+      music.src = "Sounds/music.wav";
+      var damage = new Audio();
+      damage.src = "Sounds/damage.wav";
+      var hit = new Audio();
+      hit.src = "Sounds/hit.wav";
+      var equal = new Audio();
+      equal.src = "Sounds/equal.wav";
+      var lost = new Audio();
+      lost.src = "Sounds/lost.wav";
+      var winsound = new Audio();
+      winsound.src = "Sounds/win.wav";
+      var gameBox = document.getElementById("gameBox");
+      var difficultyBox = document.getElementById("difficultyBox");
+      var playerRock = document.getElementById("playerRock");
+      var playerPaper = document.getElementById("playerPaper");
+      var playerScissor = document.getElementById("playerScissor");
+      var botRock = document.getElementById("botRock");
+      var botPaper = document.getElementById("botPaper");
+      var botScissor = document.getElementById("botScissor");
+      var message = document.getElementById("message");
+      var botChoice = 0;
+      var playerHealth = 100;
+      var botHealth = 100;
+      var playerHealthBar = document.getElementById("playerHealthBar");
+      var botHealthBar = document.getElementById("botHealthBar");
+      var slider = document.getElementById("slider");
+      var difficulty = 2;
+      var difficultyName = document.getElementById("difficultyName");
+      var endBox = document.getElementById("endBox");
+      var body = document.getElementById("body");
+      var endTitle = document.getElementById("endTitle");
+      var endText = document.getElementById("endText");
+      var timer = document.getElementById("timer");
+      var volumeOn = document.getElementById("volumeOn");
+      var volumeOff = document.getElementById("volumeOff");
+      var rulesBox = document.getElementById("rulesBox");
+      var leaderboardBox = document.getElementById("leaderboardBox");
+      var round = 0;
+      var f1 = document.getElementById("f1");
+      var f1Number = 1000;
+      var i1 = document.getElementById("i1");
+      var i1Number = 1000;
+      var d1 = document.getElementById("d1");
+      var d1Number = 1000;
+
+      //La partie du code qui s'occupe de faire fonctionner le jeu quand on click sur la roche, le papier ou le ciseau
+      playerRock.addEventListener("click", () => playRock());
+      playerPaper.addEventListener("click", () => playPaper());
+      playerScissor.addEventListener("click", () => playScissor());
+
+      //Cette fonction s'occupe de déterminer la difficulté
+      slider.oninput = function () {
+        if (slider.value == 1) {
+          difficulty = 1;
+          difficultyName.innerHTML = "Facile";
+        } else if (slider.value == 2) {
+          difficulty = 2;
+          difficultyName.innerHTML = "Intermédiaire";
+        } else if (slider.value == 3) {
+          difficulty = 3;
+          difficultyName.innerHTML = "Difficile";
+        }
+      };
+
+      //Cette fonction s'occupe de faire exécuter le jeu lorsqu'on choisi la roche
+      function playRock() {
+        botChoice = Math.ceil(Math.random() * 3);
+        playerPaper.style.opacity = "0";
+        playerScissor.style.opacity = "0";
+        playerRock.style.left = "32%";
+
+        round = round + 1;
+
+        if (botChoice == 1) {
+          message.innerHTML = "Égalité! L'ordinateur a choisi la pierre!";
+          equal.play();
+          botPaper.style.opacity = "0";
+          botScissor.style.opacity = "0";
+          botRock.style.right = "32%";
+        } else if (botChoice == 2) {
+          message.innerHTML = "Défaites! L'ordinateur a choisi le papier!";
+          if (difficulty == 1) {
+            playerHealth = playerHealth - 12.5;
+          } else if (difficulty == 2) {
+            playerHealth = playerHealth - 20;
+          } else if (difficulty == 3) {
+            playerHealth = playerHealth - 25;
+          }
+          damage.play();
+          botRock.style.opacity = "0";
+          botScissor.style.opacity = "0";
+          botPaper.style.right = "32%";
+        } else if (botChoice == 3) {
+          message.innerHTML = "Victoire! L'ordinateur a choisi le ciseau!";
+          botHealth = botHealth - 20;
+          hit.play();
+          botRock.style.opacity = "0";
+          botPaper.style.opacity = "0";
+          botScissor.style.right = "32%";
+        }
+
+        endTurn();
+
+        setTimeout(nextRound, 2000);
+      }
+
+      //Cette fonction s'occupe de faire exécuter le jeu lorsqu'on choisi le papier
+      function playPaper() {
+        botChoice = Math.ceil(Math.random() * 3);
+        playerRock.style.opacity = "0";
+        playerScissor.style.opacity = "0";
+        playerPaper.style.left = "32%";
+
+        round = round + 1;
+
+        if (botChoice == 1) {
+          message.innerHTML = "Victoire! L'ordinateur a choisi la pierre!";
+          botHealth = botHealth - 20;
+          hit.play();
+          botPaper.style.opacity = "0";
+          botScissor.style.opacity = "0";
+          botRock.style.right = "32%";
+        } else if (botChoice == 2) {
+          message.innerHTML = "Égalité! L'ordinateur a choisi le papier!";
+          equal.play();
+          botRock.style.opacity = "0";
+          botScissor.style.opacity = "0";
+          botPaper.style.right = "32%";
+        } else if (botChoice == 3) {
+          message.innerHTML = "Défaites! L'ordinateur a choisi le ciseau!";
+          if (difficulty == 1) {
+            playerHealth = playerHealth - 12.5;
+          } else if (difficulty == 2) {
+            playerHealth = playerHealth - 20;
+          } else if (difficulty == 3) {
+            playerHealth = playerHealth - 25;
+          }
+          damage.play();
+          botRock.style.opacity = "0";
+          botPaper.style.opacity = "0";
+          botScissor.style.right = "32%";
+        }
+
+        endTurn();
+
+        setTimeout(nextRound, 2000);
+      }
+
+      //Cette fonction s'occupe de faire exécuter le jeu lorsqu'on choisi le ciseau
+      function playScissor() {
+        botChoice = Math.ceil(Math.random() * 3);
+        playerRock.style.opacity = "0";
+        playerPaper.style.opacity = "0";
+        playerScissor.style.left = "32%";
+
+        round = round + 1;
+
+        if (botChoice == 1) {
+          message.innerHTML = "Défaites! L'ordinateur a choisi la pierre!";
+          if (difficulty == 1) {
+            playerHealth = playerHealth - 12.5;
+          } else if (difficulty == 2) {
+            playerHealth = playerHealth - 20;
+          } else if (difficulty == 3) {
+            playerHealth = playerHealth - 25;
+          }
+          damage.play();
+          botPaper.style.opacity = "0";
+          botScissor.style.opacity = "0";
+          botRock.style.right = "32%";
+        } else if (botChoice == 2) {
+          message.innerHTML = "Victoire! L'ordinateur a choisi le papier!";
+          botHealth = botHealth - 20;
+          hit.play();
+          botRock.style.opacity = "0";
+          botScissor.style.opacity = "0";
+          botPaper.style.right = "32%";
+        } else if (botChoice == 3) {
+          message.innerHTML = "Égalité! L'ordinateur a choisi le ciseau!";
+          equal.play();
+          botRock.style.opacity = "0";
+          botPaper.style.opacity = "0";
+          botScissor.style.right = "32%";
+        }
+
+        endTurn();
+
+        setTimeout(nextRound, 2000);
+      }
+
+      //Cette fonction s'occupe de modifier la taille des barres de vie à la fin de chaque manche
+      function endTurn() {
+        console.log("Vous avez " + playerHealth + " vies restantes");
+        console.log("L'ordinateur a " + botHealth + " vies restantes");
+
+        playerHealthBar.style.width = playerHealth / 4 + "%";
+        botHealthBar.style.width = botHealth / 4 + "%";
+
+        if (botHealth == 0) {
+          win();
+        } else if (playerHealth == 0) {
+          lose();
+        }
+
+        if (botHealth < 41) {
+          botHealthBar.style.backgroundColor = "#ef4f4f";
+        }
+
+        if (playerHealth < 41) {
+          playerHealthBar.style.backgroundColor = "#ef4f4f";
+        }
+      }
+
+      //Cette fonction s'occupe de replacer les images des roches, des papiers et des ciseaux à leur place d'origine
+      function nextRound() {
+        playerPaper.style.opacity = "1";
+        playerScissor.style.opacity = "1";
+        playerRock.style.opacity = "1";
+
+        playerRock.style.left = "10%";
+        playerPaper.style.left = "21%";
+        playerScissor.style.left = "32%";
+
+        botRock.style.opacity = "1";
+        botPaper.style.opacity = "1";
+        botScissor.style.opacity = "1";
+
+        botRock.style.right = "10%";
+        botPaper.style.right = "21%";
+        botScissor.style.right = "32%";
+
+        message.innerHTML = "";
+      }
+
+      //Cette fonction s'occupe d'afficher la fenêtre lorsqu'on gagne la partie
+      function win() {
+        difficultyBox.style.display = "none";
+        gameBox.style.display = "none";
+        rulesBox.style.display = "none";
+        leaderboardBox.style.display = "none";
+
+        endBox.style.display = "block";
+
+        winsound.play();
+
+        endTitle.innerHTML = "Félicitation! Vous avez gagné!";
+        if (difficulty == 1) {
+          endText.innerHTML =
+            "Mais bon. Ce n'est pas très impressionnant, vous jouez au niveau Facile. Essayez maintenant de gagner au niveau Intermédiaire ou même Difficile!";
+        } else if (difficulty == 2) {
+          endText.innerHTML =
+            "C'est une victoire honorable. Mais vous savez ce qui est plus honorable, c'est une victoire en difficile!";
+        } else if (difficulty == 3) {
+          endText.innerHTML =
+            "Alors là, je ne sais pas comment vous avez fait! Vous êtes clairement un intellectuel de ce monde. Encore une fois, félicitation!";
+        }
+
+        if (difficulty == 1) {
+          easyLeaderboard();
+        } else if (difficulty == 2) {
+          normalLeaderboard();
+        } else if (difficulty == 3) {
+          hardLeaderboard();
+        }
+
+        var time = 10;
+        var restartTimer = setInterval(function clock() {
+          timer.innerHTML =
+            "Une nouvelle partie va commencer dans " + time + " secondes!";
+          if (time == 0) {
+            clearInterval(restartTimer);
+            restart();
+          }
+          time = time - 1;
+        }, 1000);
+      }
+
+      //Cette fonction s'occupe d'afficher la fenêtre lorsqu'on perd la partie
+      function lose() {
+        difficultyBox.style.display = "none";
+        gameBox.style.display = "none";
+        rulesBox.style.display = "none";
+        leaderboardBox.style.display = "none";
+
+        endBox.style.display = "block";
+
+        lost.play();
+
+        endTitle.innerHTML = "Dommage! Vous avez perdu!";
+        if (difficulty == 1) {
+          endText.innerHTML =
+            "Wow! Je ne pensais pas que c'était possible de perdre au niveau Facile! L'ordinateur a sûrement eu de la chance!";
+        } else if (difficulty == 2) {
+          endText.innerHTML =
+            "Ce n'est pas grave de perdre à ce niveau, vous allez avoir plus de chance la prochaine fois!";
+        } else if (difficulty == 3) {
+          endText.innerHTML =
+            "N'ayez aucune crainte! Cette défaite ne prouve rien! Vous jouez quand même au niveau Difficile, ce n'est pas pour tout le monde!";
+        }
+
+        var time = 10;
+        var restartTimer = setInterval(function clock() {
+          timer.innerHTML =
+            "Une nouvelle partie va commencer dans " + time + " secondes!";
+          if (time == 0) {
+            clearInterval(restartTimer);
+            restart();
+          }
+          time = time - 1;
+        }, 1000);
+      }
+
+      //Cette fonction s'occupe de réinitialiser les vies, la boite du jeu et la boite pour la difficulté
+      function restart() {
+        playerHealthBar.style.width = "25%";
+        botHealthBar.style.width = "25%";
+
+        botHealthBar.style.backgroundColor = "#105f25";
+        playerHealthBar.style.backgroundColor = "#105f25";
+
+        playerHealth = 100;
+        botHealth = 100;
+
+        difficultyBox.style.display = "block";
+
+        gameBox.style.display = "block";
+
+        endBox.style.display = "none";
+
+        leaderboardBox.style.display = "none";
+
+        rulesBox.style.display = "none";
+
+        round = 0;
+      }
+
+      //Cette fonction s'occupe de couper la musique
+      function turnOff() {
+        volumeOn.style.display = "none";
+        volumeOff.style.display = "block";
+
+        music.pause();
+      }
+
+      //Cette fonction s'occupe de repartir musique
+      function turnOn() {
+        volumeOff.style.display = "none";
+        volumeOn.style.display = "block";
+
+        music.play();
+      }
+
+      //Cette fonction s'occupe d'ouvrir le leaderboard
+      function leaderboardOpen() {
+        leaderboardBox.style.display = "block";
+
+        gameBox.style.display = "none";
+        difficultyBox.style.display = "none";
+        rulesBox.style.display = "none";
+      }
+
+      //Cette fonction s'occupe de fermer le leaderboard
+      function leaderboardClose() {
+        leaderboardBox.style.display = "none";
+
+        gameBox.style.display = "block";
+        difficultyBox.style.display = "block";
+      }
+
+      //Ces trois fonctions s'occupent de remplir le leaderboard
+      function easyLeaderboard() {
+        if (f1Number < round) {
+        } else {
+          f1.innerHTML = round + " manches";
+          f1Number = round;
+        }
+      }
+
+      function normalLeaderboard() {
+        if (i1Number < round) {
+        } else {
+          i1.innerHTML = round + " manches";
+          i1Number = round;
+        }
+      }
+
+      function hardLeaderboard() {
+        if (d1Number < round) {
+        } else {
+          d1.innerHTML = round + " manches";
+          d1Number = round;
+        }
+      }
+
+      //Cette fonction s'occupe d'ouvrir les règlements
+      function rulesOpen() {
+        rulesBox.style.display = "block";
+
+        gameBox.style.display = "none";
+        difficultyBox.style.display = "none";
+        leaderboardBox.style.display = "none";
+      }
+
+      //Cette fonction s'occupe de fermer les règlements
+      function rulesClose() {
+        rulesBox.style.display = "none";
+
+        gameBox.style.display = "block";
+        difficultyBox.style.display = "block";
+      }
+    </script>
+  </body>
+</html>
