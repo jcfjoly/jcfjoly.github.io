@@ -1,0 +1,6 @@
+[1208/200950.642:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Client\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\904c9bc8-c12b-4422-90b2-4a938c82a9e3: Le chemin d’accès spécifié est introuvable. (0x3)
+[1208/200950.644:ERROR:directory_reader_win.cc(43)] FindFirstFile: Le chemin d’accès spécifié est introuvable. (0x3)
+[1208/222723.366:ERROR:process_reader_win.cc(123)] NtOpenThread: {Accès refusé} Un processus a demandé l’accès a un objet, mais il ne bénéficie pas des autorisations nécessaires. (0xc0000022)
+[1208/222723.366:ERROR:process_reader_win.cc(123)] NtOpenThread: {Accès refusé} Un processus a demandé l’accès a un objet, mais il ne bénéficie pas des autorisations nécessaires. (0xc0000022)
+[1208/222723.756:ERROR:exception_snapshot_win.cc(99)] thread ID 15260 not found in process
+[1208/222723.756:ERROR:exception_snapshot_win.cc(99)] thread ID 14136 not found in process

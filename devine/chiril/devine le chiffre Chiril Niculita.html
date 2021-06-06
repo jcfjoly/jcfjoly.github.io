@@ -1,0 +1,444 @@
+<html lang="en"></html>
+    
+<head>
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bubbles and umbers</title>
+        <style> 
+    #barreVie{
+        height: 135px;
+        width: 1000px;
+        background-color:#804915 ;
+        position: absolute;
+        top: 567px;
+        left: 191px;
+        z-index: initial;
+        z-index: 0;
+        border-radius: 99px;
+        opacity: 0.7;
+    }
+    #playsound{
+        
+        
+        width: 255px;  
+        height: 99px; 
+        background-color:#b25c01 ;
+        position: absolute;
+        left:36px;
+        top: 299px;
+        border-radius: 134px;
+        font-family:'Montserrat';
+        color: 552900;
+        font-style: inherit;
+        font-size: 34px;
+        padding-top: 66px;
+        opacity: 0.8;
+        }
+        #pausesound{
+        
+        
+            width: 255px;  
+        height: 135px; 
+        background-color:#b25c01 ;
+        position: absolute;
+        right:36px;
+        top: 299px;
+        border-radius: 134px;
+        font-family:'Montserrat';
+        color: 552900;
+        font-style: inherit;
+        font-size: 34px;
+        padding-top: 41px;
+        opacity: 0.8;
+        
+    }
+    #playsound:hover{
+        background-color: #FFDDAA;
+    }
+    #pausesound:hover{
+        background-color: #FFDDAA;
+        
+    }
+    #bobba1{
+z-index: 1;
+    }
+    #bobba1:hover{
+        height: 289px;
+        width: 289px;
+
+    }
+    #bobba2{
+        z-index: 1;
+    }
+    #bobba2:hover{
+        height: 289px;
+        width: 289px;
+    }
+    #bobba3{
+        z-index: 1;
+    }
+    #bobba3:hover{
+        height: 289px;
+        width: 289px;
+    }
+    #bobba4{
+        z-index: 1;
+    }
+    #bobba4:hover{
+        height: 289px;
+        width: 289px;
+    }
+    #bobba5{
+        z-index: 1;
+    }
+    #bobba5:hover{
+        height: 289px;
+        width: 289px; 
+    }
+    #haut{
+    font-size: 44px;
+    font-family:'Montserrat';
+    color:552900;
+    position: absolute;
+        left:100px;
+        top: 89px;
+    opacity: 0;
+    background-color: #FFDDAA;
+    border-radius: 99px;
+    width: 0px;
+    height: 0px;
+    }
+    #bas{
+    font-size: 44px;
+    font-family:'Montserrat';
+    color:552900;
+    position: absolute;
+        left:100px;
+        top: 89px;
+        opacity: 0;
+    background-color: #FFDDAA;
+    border-radius: 99px;
+    width: 0px;
+    height: 0px;
+    }
+    #ptsperdu{
+        font-size: 44px;
+    font-family:'Montserrat';
+    color:552900;
+    position: absolute;
+        right:539px;
+        top: 0px;
+    }
+    #points{
+        font-size: 44px;
+    font-family:'Montserrat';
+    color:552900;
+    position: absolute;
+        right:561px;
+        top: -43px;
+    }
+    #bckpts{
+        position: absolute;
+        top: 6px;
+        right: 499px;
+        height: 92px;
+        width: 444px;
+        border-radius: 55px;
+        background-color:  #FFDDAA;
+        z-index: 0;
+        opacity: 0.7;
+        
+
+
+    }
+    
+    </style>
+
+
+
+        <body> 
+            
+    
+            <img src="bobba.png" alt="bobba1" usemap="#workmap" width="298" height="298" style="position: absolute;
+            left: 900px;
+            top: 450px;" id="bobba1"/>
+            
+            <img src="bobba2.png" alt="bobba2" usemap="#workmap" width="298" height="298" style="position: absolute;
+            left: 725px;
+            top: 450px;" id="bobba2"/>
+            
+            <img src="bobba3.png" alt="bobba2" usemap="#workmap" width="298" height="298" style="position: absolute;
+            left: 550px;
+            top: 450px;" id="bobba3"/>
+            
+            <img src="bobba4.png" alt="bobba2" usemap="#workmap" width="298" height="298" style="position: absolute;
+            left: 375px;
+            top: 450px;" id="bobba4"/>
+            
+            <img src="bobba5.png" alt="bobba2" usemap="#workmap" width="298" height="298" style="position: absolute;
+            left: 200px;
+            top: 450px;" id="bobba5"/>
+
+
+
+                
+       
+        <div id="playsound" onclick="play()">MUSIQUE!</div>
+        <div id="pausesound" onclick="pause()">MUSIQUE STOP</div>
+        <div id="bas">TROP BAS!</div>
+        <div id="haut">TROP HAUT!</div>
+        <div id="bckpts"></div>
+
+        </body>
+           
+
+        <div id="barreVie"></div>
+        <p id="points">Points de vie: 5</p>
+        <p id="message"></p>
+        
+        <p id="ptsperdu">Points perdus: 0</p>
+        <p id="cpcritique"></p>
+    
+    <script>
+        var lofi=new Audio();
+        lofi.src="beats.wav"
+        var hp=5
+    
+        function play(){
+            lofi. play()
+            lofi. loop=true
+            lofi.volume=0.5
+
+        }
+
+        function pause(){
+            lofi.pause()
+        }
+        function dommage(){
+            var vie=document.getElementById("barreVie")
+            var points=document.getElementById("points")
+            var hitDamage=1
+            hp=hp-hitDamage
+      
+
+
+            vie.style.width=hp+"35px"
+            points.innerHTML="Points de vie : "+hp
+            ptsperdu.innerHTML="Points perdus : "+hitDamage
+            if(hp<0){
+                ptsperdu.innerHTML="Toi etre mort..."
+                points.innerHTML="0"
+                vie.style.width="0px"
+            
+            }
+            if(hp==0){
+                vie.style.width="0px"
+                ptsperdu.innerHTML="Toi etre mort..."
+                points.innerHTML="0"
+                points.style.position="absolute"
+                points.style.right="692px"
+                window.location.href='file:///C:/Users/Client/Desktop/devine%20le%20chiffre%20Chiril%20Niculita/defeat%20screen.html';
+                
+
+            }
+
+            if(hp==4){
+                vie.style.width="715px"
+                ptsperdu.innerHTML="Points perdus : "+1
+                }
+            if(hp==3){
+                vie.style.width="555px"
+                ptsperdu.innerHTML="Points perdus : "+2
+                }
+            if(hp==2){
+                vie.style.width="367px"
+                ptsperdu.innerHTML="Points perdus : "+3
+                }
+                if(hp==1){
+                    ptsperdu.innerHTML="Points perdus : "+4
+
+                }
+            if(hp<3){
+                vie.style.backgroundColor="#801A15"
+
+            }
+            if(numero<BonChiffre){
+                haut.style.opacity="0"
+            
+
+            }
+
+
+
+            
+        }  
+     
+           
+    </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style>
+
+    body{
+        background-image: url(bubble.jpg);
+        background-size: cover;
+        text-align: center;
+        margin-top: 0px;
+        z-index:0 ;
+    } 
+
+     #questionbox{
+    background-color:#552900 ;
+    position: absolute;
+     left: 475px;
+    top: 105px;
+    width: 459px;
+    height:111px;
+    }
+
+    h1{
+    color:#FFDDAA;
+    position: absolute;
+    left: 475px;
+    top: 100px;
+    text-align: center;
+    width: 459px;
+    height:111px;
+    
+    margin-bottom: 0px;
+        
+}
+   
+
+    h1:hover{   
+    color: #FFDDAA;
+    position: absolute;
+    left: 460px;
+    top: 69px;
+    width: 459px;
+    height:111px;
+    border:15px solid #D49E6A ;
+
+    }
+    .button:hover{
+    background-color:#FFDDAA ;
+}
+.text:hover{
+    background-color:#FFDDAA ;
+}
+</style>
+
+<body>
+    <head>
+        <div id="questionbox"></div>
+    <h1 
+        style=font-family:'Montserrat'; font-size : 444px; 
+        >COMBIEN DE BULLES  ENTRE 1 ET 50?
+    </h1>
+    
+    
+    </p>
+     
+    </head>
+
+</body>
+
+<style>
+    
+    body{
+        margin: 0px;
+        padding: 0px;
+    }
+
+
+    .container{
+        text-align: center;
+        margin-top: 65px;
+    }
+    .button {
+        background-color: D49E6A;
+    }
+    .button {
+        border-radius: 99px;
+        font-family:'Montserrat';
+        color: 552900;
+        font-style: inherit;
+        font-size: 22px;
+        position: absolute;
+        left: 570px;
+        top: 400px;
+    }
+    
+    .text{
+        border-radius: 23px;
+        height: 110px;
+        width: 110px;
+        background-color: D49E6A;
+        font-family:'Montserrat';
+        color: 552900;
+        font-size: 82px;
+        position: absolute;
+        left: 659px;
+        top: 260px;
+    }
+</style>
+<body>
+    <input class="text" id="numero"> <br><br>
+    <input class="button" value="                BULLES!"onclick="valider()"> 
+
+
+        <script>
+
+var BonChiffre=Math.ceil(Math.random()*50)
+console.log(BonChiffre)
+console.log(hp)
+function valider(){    
+    var numero=document.getElementById("numero").value
+    if(numero==BonChiffre){
+        window.location.href='file:///C:/Users/Client/Desktop/devine%20le%20chiffre%20Chiril%20Niculita/victory%20%20screen.html';
+        play();
+    }else{
+        
+        dommage();
+    
+    }
+    if(numero>BonChiffre){
+        haut.style.opacity=1
+        bas.style.opacity=0
+    }
+    if(numero<BonChiffre){
+        bas.style.opacity=1
+        haut.style.opacity=0
+    }
+    console.log(numero)  
+    console.log(hp) 
+}
+ </script>
+</body>
+</html>
