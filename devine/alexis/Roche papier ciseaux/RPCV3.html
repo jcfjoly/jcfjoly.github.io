@@ -1,0 +1,595 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roche,Papier,Ciseaux_Ultime</title>
+
+<style>
+    #board{
+        width: 100%;
+        height: 100%;
+        background-image: url(gotham-city.jpg);
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        background-size: 100% 100%;
+        border: black outset 8px;
+        text-align: center;
+        align-items: center;
+    }
+    #bannierePerso{
+        width: 100px;
+        height: 100px;
+        background-color: green;
+        position: absolute;
+        left: 1%;
+        top: 2%;
+        border: black solid 3px;
+    }
+    #banniereEnnemi{
+        width: 100px;
+        height: 100px;
+        background-color: rgb(155, 2, 2);
+        position: absolute;
+        right: 1%;
+        top: 2%;
+        border: black solid 3px;
+    }
+    #titre{
+        width: 28%;
+        height: 8%;
+        background-color: red;
+        margin: auto;
+        margin-top: 1%;
+        text-align: center;
+        font-size: 250%;
+        border: black double 5px;
+        padding-top: 0.5%;
+    }
+    #batman{
+        position: absolute;
+        left: 5%;
+        bottom: 1%;
+    }
+    #joker{
+        position: absolute;
+        right: 5%;
+        bottom: 1%;
+    }
+    #streaker{ 
+        width: 120px;
+        height: 40px;
+        background-color: beige;
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        font-size: 25px;
+    }
+    #points{
+        position: absolute;
+        top: -15px;
+        left: 20px;
+    }
+    #messager{
+        position: absolute;
+        width: 38%;
+        height: 4%;
+        background-color: darkslategrey;
+        text-align: center;
+        top: 20%;
+        left: 31.5%;
+        display: none;
+    }
+    #message{
+        position: absolute;
+        top: -20%;
+        font-size: 110%;
+    }
+    #blocker{
+        position: absolute;
+        width: 15%;
+        height: 2.5%;
+        background-color: dimgrey;
+        left: 42.5%;
+        top: 15%;
+        opacity: 50%;
+        display: none;
+    }
+    #viebon{
+        position: absolute;
+        width: 1%;
+        height: 30%;
+        background-color: green;
+        left: 3.5%;
+        bottom: 1%;
+
+    }
+    #viemal{
+        position: absolute;
+        width: 1%;
+        height: 30%;
+        background-color: rgb(155, 2, 2);
+        right: 3.5%;
+        bottom: 1%;
+    }
+    #overbon{
+        position: absolute;
+        width: 1%;
+        height: 30%;
+        border: black 3px dashed;
+        left: 3.35%;
+        bottom: 0.75%;
+    }
+    #overmal{
+        position: absolute;
+        width: 1%;
+        height: 30%;
+        border: black 3px dashed;
+        right: 3.35%;
+        bottom: 0.75%;
+    }
+    #begin{
+        width: 100%;
+        height: 100%;
+        background-image: url(bat_signal.jpg);
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        background-size: 100% 100%;
+        border: black outset 8px;
+        text-align: center;
+        align-items: center;
+    }
+    #Titlestart{
+        width: 28%;
+        height: 8%;
+        background-color: red;
+        margin: auto;
+        margin-top: 1%;
+        text-align: center;
+        font-size: 250%;
+        border: black double 5px;
+        padding-top: 0.5%;
+        
+    }
+    #easy{
+        width: 10%;
+        height: 5%;
+        position: absolute;
+        background-color: darkgrey;
+        bottom: 70%;
+        left: 46.5%;
+        font-size: 180%;
+        text-align: center;
+    }
+    #easy:hover{
+        border: black solid 2px;
+    }
+    #medium{
+        width: 10%;
+        height: 5%;
+        position: absolute;
+        background-color: darkgrey;
+        bottom: 60%;
+        left: 46.5%;
+        font-size:180%;
+        text-align: center;
+    }
+    #medium:hover{
+        border: black solid 2px;
+    }
+    #hard{
+        width: 10%;
+        height: 5%;
+        position: absolute;
+        background-color: darkgrey;
+        bottom: 50%;
+        left: 46.5%;
+        font-size:170%;
+        text-align: center;
+    }
+    #hard:hover{
+        border: black solid 2px;
+    }
+    #retry{
+        width: 10%;
+        height: 5%;
+        position: absolute;
+        background-color: burlywood;
+        bottom: 50%;
+        left: 46.5%;
+        font-size:200%;
+        text-align: center;
+        display: none;
+    }
+    #retry:hover{
+        border: black solid 2px;
+    }
+    #bouton{
+        width: 5%;
+        height: 2.5%;
+        position: absolute;
+    }
+    #itemchoisi{
+        width: 10%;
+        height: 2.5%;
+    }
+    #boutonchoix{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 15%;
+        left: -2.5%;
+    }
+    #themesong{
+        width: 10%;
+        height: 5%;
+        position: absolute;
+        background-color: cadetblue;
+        bottom: 40%;
+        left: 46.5%;
+        font-size: 150%;
+    }
+    #themesong:hover{
+        border: black solid 2px;
+    }
+</style>
+</head>
+<body>
+
+<div id="board">
+    <div id="titre">
+        <font face="Verdana">RPC Ultimate</font>
+    </div>
+
+    <div id="bannierePerso">
+        <div id="MonPerso">
+            
+        </div>
+    </div>
+
+    <div id="banniereEnnemi">
+        <div id="monster">
+            
+        </div>
+    </div>
+
+    <div id="boutonchoix">
+        <select id="itemchoisi">
+            <option value="item1">roche</option>
+            <option value="item2">papier</option>
+            <option value="item3">ciseaux</option>
+        </select>
+        <input id="bouton" type="button" value="Choisir" onclick="choisi()">
+    </div>
+
+    <div id="batman">
+        <img src="batman.png" width="240" height="350">
+    </div>
+
+    <div id="joker">
+        <img src="joker.png" width="240" height="350">
+    </div>
+
+    <div id="streaker">
+        <p id="points"></p>
+    </div>
+
+    <div id="messager">
+        <p id="message"></p>
+    </div>
+
+    <div id="blocker"></div>
+
+    <div id="viebon"></div>
+
+    <div id="viemal"></div>
+
+    <div id="overbon"></div>
+
+    <div id="overmal"></div>
+
+</div>
+
+<div id=begin class="enter">
+    <div id="Titlestart" class="enter">
+        <font face="Verdana">RPC Ultimate</font>
+    </div>
+
+    <div id="easy" onclick="easy()" class="enter"><font face="Verdana">Facile</font></div>
+    <div id="medium" onclick="medium()" class="enter"><font face="Verdana">Moyen</font></div>
+    <div id="hard" onclick="hard()" class="enter"><font face="Verdana">Difficile</font></div>
+    
+    <div id="retry" onclick="window.location.reload();">
+        <font face="Verdana">Rejouer?</font>
+    </div>
+
+    <div id="themesong" onclick="theme.play()">
+        <font face="Verdana">Musique</font>
+    </div>
+
+</div>
+
+    
+</body>
+<script>
+
+// Barre de vie
+var viemal=30
+var viebon=30
+var damageennemi=3
+var damageallie=3
+
+function easy(){
+    damageennemi=damageennemi+0
+    document.getElementById("easy").style.display="none"
+    document.getElementById("medium").style.display="none"
+    document.getElementById("hard").style.display="none"
+    document.getElementById("Titlestart").style.display="none"
+    document.getElementById("begin").style.display="none"
+    document.getElementById("themesong").style.display="none"
+}
+
+function medium(){
+    damageennemi=damageennemi+3
+    document.getElementById("easy").style.display="none"
+    document.getElementById("medium").style.display="none"
+    document.getElementById("hard").style.display="none"
+    document.getElementById("Titlestart").style.display="none"
+    document.getElementById("begin").style.display="none"
+    document.getElementById("themesong").style.display="none"
+}
+
+function hard(){
+    damageennemi=damageennemi+7
+    document.getElementById("easy").style.display="none"
+    document.getElementById("medium").style.display="none"
+    document.getElementById("hard").style.display="none"
+    document.getElementById("Titlestart").style.display="none"
+    document.getElementById("begin").style.display="none"
+    document.getElementById("themesong").style.display="none"
+}
+
+// Appliquer les dégats et fin
+
+function dammagebon(){
+	viebon=viebon-damageennemi
+	document.getElementById("viebon").style.height=viebon+"%"
+    if (viebon==0){
+        document.getElementById("begin").style.display="block"
+        document.getElementById("retry").style.display="block"
+    }
+}
+
+function damagemal(){
+    viemal=viemal-damageallie
+    document.getElementById("viemal").style.height=viemal+"%"
+    if (viemal==0){
+        document.getElementById("begin").style.display="block"
+        document.getElementById("retry").style.display="block"
+    }
+}
+
+// Choix de l'item et affichage
+
+function choisi(){
+    var choix=document.getElementById("itemchoisi").value
+
+    if (choix=="item1"){
+        document.getElementById("bannierePerso").style.backgroundImage="url(Rocher.png)"
+        document.getElementById("bannierePerso").style.backgroundSize="100% 100%"
+        rocher()
+    }
+
+    if (choix=="item2"){
+        document.getElementById("bannierePerso").style.backgroundImage="url(feuille.jpg)"
+        document.getElementById("bannierePerso").style.backgroundSize="100% 100%"
+        feuille()
+    }
+
+    if (choix=="item3"){
+        document.getElementById("bannierePerso").style.backgroundImage="url(sciseaux.png)"
+        document.getElementById("bannierePerso").style.backgroundSize="100% 100%"
+        ciseaux()
+    }
+}
+
+// Streaks de victoire
+
+    var streak= 0
+    var points=document.getElementById("points")
+    points.innerHTML="Streak:" + streak
+    var message=document.getElementById("message")
+
+// Vanish
+
+function disapear(){
+    document.getElementById("messager").style.display="none"
+    message.innerHTML=""
+    document.getElementById("blocker").style.display="none"
+}
+
+// Script pour la roche, le papier et les ciseaux
+function rocher(){
+        var choicemachine=Math.ceil(Math.random()*3)
+
+      if (choicemachine==1) {
+        console.log("test1")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(Rocher.png)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=streak
+        points.innerHTML="Streak:" + streak
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Une vraie collision digne du Big Bang! (Égalité)"
+        document.getElementById("blocker").style.display="block"
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }
+     if (choicemachine==2) {
+        console.log("test2")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(sciseaux.png)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=streak+1
+        points.innerHTML="Streak:" + streak
+        damagemal()
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Vous avez réduit ces ciseaux en morceaux! (Victoire)"
+        document.getElementById("blocker").style.display="block"
+        win.play()
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }
+     if (choicemachine==3) {
+        console.log("test3")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(feuille.jpg)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=0
+        points.innerHTML="Streak:" + streak
+        dammagebon()
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Cette feuille vous a avalée d'un coup! (Défaite)"
+        document.getElementById("blocker").style.display="block"
+        lose.play()
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }  
+    }
+    
+     
+    function ciseaux(){
+        var choicemachine=Math.ceil(Math.random()*3)
+      if (choicemachine==1) {
+        console.log("test4")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(sciseaux.png)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=streak
+        points.innerHTML="Streak:" + streak
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Les ciseaux ont tentés de s'entre-couper! (Égalité)"
+        document.getElementById("blocker").style.display="block"
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }
+     if (choicemachine==2) {
+        console.log("test5")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(feuille.jpg)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+        streak=streak+1
+        points.innerHTML="Streak:" + streak
+        damagemal()
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Vous venez de couper sa feuille! (Victoire)"
+        document.getElementById("blocker").style.display="block"
+        win.play()
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }
+     if (choicemachine==3) {
+        console.log("test6")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(Rocher.png)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=0
+        points.innerHTML="Streak:" + streak
+        dammagebon()
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Une météorite, ah non ce n'est qu'une roche aux dégâts similaires! (Défaite)"
+        document.getElementById("blocker").style.display="block"
+        lose.play()
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+            }
+     }  
+    
+
+    function feuille(){
+        var choicemachine=Math.ceil(Math.random()*3)
+      if (choicemachine==1) {
+        console.log("test7")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(feuille.jpg)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=streak
+        points.innerHTML="Streak:" + streak
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Une feuille + une autre feuille = 2 feuilles (Égalité)"
+        document.getElementById("blocker").style.display="block"
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }
+     if (choicemachine==2) {
+        console.log("test8")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(Rocher.png)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=streak+1
+        points.innerHTML="Streak:" + streak
+        damagemal()
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Vous avez transformé sa roche en paquet cadeau! (Victoire!)"
+        document.getElementById("blocker").style.display="block"
+        win.play()
+        pauseAudio()
+        setTimeout(disapear,3000)
+        setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }
+     if (choicemachine==3) {
+        console.log("test9")
+        document.getElementById("banniereEnnemi").style.backgroundImage="url(sciseaux.png)"
+        document.getElementById("banniereEnnemi").style.backgroundSize="100% 100%"
+         streak=0
+        points.innerHTML="Streak:" + streak
+        dammagebon()
+        document.getElementById("messager").style.display="block"
+         message.innerHTML="Votre feuille a servie de bricolage! (Défaite)"
+         document.getElementById("blocker").style.display="block"
+         lose.play()
+         pauseAudio()
+         setTimeout(disapear,3000)
+         setTimeout(() => {
+                themeplay()
+            }, 3000);
+     }  
+    } 
+
+    // Musique et sons du jeu
+
+    var win=new Audio();
+        win.src="winner.mp3";
+    
+    var lose=new Audio();
+        lose.src="lose.wav";
+
+    var theme=new Audio();
+        theme.src="theme.mp3"
+
+    function themeplay(){
+        theme.play()
+    }
+    
+    function pauseAudio(){
+        theme.pause();
+    }
+
+</script>
+</html>
