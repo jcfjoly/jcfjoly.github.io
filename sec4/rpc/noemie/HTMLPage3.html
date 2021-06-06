@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Rock, Paper, Scissors Rules</title>
+
+    <style>
+
+        body {
+            background-image: url(https://wallpapercave.com/wp/wp8121942.png);
+            background-size: 1900px;
+        }
+
+        #Menu {
+            background-color: azure;
+            border: solid black;
+            width: 250px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 300px;
+            padding: 5px;
+        }
+
+        li {
+            border: solid black;
+            text-align: center;
+            padding: 2px;
+            list-style: none;
+            margin-right: 40px;
+            margin-top: 5px;
+            background-color: white;
+        }
+
+            li:hover {
+                background-color: dodgerblue;
+                cursor: pointer;
+            }
+    </style>
+
+</head>
+<body>
+
+    <div id="Menu">
+
+        <h2>Rules</h2>
+
+        <p>
+            Just like the game you probably played as a child: <br />
+            <br />
+            Rock beats Scissors, <br />
+            Scissors beats Paper and <br />
+            Paper beats Rock
+        </p>
+
+
+        <ol onclick="sound ()">
+
+            <li onclick="document.location='HTMLPage1.html'">Menu</li>
+
+        </ol>
+
+    </div>
+
+    <script>
+
+        var bopSound = new.Audio();
+        bopSound.src = "bib.wav";
+
+        function sound() {
+            bopSound.play()
+        }
+
+    </script>
+
+</body>
+</html>

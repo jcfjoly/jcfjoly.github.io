@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Rock, Paper, Scissors (Rock)</title>
+
+    <style>
+
+        body {
+            background-image: url(https://wallpapercave.com/wp/wp8121942.png);
+            background-size: 1900px;
+        }
+
+        #Menu {
+            background-color: azure;
+            border: solid black;
+            width: 250px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 300px;
+            padding: 5px;
+        }
+
+        li {
+            border: solid black;
+            text-align: center;
+            padding: 2px;
+            list-style: none;
+            margin-right: 40px;
+            margin-top: 5px;
+            background-color: white;
+        }
+
+        li:hover {
+            background-color: dodgerblue;
+            cursor: pointer;
+        }
+
+        #GButton {
+            text-align: center;
+            padding: 2px;
+            background-color: white;
+        }
+
+            #GButton:hover {
+                background-color: dodgerblue;
+                cursor: pointer;
+            }
+    </style>
+
+</head>
+<body>
+
+    <div id="Menu">
+
+        <h2>Results</h2>
+
+        <p id="points">Points: </p>
+
+        <p id="Game">You chose rock now let's see what the AI picks :)</p>
+
+        <div id="Disappear">
+            <input id="GButton" type="button" value="Next" onclick="Choice()" />
+        </div>
+            
+             <div id="Rock">
+                 <img src="https://t3.ftcdn.net/jpg/00/55/21/18/360_F_55211893_pMzGwbg4p7yElUGfc868m9dUXaknoWkU.jpg" height="100" />
+             </div>
+
+             <div id="Paper">
+                 <img src="https://images.all-free-download.com/images/graphiclarge/blank_white_paper_cartoon_clip_art_12090.jpg" height="100" />
+             </div>
+
+             <div id="Scissors">
+                 <img src="data:image/png;base64,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" height="100" />
+             </div>
+
+             <div id="Rock2">
+                 <img src="https://t3.ftcdn.net/jpg/00/55/21/18/360_F_55211893_pMzGwbg4p7yElUGfc868m9dUXaknoWkU.jpg" height="100" />
+             </div>
+
+             <div id="Restart">
+                 <input id="GButton" type="button" value="Restart" onclick="Choice()" />
+             </div>
+
+        <ol id="MenuButton">
+
+            <li onclick="document.location='HTMLPage2.html'">Menu</li>
+
+        </ol>
+
+    </div>
+
+    <script>
+
+//      **This is the page for when the player chooses rock**
+
+        setTimeout(Before,0)
+
+        function Before() {
+            document.getElementById("Rock").style.display = "none";
+            document.getElementById("Paper").style.display = "none";
+            document.getElementById("Scissors").style.display = "none";
+            document.getElementById("Rock2").style.display = "none";
+            document.getElementById("Restart").style.display = "none";
+            document.getElementById("MenuButton").style.display = "none";
+            
+        }
+
+        var pts = 0
+
+        function Choice() {
+
+            var ComputerChoice = Math.floor(Math.random() * 3);
+
+            document.getElementById("Rock").style.display = "";
+            document.getElementById("Restart").style.display = "none";
+
+            if (ComputerChoice == 0)
+                Game.innerHTML = 'AI Chose Rock! Tie!'; 
+            if (ComputerChoice == 0)
+                document.getElementById("Rock2").style.display = ""; 
+            
+            if (ComputerChoice == 1)
+                Game.innerHTML = 'AI Chose Paper! You Lost :('
+            if (ComputerChoice == 1)
+                document.getElementById("Paper").style.display = "";
+
+            if (ComputerChoice == 2)
+                Game.innerHTML = 'AI Chose Scissors! You Won!';
+            if (ComputerChoice == 2)
+                document.getElementById("Scissors").style.display = "";
+
+// Point system
+
+            if (ComputerChoice == 2)
+                pts = pts + 1
+            points.innerHTML = " Points: " + pts;
+               
+            document.getElementById("Disappear").innerHTML = "";
+
+            console.log(ComputerChoice)
+
+            if (pts == 3) {
+                document.getElementById("MenuButton").style.display = "";
+                alert("You Won against the AI! You can restart by going back in the Menu :)")
+            }
+               
+        }
+
+        setInterval(Restart,2000)
+
+        function Restart() {
+
+            if (pts < 3)
+            document.getElementById("Restart").style.display = "";
+            document.getElementById("Rock2").style.display = "none";
+            document.getElementById("Paper").style.display = "none";
+            document.getElementById("Scissors").style.display = "none";
+           
+        }
+
+        
+
+    </script>
+
+</body>
+</html>
