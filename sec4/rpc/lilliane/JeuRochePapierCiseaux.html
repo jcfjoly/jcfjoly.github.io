@@ -1,0 +1,440 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roche Papier Ciseaux</title>
+    <style>
+       @font-face {
+            font-family: WorkSans;
+            src: url(fonts/WorkSans.ttf);
+        }
+        body{
+            font-family: WorkSans;
+        }
+        #joueur{
+            width: 400px;
+            height: 550px;
+            position: absolute;
+            top: 10%;
+            left:10%;
+        }
+        #ordi{
+            width: 400px;
+            height: 550px;
+            position: absolute;
+            top:10%;
+            right: 10%;
+
+        }
+        #menu{
+            width: 500px;
+            height: 500px;
+            border: 2px black solid;
+            background-color: white;
+            padding: 5px;
+            z-index: 1;
+            position:fixed;
+            top:10%;
+            left: 30%;
+            
+        }
+        #options{
+            width: 175px;
+            height: 500px;
+            position:relative;
+            left: -50px;
+            border: 2px black solid;
+            
+        }
+        #reaction{
+            width: 500px;
+            height: 75px;
+            position:relative;
+            border: 2px black solid;
+            font-size: 45px;
+            text-align: center;
+            left:30%;
+            top: 30%;
+        }
+        #combat{
+            width: 600px;
+            height: 175px;
+            position:relative;
+            border: 2px black solid;
+            left:26%;
+            top: 32%;
+        }
+        #roche{
+            width: 150px;
+            height:150px;
+            position:absolute;
+            pointer-events: none;
+            top:12.5px;
+            left:12.5px;
+            
+        }
+        #papier{
+            width: 150px;
+            height:150px;
+            position:absolute;
+            pointer-events: none;
+            bottom:12.5px;
+            left:12.5px;
+        }
+        
+        #ciseaux{
+            width: 150px;
+            height:150px;
+            position:absolute;
+            pointer-events: none;
+            top:175px;
+            right:12.5px;
+            
+        }
+        #ciseaux:hover, #papier:hover, #roche:hover{
+            border: 2px black solid;
+        }
+        #choixOrdi{
+            width: 150px;
+            height:150px;
+            position:absolute;
+            top:175px;
+            right:12.5px;
+        }
+        #ordiOption{
+            width: 175px;
+            height: 500px;
+            position:relative;
+            left: 275px;
+            border: 2px black solid;
+        }
+        #barreVie{
+            width: 1000px;
+            height: 20px;
+            background-color:greenyellow;
+            position:fixed;
+            top:5%;
+            left: 11%;
+            border: 2px black solid;
+        }
+        #vieJoueur{
+            width: 500px;
+            height: 20px;
+            background-color:cyan;
+            position:absolute;
+        }
+        #vieOrdi{
+            width: 500px;
+            height: 20px;
+            text-align: right;
+            position:absolute;
+            right:1px;
+        }
+        #temps{
+            width:125px;
+            height: 125px;
+            border: 2px black solid;
+            position:absolute;
+            font-size: 37px;
+            text-align: center;
+            top: 10%;
+            left: 45%;
+        }
+        #finalOrdi{
+            width: 150px;
+            height:150px;
+            position:absolute;
+            top:12.5;
+            right:19.5px;
+        }
+        #finalJoueur{
+            width: 150px;
+            height:150px;
+            position:absolute;
+            top:12.5px;
+            left:19.5px;
+        }
+        #vs{
+            width: 170px;
+            height:150px;
+            position:absolute;
+            top:12.5px;
+            left:216.5px;
+        }
+        #commande{
+            width:125px;
+            height: 125px;
+            border: 2px black solid;
+            font-size: 20px;
+            text-align: center;
+            position:absolute;
+            top: 73%;
+            left: 45%
+        }
+        #bouton{
+            margin-top:5px;
+        }
+       
+
+
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <h1>Instructions</h1>
+        C'est un jeu de roche, papier et ciseaux.<br/><br/>
+        Ce sont des partie de 60 secondes avec des manche où tu as 3 secondes pour faire ton choix.<br/><br/>
+        Pour ce faire tu n'as qu'à selectioner l'option que tu veux dans l'encadrer de gauche. 
+        Ce dernier apparaîtra au milieu.<br/><br/>
+        Si tu ne fais pas de choix durant la manche, le dernier que tu as fait sera utilisé.<br/> 
+        Si tu n'as pas fait de choix de la partie, tu perdra la manche.<br/><br/>
+        Celui qui gagne est afficher dans la barre de vie au haut de l'écran.<br/><br/>
+        Pour débuter la partie, appuie sur le bouton dans l'encadrer des commandes.<br/><br/>
+        <input type="button" value="J'ai compris." onclick="effacerInstruction()"/>
+    </div>
+
+    <div id="joueur">
+        <div id="options">
+            <div id="roche" onclick="choisiOption(roche)" ><img src='imageRCP/roc.png' /></div>
+            <div id="papier" onclick="choisiOption(papier)" ><img src='imageRCP/pap.png' /></div>
+            <div id="ciseaux" onclick="choisiOption(ciseaux)" ><img src='imageRCP/cis.png' /></div>
+        </div>
+    </div>
+
+    <div id="reaction">Reaction</div>
+
+    <div id="combat">
+        <div id="finalJoueur"><img /></div>
+        <div id="finalOrdi"><img /></div>
+        <div id="vs"></div>
+    </div>
+
+    <div id="ordi">
+        <div id="ordiOption">
+        <div id="choixOrdi"><img /></div>
+        </div>
+    </div>
+
+    <div id="barreVie">
+        <div id="vieJoueur">Joueur</div>
+        <dov id="vieOrdi">Ordi</dov>
+    </div>
+    <div id="temps">Temps</div>
+
+    <div id="commande">Commandes
+        <input id="bouton" type="button"  value="Débuter une partie" onclick="initialiser()" ><br/>
+        <input id="bouton" type="button"  value="Instructions" onclick="montrerInstruction()" >
+    </div>
+
+    <script>
+
+        const roche = 1;
+        const papier = 2;
+        const ciseaux = 3;
+
+        var deroulementOrdi;
+        var choixJoueur;
+        var choixOrdi;
+        var vieJoueur;
+        var tempsRestant;
+        var oldOption = "";
+        var image;
+        var processusDecompte;
+        var partiCommencer;
+        var temps;
+        var deroulement;
+        var sonPositive = new Audio("sons/positive-beeps.wav");
+        var sonNegtive = new Audio("sons/buzzer.mp3")
+
+
+        // function pour la logistique du jeu
+        function initialiser(){
+            temps= setInterval (ecoulementTemps, 1000);
+            vieJoueur= 500;
+            tempsRestant = 60;
+            actualiserBarreVie();
+            activerOption();
+            jouer();
+        }
+        function jouer(){
+            console.log("jouer()");
+            effacerDernierePartie();
+            afficherDecompte();
+            deroulementOptionOrdi();
+        }
+        function partie(){
+            console.log("partie()");
+            arreterDeroulement();
+            ordiChoisi();
+            afficherChoixOrdi();
+            resultat();
+            actualiserBarreVie();
+            partiCommencer = setTimeout (jouer, 2000);
+        }
+        function partieFini(){
+            console.log("partieFini()");
+            clearInterval(processusDecompte);
+            clearInterval(deroulement);
+            document.getElementById("temps").innerHTML="Temps écoulé";
+            clearInterval(partiCommencer);
+            effacerDernierePartie();
+            afficherGrandGagnant();
+        }
+        function activerOption(){
+            document.getElementById('roche').style.pointerEvents = "auto";
+            document.getElementById('papier').style.pointerEvents= "auto";
+            document.getElementById('ciseaux').style.pointerEvents = "auto";
+        }
+        // function pour déterminer et effectuer le résultat
+        function isResutatNul(){
+            if(choixJoueur==choixOrdi){
+                return true;
+            }
+            return false;
+        }
+        function isJoueurGagne(){
+            if (isResutatNul()){
+                return false;
+            }
+            if(choixJoueur == papier && choixOrdi == roche){
+                return true;
+            }
+            if(choixJoueur == roche && choixOrdi == ciseaux){
+                return true;
+            }
+            if(choixJoueur == ciseaux && choixOrdi == papier){
+                return true;
+            }
+            return false;
+        }
+        function isOrdiGagne(){
+            if (isResutatNul()){
+                return false;
+            }
+            return !isJoueurGagne();
+        }
+        function resultat(){
+            if (isJoueurGagne()){
+                document.getElementById("reaction").innerHTML= "joueur gagne";
+                sonPositive.play();
+                vieJoueur= vieJoueur + 80;
+            } else if (isOrdiGagne()){
+                document.getElementById("reaction").innerHTML= "joueur perd";
+                vieJoueur= vieJoueur - 80;
+                sonNegtive.play();
+            } else {
+                document.getElementById("reaction").innerHTML= "match null";
+            }
+        }
+         // function pour les choix d'option
+         function ordiChoisi(){
+            choixOrdi = Math.ceil(Math.random()*3);
+            console.log("choixOrdi => "+ choixOrdi);
+        }
+        function choisiOption(option){
+            console.log("choixJoueur => "+ option);
+            choixJoueur = option;
+            afficherChoixJoueur();
+        }
+        // function controlant des interval
+        function deroulementOptionOrdi(){
+            deroulement = setInterval("afficheDeroulementOptionOrdi()", 1000);
+        }
+        function arreterDeroulement(){
+            clearInterval(deroulement);
+            document.getElementById("choixOrdi").getElementsByTagName('img')[0].removeAttribute("src");
+        }
+        function ecoulementTemps(){
+            if(tempsRestant < 1){
+                partieFini();
+                clearInterval(temps); 
+                return;
+            }
+            tempsRestant = tempsRestant-1;
+            document.getElementById("temps").innerHTML="temps: " + tempsRestant;
+        }
+        function decompte(){
+            console.log("decompte()")
+            if(image <= 0){
+                clearInterval(processusDecompte);
+                partie();
+                return;
+            }
+            image = image-1;
+            document.getElementById("vs").style.backgroundImage = "url(imageRCP/" + image + ".png)";
+        }
+        // function pour l'affichage
+        function afficheDeroulementOptionOrdi(){
+            console.log("afficheDeroulementOptionOrdi()");
+            options = ['pap', 'cis', 'roc'];
+            option = Math.floor(Math.random() * 3);
+            while (option == oldOption){
+                option = Math.floor(Math.random() * 3);
+            }
+            oldOption = option;
+
+            deroulementOrdi = options[option];
+            document.getElementById("choixOrdi").getElementsByTagName('img')[0].setAttribute("src", "imageRCP/" + deroulementOrdi + ".png");
+        }
+        function afficherGrandGagnant(){
+            if(vieJoueur > 500){
+                document.getElementById("reaction").innerHTML="Tu as gagné la partie";
+                return;
+            }
+            if (vieJoueur < 500){
+                document.getElementById("reaction").innerHTML="L'ordi a gagné la partie";
+                return;
+            }
+            document.getElementById("reaction").innerHTML="La partie fini à égalité.";
+        }
+        function afficherChoixJoueur(){
+            console.log("afficherChoixJoueur()")
+            if (choixJoueur == 1){
+                document.getElementById("finalJoueur").getElementsByTagName('img')[0].setAttribute("src", "imageRCP/roc.png");
+                return;
+            }else if (choixJoueur == 2){
+                document.getElementById("finalJoueur").getElementsByTagName('img')[0].setAttribute("src", "imageRCP/pap.png");
+                return;
+            }else if (choixJoueur == 3){
+                document.getElementById("finalJoueur").getElementsByTagName('img')[0].setAttribute("src", "imageRCP/cis.png");
+                return;
+            }
+        }
+        function afficherChoixOrdi(){
+            console.log("afficherChoixOrdi()")
+            if (choixOrdi == 1){
+                document.getElementById("finalOrdi").getElementsByTagName('img')[0].setAttribute("src", "imageRCP/roc.png");
+                return;
+            }else if (choixOrdi == 2){
+                document.getElementById("finalOrdi").getElementsByTagName('img')[0].setAttribute("src", "imageRCP/pap.png");
+                return;
+            }else if (choixOrdi == 3){
+                document.getElementById("finalOrdi").getElementsByTagName('img')[0].setAttribute("src", "imageRCP/cis.png");
+                return;
+            }
+        }
+        function afficherDecompte(){
+            image = 4; 
+            processusDecompte=  setInterval(decompte, 1000);
+        }
+        function effacerDernierePartie(){
+            document.getElementById("finalJoueur").getElementsByTagName('img')[0].removeAttribute("src");
+            document.getElementById("vs").style.backgroundImage = "";
+            document.getElementById("finalOrdi").getElementsByTagName('img')[0].removeAttribute("src");
+            document.getElementById("reaction").innerHTML= "";
+        }
+        function effacerInstruction(){
+            document.getElementById("menu").style.display = "none";
+        }
+        function montrerInstruction(){
+            document.getElementById("menu").style.display = "initial";
+        }
+        function actualiserBarreVie(){
+            document.getElementById("vieJoueur").style.width= vieJoueur+"px";
+        }
+        
+    </script>
+    
+
+</body>
+</html>
