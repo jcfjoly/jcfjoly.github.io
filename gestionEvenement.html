@@ -1,0 +1,63 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #carre{
+        width: 250px;
+        height:250px;
+        border: 2px solid black;
+        position:absolute;
+        background-color: rgb(0, 0, 255);
+        top: 100px;
+        left: 100px;
+    }
+</style>
+<body>
+
+   <div id="carre"></div>
+
+   <script>
+       var x=100
+       var y=100
+       var carre=document.getElementById("carre")
+
+       document.addEventListener("keydown", clavier)
+
+       carre.addEventListener("mousemove", souris)
+
+       function souris(e){
+            posX=e.offsetX;
+            posY=e.offsetY;
+            console.log(posX , posY);
+            carre.style.backgroundColor="rgb(" + posX + ", 100, " + posY + ")";
+       }
+       
+       function clavier(e){
+        //console.log(e.keyCode);
+        if (e.keyCode==39){
+            x+=10
+        }
+        if (e.keyCode==37){
+            x-=10
+        }
+        if (e.keyCode==38){
+            y-=10 
+        }
+        if (e.keyCode==40){
+            y+=10
+        }
+        carre.style.left=x+"px";
+        carre.style.top=y+"px";
+       }
+
+
+
+
+   </script>
+</body>
+
+</html>
