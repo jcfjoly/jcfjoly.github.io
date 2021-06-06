@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select your character</title>
+    <link rel="icon" href="MCLogo.ico" type="image/x-icon">
+</head>
+
+<style>
+    body{
+        background-image: url('MCMainMenu.jpg');
+        background-size: cover;
+    }
+
+    #mainGame{
+        width: 1000px;
+        height: 660px;
+        background-image: url('CBbackground.jpg');
+        position: relative;
+        top: 250px;
+        left: 460px;
+        border: 2px white solid;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    #selectCharacter{
+        width: 900px;
+        height: auto;
+        color: white;
+        text-align: center;
+        font-size: 75px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        position: absolute;
+        top: 15px;
+        left: 50px;
+    }
+
+    #ALEX{
+        background-image: url("ALEX.png");
+        height: 500px;
+        width: 324px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: absolute;
+        top: 135px;
+        left: 138.5px;
+    }
+
+    #ALEX:hover{
+        border: 2px white solid;
+        border-radius: 25px;
+        background-color: grey;
+    }
+
+    #STEVE{
+        background-image: url('STEVE.png');
+        background-position: center;
+        height: 500px;
+        width: 324px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: absolute;
+        top: 135px;
+        left: 537.5px;
+    }
+
+    #STEVE:hover{
+        border: 2px white solid;
+        border-radius: 25px;
+        background-color: grey;
+    }
+
+    #Sound{
+        background-image: url('Play.png');
+        height: 100px;
+        width: 100px;
+        position: relative;
+        top: -660px;
+        left: 25px;
+        background-size: contain;
+    }
+
+    #Mute{
+        background-image: url('Mute.ico');
+        height: 100px;
+        width: 100px;
+        position: relative;
+        top: -635px;
+        left: 25px;
+        background-size: contain;
+    }
+</style>
+
+<body>
+    <div id="mainGame">
+        <div id="selectCharacter">
+            Select your character
+        </div>
+
+        <a href="page 2 ALEX.html" onclick="getTime()">
+            <div id="ALEX">
+            
+            </div>
+        </a>
+
+
+        <a href="page 2 STEVE.html">
+            <div id="STEVE">
+                
+            </div>
+        </a>
+    </div>
+
+    <div id="Sound" onclick="play()"></div>
+
+    <div id="Mute" onclick="pause()"></div>
+</body>
+
+<script>
+    var minecraftSound= new Audio();
+        minecraftSound.src="IMG_3791 (online-audio-converter.com).wav"
+
+    function play(){
+        minecraftSound.play()
+        minecraftSound.loop=true
+        minecraftSound.volume=1
+    }
+
+    function pause(){
+        minecraftSound.pause()
+    }
+
+    function getTime(){
+        var timestamp = minecraftSound.currentTime
+        sessionStorage.setItem("timestamp", timestamp)
+    }
+
+    alert("<------ Click the Sound image to play music :)")
+</script>
+</html>

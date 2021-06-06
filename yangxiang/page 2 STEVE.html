@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select the difficulty</title>
+    <link rel="icon" href="MCLogo.ico" type="image/x-icon">
+</head>
+
+<style>
+    body{
+        background-image: url('MCBackgroundreal.jpg');
+        background-size: cover;
+        max-width: 1920px;
+        max-height: 1080px;
+    }
+
+    #mainGame{
+        width: 960px;
+        height: 440px;
+        background-image: url('Dirtbg.png');
+        position: relative;
+        top: 300px;
+        left: 475px;
+        border-radius: 16px;
+        border: 4px cyan solid;
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    #difficulty{
+        width: 750px;
+        height: auto;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 50px;
+        text-align: center;
+        color: white;
+        position: absolute;
+        top: 45px;
+        left: 105px;
+    }
+
+    #easy{
+        width: 500px;
+        height: auto;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 35px;
+        text-align: center;
+        color: white;
+        background-image: url('cobbleBG.png');
+        border: 2px gray solid;
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        left: 230px;
+        top: 145px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    #easy:hover{
+        width: 400px;
+        left: 280px;
+        border: 4px white solid;
+    }
+
+    #medium{
+        width: 500px;
+        height: auto;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 35px;
+        text-align: center;
+        color: white;
+        background-image: url('cobbleBG.png');
+        border: 2px gray solid;
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        left: 230px;
+        top: 235px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    #medium:hover{
+        width: 400px;
+        left: 280px;
+        border: 4px white solid;
+    }
+
+    #hard{
+        width: 500px;
+        height: auto;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 35px;
+        text-align: center;
+        color: white;
+        background-image: url('cobbleBG.png');
+        border: 2px gray solid;
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        left: 230px;
+        top: 325px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    #hard:hover{
+        width: 400px;
+        left: 280px;
+        border: 4px white solid;
+    }
+
+    .level{
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: none;
+        color: white;
+    }
+
+    #Sound{
+        background-image: url('Play.png');
+        background-color: white;
+        height: 100px;
+        width: 100px;
+        position:relative;
+        top: -400px;
+        left: 25px;
+        background-size: contain;
+        border-radius: 25px;
+        border: 2px solid black;
+    }
+
+    #Mute{
+        background-image: url('Mute.ico');
+        background-color: white;
+        height: 100px;
+        width: 100px;
+        position: relative;
+        top: -500px;
+        left: 150px;
+        background-size: contain;
+        border-radius: 25px;
+        border: 2px solid black;
+    }
+
+    #STEVE{
+        background-image: url('STEVE.png');
+        background-color: yellowgreen;
+        background-position: center;
+        height: 500px;
+        width: 324px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: relative;
+        top: -375px;
+        left: 75px;
+        border: 4px solid white;
+        border-radius: 25px;
+    }
+
+    #yourCharacter{
+        height: auto;
+        width: 250px;
+        text-align: center;
+        font-size: 20px;
+        font-family: "Comic Sans MS", "Comic Sans", cursive;
+        font-style: italic;
+        color: white;
+        position: absolute;
+        top: -35px;
+        left: 35px;
+    }
+
+    #skeleton{
+        background-image: url('skeleton.png');
+        height: 540px;
+        width: 330px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        left: 1480px;
+        top: -900px;
+        display: none;
+    }
+
+    #piglin{
+        background-image: url('piglin.png');
+        height: 540px;
+        width: 335.5px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        left: 1480px;
+        top: -900px;
+        display: none;
+    }
+
+    #blaze{
+        background-image: url('Blaze.png');
+        height: 483px;
+        width: 396px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+        left: 1473px;
+        top: -900px;
+        display: none;
+    }
+    
+</style>
+
+<body>
+    <div id="mainGame">
+        <div id="difficulty">
+            Select the difficulty
+        </div>
+
+        <div id="easy" onmouseover="easy()" onmouseout="easyC()">
+            <a class="level" href="page 3 EasyS.html">Easy</a>
+        </div>
+
+        <div id="medium" onmouseover="medium()" onmouseout="mediumC()">
+            <a class="level" href="page 3 MediumS.html">Medium</a>
+        </div>
+
+        <div id="hard" onmouseover="hard()" onmouseout="hardC()">
+            <a class="level" href="page 3 hardS.html">Hard</a>
+        </div>
+    </div>
+
+    <div id="Sound" onclick="play()"></div>
+
+    <div id="Mute" onclick="pause()"></div>
+
+    <div id="STEVE">
+        <div id="yourCharacter">Your Character</div>
+    </div>
+
+    <div id="skeleton"></div>
+
+    <div id="piglin"></div>
+
+    <div id="blaze"></div>
+</body>
+
+<script>
+    var timestamp = sessionStorage.getItem("timestamp");
+
+    var minecraftSound= new Audio();
+        minecraftSound.src="IMG_3791 (online-audio-converter.com).wav"
+
+    function play(){
+        minecraftSound.currentTime=timestamp
+        minecraftSound.play()
+        minecraftSound.loop=true
+        minecraftSound.volume=1
+    }
+
+    function pause(){
+        minecraftSound.pause()
+    }
+
+    function easy(){
+        var skeleton = document.getElementById("skeleton")
+        skeleton.style.display="block"
+    }
+
+    function easyC(){
+        var skeleton = document.getElementById("skeleton")
+        skeleton.style.display="none"
+    }
+
+    function medium(){
+        var piglin = document.getElementById("piglin")
+        piglin.style.display="block"
+    }
+
+    function mediumC(){
+        document.getElementById("piglin").style.display="none"
+    }
+
+    function hard(){
+        document.getElementById("blaze").style.display="block"
+    }
+
+    function hardC(){
+        document.getElementById("blaze").style.display="none"
+    }
+
+    alert("<------ I know I keep saying this, but press the button to play music.")
+</script>
+</html>
