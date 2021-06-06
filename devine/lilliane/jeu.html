@@ -1,0 +1,345 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: MarieClara;
+            src: url(fonts/MarieClara.otf);
+        }
+        body{
+            font-family: MarieClara;
+            background-image: url(images/hk_background.jpg);
+            background-size:cover;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+        #instruction{
+            position:absolute;
+            left: 55%;
+        }
+        .happy{
+            width: 50px;
+            position:absolute;
+        }
+        .chiffrechoisi{
+            width: 200px;
+            position:absolute;
+            left: 23%;
+            top: 29%;
+            text-align: center;
+        }
+        #chiffreInvalide{
+            top: 23%;
+            display: none;
+        }
+        #vierestante{
+            height: 150px;
+            width: 150px;
+            position:absolute;
+            left: 82%;
+            top:43%;
+            text-align: center;
+        }
+        #reaction{
+            height: 100px;
+            width: 150px;
+            position:absolute;
+            left: 63%;
+            top:27%;
+            text-align: center;
+        }
+       #zoneChiffreChoisi{
+            height: 100px;
+            width: 200px;
+            position:absolute;
+            left: 3%;
+            top:10%;
+            text-align: center;
+       }
+       #commencerPartie{
+            height: 100px;
+            position:absolute;
+            left: 40%;
+            top: 3%;
+            text-align: center;
+       }
+
+    </style>
+</head>
+
+<body>
+    <div id="instruction" style="font-size:smaller;">
+        <h2>Instructions:</h2>
+        Gagne la partie et le niveau de difficulté augmentera.<br/>
+        Perd la partie et le niveau de difficulté diminura.<br/>
+        Si tu n'y arrive pas, vend ton âme au <span title="cheatcode is: 666" style="color:red;">DIABLE!</span></div>
+    </div>
+    <div id='commencerPartie'><input type='button' value='Commencer une partie' onclick='initialiser()' /><br/>
+        <p id="scores"></p>
+    </div>
+    <div id='zoneChiffreChoisi'>Devine le chiffre entre 1 et 100<br/>
+        <input  id='inputChiffreChoisi' type="number" min="1" max="100" onkeypress="handleKeyPress(event)" disabled />
+        <input  id='actionValider' type='button' value='envoyer' onclick='valider()' disabled />
+
+    </div>
+    <div id='reaction'></div>
+    <div id='chiffreChoisi' class="chiffreChoisi"></div>
+    <div id='chiffreInvalide' class="chiffreChoisi"><span style="color:darkred; font-size: smaller;">Hey ton chiffre est invalide! On a choisi pour toi!</span></div>
+
+
+    <div id=vierestante><div id='barreVie'></div>
+    <p id='pointsDeVie'></p>
+   
+
+    <script>
+        var cheatCode = 666;
+        var bonChiffre;
+        var chiffreChoisi;
+        var vie;
+        var nbVieDepart = 7;
+        var coupDommage;
+        var nbPartieGagne = 0;
+        var nbPartiePerdu = 0;
+        var record = 0;
+        var essaie;
+        var gagne = 0;
+        var sonNice = new Audio("sons/hk_nice.wav");
+        var sonDeception = new Audio("sons/hk_deception.wav");
+        var sonOhyeah = new Audio("sons/hk_ohyeah.wav");
+        
+           
+
+    function initialiser(){
+        bonChiffre = Math.ceil(Math.random()*100);
+        chiffreChoisi = 0;
+        vie = nbVieDepart;
+        coupDommage = 1;
+        console.log("chiffre de depart => "+ bonChiffre);
+        affichePointsVie();
+        essaie = 0;
+        document.getElementById('reaction').innerHTML = '';
+        document.getElementById('chiffreChoisi').innerHTML = '';
+        affichePointsVie();
+        toggleButton(false);
+        cacheChiffreInvalide();
+        afficheScore();
+        document.getElementById('inputChiffreChoisi').focus();
+        
+
+
+    }
+
+    function actualiserChiffreChoisi(){
+        cacheChiffreInvalide();
+        chiffreChoisi = document.getElementById('inputChiffreChoisi').value;
+        
+        if (!isCheatCode() && (chiffreChoisi > 100 || chiffreChoisi < 1)){
+            chiffreChoisi = Math.ceil(Math.random()*100);
+            afficheChiffreInvalide();
+        }
+        document.getElementById('inputChiffreChoisi').value = '';
+        document.getElementById('inputChiffreChoisi').focus();
+    }
+
+    function afficheChiffreChoisi(){
+        console.log("afficheChiffreChoisi()");
+        var dizaine = parseInt(chiffreChoisi / 10);
+        var unite = chiffreChoisi - (dizaine * 10);
+        dizaineHtml = '';
+        
+        if (dizaine != 0){
+           dizaineHtml = '<img src="images/hk_'+ dizaine +'.png" width="50"/>';
+        }
+        if (dizaine == 10){
+            dizaineHtml = '<img src= "images/hk_1.png" width="50"/>' + '<img src= "images/hk_0.png" width="50"/>';
+        }
+        if (dizaine == 66){
+            dizaineHtml = '<img src= "images/hk_6.png" width="50"/>' + '<img src= "images/hk_6.png" width="50"/>';
+        }
+        document.getElementById('chiffreChoisi').innerHTML = dizaineHtml + '<img src="images/hk_'+ unite +'.png" width="50"/>';
+    }
+
+    function isChiffreTrouve(){
+        return (chiffreChoisi == bonChiffre);
+    }
+    function isCheatCode(){
+        return (chiffreChoisi == cheatCode);
+    }
+
+    function isChiffrePlusGrand(){
+        return (chiffreChoisi > bonChiffre);
+    }
+
+
+    function valider(){
+        console.log("valider()");
+        actualiserChiffreChoisi();
+        afficheChiffreChoisi();
+        console.log("chiffreChoisi => "+ chiffreChoisi);
+        if (isChiffreTrouve() || isCheatCode()){
+            chiffreTrouve();
+            return;
+        }
+        hitMe();
+        if (vie == 0){
+            partiePerdu()
+            return;
+        }
+        affichePointsVie();
+        sonDeception.play();
+        if (isChiffrePlusGrand()){
+            console.log("chiffre plus grand");
+            affichePlusGrand();
+            return;
+        }
+        //chiffre plus petit
+        console.log("chiffre plus petit");
+        affichePlusPetit();
+    }
+
+    function chiffreTrouve(){
+            console.log("chiffre trouve");
+            afficheTrouve();
+            afficheNbEssaie();
+            incrementePartieGagne();
+            determinerRecord();
+            sonOhyeah.play();
+            toggleButton(true);
+            animationTrouve();
+            nbVieDepart = (nbVieDepart > 1)? nbVieDepart - 1 : 1;
+    }
+
+    function partiePerdu(){
+            afficheMort();
+            incrementePartiePerdu();
+            toggleButton(true);
+            nbVieDepart += 1;
+            
+    }
+    function toggleButton(commencerActif){
+            document.getElementById('inputChiffreChoisi').disabled = commencerActif;
+            document.getElementById('actionValider').disabled = commencerActif;
+            document.getElementById('commencerPartie').firstChild.disabled = !commencerActif;
+    }
+
+    function afficheTrouve(){
+        console.log("afficheTrouve()");
+        document.getElementById('reaction').innerHTML = '<span style="color:darkgreen; font-size:larger;">Bravo!</span><br/>Tu l\'as trouvé!';
+
+    }
+
+    function affichePlusGrand(){
+        console.log("affichePlusGrand()");
+        document.getElementById('reaction').innerHTML = '<span style="color:darkred; font-size: larger;">Oups!</span><br/>Il est trop grand.';
+    }
+
+    function affichePlusPetit(){
+        console.log("affichePlusPetit()");
+        document.getElementById('reaction').innerHTML = '<span style="color:darkred; font-size: larger;">Oups!</span><br/>Il est trop petit.';
+    }
+
+    function affichePointsVie(){
+        console.log("affichePointsVie()");
+        if (vie == nbVieDepart){
+            document.getElementById('pointsDeVie').innerHTML = 'Youpi, tu commence avec ' + vie + ' vies! <img src="images/hk_happy.png" width="25"/>' ;
+            return;
+        }
+        document.getElementById('pointsDeVie').innerHTML = 'Il te reste '+ vie +' vies! <img src="images/hk_worry.png" width="25"/>';
+    }
+    function afficheChiffreInvalide(){
+        console.log("afficheChiffreInvalide()");
+        document.getElementById('chiffreInvalide').style.display = 'inline';
+    }
+    function cacheChiffreInvalide(){
+        console.log("cacheChiffreInvalide()");
+        document.getElementById('chiffreInvalide').style.display = 'none';
+    }
+    function hitMe(){
+        console.log("hitMe()");
+        if (vie > 0) {
+            vie = vie - coupDommage;
+        }
+        console.log("vie => "+ vie);
+    }
+    function afficheMort(){
+        document.getElementById('pointsDeVie').innerHTML = 'Tu as perdu! <img src="images/hk_triste.png" width="25"/>';
+        document.getElementById('reaction').innerHTML = 'Le bon chiffre chiffre était ' + bonChiffre + '!';
+    }
+    function afficheNbEssaie(){
+        essaie = nbVieDepart - vie + 1;
+        document.getElementById('pointsDeVie').innerHTML = 'Il t\'a fallu ' + essaie + ' essaie!';
+        console.log("nbEssaie => "+ essaie);
+    }
+
+    function afficheScore(){
+        console.log('afficheScore()')
+        var strHtml = "<table>";
+        strHtml += "<tr><td>Partie" + ((nbPartieGagne > 1)? "s":"") + " gagnée:</td><td>"+ nbPartieGagne +"</td></tr>";
+        strHtml += "<tr><td>Partie" + ((nbPartiePerdu > 1)? "s":"") +  " perdue:</td><td>"+ nbPartiePerdu +"</td></tr>";
+        if (record > 0){
+            strHtml += "<tr><td>Score le plus haut:</td><td>"+ record +"</td></tr>";
+        }
+        strHtml += "</table>";
+        document.getElementById("scores").innerHTML = strHtml;
+        
+        
+    }
+    function incrementePartieGagne(){
+        console.log("incrementePartieGagne()");
+        nbPartieGagne += 1;
+    }
+    function incrementePartiePerdu(){
+        console.log("incrementePartiePerdu()");
+        nbPartiePerdu += 1;
+    }
+    
+
+    function determinerRecord(){
+        essaie = nbVieDepart - vie + 1;
+        if (essaie < record || record == 0){
+            record = essaie ;
+        } 
+    }
+       
+    function handleKeyPress(e){
+        var key=e.keyCode || e.which;
+        if (key==13){
+            valider();
+        }
+    }
+
+    function animationTrouve(){
+        for (i=0; i<1000; i++){
+            setTimeout('createDivTrouve('+i+')', i+800);
+            //createDivTrouve(i);
+        }
+        setTimeout('removeDivTrouve()', 3000);
+    }
+
+    function removeDivTrouve(){
+        for (i=0; i<1000; i++){
+            divTrouve = document.getElementById('trouve_'+ i);
+            divTrouve.parentNode.removeChild(divTrouve);
+        }
+    }
+
+    function createDivTrouve(i){
+        var newDiv = document.createElement("div");
+        var newImage = new Image;
+        newDiv.className = 'happy';
+        newDiv.id = 'trouve_'+ i;
+        newDiv.style.top = Math.random()*96 + "%";
+        newDiv.style.left = Math.random()*98 + "%";
+        newImage.src = 'images/hk_happy.png';
+        newImage.style.width = "50px";
+        newDiv.appendChild(newImage);
+        document.body.appendChild(newDiv);
+        
+    }
+</script>
+    
+    
+</body>
+</html>

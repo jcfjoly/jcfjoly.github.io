@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div></div>Devine le chiffre entre 1 et 100<br/>
+    <input type='text' id='numero'>
+    <input type='button' value='envoyer' onclick='valider()'></div>
+
+    <script>
+        var bonChiffre=Math.ceil(Math.random()*100)
+        
+        console.log(bonChiffre)
+
+
+    function valider(){
+    var numero=document.getElementById('numero').value
+    if(numero==bonChiffre){
+        alert("bravo")
+    
+    }else{
+        alert('Try again!')
+    }
+    console.log(numero)
+}
+
+
+
+    </script>
+    
+</body>
+</html>

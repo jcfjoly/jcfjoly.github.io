@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        #barreVie{
+            width: 1000px;
+            height: 20px;
+            background-color: green;
+
+        }
+    </style>
+</head>
+<body>
+    <h1>comment créer une barre de vie</h1>
+    <div id='barreVie'></div>
+    <p id='points'>points de vie = 1000</p>
+    <p id='messages'></p>
+    <input type='button' value='hit me!' onClick='dommage()'>
+    
+    <script>
+        var hp=1000
+
+        function dommage(){
+            var vie=document.getElementById('barreVie')
+            var points=document.getElementById('points')
+            var hitDammage=Math.floor(Math.random()*100)
+            if(hp<0){
+                hp=0
+            }
+            console.log(hitDammage)
+            
+            hp=hp-hitDammage
+
+            vie.style.width=hp+'px'
+            points.innerHTML="Points de vie = "+hp
+            messages.innerHTML='Vous avez perdu '+hitDammage+' points de vie.'
+            if(hitDammage>96){
+                messages.innerHTML='!!CRITICAL!! Vous avez perdu'+hitDammage+' points de vie.'
+            }
+            if(hp<0){
+                hp=0
+                vie.style.width='0px'
+            }
+            if(hp==0){
+                points.innerHTML='Vous êtes mort!'
+            }
+            if(hp<500){
+                vie.style.backgroundColor='red'
+            }
+            
+            console.log('test')
+        }
+
+
+    </script>
+</body>
+</html>
