@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu devine le chiffre</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    <style>
+        body{
+            font-family: 'Fjalla One', sans-serif;
+            background-image: url(background&sound/background.gif);
+            background-size: cover;
+        }
+        h1{
+            margin-top: 30px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        h2{
+            margin-top: 110px;
+        }
+        #Subtitle{
+            visibility: hidden;
+        }
+        #retry{
+            width: 100px;
+            height: 100px;
+            background-size: contain;
+            background-color: white;
+            border-radius: 10px;
+            border: black 4px solid;
+            background-image: url(background&sound/retry.png);
+            position: absolute;
+            top: 7%;
+            left: 80%;
+        }
+        #retry:hover{
+            width: 100px;
+            height: 100px;
+            margin: 5px;
+            background-size: contain;
+            background-color: gray;
+            border-radius: 10px;
+            border: black 4px solid;
+            background-image: url(background&sound/retry.png);
+            position: absolute;
+            top: 7%;
+            left: 80%;
+        }
+        #jeu{
+            color: white;
+            position: absolute;
+            top: 37%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 400px;
+            width: 700px;
+            border: red solid 2px;
+            border-radius: 10px;
+            background-image: url(background&sound/gamebackground.jpg);
+            background-size: contain;
+            text-align: center;
+            
+        }
+        #numero{
+            width: 75px;
+            opacity: 0;
+        }
+        #envoyer{
+            opacity: 0;
+        }
+        #barrevie{
+            width: 700px;
+            height: 20px;
+            position: absolute;
+            background-color: greenyellow;
+            top: 62%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: red solid 2px;
+            border-radius: 10px;
+            visibility: hidden;
+            transition: 1s;
+        }
+        #scam{
+            width: 620px;
+            height:350px;
+            background-image: url(background&sound/notascam.png);
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0%;
+        }
+        #bouton{
+            width: 300px;
+            height: 45px;
+            background-image: url(background&sound/button.JPG);
+            position: absolute;
+            top: 77%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0%;
+            border: solid 2px red;
+            border-radius: 10px;
+        }
+        #easy{
+            width: 80px;
+            height: 30px;
+            position: absolute;
+            top: 30%;
+            left: 80.5%;
+            background-color: yellowgreen;
+            text-align: center;
+            padding-top: 10px;
+            list-style-type: none;
+            border: black 2px solid;
+            border-radius: 10px;
+        }
+        #normal{
+            width: 80px;
+            height: 30px;
+            position: absolute;
+            top: 36%;
+            left: 80.5%;
+            background-color: yellow;
+            text-align: center;
+            padding-top: 10px;
+            list-style-type: none;
+            border: black 2px solid;
+            border-radius: 10px;
+        }
+        #hard{
+            width: 80px;
+            height: 30px;
+            position: absolute;
+            top: 42%;
+            left: 80.5%;
+            background-color: red;
+            text-align: center;
+            padding-top: 10px;
+            list-style-type: none;
+            border: black 2px solid; 
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="retry" onclick="restart()"></div>
+<div id="difficulty">
+    <li id="easy" onclick="changedifficultyeasy()">Easy</li>
+    <li id="normal" onclick="changedifficultynormal()">Normal</li>
+    <li id="hard" onclick="changedifficultyhard()">Hard</li>
+</div>
+<div id="GameScreen">
+    <div id="jeu">
+        <h1 id="Title">Veuillez choisir une difficulté!</h1></br>
+        <h2 id="Subtitle">Entre 1 et 100!</h2>
+        <input type="number" id="numero"></br>
+        <input type="button" id="envoyer" value="Envoyer" onclick="valider()"> 
+        <h3><p id="message"></p></h3>
+    </div>
+    <div id="barrevie"></div>
+    <div id="scam"></div>
+    <div id="bouton"></div>
+</div>  
+</body>
+<script>
+    //Variables du jeu
+    var tries=0
+    var hp=700
+    var dommage=70
+    var difficulty=easy
+    var difficultyeasy=document.getElementById("easy")
+    var difficultynormal=document.getElementById("normal")
+    var difficultyhard=document.getElementById("hard")
+    console.log("Vie=" + hp)
+    var bonnumero=Math.ceil(Math.random()*100)
+    console.log(bonnumero)
+    //Variables des sons
+    var failsound=new Audio()
+    failsound.src="background&sound/OOF.mp3"
+    var successsound=new Audio()
+    successsound.src="background&sound/success.mp3"
+    //Difficultés
+    function changedifficultyeasy(){
+        difficulty=easy
+        difficultynormal.style.visibility="hidden"
+        difficultyhard.style.visibility="hidden"
+        Title.innerHTML="Devinez le nombre chanceux pour gagner un nouveau M1 Macbook Pro!"
+        message.innerHTML="Essayez votre chance et entrez un nombre dans le champ ci-dessus"
+        document.getElementById("barrevie").style.visibility="visible"
+        document.getElementById("Subtitle").style.visibility="visible"
+        document.getElementById("numero").style.opacity=100
+        document.getElementById("envoyer").style.opacity=100
+        setdifficulty()
+    }
+    function changedifficultynormal(){
+        difficulty=normal
+        difficultyeasy.style.visibility="hidden"
+        difficultyhard.style.visibility="hidden"
+        Title.innerHTML="Devinez le nombre chanceux pour gagner un nouveau M1 Macbook Pro!"
+        message.innerHTML="Essayez votre chance et entrez un nombre dans le champ ci-dessus"
+        document.getElementById("barrevie").style.visibility="visible"
+        document.getElementById("Subtitle").style.visibility="visible"
+        document.getElementById("numero").style.opacity=100
+        document.getElementById("envoyer").style.opacity=100
+        setdifficulty()
+    }
+    function changedifficultyhard(){
+        difficulty=hard
+        difficultyeasy.style.visibility="hidden"
+        difficultynormal.style.visibility="hidden"
+        Title.innerHTML="Devinez le nombre chanceux pour gagner un nouveau M1 Macbook Pro!"
+        message.innerHTML="Essayez votre chance et entrez un nombre dans le champ ci-dessus"
+        document.getElementById("barrevie").style.visibility="visible"
+        document.getElementById("Subtitle").style.visibility="visible"
+        document.getElementById("numero").style.opacity=100
+        document.getElementById("envoyer").style.opacity=100
+        setdifficulty()
+    }
+    function setdifficulty(){
+        if(difficulty==easy){
+            dommage=70    
+            }else if(difficulty==normal){
+                dommage=140
+                }else if(difficulty==hard){
+                    dommage=175
+                }
+    }
+    //Barre de vie
+    function modifievie(){
+        var vie=document.getElementById("barrevie")
+        hp=hp-dommage
+        console.log("Vie=" + hp)
+        vie.style.width=hp+"px"
+    }
+    //Valider le nombre
+    function valider(){
+        var bouton=document.getElementById("bouton")
+        var numero=document.getElementById("numero").value
+        var notascam=document.getElementById("scam")
+        console.log(numero)
+        if(numero==""){
+            message.innerHTML="Veuillez entrer un nombre dans le champ ci-dessus"
+            }else if(numero<bonnumero){
+            message.innerHTML="Le nombre est trop petit!"
+            failsound.play()
+            modifievie()
+            fail()
+            tries=tries+1
+                }else if(numero>bonnumero){
+                    message.innerHTML="Le nombre est trop grand!"
+                    modifievie()
+                    fail()
+                    failsound.play()
+                    tries=tries+1
+                        }else{
+                            tries=tries+1
+                            message.innerHTML="Le nombre est en fait de " + bonnumero +". Bravo! Vous l'avez deviné en " + tries + " essaie(s)!"
+                            successsound.play()
+                            notascam.style.opacity=100
+                            bouton.style.opacity=100
+                            }
+    }
+    //Écran fail
+    function fail(){
+        var jeu=document.getElementById("jeu")
+        var Subtitle=document.getElementById("Subtitle")
+        var envoyer=document.getElementById("envoyer")
+        var numero=document.getElementById("numero")
+        if(hp<=0){
+            tries=tries+1
+            Title.innerHTML="LOSER LOL"
+            Subtitle.innerHTML="PAS DE MACBOOK POUR TOI"
+            message.innerHTML="Vous êtes mort après " + tries +" essaies! Le bon nombre était " + bonnumero + ". Meilleure chance la prochaine fois..."
+            jeu.style.backgroundImage="url(background&sound/loser.jpg)"
+            Subtitle.style.marginTop=150 + "px"
+            envoyer.style.opacity=0
+            numero.style.opacity=0
+        }
+    }
+    //Recommencer le jeu
+    function restart(){
+        location.reload()
+    }
+</script>
+</html>
