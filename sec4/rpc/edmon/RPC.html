@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medieval Fantasy Battles</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@900&display=swap" rel="stylesheet">
+<style>
+body{
+    background-image: url(media/background.gif);
+    background-size: cover;
+    text-align: center;
+    font-family: 'Cinzel Decorative', cursive;
+}
+#bgbox{
+    background-color:white;
+    border: black 5px solid;
+    opacity: 20%;
+    height: 800px;
+    width: 1500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#textTop{
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size:x-large;
+    text-shadow: 2px 2px 2px;
+    transition: 50ms;
+}
+#play{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size:medium;
+    text-shadow: 2px 2px 2px;
+}
+#play:hover{
+    font-size: large;
+    cursor: pointer;
+}
+#rules{
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size:medium;
+    text-shadow: 2px 2px 2px;
+}
+#rules:hover{
+    font-size: large;
+    cursor: pointer;
+}
+#yourChoice{
+    position: absolute;
+    visibility: hidden;
+    top: 25%;
+    left: 23%;
+    text-shadow: 2px 2px 2px;
+}
+#cpuChoice{
+    position: absolute;
+    visibility: hidden;
+    top: 25%;
+    left: 63%;
+    text-shadow: 2px 2px 2px;
+}
+#textMiddle{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size:medium;
+    text-shadow: 2px 2px 2px;
+}
+#textBottom{
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size:medium;
+    text-shadow: 2px 2px 2px;
+    cursor: pointer;
+    visibility: hidden;
+}
+#back{
+    position: absolute;
+    top: 85%;
+    left: 17%;
+    transform: translate(-50%, -50%);
+    font-size:medium;
+    text-shadow: 2px 2px 2px;
+    visibility: hidden;
+    cursor: pointer;
+}
+#sword{
+    background-image: url(media/sword.png);
+    background-size: cover;
+    height: 400px;
+    width: 400px;
+    position: absolute;
+    top: 40%;
+    left: 28%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    transition: 50ms;
+}
+#sword:hover{
+    height: 350px;
+    width: 350px;
+    cursor: pointer;
+}
+#bow{
+    background-image: url(media/bow.png);
+    background-size: cover;
+    height: 225px;
+    width: 225px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    transition: 50ms;
+}
+#bow:hover{
+    height: 185px;
+    width: 185px;
+    cursor: pointer;
+}
+#wand{
+    background-image: url(media/wand.png);
+    background-size: cover;
+    height: 350px;
+    width: 350px;
+    position: absolute;
+    top: 50%;
+    left: 72%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+    transition: 50ms;
+}
+#wand:hover{
+    height: 300px;
+    width: 300px;
+    cursor: pointer;
+}
+#computerChoice{
+    background-size: cover;
+    height: 400px;
+    width: 400px;
+    position: absolute;
+    top: 40%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    visibility: hidden;
+}
+#scoreboard{
+    position: absolute;
+    top: 85%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    text-shadow: 2px 2px 2px;
+}
+</style>
+</head>
+
+<body>
+<div id="bgbox"></div>
+<div id="textTop"><h1>Medieval Fantasy Battles</h1></div>
+<div id="textMiddle"></div>
+<div id="textBottom" onclick="retry()"><h1>Retry</h1></div>
+<div id="play" onclick="startGame()"><h1>Play</h1></div>
+<div id="rules" onclick="rules()"><h1>Rules</h1></div>
+<div id="yourChoice"><h1>Your choice</h1></div>
+<div id="cpuChoice"><h1>CPU's choice</h1></div>
+<div id="back" onclick="backToMenu()"><h1>Back</h1></div>
+<div id="sword" onclick="sword()"></div>
+<div id="bow" onclick="bow()"></div>
+<div id="wand" onclick="wand()"></div>
+<div id="computerChoice"></div>
+<div id="scoreboard"></div>
+</body>
+<script>
+//Couleur accent    
+function setColorAccent(){
+    var randomColor = Math.floor(Math.random()*16777215).toString(16);
+    document.getElementById("textTop").style.textShadow="2px 2px 2px #" + randomColor
+    document.getElementById("play").style.textShadow="2px 2px 2px #" + randomColor
+    document.getElementById("rules").style.textShadow="2px 2px 2px #" + randomColor
+    document.getElementById("yourChoice").style.textShadow="2px 2px 2px #" + randomColor
+    document.getElementById("cpuChoice").style.textShadow="2px 2px 2px #" + randomColor
+    document.getElementById("textMiddle").style.textShadow="2px 2px 2px #" + randomColor
+    document.getElementById("textBottom").style.textShadow="2px 2px 2px #" + randomColor
+    document.getElementById("back").style.textShadow="2px 2px 2px #" + randomColor
+}
+setColorAccent()
+//Rules
+function rules(){
+    document.getElementById("textTop").innerHTML="<h1>Rules<h1/>"
+    document.getElementById("play").style.visibility="hidden"
+    document.getElementById("rules").style.visibility="hidden"
+    document.getElementById("textMiddle").style.visibility="visible"
+    document.getElementById("back").style.visibility="visible"
+    document.getElementById("textMiddle").innerHTML="<h1>Select your preferred weapon<h1><br/><h1>Sword beats Wand<h3><br/><h1>Wand beats Bow<h1><br/><h1>Bow beats Sword<h1>"
+}
+//Activation
+var weapons=["sword","bow","wand"]
+function startGame(){
+    document.getElementById("textTop").innerHTML="<h1>Choose your weapon<h1/>"
+    document.getElementById("play").style.visibility="hidden"
+    document.getElementById("rules").style.visibility="hidden"
+    document.getElementById("sword").style.visibility="visible"
+    document.getElementById("bow").style.visibility="visible"
+    document.getElementById("wand").style.visibility="visible"
+    document.getElementById("scoreboard").style.visibility="visible"
+    document.getElementById("scoreboard").innerHTML="<h2>Wins: "+ victoire +" Losses: "+ défaite +" Draws: "+ égalité +"<h2/>"
+}
+//Retour au menu
+function backToMenu(){
+    document.getElementById("textTop").innerHTML="<h1>Medieval Fantasy Battles<h1/>"
+    document.getElementById("play").style.visibility="visible"
+    document.getElementById("rules").style.visibility="visible"
+    document.getElementById("sword").style.visibility="hidden"
+    document.getElementById("sword").style.left="28%"
+    document.getElementById("bow").style.visibility="hidden"
+    document.getElementById("bow").style.left="50%"
+    document.getElementById("wand").style.visibility="hidden"
+    document.getElementById("wand").style.left="72%"
+    document.getElementById("textMiddle").style.visibility="hidden"
+    document.getElementById("back").style.visibility="hidden"
+    document.getElementById("computerChoice").style.visibility="hidden"
+    document.getElementById("textBottom").style.visibility="hidden"
+}
+//Sons
+var battleSound=new Audio()
+battleSound.src="media/battlecry.wav"
+//Pointage
+var victoire=0
+var défaite=0
+var égalité=0
+//Choix Épée
+function sword(){
+    var playerWeapon="sword"
+    console.log("Weapon of player: " + playerWeapon)
+    var numOrdi=Math.floor(Math.random()*3)
+    choixOrdi=weapons[numOrdi]
+    console.log(choixOrdi)
+    //Égalité
+    if(choixOrdi=="sword"){
+        document.getElementById("bow").style.visibility="hidden"
+        document.getElementById("wand").style.visibility="hidden"
+        document.getElementById("sword").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/sword.png)"
+        document.getElementById("computerChoice").style.width="400px"
+        document.getElementById("computerChoice").style.height="400px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="40%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleDraw,1500)
+    //Défaite
+    }else if(choixOrdi=="bow"){
+        document.getElementById("bow").style.visibility="hidden"
+        document.getElementById("wand").style.visibility="hidden"
+        document.getElementById("sword").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/bow.png)"
+        document.getElementById("computerChoice").style.width="225px"
+        document.getElementById("computerChoice").style.height="225px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="50%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleLoss,1500)
+    //Victoire
+    }else if(choixOrdi=="wand"){
+        document.getElementById("bow").style.visibility="hidden"
+        document.getElementById("wand").style.visibility="hidden"
+        document.getElementById("sword").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/wand.png)"
+        document.getElementById("computerChoice").style.width="350px"
+        document.getElementById("computerChoice").style.height="350px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="50%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleVictory,1500)
+    }
+}
+//Choix Arc à flèches
+function bow(){
+    var playerWeapon="bow"
+    console.log("Weapon of player: " + playerWeapon)
+    var numOrdi=Math.floor(Math.random()*3)
+    choixOrdi=weapons[numOrdi]
+    console.log(choixOrdi)
+    //Victoire
+    if(choixOrdi=="sword"){
+        document.getElementById("sword").style.visibility="hidden"
+        document.getElementById("wand").style.visibility="hidden"
+        document.getElementById("bow").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/sword.png)"
+        document.getElementById("computerChoice").style.width="400px"
+        document.getElementById("computerChoice").style.height="400px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="40%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleVictory,1500)
+    //Égalité
+    }else if(choixOrdi=="bow"){
+        document.getElementById("sword").style.visibility="hidden"
+        document.getElementById("wand").style.visibility="hidden"
+        document.getElementById("bow").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/bow.png)"
+        document.getElementById("computerChoice").style.width="225px"
+        document.getElementById("computerChoice").style.height="225px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="50%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleDraw,1500)
+    //Défaite
+    }else if(choixOrdi=="wand"){
+        document.getElementById("sword").style.visibility="hidden"
+        document.getElementById("wand").style.visibility="hidden"
+        document.getElementById("bow").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/wand.png)"
+        document.getElementById("computerChoice").style.width="350px"
+        document.getElementById("computerChoice").style.height="350px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="50%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleLoss,1500)
+    }
+}
+//Choix Baguette Magique
+function wand(){
+    var playerWeapon="wand"
+    console.log("Weapon of player: " + playerWeapon)
+    var numOrdi=Math.floor(Math.random()*3)
+    choixOrdi=weapons[numOrdi]
+    console.log(choixOrdi)
+    //Défaite
+    if(choixOrdi=="sword"){
+        document.getElementById("sword").style.visibility="hidden"
+        document.getElementById("bow").style.visibility="hidden"
+        document.getElementById("wand").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/sword.png)"
+        document.getElementById("computerChoice").style.width="400px"
+        document.getElementById("computerChoice").style.height="400px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="40%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleLoss,1500)
+    //Victoire
+    }else if(choixOrdi=="bow"){
+        document.getElementById("sword").style.visibility="hidden"
+        document.getElementById("bow").style.visibility="hidden"
+        document.getElementById("wand").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/bow.png)"
+        document.getElementById("computerChoice").style.width="225px"
+        document.getElementById("computerChoice").style.height="225px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="50%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleVictory,1500)
+    //Égalité
+    }else if(choixOrdi=="wand"){
+        document.getElementById("sword").style.visibility="hidden"
+        document.getElementById("bow").style.visibility="hidden"
+        document.getElementById("wand").style.left="30%"
+        document.getElementById("yourChoice").style.visibility="visible"
+        document.getElementById("cpuChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.backgroundImage="url(media/wand.png)"
+        document.getElementById("computerChoice").style.width="350px"
+        document.getElementById("computerChoice").style.height="350px"
+        document.getElementById("computerChoice").style.visibility="visible"
+        document.getElementById("computerChoice").style.top="50%"
+        document.getElementById("textTop").innerHTML="<h1>After a long battle...<h1/>"
+        battleSound.play()
+        setTimeout(afterBattleDraw,1500)
+    }
+}
+//Réinitialiser
+function afterBattleVictory(){
+    document.getElementById("textMiddle").innerHTML="<h1>You win!<h1>"
+    document.getElementById("textMiddle").style.visibility="visible"
+    document.getElementById("textBottom").style.visibility="visible"
+    victoire=victoire+1
+    document.getElementById("scoreboard").innerHTML="<h2>Wins: "+ victoire +" Losses: "+ défaite +" Draws: "+ égalité +"<h2/>"
+}
+function afterBattleDraw(){
+    document.getElementById("textMiddle").innerHTML="<h1>You draw!<h1>"
+    document.getElementById("textMiddle").style.visibility="visible"
+    document.getElementById("textBottom").style.visibility="visible"
+    égalité=égalité+1
+    document.getElementById("scoreboard").innerHTML="<h2>Wins: "+ victoire +" Losses: "+ défaite +" Draws: "+ égalité +"<h2/>"
+}
+function afterBattleLoss(){
+    document.getElementById("textMiddle").innerHTML="<h1>You lose!<h1>"
+    document.getElementById("textMiddle").style.visibility="visible"
+    document.getElementById("textBottom").style.visibility="visible"
+    défaite=défaite+1
+    document.getElementById("scoreboard").innerHTML="<h2>Wins: "+ victoire +" Losses: "+ défaite +" Draws: "+ égalité +"<h2/>"
+}
+function retry(){
+    document.getElementById("sword").style.visibility="visible"
+    document.getElementById("sword").style.left="28%"
+    document.getElementById("bow").style.visibility="visible"
+    document.getElementById("bow").style.left="50%"
+    document.getElementById("wand").style.visibility="visible"
+    document.getElementById("wand").style.left="72%"
+    document.getElementById("textTop").innerHTML="<h1>Choose your weapon<h1/>"
+    document.getElementById("yourChoice").style.visibility="hidden"
+    document.getElementById("cpuChoice").style.visibility="hidden"
+    document.getElementById("computerChoice").style.visibility="hidden"
+    document.getElementById("textMiddle").style.visibility="hidden"
+    document.getElementById("textBottom").style.visibility="hidden"
+    setColorAccent()
+}
+</script>
+
+
+
+</html>
