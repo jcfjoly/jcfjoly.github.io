@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+   <style>
+        body{
+            background-image: url(GameOver.jpg);
+            background-size: 1450px 600px;
+        }
+        #Retry{
+            background-color: white; 
+            border: ridge;
+            color: black;
+            padding: 20px 50px;
+            position: absolute;
+            text-align: center;
+            display: inline;
+            font-size: 18px;
+            cursor:pointer;
+            top: 550px;
+            left: 700px;
+            border-radius: 8px;
+	}
+	    #Retry:hover{
+		    background-color:gray;
+	}
+    </style>
+
+
+</head>
+<body onload="Music()">
+    <div id="Retry" onclick="valider()">Retry?</div>
+<script>
+    var GameOver = new Audio("GameOver.mp3")
+	GameOver.src="GameOver.mp3"
+
+    function Music(){	
+	    GameOver.play()
+    }
+    function valider(){
+        window.location.href="FirstFantasy MENU.html"
+    }
+        
+    
+</script>
+</body>
+</html>

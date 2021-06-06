@@ -1,0 +1,175 @@
+<html lang="en">
+<head>
+   <style>
+        body{
+            background-image: url(DBleu.jfif);
+            background-size: cover;
+        }
+        h1{
+            font-size: 30px;
+            text-indent: 20px;
+            color: white;
+            font-family: "Lucida Console", monospace;
+            margin-top: 5px;
+        }
+        h2{
+            font-size: 30px;
+            text-indent: 20px;
+            margin-top: -60px;
+            color: red;
+            font-family: "Lucida Console", monospace;
+            text-align: center;
+            animation-name: flash;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+        @keyframes flash {
+            from {color: red;}
+            to {color: yellow;}
+        }
+        #zoom{
+            height: 700px;
+            width: 1300px;
+            background-image: url(Battleground.png);
+            background-size: cover;
+			position:relative;
+            border:#FFF 5px solid;
+            left: 100px;
+            top: 50px;
+            bottom: 100px;
+            border-radius: 10px;
+        }	
+        #BarreDeCombat1{
+			width: 680px;
+			height: 180px;
+			background-color:#039;
+			bottom:154px;
+			left:109px;
+			position:relative;
+			border:#FFF 7px double;
+            border-radius: 10px;
+            color: gray;
+            font-size: 30px;
+            font-family: "copperplate", Fantasy;    
+            text-indent: 15px;     
+		}
+		#BarreDeCombat2{
+			width: 575px;
+			height: 180px;
+			background-color:#039;
+			left:810px;
+			bottom: 348px;
+			position:relative;
+			border:#FFF 7px double;
+            border-radius: 10px;
+            text-align: center;
+            color: gray;
+            font-size: 30px;
+            font-family: "copperplate", Fantasy;       
+		}
+        #Grunt1{
+            height: 300px;
+            width: 300px;
+            background-image:url(Grunt1.png);
+            background-size: cover;
+			position:relative;
+            left: 600px;
+            bottom: 900px;
+        }
+        #VieJoueur{
+            width: 550px;
+            height: 5px;
+            background-color: green;
+            position: relative;
+            bottom: 780px;
+            left: 230px;
+        }
+        #VieGrunt{
+            width: 550px;
+            height: 10px;
+            background-color: green;
+            position: relative;
+            bottom: 1200px;
+            left: 475px;
+        }
+        #hint{
+            font-size: 30px;
+            font-family: "Courier New", monospace; 
+            color: white;  
+            margin-top: 30px;              
+        }
+    </style>
+
+</head>
+<body onload="Music()">
+    <div>
+        <div id="Zoom"></br><h2>!!!Find the right number to beat the enemy!!!</h2></div>
+        <div id="BarreDeCombat1">NAME</br><h1>CXH.</h1></div>
+        <div id="BarreDeCombat2">Devine le chiffre entre 1 et 100!</br></br><input type="text" id="numero">
+            <input type="button" value="Attack!" onclick="valider()" onClick="AttackSound()"><p id="hint"></p></div>     
+        <div id="Grunt1"></div>
+        <div id="VieGrunt"></div>     
+        <div id="VieJoueur"></div>  
+    </div>
+<script>
+
+        var MusicCombat = new Audio("MusicCombat.mp3")
+        MusicCombat.src="MusicCombat.mp3"
+
+    function Music(){	  
+            MusicCombat.play()
+        }
+
+
+        var AttackSound = new Audio("AttackSound1.mov")
+        AttackSound.src = "AttackSound1.mov"
+
+        var bonChiffre=Math.ceil(Math.random()*100)    
+        console.log(bonChiffre)
+
+    function valider(){
+        var numero=document.getElementById("numero").value
+        if(numero==bonChiffre){
+           window.location.href="FirstFantasy VICTORY.html"
+        }
+        if(numero<bonChiffre){
+            hint.innerHTML="!Ton chiffre est trop petit!"
+            Pdommage()
+            AttackSound.play()
+        }
+        if(numero>bonChiffre){
+            hint.innerHTML="!Ton chiffre est trop grand!"
+            Pdommage()
+            AttackSound.play()
+        }
+
+    }  
+        var hp=550
+        console.log(hp)
+
+    function Pdommage(){
+        var PlayerHP=document.getElementById("VieJoueur")
+        var hitDamage=Math.ceil(Math.random()*100)
+        hp=hp-hitDamage
+        
+
+        PlayerHP.style.width=hp + "px"
+        
+        if(hp<275){
+            PlayerHP.style.backgroundColor="yellow"     
+        }
+        if(hp<150){
+            PlayerHP.style.backgroundColor="red"
+        }
+        if(hp<=0){   
+            hp=0
+            PlayerHP.style.width=hp
+            window.location.href="FirstFantasy GAMEOVER.html"
+        }
+        return console.log(hp)
+    }  
+</script> 
+
+</body>
+</html>

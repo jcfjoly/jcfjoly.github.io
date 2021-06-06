@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Jeu_DevineLeChiffre</title>
+</head>
+
+<style>
+	body{
+		background-image: url(HomeScreen.jpg);
+		background-size: cover;
+		text-align:center;
+	}
+	h1{
+		color:#FFC;
+		font-size:120px;
+		margin-top:-5px;
+		font-family: "copperplate", Fantasy;
+	}
+	#NewGame{
+		background-color: white; 
+		border: ridge;
+		color: black;
+		padding: 20px 50px;
+		text-align: center;
+		display: inline;
+		font-size: 18px;
+		cursor:pointer;
+		border-radius: 8px;
+	}
+	#NewGame:hover{
+		background-color:gray;
+	}
+</style>
+
+<body onload="Music()">
+<h1>First Fantasy</h1>
+<br/><br/><br/><br/>
+<div id="NewGame" onclick="GameStart()">New Game</div>
+
+
+
+<script>
+var SonMenu = new Audio("SonMenu.wav")
+	SonMenu.src="SonMenu.wav"
+
+function Music(){	
+	SonMenu.play()
+}
+	
+function GameStart(){
+	window.location.href="FirstFantasy FIGHT.html"
+}
+
+</script>
+
+
+</body>
+</html>

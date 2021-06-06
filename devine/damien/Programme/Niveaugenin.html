@@ -1,0 +1,279 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niveau facile</title>
+
+<style>
+		body{ 
+				background-size: 100%;
+				
+				background-image: url(https://images8.alphacoders.com/357/357515.jpg);
+		}
+		
+		#global{
+				background-image:url(../Images/akatsuki-clouds-fullprint-v2-itok-hasto-sarwanto.jpg);
+				height:480px;
+				width:900px;
+				position:relative;
+				margin:auto;
+				margin-top:150px; 
+				border:	ridge #C00 20px ;
+				
+		}	
+				
+		#devine{
+				position:absolute;
+				color:#FFF; 
+				font-size: 36px;
+				top: 20px;
+				left: 150px;
+				background: rgba(0, 0, 0, 0.8);
+				padding: 20px;
+				font-family: "Lucida Console", Monaco, monospace;
+		
+		}
+
+		#numero{
+				margin-left: 150px;
+				margin-top: 120px;
+				text-align: center;
+				position: absolute;
+    			border: 5px solid red;
+				background: rgba(255,20,0,0.5);
+				color:white;
+				box-shadow: inset 0 0 8px  rgba(0,0,0,0.1), 0 0 16px rgba(0,0,0,0.1);
+				-moz-box-shadow: inset 0 0 8px  rgba(0,0,0,0.1),0 0 16px rgba(0,0,0,0.1);
+				padding: 5px;
+				font-family: "Lucida Console", Monaco, monospace;
+				font size: 10px;
+		
+		}
+		 
+		#button{
+				
+				
+				max-width: 50px;
+				max-height: 50px;
+				background-color: Transparent;
+    			background-repeat:no-repeat;
+    			border: none;
+    			cursor:pointer;
+    			overflow: hidden;
+    			outline:none;
+		}
+		 
+		#imagebutton{
+				margin-top: 170px;
+				margin-left:215px;
+				max-width: 60px;
+				max-height: 50px;
+				position: absolute;
+		}
+		
+		#milieu{
+			    background:rgba(0, 0, 0, 0.8);
+				width: 500px;
+				height: 250px;
+				position:absolute;
+				margin-top: 150px;
+				margin-left: 180px;
+				border:	ridge #C00 20px ;
+		
+		}
+		
+		#entre{
+				position:absolute;
+				color:#FFF; 
+				font-size: 18px;
+				top: 30px;
+				left: 75px;
+				padding: 10px;
+				font-family: "Lucida Console", Monaco, monospace;
+
+		}
+		
+		#vie{
+				max-width: 200px;
+				height: auto;
+				position: absolute;
+				margin-left: 840px;
+				margin-top: 40px;
+		}	
+	
+		#arrowup{
+				position:absolute;
+				max-width: 70px;
+				margin-top: 100px;
+				margin-left: 50px;
+				display:none;
+		}
+
+		#arrowdown{
+				position:absolute;
+				max-width: 70px;
+				margin-top: 100px;
+				margin-left: 350px;
+				transform: rotate(180deg);
+				display:none
+		}
+
+        #goback{
+                position: absolute;
+                margin-top:30px;
+                margin-left: 10px;
+                max-width: 7% ;
+                background: rgba(0, 0, 0, 0.8);
+        }
+
+        #bravo{
+            position:absolute;
+                color:#FFF; 
+                font-size: 18px;
+                background: rgba(0, 0, 0, 1);
+                padding: 20px;
+                font-family: "Lucida Console", Monaco, monospace;
+                text-align:center;
+                margin-right:200px;
+                margin-left:200px;
+                top: 75px;
+                border:	ridge #C00 20px ;
+                display:none;
+                width: 400px;
+                height: 300px;
+
+        }
+
+        #bravoimg{
+            width: 70%;
+            top: 70px;
+        }
+
+        #dommage{
+            position:absolute;
+                color:#FFF; 
+                font-size: 18px;
+                background: rgba(0, 0, 0, 1);
+                padding: 20px;
+                font-family: "Lucida Console", Monaco, monospace;
+                text-align:center;
+                margin-right:200px;
+                margin-left:200px;
+                top: 75px;
+                border:	ridge #C00 20px ;
+                display:none;
+                width: 400px;
+                height: 300px;
+
+        }
+
+        #dommageimg{
+            width: 70%;
+            top: 70px;
+
+        }
+
+</style>
+
+
+</head>
+<body>
+   
+   <div id="global"> 
+
+		
+		<div id="milieu">
+			<div id="entre">Le chiffre est entre 1 et 50!</div>
+			<div><img src="https://media4.giphy.com/media/3sblfrcpkEm1iuKc8j/source.gif" id="arrowup"></div>
+			<div><img src="https://media4.giphy.com/media/3sblfrcpkEm1iuKc8j/source.gif" id="arrowdown"></div>
+			
+			<input type="text" id="numero" />
+			<button id="button" onclick="degats()"> <img src="https://i.pinimg.com/originals/fa/75/e3/fa75e3a5714192a840c3ebc121952e45.gif" id="imagebutton" ></button>
+			
+        </div>
+        
+        <a href="Pageaccueil.html">  <img src="https://icon-library.com/images/back_1150397_4806.png" id="goback"> </a>
+       
+
+        <h1 id="bravo">BRAVO TU AS RÉUSSIS!</BR>
+            POUR RETOURNER AU MENU, CLIQUE SUR LA FLÈCHE</BR>
+        </BR>
+
+        <img src="https://pm1.narvii.com/6214/250133ec79b7fd0ba34f13f31a5b4493b36fc651_00.jpg" id="bravoimg">
+        
+        </h1>
+
+
+        <h2 id="dommage">DOMMAGE C'EST LA FIN POUR TOI...</BR>
+            POUR RETOURNER AU MENU, CLIQUE SUR LA FLÈCHE</BR>
+        </BR>
+
+        <img src="https://qph.fs.quoracdn.net/main-qimg-d5ae81894d3b7893f32ba2fc887ea4e8.webp" id="dommageimg">
+        
+        </h2>
+
+
+        <div id="devine">Devine le chiffre ou meurt</div>
+        
+		</div>
+  
+		<div><img src="https://static.wikia.nocookie.net/narutofanon/images/2/28/Rasengan.png/revision/latest/scale-to-width-down/340?cb=20161122015908" id="vie"></div>
+
+        
+
+
+  <script>
+
+		var hp=200
+        var bonchiffre=Math.ceil(Math.random()*50)
+        console.log(bonchiffre)
+		
+	
+		
+		function degats(){
+
+
+			var hitDamage=20
+			var vie=document.getElementById("vie")
+			var numero=document.getElementById("numero").value
+  			console.log(numero)
+		
+            
+				
+		
+				hp=hp-hitDamage
+
+				vie.style.width=hp+"px"
+				
+                
+
+            	if(numero==bonchiffre){
+					
+   					document.getElementById("bravo").style.display="block"
+                    document.getElementById("milieu").style.display="none"
+                    document.getElementById("devine").style.display="none"
+				}if(numero<bonchiffre){
+
+					document.getElementById("arrowup").style.display="block"
+					document.getElementById("arrowdown").style.display="none"
+
+				}if(numero>bonchiffre){
+
+					document.getElementById("arrowup").style.display="none"
+					document.getElementById("arrowdown").style.display="block"
+				
+                }if(hp==0){
+                    
+                    document.getElementById("dommage").style.display="block"
+                    document.getElementById("milieu").style.display="none"
+                    document.getElementById("devine").style.display="none"
+
+
+
+}   
+        }           
+  </script>
+    
+</body>
+
+</html>
