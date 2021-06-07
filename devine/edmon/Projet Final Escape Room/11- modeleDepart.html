@@ -1,0 +1,1123 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap" rel="stylesheet">
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color: white;
+	background-image: url(images/room.png);
+	background-size: cover;
+	}
+/*Commencez VOTRE CSS ici*/	
+body{
+	background-color: black;
+	font-family: 'Odibee Sans', cursive;
+}
+/*Text*/
+#title{
+	position: absolute;
+	width: 700px;
+	height: 100px;
+	top: 20px;
+	left: 170px;
+	text-align: center;
+	font-size: xxx-large;
+}
+#textBox{
+	position: absolute;
+	width: 700px;
+	height: 200px;
+	top: 600px;
+	left: 150px;
+	text-align: center;
+	font-size: xx-large;
+}
+/*Simon Says Game*/
+#hpBar{
+	position: absolute;
+	width: 200px;
+    height: 25px;
+	top: 120px;
+	left: 70px;
+	border: 2px black solid;
+	border-radius: 10px;
+}
+#health{
+	position: absolute;
+	width: 200px;
+	height: 25px;
+	top: 122px;
+	left: 73px;
+	border-radius: 10px;
+	background-color: red;
+	transition: 1000ms;
+}
+#heart{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	top: 105px;
+	left: 47px;
+	background-image: url(images/heart.png);
+	background-size: contain;
+}
+#moboFloor{
+	position: absolute;
+	top: 250px;
+	left: 120px;
+	width: 160px;
+	height: 160px;
+	transform: rotate(10deg);
+	background-image: url(images/mobo.png);
+	background-size: cover;
+}
+#moboFloor:hover{
+	cursor: pointer;
+}
+#cpuFloor{
+	position: absolute;
+	top: 320px;
+	left: 300px;
+	width: 30px;
+	height: 30px;
+	transform: rotate(20deg);
+	background-image: url(images/cpu.png);
+	background-size: cover;
+}
+#cpuFloor:hover{
+	cursor: pointer;
+}
+#ramFloor{
+	position: absolute;
+	top: 290px;
+	left: 370px;
+	width: 100px;
+	height: 100px;
+	transform: rotate(10deg);
+	background-image: url(images/ram_4.png);
+	background-size: cover;
+}
+#ramFloor:hover{
+	cursor: pointer;
+}
+#pasteFloor{
+	position: absolute;
+	top: 300px;
+	left: 625px;
+	width: 100px;
+	height: 100px;
+	transform: rotate(10deg);
+	background-image: url(images/paste.png);
+	background-size: cover;
+}
+#pasteFloor:hover{
+	cursor: pointer;
+}
+#coolerFloor{
+	position: absolute;
+	top: 300px;
+	left: 525px;
+	width: 70px;
+	height: 70px;
+	transform: rotate(350deg);
+	background-image: url(images/cooler.png);
+	background-size: cover;
+}
+#coolerFloor:hover{
+	cursor: pointer;
+}
+#screwdriverFloor{
+	position: absolute;
+	top: 280px;
+	left: 750px;
+	width: 105px;
+	height: 100px;
+	transform: rotate(70deg);
+	background-image: url(images/screwdriver.png);
+	background-size: cover;
+}
+#screwdriverFloor:hover{
+	cursor: pointer;
+}
+#goNext{
+	position: absolute;
+	top: 550px;
+	left: 30px;
+	width: 100px;
+	height: 100px;
+	transform: rotate(270deg);
+	background-image: url(images/arrow.png);
+	background-size: cover;
+	display: none;
+}
+#goNext:hover{
+	cursor: pointer;
+}
+#retry{
+	position: absolute;
+	width: 300px;
+	height: 120px;
+	top: 250px;
+	left: 335px;
+	background-image: url(images/retry.png);
+	background-size: cover;
+	display: none;
+}
+#retry:hover{
+	cursor: pointer;
+}
+/*Inventory*/
+#inventory{
+	position: absolute;
+	top: 15px;
+	left: 830px;
+}
+li{
+	width: 100px;
+	height: 100px;
+	list-style: none;
+	margin: 3px;
+	border: 3px black solid;
+	background-color: #4E4C4C;
+}
+#invCPU{
+	width: 100px;
+	height: 100px;
+	background-image: url(images/cpu.png);
+	background-size: cover;
+	display:none;
+}
+#invMobo{
+	width: 100px;
+	height: 100px;
+	background-image: url(images/mobo.png);
+	background-size: cover;
+	display:none;
+}
+#invRAM{
+	width: 100px;
+	height: 100px;
+	background-image: url(images/ram_4.png);
+	background-size: cover;
+	display:none;
+}
+#invCooler{
+	width: 100px;
+	height: 100px;
+	background-image: url(images/cooler.png);
+	background-size: cover;
+	display: none;
+}
+#invPaste{
+	width: 100px;
+	height: 100px;
+	background-image: url(images/paste.png);
+	background-size: cover;
+	display: none;
+}
+#invScrewdriver{
+	width: 100px;
+	height: 100px;
+	background-image: url(images/screwdriver.png);
+	background-size: cover;
+	display: none;
+}
+/*Building Process*/
+#deskScreen{
+	visibility: hidden;
+}
+/*Interface*/
+#workSpace{
+	position: absolute;
+	width: 400px;
+	height: 500px;
+	left: 300px;
+	top: 80px;
+	border: dotted 2px white;
+}
+#hint{
+	position: absolute;
+	width: 100px;
+	height: 43px;
+	top: 640px;
+	left: 20px;
+	background-image: url(images/hint.png);
+	background-size: cover;
+}
+#hint:hover{
+	cursor: pointer;
+}
+#motherboard{
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	left: 250px;
+	top: 80px;
+	background-image: url(images/mobo.png);
+	background-size: cover;
+	visibility: hidden;
+}
+#ramSlot1{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	left: 332px;
+	top: 78px;
+	visibility: hidden;
+}
+#ramSlot2{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	left: 345px;
+	top: 78px;
+	visibility: hidden;
+}
+#ramSlot3{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	left: 358px;
+	top: 78px;
+	visibility: hidden;
+}
+#ramSlot4{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	left: 371px;
+	top: 78px;
+	visibility: none;
+}
+#ramStick1{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	visibility: hidden;
+	background-image: url(images/ram_topview.jpg);
+	background-size: cover;
+}
+#ramStick2{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	visibility: hidden;
+	background-image: url(images/ram_topview.jpg);
+	background-size: cover;
+}
+#ramStick3{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	visibility: hidden;
+	background-image: url(images/ram_topview.jpg);
+	background-size: cover;
+}
+#ramStick4{
+	position: absolute;
+	width: 10px;
+	height: 170px;
+	visibility: hidden;
+	background-image: url(images/ram_topview.jpg);
+	background-size: cover;
+}
+#cpuSocket{
+	position: relative;
+	width: 100px;
+	height: 90px;
+	left: 215px;
+	top: 120px;
+	visibility: hidden;
+}
+#cpuIn{
+	position: relative;
+	width: 100px;
+	height: 90px;
+	visibility: hidden;
+}
+#thermal{
+	position: relative;
+	width: 100px;
+	height: 90px;
+	visibility: hidden;
+}
+#cooler{
+	position: relative;
+	width: 160px;
+	height: 160px;
+	right: 40px;
+	bottom: 45px;
+	background-image: url(images/cooler.png);
+	background-size: cover;
+	visibility: hidden;
+}
+#screwTopLeft{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 18px;
+	top: 17px;
+	border: 2px red solid;
+	border-radius: 20px;
+	visibility: hidden;
+}
+#screwTopRight{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 125px;
+	top: 17px;
+	border: 2px red solid;
+	border-radius: 20px;
+	visibility: hidden;
+}
+#screwBottomLeft{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 18px;
+	top: 125px;
+	border: 2px red solid;
+	border-radius: 20px;
+	visibility: hidden;
+}
+#screwBottomRight{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 125px;
+	top: 125px;
+	border: 2px red solid;
+	border-radius: 20px;
+	visibility: hidden;
+}
+
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+    	<div id="level"> 
+			Niveau <br/> 1 / 12
+		</div>
+        <div id="auteur" onClick="nextLevel()"> 
+			<b>Conception : Edmon Shi 406</b>
+		</div>
+        <div id="cadreJeu">
+			<div id="title">Motherboard Assembling Simulator</div>
+			<div id="textBox">Press Enter To Begin</div>
+			<div id="retry" onclick="retry()"></div>			
+			<div id="inventory">
+			<ul>
+				<li id="invMobo" onclick="selectMotherboard()"></li>
+				<li id="invCPU" onclick="selectCPU()"></li>
+				<li id="invRAM" onclick="selectRAM()"></li>
+				<li id="invPaste" onclick="selectPaste()"></li>
+				<li id="invCooler" onclick="selectCooler()"></li>
+				<li id="invScrewdriver" onclick="selectScrewdriver()"></li>
+			</ul>
+			</div>
+			<!--Simon Says Game-->
+			<div id="room">
+				<div id="moboFloor" onclick="getMobo()"></div>
+				<div id="cpuFloor" onclick="getCPU()"></div>
+				<div id="ramFloor" onclick="getRAM()"></div>
+				<div id="pasteFloor" onclick="getPaste()"></div>
+				<div id="coolerFloor" onclick="getCooler()"></div>
+				<div id="screwdriverFloor" onclick="getScrewdriver()"></div>
+				<div id="hpBar"></div>
+				<div id="health"></div>
+				<div id="heart"></div>
+				<div id="goNext" onclick="goToNext()"></div>
+			</div>
+			<!--Assembling-->
+			<div id="deskScreen">
+				<div id="hint" onclick="hintAppear()"></div>
+				<div id="workSpace" onclick="placeMotherboard()"></div>
+				<div id="motherboard">
+					<div id="ramSlot1" onclick="placeRAM_1()">
+						<div id="ramStick1"></div>
+					</div>
+					<div id="ramSlot2" onclick="placeRAM_2()">
+						<div id="ramStick2"></div>
+					</div>
+					<div id="ramSlot3" onclick="placeRAM_3()">
+						<div id="ramStick3"></div>
+					</div>
+					<div id="ramSlot4" onclick="placeRAM_4()">
+						<div id="ramStick4"></div>
+					</div>
+					<div id="cpuSocket" onclick="placeCPU()">
+						<div id="cpuIn" onclick="placePaste()">
+							<div id="thermal" onclick="placeCooler()">
+								<div id="cooler">
+									<div id="screwTopLeft" onclick="screwInTopLeft()"></div>
+									<div id="screwTopRight" onclick="screwInTopRight()"></div>
+									<div id="screwBottomLeft" onclick="screwInBottomLeft()"></div>
+									<div id="screwBottomRight" onclick="screwInBottomRight()"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+        	</div>
+        </div>
+    </div>
+    
+
+    <script>
+	//Start
+	var gameStart=false
+	var gameEnd=false
+	var atDesk=false
+	var invElements=0
+
+	//Son
+	var successSon=new Audio()
+	successSon.src="sounds/success.wav"
+	var failSon=new Audio()
+	failSon.src="sounds/fail.wav"
+	var clunkSon=new Audio()
+	clunkSon.src="sounds/clunk.wav"
+	var snapSon=new Audio()
+	snapSon.src="sounds/snap.wav"
+	var insertSon=new Audio()
+	insertSon.src="sounds/insert.wav"
+	var screwSon=new Audio()
+	screwSon.src="sounds/screw.wav"
+	var squeezeSon=new Audio()
+	squeezeSon.src="sounds/squeeze.wav"
+	var tadaSon=new Audio()
+	tadaSon.src="sounds/tada.wav"
+
+	//Simon Says Game
+	var simonSaysArray=["motherboard","CPU","thermal paste","cooler","screwdriver","RAM",""]
+	var arrayCounter=6
+	var simonSaysComponent=""
+	var hp=200
+	function generateNumber(){
+		num=Math.floor(Math.random()*arrayCounter)
+		console.log("Random number = "+num)
+	}
+	function simonSaysSelection(){
+		generateNumber()
+		simonSaysComponent=simonSaysArray[num]
+		console.log(simonSaysComponent)
+		document.getElementById("textBox").innerHTML="Grab the "+simonSaysComponent+"!"
+	}
+	function hpAppear(){
+		document.getElementById("hpBar").style.display="inherit"
+		document.getElementById("health").style.display="inherit"
+		document.getElementById("heart").style.display="inherit"
+	}
+	document.addEventListener('keypress', function (e){
+    if (e.key === 'Enter' && gameStart==false) {
+		gameStart=true
+      	simonSaysSelection()
+		hpAppear()
+    }
+	})
+	function damage(){
+		hp=hp-50
+		document.getElementById("health").style.width=hp+"px"
+	}
+	function getMobo(){
+		if (gameStart==true){
+			if (simonSaysComponent=="motherboard"){
+				document.getElementById("invMobo").style.display="inherit"
+				document.getElementById("moboFloor").style.display="none"
+				invElements=invElements+1
+				arrayCounter=arrayCounter-1
+				simonSaysArray.splice(num,1)
+				console.log(simonSaysArray)
+				console.log(invElements)
+				successSon.play()
+				if (invElements==6){
+					document.getElementById("textBox").innerHTML="It's time to assemble your components!"
+					document.getElementById("goNext").style.display="inherit"
+					invElements=7
+				}else{
+					simonSaysSelection()
+				}
+			}else{
+				wrongComponent()
+				damage()
+				failSon.play()
+				if (hp<=0){
+					fail()
+				}else{
+					setTimeout(simonSaysSelection,500) 
+				}
+			}
+		}
+	}
+	function getCPU(){
+		if (gameStart==true){
+			if (simonSaysComponent=="CPU"){
+				document.getElementById("invCPU").style.display="inherit"
+				document.getElementById("cpuFloor").style.display="none"
+				invElements=invElements+1
+				arrayCounter=arrayCounter-1
+				simonSaysArray.splice(num,1)
+				console.log(simonSaysArray)
+				console.log(invElements)
+				successSon.play()
+				if (invElements==6){
+					document.getElementById("textBox").innerHTML="It's time to assemble your components!"
+					document.getElementById("goNext").style.display="inherit"
+					invElements=7
+				}else{
+					simonSaysSelection()
+				}
+			}else{
+				wrongComponent()
+				damage()
+				failSon.play()
+				if (hp<=0){
+					fail()
+				}else{
+					setTimeout(simonSaysSelection,500) 
+				}
+			}
+		}
+	}
+	function getRAM(){
+		if (gameStart==true){
+			if (simonSaysComponent=="RAM"){
+				document.getElementById("invRAM").style.display="inherit"
+				document.getElementById("ramFloor").style.display="none"
+				invElements=invElements+1
+				arrayCounter=arrayCounter-1
+				simonSaysArray.splice(num,1)
+				console.log(simonSaysArray)
+				console.log(invElements)
+				successSon.play()
+				if (invElements==6){
+					document.getElementById("textBox").innerHTML="It's time to assemble your components!"
+					document.getElementById("goNext").style.display="inherit"
+					invElements=7
+				}else{
+					simonSaysSelection()
+				}
+			}else{
+				wrongComponent()
+				damage()
+				failSon.play()
+				if (hp<=0){
+					fail()
+				}else{
+					setTimeout(simonSaysSelection,500) 
+				}
+			}
+		}
+	}
+	function getPaste(){
+		if (gameStart==true){
+			if (simonSaysComponent=="thermal paste"){
+				document.getElementById("invPaste").style.display="inherit"
+				document.getElementById("pasteFloor").style.display="none"
+				invElements=invElements+1
+				arrayCounter=arrayCounter-1
+				simonSaysArray.splice(num,1)
+				console.log(simonSaysArray)
+				console.log(invElements)
+				successSon.play()
+				if (invElements==6){
+					document.getElementById("textBox").innerHTML="It's time to assemble your components!"
+					document.getElementById("goNext").style.display="inherit"
+					invElements=7
+				}else{
+					simonSaysSelection()
+				}
+			}else{
+				wrongComponent()
+				damage()
+				failSon.play()
+				if (hp<=0){
+					fail()
+				}else{
+					setTimeout(simonSaysSelection,500) 
+				}
+			}
+		}
+	}	
+	function getCooler(){
+		if (gameStart==true){
+			if (simonSaysComponent=="cooler"){
+				document.getElementById("invCooler").style.display="inherit"
+				document.getElementById("coolerFloor").style.display="none"
+				invElements=invElements+1
+				arrayCounter=arrayCounter-1
+				simonSaysArray.splice(num,1)
+				console.log(simonSaysArray)
+				console.log(invElements)
+				successSon.play()
+				if (invElements==6){
+					document.getElementById("textBox").innerHTML="It's time to assemble your components!"
+					document.getElementById("goNext").style.display="inherit"
+					invElements=7
+				}else{
+					simonSaysSelection()
+				}
+			}else{
+				wrongComponent()
+				damage()
+				failSon.play()
+				if (hp<=0){
+					fail()
+				}else{
+					setTimeout(simonSaysSelection,500) 
+				}
+			}
+		}
+	}
+	function getScrewdriver(){
+		if (gameStart==true){
+			if (simonSaysComponent=="screwdriver"){
+				document.getElementById("invScrewdriver").style.display="inherit"
+				document.getElementById("screwdriverFloor").style.display="none"
+				invElements=invElements+1
+				arrayCounter=arrayCounter-1
+				simonSaysArray.splice(num,1)
+				console.log(simonSaysArray)
+				console.log(invElements)
+				successSon.play()
+				if (invElements==6){
+					document.getElementById("textBox").innerHTML="It's time to assemble your components!"
+					document.getElementById("goNext").style.display="inherit"
+					invElements=7
+				}else{
+					simonSaysSelection()
+				}
+			}else{
+				wrongComponent()
+				damage()
+				failSon.play()
+				if (hp<=0){
+					fail()
+				}else{
+					setTimeout(simonSaysSelection,500) 
+				}
+			}
+		}
+	}
+	function wrongComponent(){
+		document.getElementById("textBox").innerHTML="Wrong component!"
+	}
+	function fail(){
+		document.getElementById("inventory").style.display="none"
+		document.getElementById("room").style.display="none"
+		document.getElementById("cadreJeu").style.background="none"
+		document.getElementById("cadreJeu").style.backgroundColor="lightgreen"
+		document.getElementById("retry").style.display="inherit"
+		document.getElementById("textBox").innerHTML="You failed! Retry?"
+	}
+	function retry(){
+		location.reload()
+		return false
+	}
+	//Part 2
+	function goToNext(){
+		if(gameEnd==false){
+			document.getElementById("cadreJeu").style.backgroundImage="url(images/table.jpg)"
+			document.getElementById("title").style.color="white"
+			document.getElementById("textBox").style.color="white"
+			document.getElementById("deskScreen").style.visibility="visible"
+			document.getElementById("goNext").style.display="none"
+			document.getElementById("hpBar").style.display="none"
+			document.getElementById("health").style.display="none"
+			document.getElementById("heart").style.display="none"
+			document.getElementById("textBox").innerText="Click and drop the components from your inventory into the workspace to assemble your motherboard!"
+			atDesk=true
+		}else if (gameEnd==true){
+			nextLevel()
+		}
+	}
+	//Inventory Selection
+	var selectedMotherboard=false
+	var selectedCPU=false
+	var selectedRAM=false
+	var selectedPaste=false
+	var selectedCooler=false
+	var selectedScrewdriver=false
+
+	function selectMotherboard(){
+		if(atDesk==true && selectedMotherboard==false){
+			document.getElementById("cadreJeu").style.cursor="url(images/cursor_mobo.png),auto"
+			selectedMotherboard=true
+			selectedCPU=false
+			selectedPaste=false
+			selectedRAM=false
+			selectedCooler=false
+			selectedScrewdriver=false
+		}else{
+			document.getElementById("cadreJeu").style.cursor="auto"
+			selectedMotherboard=false
+		}
+	}
+	function selectCPU(){
+		if(atDesk==true && selectedCPU==false){
+			document.getElementById("cadreJeu").style.cursor="url(images/cursor_cpu.png),auto"
+			selectedMotherboard=false
+			selectedCPU=true
+			selectedPaste=false
+			selectedRAM=false
+			selectedCooler=false
+			selectedScrewdriver=false
+		}else{
+			document.getElementById("cadreJeu").style.cursor="auto"
+			selectedCPU=false
+		}
+	}
+	function selectRAM(){
+		if(atDesk==true && selectedRAM==false){
+			document.getElementById("cadreJeu").style.cursor="url(images/cursor_ram_single.png),auto"
+			selectedMotherboard=false
+			selectedCPU=false
+			selectedRAM=true
+			selectedPaste=false
+			selectedCooler=false
+			selectedScrewdriver=false
+		}else{
+			document.getElementById("cadreJeu").style.cursor="auto"
+			selectedRAM=false
+		}
+	}
+	function selectPaste(){
+		if(atDesk==true && selectedPaste==false){
+			document.getElementById("cadreJeu").style.cursor="url(images/cursor_paste.png),auto"
+			selectedMotherboard=false
+			selectedCPU=false
+			selectedPaste=true
+			selectedRAM=false
+			selectedCooler=false
+			selectedScrewdriver=false
+		}else{
+			document.getElementById("cadreJeu").style.cursor="auto"
+			selectedPaste=false
+		}
+	}
+	function selectCooler(){
+		if(atDesk==true && selectedCooler==false){
+			document.getElementById("cadreJeu").style.cursor="url(images/cursor_cooler.png),auto"
+			selectedMotherboard=false
+			selectedCPU=false
+			selectedPaste=false
+			selectedRAM=false
+			selectedCooler=true
+			selectedScrewdriver=false
+		}else{
+			document.getElementById("cadreJeu").style.cursor="auto"
+			selectedCooler=false
+		}
+	}
+	function selectScrewdriver(){
+		if(atDesk==true && selectedScrewdriver==false){
+			document.getElementById("cadreJeu").style.cursor="url(images/cursor_screwdriver.png),auto"
+			selectedMotherboard=false
+			selectedCPU=false
+			selectedPaste=false
+			selectedRAM=false
+			selectedCooler=false
+			selectedScrewdriver=true
+		}else{
+			document.getElementById("cadreJeu").style.cursor="auto"
+			selectedScrewdriver=false
+		}
+	}
+	//Assembling the motherboard
+	var motherboardPlaced=false
+	var cpuPlaced=false
+	var pastePlaced=false
+	var ramStick1Placed=false
+	var ramStick2Placed=false
+	var ramStick3Placed=false
+	var ramStick4Placed=false
+	var ramPlaced=false
+	var ramSticksIn=0
+	var ramSticksLeft=4
+	var coolerPlaced=false
+	var screwTopLeftIn=false
+	var screwTopRightIn=false
+	var screwBottomLeftIn=false
+	var screwBottomRightIn=false
+	var screwsIn=0
+	var screwsPlaced=false
+	var hintNumber=1
+
+	function placeMotherboard(){
+		if (selectedMotherboard==true){
+			document.getElementById("motherboard").style.visibility="visible"
+			document.getElementById("invMobo").style.display="none"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			document.getElementById("cpuSocket").style.visibility="visible"
+			document.getElementById("ramSlot1").style.visibility="visible"
+			document.getElementById("ramSlot2").style.visibility="visible"
+			document.getElementById("ramSlot3").style.visibility="visible"
+			document.getElementById("ramSlot4").style.visibility="visible"
+			clunkSon.play()
+			selectedMotherboard=false
+			motherboardPlaced=true
+			hintNumber=hintNumber+1
+		}
+	}
+	function placeCPU(){
+		if (selectedCPU==true && motherboardPlaced==true){
+			document.getElementById("motherboard").style.backgroundImage="url(images/moboCPU.png)"
+			document.getElementById("invCPU").style.display="none"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			document.getElementById("cpuIn").style.visibility="visible"
+			insertSon.play()
+			selectedCPU=false
+			cpuPlaced=true
+			hintNumber=hintNumber+1
+		}
+	}
+	function placeRAM_1(){
+		if (selectedRAM==true && ramStick1Placed==false && motherboardPlaced==true){
+			ramSticksIn=ramSticksIn+1
+			ramSticksLeft=ramSticksLeft-1
+			document.getElementById("ramStick1").style.visibility="visible"
+			document.getElementById("invRAM").style.backgroundImage="url(images/ram_"+ramSticksLeft+".png)"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			snapSon.play()
+			ramStick1Placed=true
+			selectedRAM=false
+			if(ramSticksIn==4){
+				document.getElementById("invRAM").style.backgroundImage="url(images/ram_1.png)"
+				document.getElementById("invRAM").style.display="none"
+				ramPlaced=true
+				checkGameEnd()
+				hintNumber=hintNumber+1
+			}
+		}
+	}
+	function placeRAM_2(){
+		if (selectedRAM==true && ramStick2Placed==false && motherboardPlaced==true){
+			ramSticksIn=ramSticksIn+1
+			ramSticksLeft=ramSticksLeft-1
+			document.getElementById("ramStick2").style.visibility="visible"
+			document.getElementById("invRAM").style.backgroundImage="url(images/ram_"+ramSticksLeft+".png)"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			snapSon.play()
+			ramStick2Placed=true
+			selectedRAM=false
+			if(ramSticksIn==4){
+				document.getElementById("invRAM").style.backgroundImage="url(images/ram_1.png)"
+				document.getElementById("invRAM").style.display="none"
+				ramPlaced=true
+				checkGameEnd()
+				hintNumber=hintNumber+1
+			}
+		}
+	}
+	function placeRAM_3(){
+		if (selectedRAM==true && ramStick3Placed==false && motherboardPlaced==true){
+			ramSticksIn=ramSticksIn+1
+			ramSticksLeft=ramSticksLeft-1
+			document.getElementById("ramStick3").style.visibility="visible"
+			document.getElementById("invRAM").style.backgroundImage="url(images/ram_"+ramSticksLeft+".png)"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			snapSon.play()
+			ramStick3Placed=true
+			selectedRAM=false
+			if(ramSticksIn==4){
+				document.getElementById("invRAM").style.backgroundImage="url(images/ram_1.png)"
+				document.getElementById("invRAM").style.display="none"
+				ramPlaced=true
+				checkGameEnd()
+				hintNumber=hintNumber+1
+			}
+		}else{
+
+		}
+	}
+	function placeRAM_4(){
+		if (selectedRAM==true && ramStick4Placed==false && motherboardPlaced==true){
+			ramSticksIn=ramSticksIn+1	
+			ramSticksLeft=ramSticksLeft-1
+			document.getElementById("ramStick4").style.visibility="visible"
+			document.getElementById("invRAM").style.backgroundImage="url(images/ram_"+ramSticksLeft+".png)"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			snapSon.play()
+			ramStick4Placed=true
+			selectedRAM=false
+			if(ramSticksIn==4){
+				document.getElementById("invRAM").style.backgroundImage="url(images/ram_1.png)"
+				document.getElementById("invRAM").style.display="none"
+				ramPlaced=true
+				checkGameEnd()
+				hintNumber=hintNumber+1
+			}
+		}
+	}
+	function placePaste(){
+		if(selectedPaste==true && cpuPlaced==true){
+			document.getElementById("motherboard").style.backgroundImage="url(images/moboPaste.png)"
+			document.getElementById("invPaste").style.display="none"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			document.getElementById("thermal").style.visibility="visible"
+			selectedPaste=false
+			pastePlaced=true
+			squeezeSon.play()
+			hintNumber=hintNumber+1
+		}
+	}
+	function placeCooler(){
+		if(selectedCooler==true && pastePlaced==true){
+			document.getElementById("cooler").style.visibility="visible"
+			document.getElementById("invCooler").style.display="none"
+			document.getElementById("cadreJeu").style.cursor="auto"
+			document.getElementById("screwTopLeft").style.visibility="visible"
+			document.getElementById("screwTopRight").style.visibility="visible"
+			document.getElementById("screwBottomLeft").style.visibility="visible"
+			document.getElementById("screwBottomRight").style.visibility="visible"
+			selectedCooler=false
+			coolerPlaced=true
+			insertSon.play()
+			hintNumber=hintNumber+1
+		}
+	}
+	function screwInTopLeft(){
+		if(selectedScrewdriver==true && coolerPlaced==true){
+			document.getElementById("screwTopLeft").style.visibility="hidden"
+			screwTopLeftIn=true
+			screwsIn=screwsIn+1
+			console.log("Numbers of screws in = "+screwsIn)
+			screwSon.play()
+			if(screwsIn==4){
+				document.getElementById("cadreJeu").style.cursor="auto"
+				document.getElementById("invScrewdriver").style.display="none"
+				screwsPlaced=true
+				checkGameEnd()
+			}
+		}
+	}
+	function screwInTopRight(){
+		if(selectedScrewdriver==true && coolerPlaced==true){
+			document.getElementById("screwTopRight").style.visibility="hidden"
+			screwTopRightIn=true
+			screwsIn=screwsIn+1
+			console.log("Numbers of screws in = "+screwsIn)
+			screwSon.play()
+			if(screwsIn==4){
+				document.getElementById("cadreJeu").style.cursor="auto"
+				document.getElementById("invScrewdriver").style.display="none"
+				screwsPlaced=true
+				checkGameEnd()
+			}
+		}
+	}
+	function screwInBottomLeft(){
+		if(selectedScrewdriver==true && coolerPlaced==true){
+			document.getElementById("screwBottomLeft").style.visibility="hidden"
+			screwBottomLeftIn=true
+			screwsIn=screwsIn+1
+			console.log("Numbers of screws in = "+screwsIn)
+			screwSon.play()
+			if(screwsIn==4){
+				document.getElementById("cadreJeu").style.cursor="auto"
+				document.getElementById("invScrewdriver").style.display="none"
+				screwsPlaced=true
+				checkGameEnd()
+			}
+		}
+	}
+	function screwInBottomRight(){
+		if(selectedScrewdriver==true && coolerPlaced==true){
+			document.getElementById("screwBottomRight").style.visibility="hidden"
+			screwBottomRightn=true
+			screwsIn=screwsIn+1
+			console.log("Numbers of screws in = "+screwsIn)
+			screwSon.play()
+			if(screwsIn==4){
+				document.getElementById("cadreJeu").style.cursor="auto"
+				document.getElementById("invScrewdriver").style.display="none"
+				screwsPlaced=true
+				checkGameEnd()
+			}
+		}
+	}
+
+	function checkGameEnd(){
+		if(screwsPlaced==true && ramPlaced==true){
+			document.getElementById("deskScreen").style.visibility="hidden"
+			document.getElementById("textBox").innerHTML="Your motherboard is fully assembled!"
+			document.getElementById("goNext").style.display="inherit"
+			tadaSon.play()
+			gameEnd=true
+		}
+	}
+	//Hints
+	function hintAppear(){
+		if (hintNumber==1){
+			document.getElementById("textBox").innerHTML="Place down your motherboard into the workspace!"
+		}else if(hintNumber==2){
+			document.getElementById("textBox").innerHTML="Insert the CPU into the CPU socket!"
+		}else if(hintNumber==3){
+			document.getElementById("textBox").innerHTML="Insert your RAM in the 4 DIMM slots!"
+		}else if(hintNumber==4){
+			document.getElementById("textBox").innerHTML="Apply the thermal paste on the CPU!"
+		}else if(hintNumber==5){
+			document.getElementById("textBox").innerHTML="Place your cooler on the CPU!"
+		}else if(hintNumber==6){
+			document.getElementById("textBox").innerHTML="Screw down your cooler into the motherboard!"
+		}
+	}
+
+
+
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+	}
+    </script>
+</body>
+</html>
