@@ -1,0 +1,42 @@
+body {
+    overflow: hidden;
+}
+
+p {
+    display: inline-block;
+}
+
+#ultReady {
+    color: white;
+    position: absolute;
+    top: 20px;
+    left: 72.5px;
+    text-shadow: 2px 2px 2px #FF0000;
+    display: none;
+}
+
+#pTarget {
+    color: white;
+    position: absolute;
+    top: 5px;
+    right: 35px;
+    text-shadow: 2px 2px 2px #FF0000;
+}
+
+#pHealthBar,
+#pManaBar {
+    height: 20px;
+    border: black solid 2px;
+}
+
+#pHealthBar {
+    background-color: lawngreen;
+    position: absolute;
+    top: 5px
+}
+
+#pManaBar {
+    background-color: deepskyblue;
+    position: absolute;
+    top: 32px
+}
