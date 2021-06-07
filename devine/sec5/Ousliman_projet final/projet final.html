@@ -1,0 +1,493 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Jeu clavier</title>
+<style>
+body{
+	background-color: lightgray;
+}	
+</style>	
+</head>
+
+<body>
+
+<script>
+// Creation d'un canvas en Javascript au lieu de HTML 
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = 1500;
+canvas.height = 700
+canvas.style.border = "10px white solid";
+canvas.style.backgroundColor= "blue";
+canvas.style.display = "block";
+canvas.style.margin ="auto"
+document.body.appendChild(canvas);
+
+
+
+//variables et objets du jeu
+    var menu=true
+	var gameplay=false 
+	var gameover=false
+	var win=false
+	var monSon=new Audio();
+	monSon.src="burp.mp3";
+	var monSon2=new Audio();
+	monSon2.src="victory.mp3";
+	var monSon3=new Audio();
+	monSon3.src="a.mp3";
+var joueur={
+	x:500,
+	y:500,
+	w:50,
+	h:30,
+	color:"red",
+	speed:10
+	}
+
+
+var keyDown={}
+
+//fonctions
+function showrule(){
+		ctx.font="25px Arial"
+		ctx.textAlign="center"
+		ctx.fillText("mangez le plus de poisson possible et devenez le roi de l'ocean", canvas.width/2, canvas.height/4)
+		ctx.font="25px Arial"
+		ctx.textAlign="center"
+		ctx.fillText("faite gaffe au poisson plus gros que vous", canvas.width/2, canvas.height/4-35)
+	
+ }
+function showmenu(){
+	ctx.font="45px Arial"
+	ctx.textAlign="center"
+	ctx.fillText("START", canvas.width/2, canvas.height/2)
+canvas.addEventListener("click",function(){
+	menu=false; 
+	gameplay=true;})
+ }
+
+function drawJoueur(){
+	ctx.fillStyle=joueur.color
+    ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+
+	if(joueur.w<120){
+			joueur.color='red'
+		    }else{
+	if(joueur.w>120 && joueur.w<210){
+			joueur.color='orange'
+		    }else{
+			if(joueur.w>210){
+			joueur.color='green'
+		   
+		    }
+		}
+	}
+
+	}
+    var sacMissiles=[]
+    var sacMissiles2=[]
+    var sacMissiles3=[]
+	var sacMissilesd=[]
+    var sacMissiles2d=[]
+    var sacMissiles3d=[]
+    function draw(){
+     for(i=0;i<sacMissiles.length;i++){
+		sacMissiles[i].draw()
+		}
+    for(i=0;i<sacMissiles2.length;i++){
+		sacMissiles2[i].draw()
+		}
+    for(i=0;i<sacMissiles3.length;i++){
+		sacMissiles3[i].draw()
+		}
+	for(i=0;i<sacMissilesd.length;i++){
+		sacMissilesd[i].draw()
+		}
+    for(i=0;i<sacMissiles2d.length;i++){
+		sacMissiles2d[i].draw()
+		}
+    for(i=0;i<sacMissiles3d.length;i++){
+		sacMissiles3d[i].draw()
+		}
+    
+    }
+
+	function checkCollision(){
+		for(i=0;i<sacMissiles.length;i++)
+		if(collision(sacMissiles[i],joueur)){
+			joueur.w=joueur.w+5
+			joueur.h=joueur.w*0.6
+			sacMissiles.splice(i,1)
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon.play()
+			}
+		
+	}
+	function checkCollisiond(){
+		for(i=0;i<sacMissilesd.length;i++)
+		if(collision(sacMissilesd[i],joueur)){
+			joueur.w=joueur.w+5
+			joueur.h=joueur.w*0.6
+			sacMissilesd.splice(i,1)
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon.play()
+			}
+		
+	}
+	function checkCollision2(){
+		for(i=0;i<sacMissiles2.length;i++)
+	if(collision(sacMissiles2[i],joueur) && joueur.w>99){
+			joueur.w=joueur.w+15
+			joueur.h=joueur.w*0.6
+			sacMissiles2.splice(i,1)
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon.play()
+			}else{
+			if(collision(sacMissiles2[i],joueur) && joueur.w<99){
+			 gameplay=false
+			 gameover=true 
+			 if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon3.play()
+		   
+		    }
+			}
+		
+	}
+	function checkCollision2d(){
+		for(i=0;i<sacMissiles2d.length;i++)
+		if(collision(sacMissiles2d[i],joueur) && joueur.w>120){
+			joueur.w=joueur.w+15
+			joueur.h=joueur.w*0.6
+			sacMissiles2d.splice(i,1)
+			
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+			monSon.play()
+		}else{
+			if(collision(sacMissiles2d[i],joueur) && joueur.w<120){
+			 gameplay=false
+			 gameover=true 
+			 if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon3.play()
+		    }
+			}
+		
+	}
+	function checkCollision3(){
+		for(i=0;i<sacMissiles3.length;i++)
+		if(collision(sacMissiles3[i],joueur) && joueur.w>120){
+			joueur.w=joueur.w+30
+			joueur.h=joueur.w*0.6
+			sacMissiles3.splice(i,1)
+			
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon.play()
+		    }else{
+			if(collision(sacMissiles3[i],joueur) && joueur.w<120){
+			gameplay=false
+		    gameover=true 
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon3.play()
+		}
+			
+			}
+		
+	}
+	function checkCollision3d(){
+		
+		for(i=0;i<sacMissiles3d.length;i++)
+		if(collision(sacMissiles3d[i],joueur) && joueur.w>210){
+			joueur.w=joueur.w+30
+			joueur.h=joueur.w*0.6
+			sacMissiles3d.splice(i,1)
+			
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+monSon.play()
+		    }else{
+			if(collision(sacMissiles3d[i],joueur) && joueur.w<210){
+			gameplay=false
+		    gameover=true 
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon3.play()
+		}
+			
+			}
+		
+	}
+
+	function Missiles(x,y,w,h,color,speed){
+	this.x=0
+	this.y=Math.floor(Math.random()*canvas.height)
+	this.w=50
+	this.h=this.w*0.6
+	this.color=color
+	this.speed=Math.floor(Math.random()*7+1)
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x+=this.speed,this.y,this.w,this.h)
+		
+	}
+}
+function Missilesd(x,y,w,h,color,speed){
+	this.x=canvas.width-50 
+	this.y=Math.floor(Math.random()*canvas.height)
+	this.w=50
+	this.h=this.w*0.6
+	this.color=color
+	this.speed=Math.floor(Math.random()*7+1)
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x-=this.speed,this.y,this.w,this.h)
+		
+	}
+}
+
+    function Missiles2(x,y,w,h,color,speed){
+	this.x=0
+	this.y=Math.floor(Math.random()*canvas.height)
+	this.w=125
+	this.h=this.w*0.6
+	this.color=color
+	this.speed=Math.floor(Math.random()*7+1)
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x+=this.speed,this.y,this.w,this.h)
+		
+	}
+		
+	}
+	function Missiles2d(x,y,w,h,color,speed){
+	this.x=canvas.width-100 
+	this.y=Math.floor(Math.random()*canvas.height)
+	this.w=125
+	this.h=this.w*0.6
+	this.color=color
+	this.speed=Math.floor(Math.random()*7+1)
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x-=this.speed,this.y,this.w,this.h)
+		
+	}
+		
+	}
+    function Missiles3(x,y,w,h,color,speed){
+	this.x=0
+	this.y=Math.floor(Math.random()*canvas.height)
+	this.w=220
+	this.h=this.w*0.6
+	this.color=color
+	this.speed=Math.floor(Math.random()*7+1)
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x+=this.speed,this.y,this.w,this.h)
+		
+	}
+		
+	}
+	function Missiles3d(x,y,w,h,color,speed){
+	this.x=canvas.width-200
+	this.y=Math.floor(Math.random()*canvas.height)
+	this.w=220
+	this.h=this.w*0.6
+	this.color=color
+	this.speed=Math.floor(Math.random()*7+1)
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x-=this.speed,this.y,this.w,this.h)
+		
+	}
+		
+	}
+	setInterval(souris,Math.floor(Math.random()*4000+1000))
+	
+	function souris(e){
+		sacMissiles.push(new Missiles(600,0,10,5,"red",20))
+		
+	
+    }
+    setInterval(souris2,Math.floor(Math.random()*4000+1000))
+	
+	function souris2(e){
+	    sacMissiles2.push(new Missiles2(600,0,10,5,'orange',20))
+		
+		
+    }
+    setInterval(souris3,Math.floor(Math.random()*4000+2000))
+	
+	function souris3(e){
+	    sacMissiles3.push(new Missiles3(600,0,10,5,"green",20))
+		
+    }
+	setInterval(souris4,Math.floor(Math.random()*4000+2000))
+	
+	function souris4(e){
+		sacMissilesd.push(new Missilesd(600,0,10,5,"red",20))
+	
+    }
+    setInterval(souris5,Math.floor(Math.random()*4000+3000))
+	
+	function souris5(e){
+	 sacMissiles2d.push(new Missiles2d(600,0,10,5,'orange',20))
+		
+    }
+    setInterval(souris6,Math.floor(Math.random()*4000+3000))
+	
+	function souris6(e){
+		sacMissiles3d.push(new Missiles3d(600,0,10,5,"green",20))
+    }
+    
+	function finL(){
+	 ctx.font="45px Arial"
+	 ctx.textAlign="center"
+	 ctx.fillText("GAME OVER", canvas.width/2, canvas.height/2)
+	 canvas.addEventListener("click",function(){
+		joueur.w=50
+		joueur.h=30
+		joueur.x=500
+		joueur.y=500
+		gameover=false; gameplay=true
+		sacMissiles.splice(0,sacMissiles.length)
+		sacMissiles2.splice(0,sacMissiles2.length)
+		sacMissiles3.splice(0,sacMissiles3.length)
+		sacMissilesd.splice(0,sacMissilesd.length)
+		sacMissiles2d.splice(0,sacMissiles2d.length)
+		sacMissiles3d.splice(0,sacMissiles3d.length)
+		
+	})
+ 
+		   }
+
+	function GG(){
+		
+		if(joueur.w>600){
+			joueur.w=50
+			joueur.h=30
+			joueur.x=500
+		    joueur.y=500
+			win=true
+			gameplay=false
+			if (monSon.play()){
+		monSon.pause();
+        monSon.currentTime = 0;}
+		monSon2.play()
+			
+			
+		}
+ 
+	}
+	function finG(){
+	
+	ctx.font="45px Arial"
+	ctx.textAlign="center"
+	ctx.fillText("WIN", canvas.width/2, canvas.height/2)
+	canvas.addEventListener("click",function(){
+		ctx.clearRect(0,0,canvas.width,canvas.height)
+		win=false; menu=true
+		gameover=false; gameplay=true
+		sacMissiles.splice(0,sacMissiles.length)
+		sacMissiles2.splice(0,sacMissiles2.length)
+		sacMissiles3.splice(0,sacMissiles3.length)
+		sacMissilesd.splice(0,sacMissilesd.length)
+		sacMissiles2d.splice(0,sacMissiles2d.length)
+		sacMissiles3d.splice(0,sacMissiles3d.length)
+	})
+	}
+//gestion des collision
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+	}
+
+//événements clavier
+
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+    console.log(keyDown)
+})
+
+document.addEventListener("keyup", function(e){
+    delete keyDown[e.keyCode]
+    console.log(keyDown)
+})
+
+
+function clavier(){
+	//console.log(e)
+	
+	if(37 in keyDown &&joueur.x>0){
+		joueur.x-=joueur.speed
+		}
+	if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+		joueur.x+=joueur.speed
+		}
+	if(38 in keyDown &&joueur.y>0){
+		joueur.y-=joueur.speed
+		}
+	if(40 in keyDown &&joueur.y<canvas.height-joueur.h){
+		joueur.y+=joueur.speed
+		}	
+	
+	}
+	
+
+//boucle principale du jeu
+
+function game(){	
+	if(menu==true){
+		  showmenu()
+		  showrule()
+		  }else{
+	ctx.clearRect(0,0,canvas.width,canvas.height)
+	if (gameplay==true){
+	
+	drawJoueur()
+    draw()
+	clavier()
+	checkCollision()
+	checkCollision2()
+	checkCollision3()
+	checkCollisiond()
+	checkCollision2d()
+	checkCollision3d()
+	GG()
+    }
+    }
+	if(gameover==true){
+		finL()
+		}
+		if(win==true){
+		finG()
+	}
+	requestAnimationFrame(game)
+	}	
+game()
+
+</script>
+</body>
+</html>
