@@ -1,0 +1,671 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Mecha StartUp</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-image: url("images/bgClose.jpg");
+	background-size: cover;
+	background-position: center;
+	}
+/*Commencez VOTRE CSS ici*/	
+
+#haro{
+	width: 150px;
+	height: 150px;
+	position:absolute;
+	bottom: 15px;
+	right:15px;
+	background-image: url("images/haro.png");
+	background-size:cover;
+	background-position: center;
+}
+
+#haro:hover{
+	width: 155px;
+	height: 155px;
+	cursor:pointer;
+}
+
+#caseTexte{
+	border-radius: 10px;
+	width: 790px;
+	height: 100px;
+	position:absolute;
+	bottom: 15px;
+	left: 15px;
+	background-color:#30F;
+	border: 10px solid #FFF;
+	display:none;
+}
+
+#message{
+	font-size:20px;
+	color:white;
+}
+
+#jazz{
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	left: 408px;
+	top: 253px;
+}
+
+#jazz:hover{
+	cursor:pointer;
+}
+
+#instructions{
+	position:absolute;
+	height: 55px;
+	width: 13px;
+	transform: rotate(11deg);
+	right: 295px;
+	bottom: 210px;
+}
+
+#instructions:hover{
+	cursor:pointer;
+}
+
+#pageManuel{
+	position:absolute;
+	width: 360px;
+	height: 519px;
+	left:330px;
+	top: 25px;
+	display:none;
+	background-image: url("images/nancy.JPG");
+	background-position: center;
+	background-size:cover;
+}
+
+#pageManuel:hover{
+	cursor:pointer;
+}
+
+#activationCode{
+	position:absolute;
+	width: 28px;
+	height: 13px;
+	left: 378px;
+	bottom: 246px;
+	transform: rotate(17deg);
+	border-radius: 5px;
+}
+
+#activationCode:hover{
+	cursor:pointer;
+}
+
+#activationCodePhase2{
+	position:absolute;
+	width: 28px;
+	height: 13px;
+	left: 378px;
+	bottom: 246px;
+	transform: rotate(17deg);
+	border-radius: 5px;
+	display:none;
+}
+
+#activationCodePhase2:hover{
+	cursor:pointer;
+}
+
+#inputBg{
+	position:absolute;
+	background-color:#30F;
+	border: 10px solid #FFF;
+	border-radius: 10px;
+	width: 360px;
+	height: 140px;
+	left: 330px;
+	top: 210px;
+	display:none;
+}
+
+#codeMsg{
+	font-size:25px;
+	color:white;
+}
+
+#close{
+	height:20px;
+	width:20px;
+	position: absolute;
+	right:1px;
+	top:1px;	
+	font-size: 20px;
+	color:white;
+	text-align: center;
+}
+
+#close:hover{
+	cursor:pointer;
+	background-color: red;
+}
+
+#gundamLog{
+	position:absolute;
+	width: 34px;
+	height: 15px;
+	left: 548px;
+	bottom: 192px;
+	transform: rotate(17deg);
+	border-radius: 8px;
+}
+
+#gundamLog:hover{
+	cursor:pointer;
+}
+
+#logJournal{
+	position:absolute;
+	background-color:#30F;
+	border: 10px solid #FFF;
+	border-radius: 10px;
+	width: 460px;
+	height: 380px;
+	left: 260px;
+	top: 80px;
+	font-size: 18px;
+	color: white;
+	display:none;
+}
+
+#closeB{
+	height:20px;
+	width:20px;
+	position: absolute;
+	right:1px;
+	top:1px;	
+	font-size: 20px;
+	color:white;
+	text-align: center;
+}
+
+#closeB:hover{
+	cursor:pointer;
+	background-color: red;
+}
+
+#hack{
+	position:absolute;
+	background-color:#30F;
+	border: 10px solid #FFF;
+	border-radius: 10px;
+	width: 360px;
+	height: 160px;
+	left: 330px;
+	top: 190px;
+	display:none;
+	font-size: 25px;
+	color:white;
+}
+
+#indice{
+	font-size: 18px;
+	color:white;
+}
+
+#progress{
+	width: 0%;
+	height: 25px;
+	bottom: 10px;
+	position:absolute;
+	text-align: center;
+	left: 16%;
+	background-color: yellow;
+}
+
+#progressBar{
+	width: 70%;
+	height: 25px;
+	bottom: 8px;
+	position:absolute;
+	text-align: center;
+	border: groove;
+	left: 15%;
+	background-color: gray;
+}
+
+#closeC{
+	height:20px;
+	width:20px;
+	position: absolute;
+	right:1px;
+	top:1px;	
+	font-size: 20px;
+	color:white;
+	text-align: center;
+}
+
+#closeC:hover{
+	cursor:pointer;
+	background-color: red;
+}
+
+#startScreen{
+	background-color: rgba(0,0,0,0.5);
+	width:100%;
+	height:100%;
+	position:absolute;
+	font-size: 35px;
+	color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="cadreTotal">
+	<div id="level"> Niveau <br/> 1 / 12</div>
+	<div id="auteur" onClick="nextLevel()"> <b>Conception : Vincent Lim 405</b></div>
+	<div id="cadreJeu">
+		<div id="haro" onClick="trigger1()"></div>
+        <div id="caseTexte">
+        <p id="message"></p>
+        </div>
+        <div id="jazz" onClick="music()"></div>
+        <div id="instructions" onClick="manual()"></div>
+		<div id="pageManuel" onClick="manual2()"></div>
+		<div id="activationCode" onClick="code()"></div>
+		<div id="activationCodePhase2" onClick="puzzleDisplay()"></div>
+		<div id="inputBg">
+			<p id="codeMsg">Entrez le code d'accès</p>
+			<input type="text" id="userCode" />
+			<input type="button" value="Enter" id="validate" onclick="verif()" />
+			<div id="close" onClick="close1()">X</div>
+		</div>
+		<div id="gundamLog" onClick="report()"></div>
+		<div id="logJournal">
+			Rapport électronique 101, 4/20/6969</br></br>
+			Début du rapport:</br></br>
+			Pilote 069: _phobique, salade de fruit, singe singe, j’aime les chiens. Bon, où est le manuel d’activation? Ah voilà et- oups, je l’ai échappé dans le coin sombre. 
+			Attends je vais le chercher et- ouuupps, j’ai renversé mon café à terre.</br></br>
+			Haro 420: Mais bravo champion, quel maladroit.</br></br>
+			Pilote 069: Oui, merci, merci_</br></br>
+			Fin du rapport
+			<div id="closeB" onClick="close2()">X</div>
+		</div>			
+		<div id="hack">
+			Devine le chiffre entre 1 à 100 <br/>
+			<p id="indice">_</p>
+			<input type="text" id="userNum" />
+			<input type="button" value="Enter" id=hackon onClick="verif2()" />
+			<div id="progressBar"></div>
+			<div id="progress"></div>
+			<div id="closeC" onClick="close3()">X</div>
+		</div>
+		<div id="startScreen">Vous vous retrouvez dans un gros robot. Trouvez comment le démarrer et partez vers l'espace avec l'aide de votre companion Haro! Bonne chance et amusez-vous!</div>
+	</div>
+</div>
+
+<script>
+	
+var haro = document.getElementById("haro")
+var message = document.getElementById("message")
+var texte = document.getElementById("caseTexte")
+var nancy = document.getElementById("pageManuel")
+var bael = document.getElementById("inputBg")
+var valid = document.getElementById("validate")
+var journal = document.getElementById("logJournal")
+var codeButton = document.getElementById("activationCode")
+var hackButton = document.getElementById("activationCodePhase2")
+var hackScreen = document.getElementById("hack")
+var ind = document.getElementById("indice")
+var bg = document.getElementById("cadreJeu")
+var ho = document.getElementById("hackon")
+var ss = document.getElementById("startScreen")
+
+var haroTrigger=false
+var musicTrigger=false
+var manualTrigger=false
+var inputTrigger=false
+var journalTrigger=false
+var puzzleTrigger=false
+
+var bc = 69420
+var cc = Math.round(Math.random() * 99 + 1)
+var counter = 0
+
+var bgm=new Audio();
+bgm.src="sons/bgm.mp3"
+bgm.volume = 0.025;
+
+var right=new Audio();
+right.src="sons/right.wav"
+right.volume = 0.5;
+
+var wrong=new Audio();
+wrong.src="sons/error.mp3"
+wrong.volume = 0.5;
+
+console.log("Nouveau bon chiffre [Devine le chiffre]: " + cc)
+console.log("Je vous prie de trouver le reste par vous même :)")
+
+document.addEventListener("keydown", function(e){
+	if(e.keyCode==13){
+		if(inputTrigger==true){
+			verif()
+		}else if(puzzleTrigger==true){
+			verif2()
+		}else if(inputTrigger==true && puzzleTrigger==true){
+			console.log("Houston, looks like we have a problem")
+		}else{
+			console.log("Non, mais pourquoi tu pèses Enter lol")
+		}
+	}
+})
+
+setInterval(startStart, 5000)
+
+function startStart(){
+	ss.style.display="none"
+}
+
+function trigger1(){
+	if(haroTrigger==false){
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Pourquoi tu me touches toi? Dépêche toi et démarre le mécha! On fout le camp d'ici. Essaie donc de peser des boutons ou des interrupteurs à la place."
+		haroTrigger=true
+		console.log("Haro on = " + haroTrigger)
+		console.log("Haro s'active et parle")
+	}else{
+		haro.setAttribute("style","background-image: url(images/haro.png)")
+		texte.style.display="none"
+		message.innerHTML = " "
+		haroTrigger=false
+		console.log("Haro on = " + haroTrigger)
+		console.log("Haro se désactive")
+	}
+}
+
+function music(){
+	if(musicTrigger==false){
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Aïe, mais gros perdu, t'as pas lu le manuel de démarrage toi? J'avoue qu'elle est quand même bonne cette musique."
+		haroTrigger=true
+		musicTrigger=true
+		console.log("Haro on = " + haroTrigger)
+		console.log("Music on = " + musicTrigger)
+		console.log("Haro s'active et parle");
+		
+		bgm.play()
+	}else{
+		musicTrigger=false
+		console.log("Music on = " + musicTrigger);
+		
+		bgm.pause()
+	}
+}
+
+function manual(){
+	if(manualTrigger==false){
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Oh regarde, le manuel d'activation! Ah, on dirait qu'il y a une petite tâche de café dessus. Ah ben, débrouille toi champion."
+		haroTrigger=true
+		manualTrigger=true
+		console.log("Haro on = " + haroTrigger)
+		console.log("Manual open = " + manualTrigger)
+		console.log("Haro s'active et parle")
+
+		nancy.style.display="block"
+	}else{
+		console.log("No no, don't touch me there, this is my no no square")
+	}
+}
+
+function manual2(){
+	if(manualTrigger==true){
+		manualTrigger=false
+		console.log("Manual open = " + manualTrigger)
+		nancy.style.display="none"
+	}else{
+		console.log("Houston, looks like we have a problem")
+	}
+}
+
+function report(){
+	if(journalTrigger==false){
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Ah ouais, ça. C'est un journal électronique enregistré par le pilote précédent. J'y suis dedans d'ailleurs! Je te conseillerais de le lire, il pourrait y avoir une indice dedans... ou pas hahaha LOL."
+		haroTrigger=true
+		journalTrigger=true
+		console.log("Robot log open = " + journalTrigger)
+		console.log("Haro on = " + haroTrigger)
+		console.log("Haro s'active et parle")
+
+		journal.style.display="block"
+	}else{
+		console.log("No no, don't touch me there, this is my no no square")
+	}
+}
+
+function close2(){
+	if(journalTrigger==true){
+		journalTrigger=false
+		console.log("Robot log open = " + journalTrigger)
+		journal.style.display="none"
+	}else{
+		console.log("Houston, looks like we have a problem")
+	}
+}
+
+function code(){
+	if(inputTrigger==false){
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Ah, on dirait qu'on a besoin d'un code d'accès. Si je me souviens bien, le code se retrouve dans la manuel d'activation... ou pas, ça fait un moment LOL."
+		haroTrigger=true
+		inputTrigger=true
+		console.log("Haro on = " + haroTrigger)
+		console.log("Screen1 open = " + inputTrigger)
+		console.log("Haro s'active et parle")
+
+		bael.style.display="block"
+	}else{
+		console.log("No no, don't touch me there, this is my no no square")
+	}
+}
+
+function close1(){
+	if(inputTrigger==true){
+		inputTrigger=false
+		console.log("Screen1 open = " + inputTrigger)
+		bael.style.display="none"
+	}else{
+		console.log("Houston, looks like we have a problem")
+	}
+}
+
+function verif(){
+	var codeA = document.getElementById("userCode").value;
+	console.log(codeA)
+	if(codeA==bc){
+		right.play()
+		bael.style.backgroundColor="green"
+		valid.style.display="none"
+		inputTrigger=false
+		setTimeout(puzzleDisplay, 1000)
+		console.log("Joueur a deviné: " + codeA)
+		console.log("Code d'accès valide")
+	}else{
+		wrong.play()
+		bael.style.backgroundColor="red"
+		valid.style.display="none"
+		setTimeout(baelBlue, 1000)		
+		console.log("Joueur a deviné: " + codeA)
+		console.log("Erreur code d'accès")		
+	}
+}
+
+function baelBlue(){
+	bael.style.backgroundColor="#30F";
+	valid.style.display="inline-block"
+}
+
+function puzzleDisplay(){
+	if(puzzleTrigger==false){
+		codeButton.style.display="none"
+		hackButton.style.display="block"
+		bael.style.display="none"
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Ah, pour compléter le processus d'activation, on dirait qu'il faut faire avancer la barre de progression en devinant les bons chiffres. Ah ben bonne chance, t'en auras de besoin... LOL."
+		haroTrigger=true
+		puzzleTrigger=true
+		console.log("Puzzle screen open = " + puzzleTrigger)
+		console.log("Haro on = " + haroTrigger)
+		console.log("Haro s'active et parle")
+		
+		hackScreen.style.display="block"
+	}else{
+		console.log("Houston, looks like we have a problem")
+	}
+}
+
+function close3(){
+	if(puzzleTrigger==true){
+		puzzleTrigger=false
+		console.log("Puzzle screen open = " + puzzleTrigger)
+		hackScreen.style.display="none"
+	}else{
+		console.log("Houston, looks like we have a problem")
+	}
+}
+
+function verif2(){
+	var num = document.getElementById("userNum").value;
+	console.log("Joueur a deviné: " + num)
+	if(num==cc){
+		right.play()
+		var prog = document.getElementById("progress")
+		counter+=1
+		prog.style.width=counter/5*70+"%"
+        ind.innerHTML="Progression réussite, devinez un nouveau chiffre."
+        cc = Math.round(Math.random() * 99 + 1)
+        console.log("Joueur a bien deviné")
+    }else if(num>cc){
+		wrong.play()
+        ind.innerHTML="Votre numéro est trop grand. Try again."
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Wow, bravo champion!"
+		haroTrigger=true
+    }else if(num<cc){
+		wrong.play()
+        ind.innerHTML="Votre numéro est trop petit. Try again."
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Wow, bravo champion!"
+		haroTrigger=true
+    }else{
+		wrong.play()
+		ind.innerHTML="Réponse invalide."
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Non, mais qu'est-ce tu fais? C'est pas un chiffre possible du tout ça!"
+		haroTrigger=true
+	}
+	console.log("Nouveau bon chiffre: " + cc)
+
+	if(counter>=5){
+		puzzleTrigger=false
+		prog.style.width="70%"
+		hackScreen.style.backgroundColor="green"
+		hackButton.style.display="none"
+		ho.style.display="none"
+		haro.setAttribute("style","background-image: url(images/haroLit.png)")
+		texte.style.display="block"
+		message.innerHTML = "Voilà, t'as réussi champion! Bravo!"
+		haroTrigger=true
+		setTimeout(startUp, 2000)
+	} 
+}
+
+function startUp(){
+	hackScreen.style.display="none"
+	haro.setAttribute("style","background-image: url(images/haroLit.png)")
+	texte.style.display="block"
+	message.innerHTML = "Et ça part, woop woop!"
+	haroTrigger=true
+	setTimeout(startUp2, 2000)
+}
+
+function startUp2(){
+	bg.style.backgroundImage="url(images/bgOp1.jpg)"
+	setTimeout(startUp3, 2000)
+}
+
+function startUp3(){
+	bg.style.backgroundImage="url(images/bgOp2.jpg)"
+	setTimeout(startUp4, 2000)
+}
+
+function startUp4(){
+	bg.style.backgroundImage="url(images/bgCockpit.jpg)"
+	setTimeout(nextLevel, 3000)
+}
+
+function nextLevel(){
+	//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+	window.location="test.html"
+	console.log("Le next level -->")
+}
+ </script>
+</body>
+</html>
