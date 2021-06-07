@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Projet Jeu Platformer</title>
+    <style>
+      body {
+        background-color: lightgray;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      // Creation d'un canvas en Javascript au lieu de HTML
+      var canvas = document.createElement("canvas");
+      var ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth - 50;
+      canvas.height = window.innerHeight - 50;
+      canvas.style.border = "10px white solid";
+      canvas.style.backgroundColor = "black";
+      canvas.style.display = "block";
+      canvas.style.margin = "auto";
+      document.body.appendChild(canvas);
+
+      //variables et objets du jeu
+      var joueur = {
+        x: canvas.width / 2 - 25,
+        y: canvas.height / 2 - 25,
+        w: 30,
+        h: 30,
+        color: "blue",
+        speed: 10,
+        truespeed: 10,
+      };
+
+      var cible = {
+        x: 0,
+        y: 200,
+        w: 1200,
+        h: 25,
+        color: "red",
+      };
+
+      var cible = {
+        x: 0,
+        y: 200,
+        w: canvas.width - 200,
+        h: 25,
+        color: "grey",
+      };
+
+      var plat2 = {
+        x: 200,
+        y: 400,
+        w: canvas.width - 200,
+        h: 25,
+        color: "grey",
+      };
+
+      var plat3 = {
+        x: 0,
+        y: 600,
+        w: canvas.width - 200,
+        h: 25,
+        color: "grey",
+      };
+
+      var reverser = {
+        x: 50,
+        y: 700,
+        w: 25,
+        h: 25,
+        color: "lightgreen",
+      };
+
+      var target = {
+        x: 1200,
+        y: 500,
+        w: 50,
+        h: 50,
+        color: "lightgreen",
+      };
+
+      var button = {
+        w: 250,
+        h: 100,
+        x: canvas.width / 2 - 125,
+        y: 100,
+        color: "lightgreen",
+      };
+
+      var mur1 = {
+        w: 50,
+        h: 800,
+        x: canvas.width / 2 - 125,
+        y: canvas.height - 800,
+        color: "grey",
+      };
+
+      var mur2 = {
+        w: canvas.width,
+        h: 50,
+        x: 0,
+        y: canvas.height / 2 - 95,
+        color: "grey",
+      };
+
+      var button2 = {
+        w: 250,
+        h: 100,
+        x: canvas.width / 2 - 125,
+        y: canvas.height - 200,
+        color: "lightblue",
+      };
+
+      var GenObstacle1 = {
+        w: 60,
+        h: 60,
+        x: mur1.x - 70,
+        y: 50,
+        color: "red",
+        speed: 10,
+      };
+
+      var tutoslowdown = {
+        x: 100,
+        y: 0,
+        w: 1500,
+        h: canvas.height / 2 - 50,
+        color: "lightblue",
+      };
+
+      var tutospeedup = {
+        x: 300,
+        y: canvas.height / 2 - 90,
+        w: 1300,
+        h: canvas.height / 2 + 90,
+        color: "yellow",
+      };
+
+      var tutoport1 = {
+        x: canvas.width - 200,
+        y: 100,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+
+      var tutoport2 = {
+        x: 100,
+        y: canvas.height - 200,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+
+      var obstaclelvl3 = {
+        x: 100,
+        y: 0,
+        w: 50,
+        h: canvas.height,
+        color: "red",
+        speed: 5,
+      };
+
+      var keyDown = {};
+      var toggle = false;
+      var tuto = false;
+      var start = false;
+      var tutolvl1 = false;
+      var tutolvl2 = false;
+      var invincibility = false;
+      var level2 = false;
+      var level3 = false;
+      var level4 = false;
+      var left = true;
+      var right = false;
+      var endgame = false;
+
+      var invincibilityzone = {
+        x: canvas.width / 2 - 50,
+        y: canvas.height / 2 - 50,
+        w: 100,
+        h: 100,
+        color: "white",
+      };
+
+      //fonctions
+      function drawJoueur() {
+        if (left == true && right == false && toggle == false) {
+          ctx.drawImage(rightdown, joueur.x, joueur.y, joueur.w, joueur.h);
+        }
+        if (left == false && right == true && toggle == false) {
+          ctx.drawImage(leftdown, joueur.x, joueur.y, joueur.w, joueur.h);
+        }
+        if (left == false && right == true && toggle == true) {
+          ctx.drawImage(leftup, joueur.x, joueur.y, joueur.w, joueur.h);
+        }
+        if (left == true && right == false && toggle == true) {
+          ctx.drawImage(rightup, joueur.x, joueur.y, joueur.w, joueur.h);
+        }
+        ctx.fillStyle = "blue";
+      }
+      var rightdown = new Image();
+      rightdown.src = "charleft.png";
+
+      var leftdown = new Image();
+      leftdown.src = "charright.png";
+
+      var rightup = new Image();
+      rightup.src = "charleftrev.png";
+
+      var leftup = new Image();
+      leftup.src = "charrightrev.png";
+
+      function drawCible() {
+        ctx.fillStyle = cible.color;
+        ctx.fillRect(cible.x, cible.y, cible.w, cible.h);
+
+        if (upblock(joueur, cible)) {
+          cible.color = "yellow";
+        }
+
+        if (downblock(joueur, cible)) {
+          cible.color = "yellow";
+        }
+      }
+
+      // message de fin de jeu, audio et pointage
+      var ded = 0;
+
+      function failcount() {
+        ctx.font = "25px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "blue";
+        ctx.fillText("Fails:" + ded, 60, 30);
+      }
+
+      function endgamemesage() {
+        ctx.font = "45px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "blue";
+        ctx.fillText(
+          "Congratulations! You managed to beat the game in " +
+            ded +
+            " attempts.",
+          canvas.width / 2,
+          canvas.height / 2
+        );
+        gagn.play();
+      }
+      var sel = new Audio();
+      sel.src = "select.wav";
+      sel.load();
+
+      var gagn = new Audio();
+      gagn.src = "pok.mp3";
+      gagn.load();
+
+      var but = new Audio();
+      but.src = "but.mp3";
+      but.load();
+
+      var hit = new Audio();
+      hit.src = "bounce.mp3";
+      hit.load();
+
+      // niveau 1...................................................................................................
+
+      var oblvl11 = {
+        x: 500,
+        y: 50,
+        w: 500,
+        h: 150,
+        color: "red",
+        speed: 10,
+      };
+
+      var oblvl12 = {
+        x: 1000,
+        y: 250,
+        w: 25,
+        h: 25,
+        color: "red",
+        speed: 1,
+      };
+
+      var oblvl13 = {
+        x: 800,
+        y: 250,
+        w: 25,
+        h: 25,
+        color: "red",
+        speed: 2,
+      };
+      var oblvl14 = {
+        x: 600,
+        y: 250,
+        w: 25,
+        h: 25,
+        color: "red",
+        speed: 3,
+      };
+      var oblvl15 = {
+        x: 400,
+        y: 250,
+        w: 25,
+        h: 25,
+        color: "red",
+        speed: 4,
+      };
+      var oblvl16 = {
+        x: 200,
+        y: 250,
+        w: 25,
+        h: 25,
+        color: "red",
+        speed: 5,
+      };
+      var oblvl17 = {
+        x: 0,
+        y: plat2.y + plat2.h,
+        w: 25,
+        h: 75,
+        color: "red",
+        speed: 13,
+      };
+      var oblvl18 = {
+        x: canvas.width - 25,
+        y: plat2.y + plat2.h + 100,
+        w: 25,
+        h: 75,
+        color: "red",
+        speed: 13,
+      };
+      var oblvl19 = {
+        x: 100,
+        y: plat3.y + plat3.h,
+        w: 1000,
+        h: 25,
+        color: "red",
+        speed: 3,
+      };
+      function drawplat2() {
+        ctx.fillStyle = cible.color;
+        ctx.fillRect(plat2.x, plat2.y, plat2.w, plat2.h);
+
+        if (upblock(joueur, plat2)) {
+          cible.color = "yellow";
+        }
+
+        if (downblock(joueur, plat2)) {
+          cible.color = "yellow";
+        }
+      }
+      function drawplat3() {
+        ctx.fillStyle = cible.color;
+        ctx.fillRect(plat3.x, plat3.y, plat3.w, plat3.h);
+
+        if (upblock(joueur, plat3)) {
+          cible.color = "yellow";
+        }
+
+        if (downblock(joueur, plat3)) {
+          cible.color = "yellow";
+        }
+      }
+      function drawreverser() {
+        ctx.fillStyle = reverser.color;
+        ctx.fillRect(reverser.x, reverser.y, reverser.w, reverser.h);
+
+        if (collision(joueur, reverser)) {
+          toggle = true;
+          level2 = true;
+          joueur.speed = 10;
+          but.play();
+        }
+      }
+
+      function antigravity() {
+        if (toggle == true) {
+          joueur.y = joueur.y - 5;
+          if (joueur.y < 0) {
+            joueur.y = 1;
+          }
+        }
+        if (toggle == false) {
+          joueur.y = joueur.y + 5;
+          if (joueur.y > canvas.height - joueur.h) {
+            joueur.y = canvas.height - joueur.h - 1;
+          }
+        }
+      }
+
+      function drawobstacle1() {
+        ctx.fillStyle = oblvl11.color;
+        ctx.fillRect(oblvl11.x, oblvl11.y, oblvl11.w, oblvl11.h);
+
+        if (collision(joueur, oblvl11)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl11.x < 100 || oblvl11.x + oblvl11.w > canvas.width) {
+          oblvl11.speed = -oblvl11.speed;
+        }
+        oblvl11.x += oblvl11.speed;
+      }
+
+      function drawobstacle2() {
+        ctx.fillStyle = oblvl12.color;
+        ctx.fillRect(oblvl12.x, oblvl12.y, oblvl12.w, oblvl12.h);
+
+        if (collision(joueur, oblvl12)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl12.y < 225 || oblvl12.y + oblvl12.h > 400) {
+          oblvl12.speed = -oblvl12.speed;
+        }
+        oblvl12.y += oblvl12.speed;
+      }
+      function drawobstacle3() {
+        ctx.fillStyle = oblvl13.color;
+        ctx.fillRect(oblvl13.x, oblvl13.y, oblvl13.w, oblvl13.h);
+
+        if (collision(joueur, oblvl13)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl13.y < 225 || oblvl13.y + oblvl13.h > 400) {
+          oblvl13.speed = -oblvl13.speed;
+        }
+        oblvl13.y += oblvl13.speed;
+      }
+      function drawobstacle4() {
+        ctx.fillStyle = oblvl14.color;
+        ctx.fillRect(oblvl14.x, oblvl14.y, oblvl14.w, oblvl14.h);
+
+        if (collision(joueur, oblvl14)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl14.y < 225 || oblvl14.y + oblvl14.h > 400) {
+          oblvl14.speed = -oblvl14.speed;
+        }
+        oblvl14.y += oblvl14.speed;
+      }
+      function drawobstacle5() {
+        ctx.fillStyle = oblvl15.color;
+        ctx.fillRect(oblvl15.x, oblvl15.y, oblvl15.w, oblvl15.h);
+
+        if (collision(joueur, oblvl15)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl15.y < 225 || oblvl15.y + oblvl15.h > 400) {
+          oblvl15.speed = -oblvl15.speed;
+        }
+        oblvl15.y += oblvl15.speed;
+      }
+      function drawobstacle6() {
+        ctx.fillStyle = oblvl16.color;
+        ctx.fillRect(oblvl16.x, oblvl16.y, oblvl16.w, oblvl16.h);
+
+        if (collision(joueur, oblvl16)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl16.y < 225 || oblvl16.y + oblvl16.h > 400) {
+          oblvl16.speed = -oblvl16.speed;
+        }
+        oblvl16.y += oblvl16.speed;
+      }
+
+      function drawobstacle7() {
+        ctx.fillStyle = oblvl17.color;
+        ctx.fillRect(oblvl17.x, oblvl17.y, oblvl17.w, oblvl17.h);
+
+        if (collision(joueur, oblvl17)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl17.x < 0 || oblvl17.x + oblvl17.w > canvas.width) {
+          oblvl17.speed = -oblvl17.speed;
+        }
+        oblvl17.x += oblvl17.speed;
+      }
+      function drawobstacle8() {
+        ctx.fillStyle = oblvl18.color;
+        ctx.fillRect(oblvl18.x, oblvl18.y, oblvl18.w, oblvl18.h);
+
+        if (collision(joueur, oblvl18)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl18.x < 0 || oblvl18.x + oblvl18.w > canvas.width) {
+          oblvl18.speed = -oblvl18.speed;
+        }
+        oblvl18.x += oblvl18.speed;
+      }
+      function drawobstacle9() {
+        ctx.fillStyle = oblvl19.color;
+        ctx.fillRect(oblvl19.x, oblvl19.y, oblvl19.w, oblvl19.h);
+
+        if (collision(joueur, oblvl19)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (
+          oblvl19.y < plat3.y + plat3.h ||
+          oblvl19.y + oblvl19.h > canvas.height
+        ) {
+          oblvl19.speed = -oblvl19.speed;
+        }
+        oblvl19.y += oblvl19.speed;
+      }
+
+      // fin niveau 1
+      // niveau 2 ............................................................................................................
+
+      function speedreset() {
+        joueur.speed = joueur.truespeed;
+        console.log(joueur.speed);
+      }
+      var slowlvl21 = {
+        x: 100,
+        y: plat3.y + plat3.h,
+        w: canvas.width - 300,
+        h: canvas.height - plat3.y + plat3.h,
+        color: "lightblue",
+      };
+
+      var speedlvl21 = {
+        x: 200,
+        y: plat2.y + plat2.h,
+        w: canvas.width - 400,
+        h: plat3.y - (plat2.y + plat2.h),
+        color: "yellow",
+      };
+
+      function slowzonevlv21() {
+        ctx.fillStyle = slowlvl21.color;
+        ctx.fillRect(slowlvl21.x, slowlvl21.y, slowlvl21.w, slowlvl21.h);
+      }
+
+      function speedzonevlv21() {
+        ctx.fillStyle = speedlvl21.color;
+        ctx.fillRect(speedlvl21.x, speedlvl21.y, speedlvl21.w, speedlvl21.h);
+        if (collision(joueur, speedlvl21)) {
+          joueur.speed = joueur.truespeed + 5;
+        } else {
+          joueur.speed = joueur.truespeed;
+        }
+      }
+
+      var oblvl21 = {
+        x: 150,
+        y: plat3.y + plat3.h,
+        w: canvas.width - 400,
+        h: 25,
+        color: "red",
+        speed: 3,
+      };
+
+      var oblvl22 = {
+        x: 150,
+        y: canvas.height - 25,
+        w: canvas.width - 400,
+        h: 25,
+        color: "red",
+        speed: 3,
+      };
+
+      var oblvl23 = {
+        x: 0,
+        y: plat2.y + plat2.h,
+        w: 25,
+        h: plat3.y - (plat2.y + plat2.h),
+        color: "red",
+        speed: 17,
+      };
+
+      function obstaclelvl21() {
+        ctx.fillStyle = oblvl21.color;
+        ctx.fillRect(oblvl21.x, oblvl21.y, oblvl21.w, oblvl21.h);
+        if (collision(joueur, oblvl21)) {
+          joueur.x = reverser.x;
+          joueur.y = reverser.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+      function obstaclelvl22() {
+        ctx.fillStyle = oblvl22.color;
+        ctx.fillRect(oblvl22.x, oblvl22.y, oblvl22.w, oblvl22.h);
+        if (collision(joueur, oblvl22)) {
+          joueur.x = reverser.x;
+          joueur.y = reverser.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+
+      function obstaclelvl23() {
+        ctx.fillStyle = oblvl23.color;
+        ctx.fillRect(oblvl23.x, oblvl23.y, oblvl23.w, oblvl23.h);
+
+        if (collision(joueur, oblvl23)) {
+          joueur.x = reverser.x;
+          joueur.y = reverser.y;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl23.x <= 0) {
+          oblvl23.x = canvas.width - oblvl23.w;
+        }
+        oblvl23.x -= oblvl23.speed;
+      }
+
+      var slowlvl22 = {
+        x: 200,
+        y: cible.y + cible.h,
+        w: canvas.width - 400,
+        h: plat2.y - (cible.y + cible.h),
+        color: "lightblue",
+      };
+      function slowzonevlv22() {
+        ctx.fillStyle = slowlvl22.color;
+        ctx.fillRect(slowlvl22.x, slowlvl22.y, slowlvl22.w, slowlvl22.h);
+        if (collision(joueur, slowlvl22) || collision(joueur, slowlvl21)) {
+          toggle = false;
+        } else {
+          toggle = true;
+        }
+      }
+
+      function lvl2plat2(x, y, w, h, color, speed) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.color = color;
+        this.speed = speed;
+        this.draw = function () {
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.x, this.y, this.w, this.h);
+          if (this.y < cible.y + cible.h || this.y + this.h > plat2.y) {
+            this.speed = -this.speed;
+          }
+          this.y += this.speed;
+        };
+      }
+
+      var oblvl24 = new lvl2plat2(250, cible.y + cible.h, 50, 50, "red", 1);
+      var oblvl25 = new lvl2plat2(350, plat2.y - 50, 50, 50, "red", 1);
+      var oblvl26 = new lvl2plat2(450, cible.y + cible.h, 50, 50, "red", 1);
+      var oblvl27 = new lvl2plat2(550, plat2.y - 50, 50, 50, "red", 1);
+      var oblvl28 = new lvl2plat2(650, cible.y + cible.h, 50, 50, "red", 1);
+      var oblvl29 = new lvl2plat2(750, plat2.y - 50, 50, 50, "red", 1);
+
+      function lvl2plat2draw() {
+        oblvl24.draw();
+        oblvl25.draw();
+        oblvl26.draw();
+        oblvl27.draw();
+        oblvl28.draw();
+        oblvl29.draw();
+        oblvl210.draw();
+        oblvl211.draw();
+        oblvl212.draw();
+        oblvl213.draw();
+        oblvl214.draw();
+        oblvl215.draw();
+      }
+      function lvl2plat2col() {
+        if (
+          collision(joueur, oblvl24) ||
+          collision(joueur, oblvl25) ||
+          collision(joueur, oblvl26) ||
+          collision(joueur, oblvl27) ||
+          collision(joueur, oblvl28) ||
+          collision(joueur, oblvl29) ||
+          collision(joueur, oblvl210) ||
+          collision(joueur, oblvl211) ||
+          collision(joueur, oblvl212) ||
+          collision(joueur, oblvl213) ||
+          collision(joueur, oblvl214) ||
+          collision(joueur, oblvl215)
+        ) {
+          joueur.x = reverser.x;
+          joueur.y = reverser.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+      function lvl2plat1(x, y, w, h, color) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.color = color;
+        this.draw = function () {
+          ctx.fillStyle = this.color;
+          ctx.fillRect(this.x, this.y, this.w, this.h);
+        };
+      }
+
+      var oblvl210 = new lvl2plat1(
+        canvas.width - 300,
+        cible.y - 100,
+        100,
+        100,
+        "red"
+      );
+      var oblvl211 = new lvl2plat1(canvas.width - 500, 0, 100, 100, "red");
+      var oblvl212 = new lvl2plat1(
+        canvas.width - 700,
+        cible.y - 100,
+        100,
+        100,
+        "red"
+      );
+      var oblvl213 = new lvl2plat1(canvas.width - 900, 0, 100, 100, "red");
+      var oblvl214 = new lvl2plat1(
+        canvas.width - 1100,
+        cible.y - 100,
+        100,
+        100,
+        "red"
+      );
+      var oblvl215 = new lvl2plat1(canvas.width - 1300, 0, 100, 100, "red");
+
+      var target2 = {
+        x: 50,
+        y: 50,
+        w: 25,
+        h: 25,
+        color: "lightgreen",
+      };
+
+      function drawtargetlvl2() {
+        ctx.fillStyle = target2.color;
+        ctx.fillRect(target2.x, target2.y, target2.w, target2.h);
+
+        if (collision(joueur, target2)) {
+          toggle = false;
+          level3 = true;
+          level2 = false;
+          but.play();
+        }
+      }
+
+      // fin niveau 2
+      // niveau 3 ................................................................................................
+
+      var platlvl31 = {
+        x: canvas.width - 225,
+        y: cible.y + cible.h,
+        w: 25,
+        h: canvas.height - 400,
+        color: "red",
+      };
+      function drawplatlvl31() {
+        ctx.fillStyle = platlvl31.color;
+        ctx.fillRect(platlvl31.x, platlvl31.y, platlvl31.w, platlvl31.h);
+        if (collision(joueur, platlvl31)) {
+          joueur.x = target2.x;
+          joueur.y = target2.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+      var platlvl32 = {
+        x: 0,
+        y: canvas.height - 200,
+        w: canvas.width,
+        h: 25,
+        color: "grey",
+      };
+      function drawplatlvl32() {
+        ctx.fillStyle = platlvl32.color;
+        ctx.fillRect(platlvl32.x, platlvl32.y, platlvl32.w, platlvl32.h);
+
+        if (upblock(joueur, platlvl32)) {
+          cible.color = "grey";
+        }
+
+        if (downblock(joueur, platlvl32)) {
+          cible.color = "grey";
+        }
+        if (leftblock(joueur, platlvl32)) {
+          cible.color = "grey";
+        }
+        if (rightblock(joueur, platlvl32)) {
+          cible.color = "grey";
+        }
+      }
+
+      var portlvl31 = {
+        x: canvas.width - 150,
+        y: canvas.height - 350,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+      var portlvl32 = {
+        x: 50,
+        y: cible.y + cible.h + 50,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+
+      function drawportlvl31() {
+        ctx.fillStyle = portlvl31.color;
+        ctx.fillRect(portlvl31.x, portlvl31.y, portlvl31.w, portlvl31.h);
+        teleportation(joueur, portlvl31, portlvl32);
+      }
+      function drawportlvl32() {
+        ctx.fillStyle = portlvl32.color;
+        ctx.fillRect(portlvl32.x, portlvl32.y, portlvl32.w, portlvl32.h);
+      }
+
+      var oblvl31 = {
+        x: portlvl32.x,
+        y: portlvl32.y,
+        w: canvas.width - 100,
+        h: 50,
+        speed: 10,
+        color: "red",
+      };
+
+      function drawobstaclelvl31() {
+        ctx.fillStyle = oblvl31.color;
+        ctx.fillRect(oblvl31.x, oblvl31.y, oblvl31.w, oblvl31.h);
+
+        if (collision(joueur, oblvl31) && invincibility == false) {
+          joueur.x = target2.x;
+          joueur.y = target2.y;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl31.y < portlvl32.y || oblvl31.y > portlvl31.y + portlvl31.h) {
+          oblvl31.speed = -oblvl31.speed;
+        }
+        oblvl31.y += oblvl31.speed;
+      }
+
+      var invinlvl31 = {
+        x: portlvl32.x,
+        y: cible.y + cible.h,
+        w: 200,
+        h: platlvl32.y - (cible.y + cible.h),
+        speed: 2.5,
+        color: "white",
+      };
+      function drawinvinlvl31() {
+        ctx.fillStyle = invinlvl31.color;
+        ctx.fillRect(invinlvl31.x, invinlvl31.y, invinlvl31.w, invinlvl31.h);
+
+        if (
+          invinlvl31.x < portlvl32.x ||
+          invinlvl31.x + invinlvl31.w > platlvl31.x
+        ) {
+          invinlvl31.speed = -invinlvl31.speed;
+        }
+        invinlvl31.x += invinlvl31.speed;
+      }
+
+      var portlvl33 = {
+        x: canvas.width - 375,
+        y: portlvl31.y,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+      var portlvl34 = {
+        x: portlvl32.x,
+        y: platlvl32.y + platlvl32.h + 50,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+
+      function drawportlvl33() {
+        ctx.fillStyle = portlvl33.color;
+        ctx.fillRect(portlvl33.x, portlvl33.y, portlvl33.w, portlvl33.h);
+        teleportation(joueur, portlvl33, portlvl34);
+      }
+      function drawportlvl34() {
+        ctx.fillStyle = portlvl34.color;
+        ctx.fillRect(portlvl34.x, portlvl34.y, portlvl34.w, portlvl34.h);
+      }
+
+      var invinlvl32 = {
+        x: portlvl33.x,
+        y: portlvl34.y,
+        w: 100,
+        h: 100,
+        speed: 5,
+        color: "white",
+      };
+
+      var oblvl32 = {
+        x: 200,
+        y: platlvl32.y + platlvl32.h,
+        w: canvas.width - 425,
+        h: canvas.height - (platlvl32.y + platlvl32.h),
+        color: "red",
+      };
+
+      function drawoblvl32() {
+        ctx.fillStyle = oblvl32.color;
+        ctx.fillRect(oblvl32.x, oblvl32.y, oblvl32.w, oblvl32.h);
+
+        if (collision(joueur, oblvl32) && invincibility == false) {
+          joueur.x = target2.x;
+          joueur.y = target2.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+
+      function drawinvinlvl32() {
+        ctx.fillStyle = invinlvl32.color;
+        ctx.fillRect(invinlvl32.x, invinlvl32.y, invinlvl32.w, invinlvl32.h);
+
+        if (
+          invinlvl32.x < portlvl32.x + portlvl32.w ||
+          invinlvl32.x + invinlvl32.w > canvas.width - invinlvl32.w
+        ) {
+          invinlvl32.speed = -invinlvl32.speed;
+        }
+        invinlvl32.x += invinlvl32.speed;
+      }
+      function checkinvincibilitylvl3() {
+        if (collision(joueur, invinlvl31) || collision(joueur, invinlvl32)) {
+          invincibility = true;
+        } else {
+          invincibility = false;
+        }
+      }
+      var targetlvl3 = {
+        x: portlvl31.x,
+        y: portlvl34.y,
+        w: 100,
+        h: 100,
+        color: "lightgreen",
+      };
+
+      function drawtargetlvl3() {
+        ctx.fillStyle = targetlvl3.color;
+        ctx.fillRect(targetlvl3.x, targetlvl3.y, targetlvl3.w, targetlvl3.h);
+
+        if (collision(joueur, targetlvl3)) {
+          level3 = false;
+          level4 = true;
+          but.play();
+        }
+      }
+      var oblvl33 = {
+        x: 200,
+        y: 0,
+        w: 100,
+        h: cible.y,
+        color: "red",
+        speed: 10,
+        hspeed: 1,
+      };
+
+      function drawoblvl33() {
+        ctx.fillStyle = oblvl33.color;
+        ctx.fillRect(oblvl33.x, oblvl33.y, oblvl33.w, oblvl33.h);
+
+        if (oblvl33.x < 200 || oblvl33.x + oblvl33.w > canvas.width) {
+          oblvl33.speed = -oblvl33.speed;
+        }
+        oblvl33.x += oblvl33.speed;
+
+        if (oblvl33.h < cible.y - 50 || oblvl33.h > cible.y) {
+          oblvl33.hspeed = -oblvl33.hspeed;
+        }
+        oblvl33.h += oblvl33.hspeed;
+
+        if (collision(joueur, oblvl33)) {
+          joueur.x = target2.x;
+          joueur.y = target2.y;
+          ded = ded + 1;
+        }
+      }
+
+      // fin niveau 3
+      // niveau 4..............................................................................................................................
+      var invinlvl40 = {
+        x: portlvl31.x,
+        y: portlvl34.y,
+        w: 100,
+        h: 100,
+        color: "white",
+      };
+      function drawinvinlvl40() {
+        ctx.fillStyle = invinlvl40.color;
+        ctx.fillRect(invinlvl40.x, invinlvl40.y, invinlvl40.w, invinlvl40.h);
+      }
+      var platlvl41 = {
+        x: cible.w,
+        y: 0,
+        w: 25,
+        h: canvas.height,
+        color: "red",
+      };
+
+      function drawplatlvl41() {
+        ctx.fillStyle = platlvl41.color;
+        ctx.fillRect(platlvl41.x, platlvl41.y, platlvl41.w, platlvl41.h);
+        if (collision(joueur, platlvl41)) {
+          joueur.x = targetlvl3.x + 10;
+          joueur.y = targetlvl3.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+
+      var platlvl42 = {
+        x: 200,
+        y: cible.y + cible.h,
+        w: 25,
+        h: canvas.height - (cible.y + cible.h),
+        color: "red",
+      };
+
+      function drawplatlvl42() {
+        ctx.fillStyle = platlvl42.color;
+        ctx.fillRect(platlvl42.x, platlvl42.y, platlvl42.w, platlvl42.h);
+        if (collision(joueur, platlvl42) && invincibility == false) {
+          joueur.x = targetlvl3.x + 10;
+          joueur.y = targetlvl3.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+
+      var platlvl43 = {
+        x: 225,
+        y: canvas.height - 200,
+        w: canvas.width - (250 + canvas.width - (platlvl41.x + platlvl41.w)),
+        h: 25,
+        color: "red",
+      };
+
+      function drawplatlvl43() {
+        ctx.fillStyle = platlvl43.color;
+        ctx.fillRect(platlvl43.x, platlvl43.y, platlvl43.w, platlvl43.h);
+        if (collision(joueur, oblvl41) && invincibility == false) {
+          joueur.x = targetlvl3.x + 10;
+          joueur.y = targetlvl3.y;
+          ded = ded + 1;
+          hit.play();
+        }
+      }
+
+      var oblvl41 = {
+        x: 0,
+        y: 0,
+        w: 50,
+        h: canvas.height,
+        color: "red",
+        speed: 10,
+      };
+
+      function drawoblvl41() {
+        ctx.fillStyle = oblvl41.color;
+        ctx.fillRect(oblvl41.x, oblvl41.y, oblvl41.w, oblvl41.h);
+        if (collision(joueur, oblvl41) && invincibility == false) {
+          joueur.x = targetlvl3.x + 10;
+          joueur.y = targetlvl3.y;
+          ded = ded + 1;
+          hit.play();
+        }
+
+        if (oblvl41.x < 0 || oblvl41.x + oblvl41.w > canvas.width) {
+          oblvl41.speed = -oblvl41.speed;
+        }
+        oblvl41.x += oblvl41.speed;
+      }
+
+      var oblvl42 = {
+        x: 0,
+        y: 0,
+        w: canvas.width,
+        h: 50,
+        color: "red",
+        speed: 10,
+      };
+
+      function drawoblvl42() {
+        ctx.fillStyle = oblvl42.color;
+        ctx.fillRect(oblvl42.x, oblvl42.y, oblvl42.w, oblvl42.h);
+        if (collision(joueur, oblvl42) && invincibility == false) {
+          joueur.x = targetlvl3.x + 10;
+          joueur.y = targetlvl3.y;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl42.y < 0 || oblvl42.y + oblvl42.h > canvas.height) {
+          oblvl42.speed = -oblvl42.speed;
+        }
+        oblvl42.y += oblvl42.speed;
+      }
+
+      var invinlvl41 = {
+        x: platlvl41.x + platlvl41.w,
+        y: canvas.height / 2 - 125,
+        w: 500,
+        h: 250,
+        color: "white",
+      };
+
+      function drawinvinlvl41() {
+        ctx.fillStyle = invinlvl41.color;
+        ctx.fillRect(invinlvl41.x, invinlvl41.y, invinlvl41.w, invinlvl41.h);
+      }
+
+      function checkinvinibilitylvl4() {
+        if (
+          collision(joueur, invinlvl41) ||
+          collision(joueur, invinlvl42) ||
+          collision(joueur, invinlvl43) ||
+          collision(joueur, invinlvl44) ||
+          collision(joueur, invinlvl40)
+        ) {
+          invincibility = true;
+        } else {
+          invincibility = false;
+        }
+      }
+
+      var portlvl41 = {
+        x: platlvl41.x + platlvl41.w,
+        y: 0,
+        w: 500,
+        h: 100,
+        color: "purple",
+      };
+
+      var portlvl42 = {
+        x: 0,
+        y: 0,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+
+      function drawportlvl41() {
+        ctx.fillStyle = portlvl41.color;
+        ctx.fillRect(portlvl41.x, portlvl41.y, portlvl41.w, portlvl41.h);
+        teleportation(joueur, portlvl41, portlvl42);
+      }
+
+      function drawportlvl42() {
+        ctx.fillStyle = portlvl42.color;
+        ctx.fillRect(portlvl42.x, portlvl42.y, portlvl42.w, portlvl42.h);
+      }
+
+      var invinlvl42 = {
+        x: 100,
+        y: 0,
+        w: 100,
+        h: 100,
+        color: "white",
+      };
+
+      function drawinvinlvl42() {
+        ctx.fillStyle = invinlvl42.color;
+        ctx.fillRect(invinlvl42.x, invinlvl42.y, invinlvl42.w, invinlvl42.h);
+      }
+
+      var speedzonelvl41 = {
+        x: 0,
+        y: 0,
+        w: platlvl41.x,
+        h: cible.y,
+        color: "yellow",
+      };
+
+      function drawspeedzonelvl41() {
+        ctx.fillStyle = speedzonelvl41.color;
+        ctx.fillRect(
+          speedzonelvl41.x,
+          speedzonelvl41.y,
+          speedzonelvl41.w,
+          speedzonelvl41.h
+        );
+        if (collision(joueur, speedzonelvl41)) {
+          joueur.speed = 20;
+        } else {
+          joueur.speed = 10;
+        }
+      }
+
+      var oblvl43 = {
+        x: canvas.width / 2,
+        y: 0,
+        w: 100,
+        h: 10,
+        color: "red",
+        speed: 2.5,
+      };
+
+      function drawoblvl43() {
+        ctx.fillStyle = oblvl43.color;
+        ctx.fillRect(oblvl43.x, oblvl43.y, oblvl43.w, oblvl43.h);
+        if (collision(joueur, oblvl43)) {
+          joueur.x = targetlvl3.x + 10;
+          joueur.y = targetlvl3.y;
+          ded = ded + 1;
+          hit.play();
+        }
+        if (oblvl43.y < 0 || oblvl43.y + oblvl43.h > cible.y) {
+          oblvl43.speed = -oblvl43.speed;
+        }
+        oblvl43.y += oblvl43.speed;
+      }
+
+      var portlvl43 = {
+        x: platlvl41.x - 100,
+        y: 0,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+      var portlvl44 = {
+        x: platlvl41.x - 100,
+        y: platlvl43.y + platlvl43.h,
+        w: 100,
+        h: 100,
+        color: "purple",
+      };
+
+      function drawportlvl43() {
+        ctx.fillStyle = portlvl43.color;
+        ctx.fillRect(portlvl43.x, portlvl43.y, portlvl43.w, portlvl43.h);
+        teleportation(joueur, portlvl43, portlvl44);
+      }
+
+      function drawportlvl44() {
+        ctx.fillStyle = portlvl44.color;
+        ctx.fillRect(portlvl44.x, portlvl44.y, portlvl44.w, portlvl44.h);
+      }
+
+      var invinlvl43 = {
+        x: portlvl44.x - 100,
+        y: canvas.height - 175,
+        w: 200,
+        h: canvas.height - (canvas.height - 175),
+        color: "white",
+      };
+
+      function drawinvinlvl43() {
+        ctx.fillStyle = invinlvl43.color;
+        ctx.fillRect(invinlvl43.x, invinlvl43.y, invinlvl43.w, invinlvl43.h);
+      }
+
+      var targetlvl4 = {
+        x: platlvl42.x + platlvl42.w,
+        y: cible.y + cible.h,
+        w: 200,
+        h: 200,
+        color: "lightgreen",
+        xspeed: 10,
+        yspeed: 10,
+      };
+      function drawtargetlvl4() {
+        ctx.fillStyle = targetlvl4.color;
+        ctx.fillRect(targetlvl4.x, targetlvl4.y, targetlvl4.w, targetlvl4.h);
+
+        if (collision(joueur, targetlvl4)) {
+          level4 = false;
+          endgame = true;
+          but.play();
+        }
+        if (
+          targetlvl4.y < cible.y + cible.h ||
+          targetlvl4.y + targetlvl4.h > platlvl43.y
+        ) {
+          targetlvl4.yspeed = -targetlvl4.yspeed;
+        }
+        targetlvl4.y += targetlvl4.yspeed;
+
+        if (
+          targetlvl4.x < platlvl42.x + platlvl42.w ||
+          targetlvl4.x + targetlvl4.w > platlvl41.x
+        ) {
+          targetlvl4.xspeed = -targetlvl4.xspeed;
+        }
+        targetlvl4.x += targetlvl4.xspeed;
+      }
+
+      var invinlvl44 = {
+        x: 175,
+        y: canvas.height - 400,
+        w: 75,
+        h: canvas.height - (canvas.height - 400),
+        color: "white",
+      };
+
+      function drawinvinlvl44() {
+        ctx.fillStyle = invinlvl44.color;
+        ctx.fillRect(invinlvl44.x, invinlvl44.y, invinlvl44.w, invinlvl44.h);
+      }
+
+      // fin niveau 4
+
+      //gestion des collision
+
+      function collision(a, b) {
+        if (
+          a.x + a.w > b.x &&
+          a.x < b.x + b.w &&
+          a.y < b.y + b.h &&
+          a.y + a.h > b.y
+        ) {
+          return true;
+        }
+      }
+
+      function teleportation(a, b, c) {
+        if (collision(a, b)) {
+          a.x = c.x;
+          a.y = c.y;
+        }
+      }
+
+      function gravity() {
+        joueur.y = joueur.y + 5;
+        if (joueur.y > canvas.height - joueur.h) {
+          joueur.y = canvas.height - joueur.h - 1;
+        }
+      }
+      //événements clavier
+
+      document.addEventListener("keydown", function (e) {
+        keyDown[e.keyCode] = true;
+      });
+
+      document.addEventListener("keyup", function (e) {
+        delete keyDown[e.keyCode];
+      });
+
+      function leftblock(a, b) {
+        if (collision(a, b) && a.x < b.x && a.y > b.y && a.y < b.y + b.h) {
+          a.x = b.x - a.w;
+        }
+        if (collision(a, b) && a.x < b.x && a.y == b.y && a.y < b.y + b.h) {
+          a.x = b.x - a.w;
+        }
+      }
+      function rightblock(a, b) {
+        if (
+          collision(a, b) &&
+          a.x < b.x + b.h &&
+          a.x > b.x &&
+          a.y > b.y &&
+          a.y < b.y + b.h
+        ) {
+          a.x = b.x + b.w;
+        }
+        if (
+          collision(a, b) &&
+          a.x < b.x + b.h &&
+          a.x > b.x &&
+          a.y == b.y &&
+          a.y < b.y + b.h
+        ) {
+          a.x = b.x + b.w;
+        }
+      }
+
+      function upblock(a, b) {
+        if (
+          a.y + a.h > b.y &&
+          a.y < b.y &&
+          a.x > b.x &&
+          a.x < b.x + b.w &&
+          a.y < b.y &&
+          joueur.speed > 0
+        ) {
+          a.y = b.y - a.h;
+        }
+        if (
+          a.y + a.h > b.y &&
+          a.y < b.y &&
+          a.x == b.x &&
+          a.x < b.x + b.w &&
+          a.y < b.y &&
+          joueur.speed > 0
+        ) {
+          a.y = b.y - a.h;
+        }
+      }
+
+      function downblock(a, b) {
+        if (
+          a.y < b.y + b.h &&
+          a.y > b.y &&
+          a.x > b.x &&
+          a.x < b.x + b.w &&
+          joueur.speed > 0
+        ) {
+          a.y = b.y + b.h;
+        }
+        if (
+          a.y < b.y + b.h &&
+          a.x == b.x &&
+          a.x < b.x + b.w &&
+          a.y > b.y &&
+          joueur.speed > 0
+        ) {
+          a.y = b.y + b.h;
+        }
+      }
+
+      function clavier() {
+        //console.log(e)
+
+        if (37 in keyDown && joueur.x > 0) {
+          joueur.x -= joueur.speed;
+          left = false;
+          right = true;
+        }
+        if (39 in keyDown && joueur.x < canvas.width - joueur.w) {
+          joueur.x += joueur.speed;
+          left = true;
+          right = false;
+        }
+        if (38 in keyDown && joueur.y > 0) {
+          joueur.y -= joueur.speed;
+        }
+        if (40 in keyDown && joueur.y < canvas.height - joueur.h) {
+          joueur.y += joueur.speed;
+        }
+      }
+
+      function startgame() {
+        ctx.fillStyle = button.color;
+        ctx.fillRect(button.x, button.y, button.w, button.h);
+        ctx.font = "70px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.fillText("Start", canvas.width / 2, canvas.height / 2 - 290);
+
+        if (collision(joueur, button)) {
+          start = true;
+          button.color = "yellow";
+          joueur.x = 0;
+          joueur.y = 0;
+          sel.play();
+        }
+      }
+
+      function drawtarget() {
+        ctx.fillStyle = target.color;
+        ctx.fillRect(target.x, target.y, target.w, target.h);
+        if (collision(joueur, target)) {
+          tutolvl1 = true;
+          joueur.x = 0;
+          joueur.y = 0;
+          joueur.speed = 10;
+          but.play();
+        }
+
+        if (collision(joueur, target) && tutolvl1 == true) {
+          tutolvl2 = true;
+          joueur.x = 0;
+          joueur.y = 0;
+          joueur.speed = 10;
+          but.play();
+        }
+      }
+      function drawtarget2() {
+        ctx.fillStyle = target.color;
+        ctx.fillRect(target.x, target.y, target.w, target.h);
+        if (collision(joueur, target)) {
+          tutolvl2 = true;
+          joueur.x = 0;
+          joueur.y = 0;
+          joueur.speed = 10;
+          but.play();
+        }
+      }
+      function drawtarget3() {
+        ctx.fillStyle = target.color;
+        ctx.fillRect(target.x, target.y, target.w, target.h);
+        if (collision(joueur, target)) {
+          document.location.reload();
+          but.play;
+        }
+      }
+      function obstacle3() {
+        ctx.fillStyle = obstaclelvl3.color;
+        ctx.fillRect(
+          obstaclelvl3.x,
+          obstaclelvl3.y,
+          obstaclelvl3.w,
+          obstaclelvl3.h
+        );
+        if (collision(joueur, obstaclelvl3) && invincibility == false) {
+          joueur.x = 0;
+          joueur.y = 0;
+          hit.play();
+        }
+        if (
+          obstaclelvl3.x < 100 ||
+          obstaclelvl3.x + obstaclelvl3.w > canvas.width - 300
+        ) {
+          obstaclelvl3.speed = -obstaclelvl3.speed;
+        }
+        obstaclelvl3.x += obstaclelvl3.speed;
+      }
+
+      function targettutotxt() {
+        ctx.textAlign = "center";
+        ctx.fillStyle = target.color;
+        ctx.fillText(
+          "Green means goal",
+          canvas.width / 2 + 600,
+          canvas.height / 2 + 150
+        );
+      }
+      function startuto() {
+        ctx.fillStyle = button2.color;
+        ctx.fillRect(button2.x, button2.y, button2.w, button2.h);
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.fillText("Tutorial", canvas.width / 2, canvas.height / 2 + 325);
+
+        if (collision(joueur, button2)) {
+          tuto = true;
+          joueur.x = 0;
+          joueur.y = 0;
+          sel.play();
+        }
+      }
+
+      function wall1() {
+        ctx.fillStyle = mur1.color;
+        ctx.fillRect(mur1.x, mur1.y, mur1.w, mur1.h);
+        upblock(joueur, mur1);
+        leftblock(joueur, mur1);
+        rightblock(joueur, mur1);
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "mur1.color";
+        ctx.fillText("Gray means wall", canvas.width / 2 - 100, 100);
+      }
+
+      function wall2() {
+        ctx.fillStyle = mur2.color;
+        ctx.fillRect(mur2.x, mur2.y, mur2.w, mur2.h);
+        upblock(joueur, mur2);
+        downblock(joueur, mur2);
+      }
+
+      function port1() {
+        ctx.fillStyle = tutoport1.color;
+        ctx.fillRect(tutoport1.x, tutoport1.y, tutoport1.w, tutoport1.h);
+        teleportation(joueur, tutoport1, tutoport2);
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "tutoport1.color";
+        ctx.fillText("Purple mea...", 1750, 50);
+      }
+
+      function port2() {
+        ctx.fillStyle = tutoport2.color;
+        ctx.fillRect(tutoport2.x, tutoport2.y, tutoport2.w, tutoport2.h);
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "tutoport1.color";
+        ctx.fillText("...ns portal", 100, 900);
+      }
+
+      function slowzonetuto() {
+        ctx.fillStyle = tutoslowdown.color;
+        ctx.fillRect(
+          tutoslowdown.x,
+          tutoslowdown.y,
+          tutoslowdown.w,
+          tutoslowdown.h
+        );
+        if (collision(joueur, tutoslowdown)) {
+          toggle = true;
+        } else {
+          toggle = false;
+        }
+      }
+      function slowzonetutotxt() {
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.fillText("Lightblue means upside down", canvas.width / 2, 100);
+      }
+
+      function speedzonetuto() {
+        ctx.fillStyle = tutospeedup.color;
+        ctx.fillRect(
+          tutospeedup.x,
+          tutospeedup.y,
+          tutospeedup.w,
+          tutospeedup.h
+        );
+        if (collision(joueur, tutospeedup)) {
+          joueur.speed = 20;
+        } else {
+          joueur.speed = 10;
+        }
+      }
+
+      function invinctuto() {
+        ctx.fillStyle = invincibilityzone.color;
+        ctx.fillRect(
+          invincibilityzone.x,
+          invincibilityzone.y,
+          invincibilityzone.w,
+          invincibilityzone.h
+        );
+        if (collision(joueur, invincibilityzone)) {
+          invincibility = true;
+        } else {
+          invincibility = false;
+        }
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx.fillText("White means invincibility", canvas.width / 2, 600);
+      }
+
+      function speedzonetutotxt() {
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.fillText("Yellow means speed up", canvas.width / 2, 500);
+      }
+
+      function tutobstacle1() {
+        ctx.fillStyle = GenObstacle1.color;
+        ctx.fillRect(
+          GenObstacle1.x,
+          GenObstacle1.y,
+          GenObstacle1.w,
+          GenObstacle1.h
+        );
+        if (collision(joueur, GenObstacle1)) {
+          joueur.x = 0;
+          joueur.y = 0;
+          hit.play();
+        }
+        if (
+          GenObstacle1.y < 0 ||
+          GenObstacle1.y + GenObstacle1.h > canvas.height
+        ) {
+          GenObstacle1.speed = -GenObstacle1.speed;
+        }
+        GenObstacle1.y += GenObstacle1.speed;
+        ctx.font = "50px Lucida Console";
+        ctx.textAlign = "center";
+        ctx.fillStyle = "GenObstacle1.color";
+        ctx.fillText("Red means don't touch", canvas.width / 2 - 500, 900);
+      }
+
+      //boucle principale du jeu
+
+      function game() {
+        if (
+          start == true &&
+          tuto == false &&
+          level2 == false &&
+          level3 == false &&
+          level4 == false &&
+          endgame == false
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawJoueur();
+          drawCible();
+          clavier();
+          //requestAnimationFrame(game);
+          drawplat2();
+          drawplat3();
+          drawreverser();
+          antigravity();
+          drawobstacle1();
+          drawobstacle2();
+          drawobstacle3();
+          drawobstacle4();
+          drawobstacle5();
+          drawobstacle6();
+          drawobstacle7();
+          drawobstacle8();
+          drawobstacle9();
+          failcount();
+        }
+
+        if (
+          start == true &&
+          tuto == false &&
+          level2 == true &&
+          level3 == false &&
+          level4 == false &&
+          endgame == false
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          slowzonevlv21();
+          slowzonevlv22();
+          speedzonevlv21();
+          lvl2plat2draw();
+          lvl2plat2col();
+          drawJoueur();
+          drawCible();
+          clavier();
+          //requestAnimationFrame(game);
+          drawplat2();
+          drawplat3();
+          antigravity();
+          obstaclelvl21();
+          obstaclelvl22();
+          obstaclelvl23();
+          drawtargetlvl2();
+          failcount();
+        }
+        if (
+          start == true &&
+          tuto == false &&
+          level2 == false &&
+          level3 == true &&
+          level4 == false &&
+          endgame == false
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawoblvl32();
+          drawinvinlvl31();
+          drawinvinlvl32();
+          drawportlvl31();
+          drawportlvl32();
+          drawportlvl33();
+          drawportlvl34();
+          drawJoueur();
+          drawCible();
+          clavier();
+          //requestAnimationFrame(game);
+          drawplatlvl31();
+          drawplatlvl32();
+          drawobstaclelvl31();
+          checkinvincibilitylvl3();
+          drawtargetlvl3();
+          drawoblvl33();
+          failcount();
+        }
+        if (
+          start == true &&
+          tuto == false &&
+          level2 == false &&
+          level3 == false &&
+          level4 == true &&
+          endgame == false
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawtargetlvl4();
+          drawspeedzonelvl41();
+          drawinvinlvl40();
+          drawinvinlvl41();
+          drawinvinlvl42();
+          drawinvinlvl43();
+          drawinvinlvl44();
+          drawportlvl41();
+          drawportlvl42();
+          drawportlvl43();
+          drawportlvl44();
+          drawJoueur();
+          drawCible();
+          clavier();
+          //requestAnimationFrame(game);
+          drawplatlvl41();
+          drawplatlvl42();
+          drawplatlvl43();
+          drawoblvl42();
+          drawoblvl41();
+          checkinvinibilitylvl4();
+          drawoblvl43();
+          failcount();
+        }
+        if (
+          start == true &&
+          tuto == false &&
+          level2 == false &&
+          level3 == false &&
+          level4 == false &&
+          endgame == true
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          endgamemesage();
+        }
+        // menu
+        if (start == false && tuto == false) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawJoueur();
+          clavier();
+          //requestAnimationFrame(game);
+          startgame();
+          startuto();
+        }
+        // tutoriel en bas
+        if (
+          tuto == true &&
+          start == false &&
+          tutolvl1 == false &&
+          tutolvl2 == false
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          drawJoueur();
+          clavier();
+          //requestAnimationFrame(game);
+          drawtarget();
+          wall1();
+          tutobstacle1();
+          targettutotxt();
+        }
+        if (
+          tuto == true &&
+          start == false &&
+          tutolvl1 == true &&
+          tutolvl2 == false
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          slowzonetuto();
+          slowzonetutotxt();
+          speedzonetuto();
+          speedzonetutotxt();
+          port1();
+          port2();
+          drawJoueur();
+          clavier();
+          //requestAnimationFrame(game);
+          drawtarget2();
+          wall2();
+        }
+        if (
+          tuto == true &&
+          start == false &&
+          tutolvl1 == true &&
+          tutolvl2 == true
+        ) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          invinctuto();
+          drawJoueur();
+          clavier();
+          //requestAnimationFrame(game);
+          drawtarget3();
+          obstacle3();
+        }
+        requestAnimationFrame(game);
+      }
+      game();
+    </script>
+  </body>
+</html>

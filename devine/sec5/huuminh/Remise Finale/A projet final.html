@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" type="image/png" href="icon2.png" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Space Mission</title>
+    <style>
+      canvas {
+        border: 2px black solid;
+        background-color: black;
+        margin: auto;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      var canvas = document.createElement("canvas");
+      var c = canvas.getContext("2d");
+      canvas.width = window.innerWidth - 50;
+      canvas.height = window.innerHeight - 50;
+      canvas.style.border = "10px white solid";
+      canvas.style.backgroundColor = "black";
+      canvas.style.display = "block";
+      canvas.style.margin = "auto";
+      document.body.appendChild(canvas);
+
+      var keyDown = {};
+
+      var ship = new Image();
+      ship.src = "ship.png";
+
+      var shipup = new Image();
+      shipup.src = "shipup.png";
+
+      var shipdown = new Image();
+      shipdown.src = "shipdown.png";
+
+      var shipstealth = new Image();
+      shipstealth.src = "shipstealth.png";
+
+      var shipupstealth = new Image();
+      shipupstealth.src = "shipupstealth.png";
+
+      var shipdownstealth = new Image();
+      shipdownstealth.src = "shipdownstealth.png";
+
+      var bossidle = new Image();
+      bossidle.src = "Pixie.png";
+
+      var amogus = new Image();
+      amogus.src = "amogus.png";
+
+      var sacMissiles = [];
+
+      var crewmate = [];
+
+      var shootcooldown = false;
+
+      var shotcount = 0;
+
+      var joueur = {
+        x: 100,
+        y: canvas.height / 2 - 45.5,
+        w: 91,
+        h: 104,
+        speed: 10,
+      };
+      var fakejoueur = {
+        x: canvas.width - (canvas.width + 100),
+        y: canvas.height / 2 - 45.5,
+        w: 91,
+        h: 104,
+        speed: 1,
+      };
+
+      var fakejoueur2 = {
+        x: canvas.width - (canvas.width + 100),
+        y: canvas.height / 2 - 45.5,
+        w: 91,
+        h: 104,
+        speed: 1,
+      };
+
+      var portal1 = {
+        x: -200,
+        y: -200,
+        w: 140,
+        h: 140,
+      };
+      var portalfram1 = {
+        x: -200,
+        y: -200,
+        w: 140,
+        h: 140,
+      };
+
+      var portalfram2 = {
+        x: -200,
+        y: -200,
+        w: 140,
+        h: 140,
+      };
+
+      var portalfram3 = {
+        x: -200,
+        y: -200,
+        w: 140,
+        h: 140,
+      };
+
+      var portalfram4 = {
+        x: -200,
+        y: -200,
+        w: 140,
+        h: 140,
+      };
+
+      var portal2 = {
+        x: -200,
+        y: -200,
+        w: 140,
+        h: 140,
+      };
+
+      var portal = new Image();
+      portal.src = "portal4.png";
+
+      var portalframe1 = new Image();
+      portalframe1.src = "portalframe1.png";
+
+      var portalframe3 = new Image();
+      portalframe3.src = "portalframe2.png";
+
+      function fakeplayer() {
+        c.drawImage(
+          ship,
+          fakejoueur.x,
+          fakejoueur.y,
+          fakejoueur.w,
+          fakejoueur.h
+        );
+      }
+
+      document.addEventListener("keydown", function (e) {
+        keyDown[e.keyCode] = true;
+      });
+
+      document.addEventListener("keyup", function (e) {
+        delete keyDown[e.keyCode];
+      });
+
+      playerentrance = true;
+
+      function intro() {
+        if (playerentrance == true) {
+          fakejoueur.x += fakejoueur.speed;
+          if (fakejoueur.x == 100) {
+            playerentrance = false;
+          }
+        }
+      }
+      setInterval(intro, 20);
+      function checkdrawplayer() {
+        if ((playerentrance = false)) {
+          drawJoueur();
+        }
+      }
+      canvas.addEventListener("click", souris);
+
+      function clavier() {
+        //console.log(e)
+
+        if (82 in keyDown && stealthfill.w == 260) {
+          stealthfill.w = 0;
+          stealthlookship = true;
+          powerupsound.play();
+          setTimeout(function () {
+            stealthlookship = false;
+            powerupsound.play();
+          }, 20000);
+        }
+        if (13 in keyDown && gending == true) {
+          rewind.play();
+          setTimeout(location.reload(), 5000);
+        }
+        if (13 in keyDown && bending == true) {
+          rewind.play();
+          setTimeout(location.reload(), 5000);
+        }
+
+        if (37 in keyDown && joueur.x > 0) {
+          joueur.x -= joueur.speed;
+        }
+        if (39 in keyDown && joueur.x < canvas.width - joueur.w) {
+          joueur.x += joueur.speed;
+        }
+        if (38 in keyDown && joueur.y > 0) {
+          joueur.y -= joueur.speed;
+          up = true;
+        } else {
+          up = false;
+        }
+        if (40 in keyDown && joueur.y < canvas.height - joueur.h) {
+          joueur.y += joueur.speed;
+          down = true;
+        } else {
+          down = false;
+        }
+        if (32 in keyDown && shootcooldown == false && checkbeam == false) {
+          shipshoot();
+          if (gending == false && bending == false) {
+            shotcount = shotcount + 1;
+          }
+          shootcooldown = true;
+          setTimeout(cooldown, 250);
+        }
+        if (69 in keyDown && beamfill.w == 260) {
+          checkbeam = true;
+          beamfill.w = 0;
+          lasersound.play();
+          //setTimeout(reverselaser, 2000);
+          // setTimeout(reversereverselaser, 2010);
+        }
+        if (84 in keyDown && teleportation == true) {
+        }
+      }
+      var checkbeam = false;
+
+      function unleashray() {
+        if (checkbeam == true) {
+          beam.w = 3000;
+          setTimeout(function () {
+            checkbeam = false;
+          }, 10000);
+        }
+        if (checkbeam == false) {
+          beam.w = 0;
+        }
+      }
+      function reverselaser() {
+        eray == true;
+      }
+      function reversereverselaser() {
+        eray == false;
+      }
+
+      eray = false;
+
+      function drawportal1() {
+        c.drawImage(portal, portal1.x, portal1.y, portal1.w, portal1.h);
+        c.drawImage(portal, portal2.x, portal2.y, portal2.w, portal2.h);
+      }
+
+      function drawportalframe1() {
+        c.drawImage(
+          portalframe1,
+          portalfram1.x,
+          portalfram1.y,
+          portalfram1.w,
+          portalfram1.h
+        );
+        c.drawImage(
+          portalframe1,
+          portalfram2.x,
+          portalfram2.y,
+          portalfram2.w,
+          portalfram2.h
+        );
+        c.drawImage(
+          portalframe3,
+          portalfram3.x,
+          portalfram3.y,
+          portalfram3.w,
+          portalfram3.h
+        );
+        c.drawImage(
+          portalframe3,
+          portalfram4.x,
+          portalfram4.y,
+          portalfram4.w,
+          portalfram4.h
+        );
+      }
+
+      var portalcount = true;
+      var portalwait = false;
+      var secondportal = false;
+
+      function souris(e) {
+        if (
+          portalcount == true &&
+          portalwait == false &&
+          secondportal == false &&
+          tpfill.w == 260
+        ) {
+          PosX = e.offsetX;
+          PosY = e.offsetY;
+          portalfram1.x = PosX - 65.5;
+          portalfram1.y = PosY - 65.5;
+          portalcount = false;
+          tpfill.w = tpfill.w - 156;
+          portalsound.play();
+          setTimeout(function () {
+            portalfram3.x = PosX - 65.5;
+            portalfram3.y = PosY - 65.5;
+          }, 200);
+          setTimeout(function () {
+            portal1.x = PosX - 65.5;
+            portal1.y = PosY - 65.5;
+          }, 400);
+          setTimeout(function () {
+            secondportal = true;
+          }, 10);
+        }
+        if (
+          portalcount == false &&
+          portalwait == false &&
+          secondportal == true
+        ) {
+          PosX = e.offsetX;
+          PosY = e.offsetY;
+          portalfram2.x = PosX - 65.5;
+          portalfram2.y = PosY - 65.5;
+          portalwait = true;
+          tpfill.w = tpfill.w - 104;
+          portalsound.play();
+          setTimeout(function () {
+            portalfram4.x = PosX - 65.5;
+            portalfram4.y = PosY - 65.5;
+          }, 200);
+          setTimeout(function () {
+            portal2.x = PosX - 65.5;
+            portal2.y = PosY - 65.5;
+          }, 400);
+          setTimeout(teleportcooldown, 10);
+        }
+      }
+      var portalantiglitch = false;
+
+      var portal1ani = true;
+
+      function portal1animation() {
+        portal1.h = 0;
+        portal1.w = 0;
+        if (portal1.w < 140) {
+          portal1grow = setInterval(function () {
+            portal1.h = portal1.h + 14;
+            portal1.w = portal1.w + 14;
+          }, 100);
+        }
+        if ((portal1.w = 140)) {
+          clearTimeout(portal1grow);
+          portal1ani = false;
+        }
+      }
+
+      function bye() {
+        if (portal2.x > -200) {
+          if (collision(joueur, portal1) && portalantiglitch == false) {
+            joueur.x = portal2.x + 35;
+            joueur.y = portal2.y + 18;
+            portalantiglitch = true;
+            setTimeout(portalcooldown, 500);
+          }
+          if (collision(joueur, portal2) && portalantiglitch == false) {
+            joueur.x = portal1.x + 35;
+            joueur.y = portal1.y + 18;
+            portalantiglitch = true;
+            setTimeout(portalcooldown, 500);
+          }
+          for (j = 0; j < sacMissiles.length; j++) {
+            if (collision(sacMissiles[j], portal2)) {
+              sacMissiles[j].x = portal1.x + portal1.w;
+              sacMissiles[j].y = portal1.y + (sacMissiles[j].y - portal2.y);
+            }
+            if (collision(sacMissiles[j], portal1)) {
+              sacMissiles[j].x = portal2.x + portal1.w;
+              sacMissiles[j].y = portal2.y + (sacMissiles[j].y - portal1.y);
+            }
+          }
+        } else {
+        }
+      }
+
+      function teleportcooldown() {
+        secondportal = false;
+        portalcount = true;
+        portalwait = false;
+      }
+
+      function portalcooldown() {
+        portalantiglitch = false;
+      }
+
+      function telepo() {
+        c.drawImage(portal, portal1.x, portal1.y, portal1.w, portal1.h);
+        c.drawImage(portal, portal2.x, portal2.y, portal2.w, portal2.h);
+        portal2.x = PosX - 65.5;
+        portal2.y = PosY - 65.5;
+        portal1.x = joueur.x - 29;
+        portal1.y = joueur.y - 14;
+        c.drawImage(
+          ship,
+          fakejoueur2.x,
+          fakejoueur2.y,
+          fakejoueur2.w,
+          fakejoueur2.h
+        );
+        fakejoueur2.x = joueur.x;
+        fakejoueur2.y = joueur.y;
+        setTimeout(telep, 0);
+      }
+
+      function cooldown() {
+        shootcooldown = false;
+      }
+
+      function drawJoueur() {
+        if (stealthlookship == false) {
+          if (up == true && down == false && laser == false) {
+            c.drawImage(shipup, joueur.x, joueur.y, joueur.w, joueur.h);
+          }
+          if (up == false && down == true && laser == false) {
+            c.drawImage(shipdown, joueur.x, joueur.y, joueur.w, joueur.h);
+          }
+          if (up == false && down == false && laser == false) {
+            c.drawImage(ship, joueur.x, joueur.y, joueur.w, joueur.h);
+          }
+          if (up == true && down == true && laser == false) {
+            c.drawImage(ship, joueur.x, joueur.y, joueur.w, joueur.h);
+          }
+        }
+        if (stealthlookship == true) {
+          if (up == true && down == false && laser == false) {
+            c.drawImage(shipupstealth, joueur.x, joueur.y, joueur.w, joueur.h);
+          }
+          if (up == false && down == true && laser == false) {
+            c.drawImage(
+              shipdownstealth,
+              joueur.x,
+              joueur.y,
+              joueur.w,
+              joueur.h
+            );
+          }
+          if (up == false && down == false && laser == false) {
+            c.drawImage(shipstealth, joueur.x, joueur.y, joueur.w, joueur.h);
+          }
+          if (up == true && down == true && laser == false) {
+            c.drawImage(shipstealth, joueur.x, joueur.y, joueur.w, joueur.h);
+          }
+        }
+      }
+
+      function shoot() {
+        for (j = 0; j < sacMissiles.length; j++) {
+          sacMissiles[j].draw();
+          if (sacMissiles[j].x > canvas.width) {
+            sacMissiles.splice(j, 1);
+          }
+        }
+      }
+      couleurmiss = ["cyan"];
+
+      function shipshoot() {
+        var choosemiss = Math.floor(Math.random() * couleur.length);
+        sacMissiles.push(
+          new Missiles(
+            joueur.x + joueur.w - 15,
+            joueur.y + joueur.h / 2,
+            10,
+            3,
+            couleurmiss[choosemiss],
+            15
+          )
+        );
+      }
+
+      var up = false;
+
+      var down = false;
+
+      var laser = false;
+
+      function Missiles(x, y, w, h, colorshot, speed) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.colorshot = colorshot;
+        this.speed = speed;
+        this.draw = function () {
+          c.fillStyle = "lightblue";
+          c.fillRect((this.x += this.speed), this.y, this.w, this.h);
+        };
+      }
+
+      function shootusdeletus() {
+        for (j = 0; j < sacMissiles.length; j++) {
+          for (i = 0; i < roche.length; i++) {
+            if (
+              collision(sacMissiles[j], roche[i]) &&
+              lvl1check == true &&
+              lvl2check == false &&
+              lvl3check == false
+            ) {
+              sacMissiles.splice(j, 1);
+              roche.splice(i, 1);
+              lvl1fill.w = lvl1fill.w + 13;
+            }
+          }
+        }
+        for (j = 0; j < sacMissiles.length; j++) {
+          for (e = 0; e < enemyship.length; e++) {
+            if (
+              collision(sacMissiles[j], enemyship[e]) &&
+              lvl1check == true &&
+              lvl2check == true &&
+              lvl3check == false
+            ) {
+              sacMissiles.splice(j, 1);
+              enemyship.splice(e, 1);
+              lvl2fill.w = lvl2fill.w + 6.5;
+            }
+          }
+        }
+        for (j = 0; j < sacMissiles.length; j++) {
+          for (f = 0; f < enemylander.length; f++) {
+            if (
+              collision(sacMissiles[j], enemylander[f]) &&
+              lvl1check == true &&
+              lvl2check == true &&
+              lvl3check == false
+            ) {
+              sacMissiles.splice(j, 1);
+              enemylander.splice(f, 1);
+              lvl2fill.w = lvl2fill.w + 6.5;
+            }
+          }
+        }
+        for (j = 0; j < sacMissiles.length; j++) {
+          if (collision(sacMissiles[j], boss) && lvl3check == true) {
+            sacMissiles.splice(j, 1);
+            lvl3fill.x += 1.625;
+            lvl3fill.w -= 1.625;
+          }
+        }
+        for (j = 0; j < sacMissiles.length; j++) {
+          for (b = 0; b < crossbomb.length; b++) {
+            if (collision(sacMissiles[j], crossbomb[b])) {
+              sacMissiles.splice(j, 1);
+              crossbomb.splice(b, 1);
+            }
+          }
+        }
+      }
+
+      var stars = [];
+      couleur = ["white", "lightgrey", "grey"];
+
+      function collision(a, b) {
+        if (
+          a.x + a.w > b.x &&
+          a.x < b.x + b.w &&
+          a.y < b.y + b.h &&
+          a.y + a.h > b.y
+        ) {
+          return true;
+        }
+      }
+
+      function damage() {
+        for (i = 0; i < roche.length; i++) {
+          if (
+            collision(joueur, roche[i]) &&
+            fillhealth.w > 0 &&
+            invincibility == false &&
+            stealthlookship == false &&
+            lvl1check == true &&
+            lvl2check == false
+          ) {
+            fillhealth.w = fillhealth.w - 13;
+            roche.splice(i, 1);
+            hit.play();
+          }
+
+          if (collision(joueur, roche[i]) && stealthlookship == true) {
+            fillhealth.w = fillhealth.w + 0;
+          }
+        }
+        for (e = 0; e < enemyship.length; e++) {
+          if (
+            collision(joueur, enemyship[e]) &&
+            stealthlookship == true &&
+            lvl2check == true &&
+            lvl3check == false
+          ) {
+            fillhealth.w = fillhealth.w + 0;
+          }
+          if (
+            collision(joueur, enemyship[e]) &&
+            lvl2check == true &&
+            stealthlookship == false &&
+            lvl3check == false
+          ) {
+            fillhealth.w = fillhealth.w - 13;
+            enemyship.splice(e, 1);
+            hit.play();
+          }
+        }
+        for (f = 0; f < enemylander.length; f++) {
+          if (
+            collision(joueur, enemylander[f]) &&
+            stealthlookship == true &&
+            lvl2check == true &&
+            lvl3check == false
+          ) {
+            fillhealth.w = fillhealth.w + 0;
+          }
+          if (
+            collision(joueur, enemylander[f]) &&
+            lvl2check == true &&
+            stealthlookship == false &&
+            lvl3check == false
+          ) {
+            fillhealth.w = fillhealth.w - 13;
+            enemylander.splice(f, 1);
+            hit.play();
+          }
+        }
+        for (z = 0; z < laserpaw.length; z++) {
+          if (collision(joueur, laserpaw[z]) && stealthlookship == false) {
+            laserpaw.splice(z, 1);
+            fillhealth.w = fillhealth.w - 13;
+            hit.play();
+          }
+        }
+        for (z = 0; z < laserpaw.length; z++) {
+          if (collision(joueur, laserpaw[z]) && stealthlookship == true) {
+            laserpaw.splice(z, 1);
+            fillhealth.w = fillhealth.w + 0;
+          }
+        }
+        for (b = 0; b < crossbomb.length; b++) {
+          if (collision(joueur, crossbomb[b]) && stealthlookship == false) {
+            crossbomb.splice(b, 1);
+            fillhealth.w = fillhealth.w - 13;
+            hit.play();
+          }
+        }
+      }
+
+      function drawstars() {
+        for (k = 0; k < stars.length; k++) {
+          stars[k].draw();
+          if (stars[k].x < 0) {
+            stars.splice(k, 1);
+          }
+        }
+      }
+
+      function drawamogus() {
+        for (l = 0; l < crewmate.length; l++) {
+          crewmate[l].draw();
+          if (crewmate[l].x < 0) {
+            crewmate.splice(l, 1);
+          }
+        }
+      }
+
+      function Star(x, y, w, h, speed, color) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.color = color),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.fillStyle = this.color;
+            c.fillRect((this.x -= this.speed), this.y, this.w, this.h);
+          });
+      }
+      function Sus(x, y, w, h, speed, color) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.color = color),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.drawImage(amogus, (this.x -= this.speed), this.y, this.w, this.h);
+          });
+      }
+      setInterval(newSus, 20000);
+
+      function newSus() {
+        var crewmateSpeed = 1 + Math.random() * 4;
+        var crewmateY = Math.random() * canvas.height;
+        var crewmateX = Math.random() * 30 + canvas.width;
+        crewmate.push(new Sus(crewmateX, crewmateY, 14, 18, crewmateSpeed, 10));
+      }
+
+      function newStar() {
+        var starsSpeed = 1 + Math.random() * 4;
+        var starsY = Math.random() * canvas.height;
+        var starsX = Math.random() * 30 + canvas.width;
+        var choose = Math.floor(Math.random() * couleur.length);
+        stars.push(
+          new Star(starsX, starsY, 5, 5, starsSpeed, couleur[choose], 10)
+        );
+      }
+      setInterval(newStar, 100);
+
+      // niveau 1
+
+      var roche = [];
+
+      function Rock(x, y, w, h, speedx, speedy, color, img) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.color = color),
+          (this.speedx = speedx),
+          (this.speedy = speedy),
+          (this.img = img),
+          (this.draw = function () {
+            c.drawImage(
+              rocklook[this.img],
+              (this.x -= this.speedx),
+              (this.y -= this.speedy),
+              this.w,
+              this.h
+            );
+          });
+      }
+
+      function drawrock() {
+        if (lvl1check == true && lvl2check == false) {
+          for (i = 0; i < roche.length; i++) {
+            roche[i].draw();
+            if (
+              roche[i].x < -100 ||
+              roche[i].x > canvas.width + 100 ||
+              roche[i].y > canvas.height + 100 ||
+              roche[i].y < -100
+            ) {
+              roche.splice(i, 1);
+            }
+          }
+        } else {
+        }
+      }
+      var chooserock = [rock1, rock2, rock0];
+      var rock1 = new Image();
+      rock1.src = "asteroid1.png";
+
+      var rock2 = new Image();
+      rock2.src = "asteroid2.png";
+
+      var rock0 = new Image();
+      rock0.src = "asteroid3.png";
+
+      rocklook = [rock1, rock2, rock0];
+
+      function newRock() {
+        var chooserocklook = Math.floor(Math.random() * rocklook.length);
+        var quadrant = Math.ceil(Math.random() * 4);
+        var rockspeedXL = Math.random() * 10;
+        var rockspeedXR = -Math.random() * 10;
+        var rockspeedYU = -Math.random() * 10;
+        var rockspeedYD = Math.random() * 10;
+        var rockYU = Math.random() * ((canvas.height + 50) / 2) - 50;
+        var rockYD =
+          Math.random() * ((canvas.height + 50) / 2) + canvas.height / 2;
+        var rockYU2 = Math.random() * -50;
+        var rockYD2 = Math.random() * 50 + canvas.height;
+        var rockXL = Math.random() * ((canvas.width + 50) / 2) - 50;
+        var rockXR =
+          Math.random() * ((canvas.width + 50) / 2) + canvas.width / 2;
+        var rockXL2 = Math.random() * -50;
+        var rockXR2 = Math.random() * 50 + canvas.width;
+        var rocksize = Math.random() * 50 + 50;
+
+        if (quadrant == 1) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXL,
+              rockYU2,
+              rocksize,
+              rocksize,
+              rockspeedXL,
+              rockspeedYU,
+              "blue",
+              a
+            )
+          );
+        }
+        if (quadrant == 2) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXR,
+              rockYU2,
+              rocksize,
+              rocksize,
+              rockspeedXR,
+              rockspeedYU,
+              "blue",
+              a
+            )
+          );
+        }
+        if (quadrant == 3) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXL,
+              rockYD2,
+              rocksize,
+              rocksize,
+              rockspeedXL,
+              rockspeedYD,
+              "blue",
+              a
+            )
+          );
+        }
+        if (quadrant == 4) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXR,
+              rockYD2,
+              rocksize,
+              rocksize,
+              rockspeedXR,
+              rockspeedYD,
+              "blue",
+              a
+            )
+          );
+        }
+
+        if (quadrant == 5) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXL2,
+              rockYU,
+              rocksize,
+              rocksize,
+              rockspeedXL,
+              rockspeedYU,
+              "blue",
+              a
+            )
+          );
+        }
+        if (quadrant == 6) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXR2,
+              rockYU,
+              rocksize,
+              rocksize,
+              rockspeedXR,
+              rockspeedYU,
+              "blue",
+              a
+            )
+          );
+        }
+        if (quadrant == 7) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXL2,
+              rockYD,
+              rocksize,
+              rocksize,
+              rockspeedXL,
+              rockspeedYD,
+              "blue",
+              a
+            )
+          );
+        }
+        if (quadrant == 8) {
+          var a = Math.floor(Math.random() * 3);
+          roche.push(
+            new Rock(
+              rockXR2,
+              rockYD,
+              rocksize,
+              rocksize,
+              rockspeedXR,
+              rockspeedYD,
+              "blue",
+              a
+            )
+          );
+        }
+      }
+      setInterval(function () {
+        if (lvl1check == true && menu == false) {
+          newRock();
+        } else {
+        }
+      }, 200);
+      // health
+      var healthbar = {
+        x: 10,
+        y: 10,
+        w: 287,
+        h: 37,
+      };
+
+      var fillhealth = {
+        x: 36,
+        y: 15,
+        w: 130,
+        h: 27,
+        color: "red",
+      };
+
+      var healthlook = new Image();
+      healthlook.src = "barhealth.png";
+
+      function health() {
+        c.drawImage(
+          healthlook,
+          healthbar.x,
+          healthbar.y,
+          healthbar.w,
+          healthbar.h
+        );
+      }
+
+      function helth() {
+        c.fillStyle = fillhealth.color;
+        c.fillRect(fillhealth.x, fillhealth.y, fillhealth.w, fillhealth.h);
+      }
+
+      var healthpacks = [];
+
+      function drawhealthcross() {
+        for (q = 0; q < healthpacks.length; q++) {
+          healthpacks[q].draw();
+          if (healthpacks[q].x < -50) {
+            healthpacks.splice(q, 1);
+          }
+        }
+      }
+
+      var pickuphealth = new Image();
+      pickuphealth.src = "poweruphealth.png";
+
+      function PickHealth(x, y, w, h, speed, color) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.color = color),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.drawImage(
+              pickuphealth,
+              (this.x -= this.speed),
+              this.y,
+              this.w,
+              this.h
+            );
+          });
+      }
+      setInterval(function () {
+        if (menu == false) {
+          newPickHealth();
+        }
+      }, 10000);
+
+      function newPickHealth() {
+        var pickuphealthSpeed = 1 + Math.random() * 4;
+        var pickuphealthY = Math.random() * (canvas.height - 67);
+        var pickuphealthX = Math.random() * 30 + canvas.width;
+        healthpacks.push(
+          new PickHealth(
+            pickuphealthX,
+            pickuphealthY,
+            33,
+            67,
+            pickuphealthSpeed,
+            10
+          )
+        );
+      }
+
+      function restorehealth() {
+        for (q = 0; q < healthpacks.length; q++) {
+          if (collision(joueur, healthpacks[q]) && fillhealth.w < 260) {
+            healthpacks.splice(q, 1);
+            fillhealth.w = fillhealth.w + 13;
+            collect.play();
+          }
+        }
+      }
+
+      // fonctionnalite extinction beam
+
+      var beamlook = new Image();
+      beamlook.src = "bardeathray.png";
+
+      var beamray = new Image();
+      beamray.src = "extinctionbeam.png";
+
+      var beam = {
+        x: joueur.x + joueur.w,
+        y: joueur.y,
+        w: 0,
+        h: joueur.h,
+        color: "orange",
+      };
+
+      var beambar = {
+        x: 10,
+        y: 57,
+        w: 287,
+        h: 37,
+      };
+
+      var beamfill = {
+        x: 36,
+        y: 62,
+        w: 0,
+        h: 27,
+        color: "lightblue",
+      };
+
+      function bemfill() {
+        c.fillStyle = beamfill.color;
+        c.fillRect(beamfill.x, beamfill.y, beamfill.w, beamfill.h);
+      }
+
+      function restorebeam() {
+        for (r = 0; r < electropacks.length; r++) {
+          if (collision(joueur, electropacks[r]) && beamfill.w < 260) {
+            electropacks.splice(r, 1);
+            beamfill.w = beamfill.w + 52;
+            collect.play();
+          }
+        }
+      }
+
+      function bembar() {
+        c.drawImage(beamlook, beambar.x, beambar.y, beambar.w, beambar.h);
+      }
+
+      function extinctray() {
+        c.drawImage(beamray, joueur.x + joueur.w, joueur.y, beam.w, beam.h);
+        beam.x = joueur.x + joueur.w;
+        beam.y = joueur.y;
+      }
+      var electropacks = [];
+
+      function drawelectropacks() {
+        for (r = 0; r < electropacks.length; r++) {
+          electropacks[r].draw();
+          if (electropacks[r].x < -50) {
+            electropacks.splice(r, 1);
+          }
+        }
+      }
+
+      var pickupelectro = new Image();
+      pickupelectro.src = "powerupbeam.png";
+
+      function PickBeam(x, y, w, h, speed, color) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.color = color),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.drawImage(
+              pickupelectro,
+              (this.x -= this.speed),
+              this.y,
+              this.w,
+              this.h
+            );
+          });
+      }
+      setInterval(function () {
+        if (menu == false) {
+          newPickBeam();
+        }
+      }, 10000);
+
+      function newPickBeam() {
+        var pickupelectroSpeed = 1 + Math.random() * 4;
+        var pickupelectroY = Math.random() * (canvas.height - 67);
+        var pickupelectroX = Math.random() * 30 + canvas.width;
+        electropacks.push(
+          new PickBeam(
+            pickupelectroX,
+            pickupelectroY,
+            33,
+            67,
+            pickupelectroSpeed,
+            10
+          )
+        );
+      }
+
+      function beamdestroyer() {
+        for (i = 0; i < roche.length; i++) {
+          if (collision(beam, roche[i])) {
+            roche.splice(i, 1);
+            lvl1fill.w = lvl1fill.w + 13;
+          }
+        }
+        for (e = 0; e < enemyship.length; e++) {
+          if (collision(beam, enemyship[e])) {
+            enemyship.splice(e, 1);
+            lvl2fill.w = lvl2fill.w + 6.5;
+          }
+        }
+        for (f = 0; f < enemylander.length; f++) {
+          if (collision(beam, enemylander[f])) {
+            enemylander.splice(f, 1);
+            lvl2fill.w = lvl2fill.w + 6.5;
+          }
+        }
+        if (collision(beam, boss)) {
+          lvl3fill.x = lvl3fill.x + 0.325;
+          lvl3fill.w = lvl3fill.w - 0.325;
+        }
+        for (b = 0; b < crossbomb.length; b++) {
+          if (collision(beam, crossbomb[b])) {
+            crossbomb.splice(b, 1);
+          }
+        }
+      }
+
+      // invincible
+      var stealthlook = new Image();
+      stealthlook.src = "barinvincible.png";
+
+      var invincibility = false;
+
+      var stealthbar = {
+        x: 10,
+        y: 104,
+        w: 287,
+        h: 37,
+      };
+
+      function stelthbar() {
+        c.drawImage(
+          stealthlook,
+          stealthbar.x,
+          stealthbar.y,
+          stealthbar.w,
+          stealthbar.h
+        );
+      }
+
+      var stealthpacks = [];
+
+      function drawstealthpacks() {
+        for (s = 0; s < stealthpacks.length; s++) {
+          stealthpacks[s].draw();
+          if (stealthpacks[s].x < -50) {
+            stealthpacks.splice(s, 1);
+          }
+        }
+      }
+
+      var stealthfill = {
+        x: 36,
+        y: 109,
+        w: 0,
+        h: 27,
+        color: "lightblue",
+      };
+
+      function stelfill() {
+        c.fillStyle = stealthfill.color;
+        c.fillRect(stealthfill.x, stealthfill.y, stealthfill.w, stealthfill.h);
+      }
+
+      function restorestealth() {
+        for (s = 0; s < stealthpacks.length; s++) {
+          if (collision(joueur, stealthpacks[s]) && stealthfill.w < 260) {
+            stealthpacks.splice(s, 1);
+            stealthfill.w = stealthfill.w + 52;
+            collect.play();
+          }
+        }
+      }
+
+      var pickupstealth = new Image();
+      pickupstealth.src = "powerupinvincible.png";
+
+      function PickStealth(x, y, w, h, speed, color) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.color = color),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.drawImage(
+              pickupstealth,
+              (this.x -= this.speed),
+              this.y,
+              this.w,
+              this.h
+            );
+          });
+      }
+      setInterval(function () {
+        if (menu == false) {
+          newPickStealth();
+        }
+      }, 10000);
+
+      function newPickStealth() {
+        var pickupstealthSpeed = 1 + Math.random() * 4;
+        var pickupstealthY = Math.random() * (canvas.height - 67);
+        var pickupstealthX = Math.random() * 30 + canvas.width;
+        stealthpacks.push(
+          new PickStealth(
+            pickupstealthX,
+            pickupstealthY,
+            33,
+            67,
+            pickupstealthSpeed,
+            10
+          )
+        );
+      }
+
+      var stealthlookship = false;
+
+      //tpbar
+
+      var teleportation = true;
+
+      var tplook = new Image();
+      tplook.src = "barteleportation.png";
+
+      var tpbar = {
+        x: 10,
+        y: 151,
+        w: 287,
+        h: 37,
+      };
+
+      function tbar() {
+        c.drawImage(tplook, tpbar.x, tpbar.y, tpbar.w, tpbar.h);
+      }
+      var tppacks = [];
+
+      var tpfill = {
+        x: 36,
+        y: 156,
+        w: 0,
+        h: 27,
+        color: "lightblue",
+      };
+
+      function tipifill() {
+        c.fillStyle = tpfill.color;
+        c.fillRect(tpfill.x, tpfill.y, tpfill.w, tpfill.h);
+      }
+
+      function restoretp() {
+        for (t = 0; t < tppacks.length; t++) {
+          if (collision(joueur, tppacks[t]) && tpfill.w < 260) {
+            tppacks.splice(t, 1);
+            tpfill.w = tpfill.w + 52;
+            collect.play();
+          }
+        }
+      }
+
+      function drawtppacks() {
+        for (t = 0; t < tppacks.length; t++) {
+          tppacks[t].draw();
+          if (tppacks[t].x < -50) {
+            tppacks.splice(t, 1);
+          }
+        }
+      }
+
+      var pickuptp = new Image();
+      pickuptp.src = "powerupportal.png";
+
+      function PickTp(x, y, w, h, speed, color) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.color = color),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.drawImage(
+              pickuptp,
+              (this.x -= this.speed),
+              this.y,
+              this.w,
+              this.h
+            );
+          });
+      }
+      setInterval(function () {
+        if (menu == false) {
+          newPickTp();
+        }
+      }, 10000);
+
+      function newPickTp() {
+        var pickuptpSpeed = 1 + Math.random() * 4;
+        var pickuptpY = Math.random() * (canvas.height - 67);
+        var pickuptpX = Math.random() * 30 + canvas.width;
+        tppacks.push(
+          new PickTp(pickuptpX, pickuptpY, 33, 67, pickuptpSpeed, 10)
+        );
+      }
+
+      var lvl1img = new Image();
+      lvl1img.src = "level1.png";
+
+      var lvl2img = new Image();
+      lvl2img.src = "level2.png";
+
+      function lvl1bar() {
+        c.drawImage(lvl1img, canvas.width - 297, 10, 287, 36);
+      }
+      function lvl2bar() {
+        c.drawImage(lvl2img, canvas.width - 297, 10, 287, 36);
+      }
+
+      var lvl1fill = {
+        x: canvas.width - 294,
+        y: 15,
+        w: 0,
+        h: 27,
+        color: "lightgreen",
+      };
+
+      function drawlvl1fill() {
+        c.fillStyle = lvl1fill.color;
+        c.fillRect(lvl1fill.x, lvl1fill.y, lvl1fill.w, lvl1fill.h);
+      }
+      var lvl2fill = {
+        x: canvas.width - 294,
+        y: 15,
+        w: 0,
+        h: 27,
+        color: "lightgreen",
+      };
+
+      function drawlv21fill() {
+        c.fillStyle = lvl2fill.color;
+        c.fillRect(lvl2fill.x, lvl2fill.y, lvl2fill.w, lvl2fill.h);
+      }
+
+      function level2transition() {
+        if (lvl1fill.w == 260 || lvl1fill.w > 260) {
+          lvl1check = true;
+          lvl2check = true;
+          lvl1fill.w = 0;
+          transition.play();
+        }
+      }
+      // le code des ennemis du deuxieme niveau commence ici
+
+      var enemyship = [];
+
+      function drawenemyships() {
+        for (e = 0; e < enemyship.length; e++) {
+          enemyship[e].draw();
+          if (enemyship[e].x < -50) {
+            enemyship.splice(e, 1);
+          }
+        }
+      }
+      var shooty = new Image();
+      shooty.src = "enemyshooter.png";
+
+      function EnemyShip(x, y, w, h, xspeed, yspeed, min, max) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.xspeed = xspeed),
+          (this.yspeed = yspeed),
+          (this.min = min),
+          (this.max = max),
+          (this.draw = function () {
+            c.drawImage(
+              shooty,
+              (this.x -= this.xspeed),
+              (this.y += this.yspeed),
+              this.w,
+              this.h
+            );
+            if (
+              this.y + this.yspeed < this.min ||
+              this.y + this.yspeed > this.max
+            ) {
+              this.yspeed = -this.yspeed;
+            }
+            if (
+              this.y > joueur.y &&
+              this.y + this.h < joueur.y + joueur.h &&
+              joueur.x < this.x
+            ) {
+              this.yspeed = 0;
+              this.xspeed = 30;
+            }
+          });
+      }
+      setInterval(function () {
+        if (lvl2check == true) {
+          newEnemyShip();
+        }
+      }, 1000);
+
+      function newEnemyShip() {
+        var newEnemyShipSpeed = 3 + Math.random() * 4;
+        var newEnemyShipY = Math.random() * (canvas.height - 81);
+        var newEnemyShipX = Math.random() * 30 + canvas.width;
+        enemyship.push(
+          new EnemyShip(
+            newEnemyShipX,
+            newEnemyShipY,
+            53,
+            81,
+            newEnemyShipSpeed,
+            3,
+            newEnemyShipY - 400,
+            newEnemyShipY + 400
+          )
+        );
+      }
+
+      var enemylander = [];
+
+      function drawenemylander() {
+        for (f = 0; f < enemylander.length; f++) {
+          enemylander[f].draw();
+          if (enemylander[f].y > canvas.height) {
+            //enemylander.splice(f, 1);
+            console.log("lol");
+          }
+        }
+      }
+      var shooty2 = new Image();
+      shooty2.src = "enemylander.png";
+
+      function EnemyLander(x, y, w, h, xspeed, yspeed, min, max) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.xspeed = xspeed),
+          (this.yspeed = yspeed),
+          (this.min = min),
+          (this.max = max),
+          (this.draw = function () {
+            c.drawImage(
+              shooty2,
+              (this.x -= this.xspeed),
+              (this.y += this.yspeed),
+              this.w,
+              this.h
+            );
+            if (this.x < this.min || this.x > this.max) {
+              this.xspeed = -this.xspeed;
+            }
+            if (
+              this.x > joueur.x &&
+              this.x + this.w < joueur.x + joueur.w &&
+              joueur.y > this.y
+            ) {
+              this.xspeed = 0;
+              this.yspeed = 20;
+            }
+          });
+      }
+      setInterval(function () {
+        if (lvl2check == true) {
+          newEnemyLander();
+        }
+      }, 1000);
+
+      function newEnemyLander() {
+        var newEnemyLanderSpeed = 3 + Math.random() * 5;
+        var newEnemyLanderY = -79;
+        var newEnemyLanderX = Math.random() * (canvas.width - 47);
+        enemylander.push(
+          new EnemyLander(
+            newEnemyLanderX,
+            -79,
+            47,
+            79,
+            newEnemyLanderSpeed,
+            2,
+            newEnemyLanderX - 200,
+            newEnemyLanderX + 200
+          )
+        );
+      }
+
+      var xbomb = new Image();
+      xbomb.src = "crossbomb.png";
+
+      var crossbomb = [];
+
+      function touchcrossbomb() {
+        for (b = 0; b < crossbomb.length; b++) {
+          if (collision(joueur, crossbomb[b])) {
+            crossbomb.splice(b, 1);
+          }
+        }
+      }
+
+      function drawcrossbomb() {
+        for (b = 0; b < crossbomb.length; b++) {
+          crossbomb[b].draw();
+          if (crossbomb[b].y > canvas.height) {
+            crossbomb.splice(b, 1);
+          }
+        }
+      }
+
+      function CBomb(x, y, w, h, speed) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.drawImage(xbomb, this.x, (this.y += this.speed), this.w, this.h);
+          });
+      }
+      setInterval(function () {
+        if (phase4 == true) {
+          newCBomb();
+          bombcount = bombcount + 1;
+        }
+      }, 150);
+
+      function newCBomb() {
+        var CBombSpeed = 8;
+        var CBombY = -66;
+        var CBombX = Math.random() * (canvas.width - 66);
+        crossbomb.push(new CBomb(CBombX, CBombY, 66, 66, CBombSpeed));
+      }
+
+      function lvl3transition() {
+        if (lvl2fill.w == 260 || lvl2fill.w > 260) {
+          lvl3check = true;
+          transition.play();
+        }
+      }
+
+      // menu
+      var menu = true;
+      var lvl1check = true;
+      var lvl2check = false;
+
+      var title = {
+        x: canvas.width / 15,
+        y: canvas.height / 6,
+        w: (canvas.width / 15) * 13,
+        h: canvas.height / 6,
+      };
+
+      var spacemission = new Image();
+      spacemission.src = "title.png";
+
+      function drawtitle() {
+        c.drawImage(spacemission, title.x, title.y, title.w, title.h);
+      }
+
+      var playbutton = {
+        x: canvas.width / 2 - ((canvas.height / 6 / 44) * 84) / 2,
+        y: canvas.height / 2 - canvas.height / 24,
+        w: (canvas.height / 6 / 44) * 84,
+        h: canvas.height / 6,
+      };
+
+      var playb = new Image();
+      playb.src = "playbutton.png";
+
+      function drawplay() {
+        c.drawImage(
+          playb,
+          playbutton.x,
+          playbutton.y,
+          playbutton.w,
+          playbutton.h
+        );
+      }
+
+      var tutobutton = {
+        x: canvas.width / 2 - ((canvas.height / 6 / 44) * 84) / 2,
+        y: (canvas.height / 4) * 3,
+        w: (canvas.height / 6 / 44) * 84,
+        h: canvas.height / 6,
+      };
+
+      var tutob = new Image();
+      tutob.src = "tutobutton.png";
+
+      function drawtuto() {
+        c.drawImage(
+          tutob,
+          tutobutton.x,
+          tutobutton.y,
+          tutobutton.w,
+          tutobutton.h
+        );
+      }
+      var instructions = false;
+
+      function gamestarter() {
+        if (collision(joueur, playbutton)) {
+          lvl1check = true;
+          lvl2check = false;
+          playerentrance = true;
+          title.x = canvas.width;
+          tutobutton.x = canvas.width + 100;
+          playbutton.x = canvas.width + 100;
+          menu = false;
+          sel.play();
+        }
+      }
+
+      var instr = {
+        x: canvas.width / 2 - ((canvas.height / 650) * 768) / 2,
+        y: -1000,
+        w: (canvas.height / 650) * 768,
+        h: tutobutton.y,
+      };
+
+      var rules = new Image();
+      rules.src = "rules.png";
+
+      function drawinstruc() {
+        c.drawImage(rules, instr.x, instr.y, instr.w, instr.h);
+      }
+
+      function instrucstarter() {
+        if (collision(joueur, tutobutton)) {
+          instr.y = 0;
+          playbutton.y = -1000;
+          title.y = -1000;
+        } else {
+          instr.y = -1000;
+          playbutton.y = canvas.height / 2 - canvas.height / 24;
+          title.y = canvas.height / 6;
+        }
+      }
+
+      // boss level
+
+      var Pixiespace = new Image();
+      Pixiespace.src = "Pixie.png";
+
+      var boss = {
+        x: canvas.width + 410,
+        y: 0,
+        w: 410,
+        h: 126,
+      };
+
+      var bosslaser = new Image();
+      bosslaser.src = "bosslaser.png";
+
+      var bossray = {
+        x: canvas.width,
+        y: 0,
+        h: 2008,
+        w: 66,
+      };
+
+      function drawbosslaser() {
+        c.drawImage(bosslaser, bossray.x, bossray.y, bossray.w, bossray.h);
+      }
+
+      function drawboss() {
+        c.drawImage(Pixiespace, boss.x, boss.y, boss.w, boss.h);
+      }
+      var bossentrance = true;
+      var phase0 = true;
+      var phase1 = false;
+      var phase2 = false;
+      var phase3 = false;
+      var phase4 = false;
+      var leftdash = true;
+      var rightdash = false;
+      var pawcount = 0;
+      var bombcount = 0;
+      var raycooldown = false;
+      var bosscooldown = false;
+
+      function raydamage() {
+        if (
+          collision(joueur, bossray) &&
+          stealthlookship == false &&
+          raycooldown == false
+        ) {
+          fillhealth.w = fillhealth.w - 13;
+          raycooldown = true;
+          hit.play();
+          setTimeout(function () {
+            raycooldown = false;
+          }, 250);
+        }
+      }
+
+      function bossdamage() {
+        if (
+          collision(joueur, boss) &&
+          stealthlookship == false &&
+          bosscooldown == false
+        ) {
+          fillhealth.w = fillhealth.w - 13;
+          bosscooldown = true;
+          hit.play();
+          setTimeout(function () {
+            bosscooldown = false;
+          }, 250);
+        }
+      }
+
+      function fightsequence() {
+        if (phase2 == true || phase3 == true) {
+          bossray.y = boss.y + 126;
+          bossray.x = boss.x + 172;
+        } else {
+          bossray.y = 0;
+          bossray.x = canvas.width + 66;
+        }
+        if (
+          phase0 == true &&
+          bossentrance == true &&
+          boss.x > canvas.width - 410
+        ) {
+          boss.x = boss.x - 5;
+        }
+        if (
+          phase0 == true &&
+          bossentrance == true &&
+          boss.x == canvas.width - 410
+        ) {
+          phase1 = true;
+          bossentrance = false;
+        }
+        if (
+          phase1 == true &&
+          phase2 == false &&
+          phase3 == false &&
+          phase4 == false
+        ) {
+          if (boss.y < joueur.y) {
+            boss.y = boss.y + 5;
+          }
+          if (boss.y + boss.h > joueur.y + joueur.h) {
+            boss.y = boss.y - 5;
+          }
+          if (pawcount == 40) {
+            pawcount = pawcount - 40;
+            phase1 = false;
+            phase2 = true;
+          }
+        }
+        if (
+          phase1 == false &&
+          phase2 == false &&
+          phase3 == true &&
+          phase4 == false
+        ) {
+          if (boss.x < canvas.width - boss.w) {
+            boss.x = boss.x + 10;
+          }
+          if (
+            boss.x > canvas.width - boss.w ||
+            boss.x == canvas.width - boss.w
+          ) {
+            phase4 = true;
+            phase3 = false;
+            phase1 = false;
+          }
+        }
+        if (
+          phase1 == false &&
+          phase2 == true &&
+          phase3 == false &&
+          phase4 == false
+        ) {
+          if (boss.x > 0) {
+            boss.x = boss.x - 10;
+          }
+          if (boss.x < 0 || boss.x == 0) {
+            phase3 = true;
+            phase2 = false;
+            phase1 = false;
+          }
+        }
+        if (
+          phase1 == false &&
+          phase2 == false &&
+          phase3 == false &&
+          phase4 == true
+        ) {
+          if (boss.y < joueur.y) {
+            boss.y = boss.y + 5;
+          }
+          if (boss.y + boss.h > joueur.y + joueur.h) {
+            boss.y = boss.y - 5;
+          }
+          if (bombcount == 100) {
+            phase4 = false;
+            phase1 = true;
+            bombcount = 0;
+          }
+        }
+      }
+      setInterval(function () {
+        if (phase1 == true) {
+          newBossPaw();
+          pawcount = pawcount + 1;
+        }
+        if (phase1 == false) {
+        }
+      }, 400);
+
+      var laserpaw = [];
+
+      function drawlaserpaw() {
+        for (z = 0; z < laserpaw.length; z++) {
+          laserpaw[z].draw();
+          if (laserpaw[z].x < -50) {
+            laserpaw.splice(z, 1);
+          }
+        }
+      }
+
+      var paw = new Image();
+      paw.src = "bossshot.png";
+
+      function BossPaw(x, y, w, h, speed) {
+        (this.x = x),
+          (this.y = y),
+          (this.w = w),
+          (this.h = h),
+          (this.speed = speed),
+          (this.draw = function () {
+            c.drawImage(paw, (this.x -= this.speed), this.y, this.w, this.h);
+          });
+      }
+
+      function newBossPaw() {
+        laserpaw.push(new BossPaw(boss.x + 14, boss.y + 42, 32, 46, 15));
+      }
+
+      var lvl3check = false;
+
+      var bossbar = new Image();
+      bossbar.src = "levelboss.png";
+
+      function lvl3bar() {
+        c.drawImage(bossbar, canvas.width - 297, 10, 287, 36);
+      }
+
+      var lvl3fill = {
+        x: canvas.width - 294,
+        y: 15,
+        w: 260,
+        h: 27,
+        color: "red",
+      };
+
+      function drawlv31fill() {
+        c.fillStyle = lvl3fill.color;
+        c.fillRect(lvl3fill.x, lvl3fill.y, lvl3fill.w, lvl3fill.h);
+      }
+      //audio
+      var sel = new Audio();
+      sel.src = "select.wav";
+      sel.load();
+
+      var collect = new Audio();
+      collect.src = "padbounce.mp3";
+      collect.load();
+
+      var hit = new Audio();
+      hit.src = "oof.mp3";
+      hit.load();
+
+      var transition = new Audio();
+      transition.src = "hit.mp3";
+      transition.load();
+
+      var lasersound = new Audio();
+      lasersound.src = "gb.mp3";
+      lasersound.load();
+
+      var powerupsound = new Audio();
+      powerupsound.src = "savepoint.mp3";
+      powerupsound.load();
+
+      var portalsound = new Audio();
+      portalsound.src = "portal-gun-ice.mp3";
+      portalsound.load();
+
+      var winsound = new Audio();
+      winsound.src = "pok.mp3";
+      winsound.load();
+
+      var losesound = new Audio();
+      losesound.src = "gameovernot.mp3";
+      losesound.load();
+
+      var rewind = new Audio();
+      rewind.src = "retour.mp3";
+      rewind.load();
+
+      var ambient1 = new Audio();
+      ambient1.src = "MagicFly.mp3";
+      ambient1.load();
+
+      var ambient2 = new Audio();
+      ambient2.src = "CatsMagicFly.mp3";
+      ambient2.load();
+
+      var amogsus = new Audio();
+      amogsus.src = "amogusmeme.mp3";
+      amogsus.load();
+
+      function backgroundmusic() {
+        if (menu == false && bending == false && gending == false) {
+          if (lvl3check == false) {
+            ambient1.play();
+            ambient2.pause();
+          }
+          if (lvl3check == true || gending == true) {
+            ambient1.pause();
+            ambient2.play();
+          }
+        }
+        if (bending == true) {
+          ambient1.pause();
+          ambient2.pause();
+        }
+      }
+
+      //endings
+      var gending = false;
+      var bending = false;
+      var lose = {
+        x: canvas.width / 2 - ((canvas.height / 3 / 82) * 330) / 2,
+        y: canvas.height / 2 - canvas.height / 3 / 2,
+        w: (canvas.height / 3 / 82) * 330,
+        h: canvas.height / 3,
+      };
+
+      var badending = new Image();
+      badending.src = "badending.png";
+
+      function drawbadending() {
+        c.drawImage(badending, lose.x, lose.y, lose.w, lose.h);
+      }
+
+      var win = {
+        x: canvas.width / 2 - ((canvas.height / 3 / 82) * 250) / 2,
+        y: canvas.height / 2 - canvas.height / 3 / 2,
+        w: (canvas.height / 3 / 82) * 250,
+        h: canvas.height / 3,
+      };
+
+      var goodending = new Image();
+      goodending.src = "goodending.png";
+
+      function drawgoodending() {
+        c.drawImage(goodending, win.x, win.y, win.w, win.h);
+      }
+
+      function shotsdisplay() {
+        c.font = "28px Arial";
+        c.fillStyle = "lightblue";
+        c.fillText("Shots: " + shotcount, 10, canvas.height - 10);
+      }
+      function shotsdisplay2() {
+        c.font = "28px Arial";
+        c.fillStyle = "red";
+        c.fillText("Shots: " + shotcount, 10, canvas.height - 10);
+      }
+      function shotsdisplay3() {
+        c.font = "28px Arial";
+        c.fillStyle = "lightgreen";
+        c.fillText("Shots: " + shotcount, 10, canvas.height - 10);
+      }
+
+      function deletecrewmate() {
+        for (j = 0; j < sacMissiles.length; j++) {
+          for (l = 0; l < crewmate.length; l++) {
+            if (collision(sacMissiles[j], crewmate[l])) {
+              sacMissiles.splice(l, 1);
+              crewmate.splice(l, 1);
+              amogsus.play();
+            }
+          }
+        }
+      }
+
+      function game() {
+        //fakeplayer();
+        //intro();
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        requestAnimationFrame(game);
+        drawportalframe1();
+        drawportal1();
+        if (
+          menu == true &&
+          lvl1check == true &&
+          lvl2check == false &&
+          bending == false &&
+          gending == false
+        ) {
+          c.clearRect(0, 0, canvas.width, canvas.height);
+          drawstars();
+          drawamogus();
+          drawtitle();
+          drawplay();
+          drawtuto();
+          fakeplayer();
+          intro();
+          shotsdisplay();
+          deletecrewmate();
+        }
+        if (playerentrance == false) {
+          drawJoueur();
+          drawinstruc();
+          clavier();
+          shoot();
+          fakejoueur.x = canvas.width;
+          gamestarter();
+          instrucstarter();
+        }
+        //if (playerentrance == true && menu == false) {
+        //fakeplayer();
+        //intro();
+        //}
+        if (
+          lvl1check == true &&
+          lvl2check == false &&
+          menu == false &&
+          bending == false &&
+          gending == false
+        ) {
+          c.clearRect(0, 0, canvas.width, canvas.height);
+          drawportalframe1();
+          drawportal1();
+          shoot();
+          clavier();
+          drawstars();
+          drawamogus();
+          drawJoueur();
+          bye();
+          bemfill();
+          stelfill();
+          tipifill();
+          drawhealthcross();
+          drawelectropacks();
+          drawstealthpacks();
+          drawtppacks();
+          drawrock();
+          helth();
+          health();
+          bembar();
+          tbar();
+          stelthbar();
+          shootusdeletus();
+          damage();
+          restorehealth();
+          restorebeam();
+          restorestealth();
+          restoretp();
+          beamdestroyer();
+          extinctray();
+          unleashray();
+          drawlvl1fill();
+          lvl1bar();
+          level2transition();
+          shotsdisplay();
+          backgroundmusic();
+          deletecrewmate();
+        }
+        if (
+          lvl1check == true &&
+          lvl2check == true &&
+          menu == false &&
+          lvl3check == false &&
+          bending == false &&
+          gending == false
+        ) {
+          drawstars();
+          drawamogus();
+          bye();
+          bemfill();
+          stelfill();
+          tipifill();
+          drawhealthcross();
+          drawelectropacks();
+          drawstealthpacks();
+          drawtppacks();
+          shoot();
+          drawJoueur();
+          drawenemyships();
+          drawenemylander();
+          helth();
+          health();
+          bembar();
+          tbar();
+          stelthbar();
+          clavier();
+          shootusdeletus();
+          damage();
+          restorehealth();
+          restorebeam();
+          restorestealth();
+          restoretp();
+          beamdestroyer();
+          extinctray();
+          unleashray();
+          lvl1bar();
+          drawlv21fill();
+          lvl2bar();
+          lvl3transition();
+          shotsdisplay();
+          backgroundmusic();
+          deletecrewmate();
+        }
+        if (
+          lvl1check == true &&
+          lvl2check == true &&
+          menu == false &&
+          lvl3check == true &&
+          bending == false &&
+          gending == false
+        ) {
+          drawstars();
+          drawamogus();
+          bye();
+          bemfill();
+          stelfill();
+          tipifill();
+          drawhealthcross();
+          drawelectropacks();
+          drawstealthpacks();
+          drawtppacks();
+          shoot();
+          drawbosslaser();
+          drawboss();
+          fightsequence();
+          drawJoueur();
+          helth();
+          health();
+          bembar();
+          tbar();
+          stelthbar();
+          clavier();
+          shootusdeletus();
+          damage();
+          restorehealth();
+          restorebeam();
+          restorestealth();
+          restoretp();
+          beamdestroyer();
+          extinctray();
+          unleashray();
+          drawlv31fill();
+          lvl3bar();
+          drawlaserpaw();
+          drawcrossbomb();
+          drawboss();
+          raydamage();
+          shotsdisplay();
+          backgroundmusic();
+          deletecrewmate();
+          bossdamage();
+        }
+        if (fillhealth.w == 0 || fillhealth.w < 0) {
+          c.clearRect(0, 0, canvas.width, canvas.height);
+          drawstars();
+          drawbadending();
+          clavier();
+          lvl1check = false;
+          lvl2check = false;
+          lvl3check = false;
+          menu = false;
+          bending = true;
+          losesound.play();
+          shotsdisplay2();
+          ambient1.pause();
+          ambient2.pause();
+        }
+        if (lvl3fill.w == 0 || lvl3fill.w < 0) {
+          c.clearRect(0, 0, canvas.width, canvas.height);
+          drawstars();
+          drawgoodending();
+          clavier();
+          lvl1check = false;
+          lvl2check = false;
+          lvl3check = false;
+          menu = false;
+          gending = true;
+          // winsound.play();
+          shotsdisplay3();
+          ambient1.pause();
+          ambient2.play();
+        }
+      }
+      game();
+    </script>
+  </body>
+</html>
