@@ -1,0 +1,849 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Jeu clavier</title>
+<style>
+body{
+	background-color: lightgray;
+}	
+</style>	
+</head>
+
+<body>
+
+<script>
+// Creation d'un canvas en Javascript au lieu de HTML 
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth-50;
+canvas.height = window.innerHeight-50
+canvas.style.border = "10px white solid";
+canvas.style.backgroundColor= "black";
+canvas.style.display = "block";
+canvas.style.margin ="auto"
+document.body.appendChild(canvas);
+
+
+
+
+var menu=true
+
+var joueur={
+	x:85,
+	y:85,
+	w:30,
+	h:30,
+	color:"blue",
+	speed:10
+	}
+
+var cible={
+	x:400,
+	y:400,
+	w:50,
+	h:50,
+	color:"red"
+    }
+
+var target={
+    x:9*canvas.width/10,
+    y:2*canvas.height/3,
+    w:canvas.width/10,
+    h:canvas.height/3,
+    color:"blue"
+}
+
+var wall={
+	x:0,
+	y:canvas.height/3,
+	w:canvas.width-canvas.width/4,
+	h:20,
+	color:"white"
+	}
+
+var wall2={
+	x:canvas.width/4,
+	y:2*canvas.height/3,
+	w:canvas.width-canvas.width/4,
+	h:20,
+	color:"white"
+	}
+
+var bottomWall1={
+	x:canvas.width/3,
+	y:2*canvas.height/3,
+	w:20,
+	h:canvas.height/6+10,
+	color:"white"
+	}
+
+var bottomWall2={
+	x:2*canvas.width/3,
+	y:2*canvas.height/3,
+	w:20,
+	h:canvas.height/6+10,
+	color:"white"
+	}
+
+var bottomWall3={
+	x:canvas.width/4,
+	y:5*canvas.height/6+10,
+	w:20,
+	h:canvas.height/6,
+	color:"white"
+	}
+
+var bottomWall4={
+	x:2*canvas.width/4,
+	y:5*canvas.height/6+10,
+	w:20,
+	h:canvas.height/6,
+	color:"white"
+	}
+
+var bottomWall5={
+	x:3*canvas.width/4,
+	y:5*canvas.height/6+10,
+	w:20,
+	h:canvas.height/6,
+	color:"white"
+	}
+
+var sable={
+    x:canvas.width/4,
+    y:2*canvas.height/3,
+    w:canvas.width-canvas.width/4,
+    h:canvas.height/3,
+    color:"#ff9900"
+}
+/*
+var sable2={
+    x:200,
+    y:450,
+    w:600,
+    h:350,
+    color:"#ff9900"
+}
+*/
+var set1={
+    x:0,
+    y:0,
+    w:canvas.width/10,
+    h:canvas.height/9,
+    color:"#00cc00"
+}
+
+var set2={
+    x:0,
+    y:canvas.height/9,
+    w:canvas.width/10,
+    h:canvas.height/9,
+    color:"#ffff00"
+}
+var set3={
+    x:0,
+    y:2*canvas.height/9,
+    w:canvas.width/10,
+    h:canvas.height/9,
+    color:"#cc0000"
+}
+
+var fast={
+    x:0,
+    y:4.1111*canvas.height/9,
+    w:canvas.width,
+    h:canvas.height/9,
+    color: "#00D8FF"
+}
+/*
+var portal={
+    x:0,
+    y:0,
+    w:200,
+    h:50,
+    color:"green"
+}
+
+var portal2={
+    x:0,
+    y:canvas.height-50,
+    w:200,
+    h:50,
+    color:"green"
+}
+*/
+var coins={
+	x:Math.random()*444,
+	y:Math.random()*444,
+	w:15,
+	h:15,
+	color:"gold"
+	}
+
+var coins1={
+	x:Math.random()*444,
+	y:Math.random()*444,
+	w:15,
+	h:15,
+	color:"gold"
+	}
+
+var coins2={
+	x:Math.random()*555,
+	y:Math.random()*555,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+
+var coins3={
+	x:Math.random()*555,
+	y:Math.random()*555,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+
+var coins4={
+	x:Math.random()*444,
+	y:Math.random()*444,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+
+var coins5={
+	x:Math.random()*555,
+	y:Math.random()*555,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+
+var coins6={
+	x:Math.random()*666,
+	y:Math.random()*666,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+	
+var coins7={
+	x:Math.random()*777,
+	y:Math.random()*777,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+		
+var coins8={
+	x:Math.random()*888,
+	y:Math.random()*888,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+		
+var coins9={
+	x:Math.random()*999,
+	y:Math.random()*999,
+	w:15,
+	h:15,
+	color:"gold"
+	}	
+
+var sonDebutdematch=new Audio();
+    sonDebutdematch.src="debutdematch.mp3";
+
+var sonFindematch=new Audio();
+    sonFindematch.src="findematch.mp3";
+
+var sonLoser=new Audio();
+    sonLoser.src="loser.mp3";
+
+var sonFast=new Audio();
+    sonFast.src="fast.mp3";        
+								
+var keyDown={}
+
+var direction
+
+var money= 0
+
+//fonctions
+function drawJoueur(){
+	ctx.fillStyle=set1.color
+    ctx.fillRect(set1.x, set1.y, set1.w, set1.h)
+	
+	ctx.fillStyle=set2.color
+    ctx.fillRect(set2.x, set2.y, set2.w, set2.h)
+	
+	ctx.fillStyle=set3.color
+    ctx.fillRect(set3.x, set3.y, set3.w, set3.h)
+	
+	ctx.fillStyle=joueur.color
+    ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+	}
+	
+	
+/*	
+function drawCible(){
+	ctx.fillStyle=cible.color
+    ctx.fillRect(cible.x, cible.y, cible.w, cible.h)
+    
+    if(collision(joueur,cible)){
+        cible.color="yellow"
+    }else{
+        cible.color="red"
+    }
+	}
+*/
+
+function drawCoins(){
+
+	ctx.fillStyle=coins.color
+    ctx.fillRect(coins.x,coins.y, coins.w, coins.h)
+	ctx.fillStyle=coins1.color
+    ctx.fillRect(coins1.x,coins1.y, coins.w, coins.h)
+	ctx.fillStyle=coins2.color
+	ctx.fillRect(coins2.x,coins2.y, coins.w, coins.h)
+    ctx.fillStyle=coins3.color
+    ctx.fillRect(coins3.x,coins3.y, coins.w, coins.h)
+    ctx.fillStyle=coins4.color
+	ctx.fillRect(coins4.x,coins4.y, coins.w, coins.h)
+    ctx.fillStyle=coins5.color
+	ctx.fillRect(coins5.x,coins5.y, coins.w, coins.h)
+	ctx.fillStyle=coins6.color
+	ctx.fillRect(coins6.x,coins6.y, coins.w, coins.h)
+	ctx.fillStyle=coins7.color
+	ctx.fillRect(coins7.x,coins7.y, coins.w, coins.h)
+	ctx.fillStyle=coins8.color
+	ctx.fillRect(coins8.x,coins8.y, coins.w, coins.h)
+	ctx.fillStyle=coins9.color
+	ctx.fillRect(coins9.x,coins9.y, coins.w, coins.h)
+	
+	}
+
+function drawTarget(){
+	ctx.fillStyle=fast.color
+    ctx.fillRect(fast.x, fast.y, fast.w, fast.h)
+    ctx.fillStyle=target.color
+    ctx.fillRect(target.x, target.y, target.w, target.h)
+	ctx.fillStyle=wall.color
+    ctx.fillRect(wall.x, wall.y, wall.w, wall.h)
+	ctx.fillStyle=wall2.color
+	ctx.fillRect(wall2.x, wall2.y, wall2.w, wall2.h)
+
+	ctx.fillStyle=bottomWall1.color
+    ctx.fillRect(bottomWall1.x, bottomWall1.y, bottomWall1.w, bottomWall1.h)
+	ctx.fillStyle=bottomWall2.color
+    ctx.fillRect(bottomWall2.x, bottomWall2.y, bottomWall2.w, bottomWall2.h)
+    ctx.fillStyle=bottomWall3.color
+    ctx.fillRect(bottomWall3.x, bottomWall3.y, bottomWall3.w, bottomWall3.h)
+	ctx.fillStyle=bottomWall4.color
+    ctx.fillRect(bottomWall4.x, bottomWall4.y, bottomWall4.w, bottomWall4.h)
+    ctx.fillStyle=bottomWall5.color
+    ctx.fillRect(bottomWall5.x, bottomWall5.y, bottomWall5.w, bottomWall5.h)
+	
+	}
+
+ function drawSable(){
+    ctx.fillStyle=sable.color
+	ctx.fillRect(sable.x, sable.y, sable.w, sable.h)
+	
+	/* ctx.fillStyle=sable2.color
+    ctx.fillRect(sable2.x, sable2.y, sable2.w, sable2.h)
+ 	ctx.fillStyle=portal.color
+    ctx.fillRect(portal.x, portal.y, portal.w, portal.h)
+    ctx.fillStyle=portal2.color
+    ctx.fillRect(portal2.x, portal2.y, portal2.w, portal2.h)
+
+    if(collision(joueur,portal)){
+        joueur.x=canvas.width-30
+        joueur.y=0
+    }
+
+    if(collision(joueur,portal2)){
+        joueur.x=canvas.width-30
+        joueur.y=canvas.height-30
+    }
+*/
+	}
+
+function Obstacle(x,y,w,h,color,speedy,speedx){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speedy=speedy
+    this.speedx=speedx
+    this.draw=function(){
+        ctx.fillStyle=this.color
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+
+    if(this.y<0||this.y+this.h>canvas.height){
+        this.speedy=-this.speedy
+    }
+
+    if(this.x<0||this.x+this.w>canvas.width){
+        this.speedx=-this.speedx
+    }
+        this.y+=this.speedy
+        this.x+=this.speedx
+    }
+
+}
+
+function Obstacle1(x,y,w,h,color,speedy,speedx){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speedy=speedy
+    this.speedx=speedx
+    this.draw=function(){
+        ctx.fillStyle=this.color
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+
+    if(this.y<0||this.y+this.h>wall.y){
+        this.speedy=-this.speedy
+    }
+
+        this.y+=this.speedy
+        this.x+=this.speedx
+    }
+
+}
+
+function Obstacle2(x,y,w,h,color,speedy,speedx){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speedy=speedy
+    this.speedx=speedx
+    this.draw=function(){
+        ctx.fillStyle=this.color
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+
+    if(this.y<0||this.y+this.h>wall2.y){
+        this.speedy=-this.speedy
+    }
+
+	if(this.y<0||this.y<wall.y){
+        this.speedy=-this.speedy
+    }
+
+        this.y+=this.speedy
+        this.x+=this.speedx
+    }
+
+}
+
+function Obstacle3(x,y,w,h,color,speedy,speedx){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speedy=speedy
+    this.speedx=speedx
+    this.draw=function(){
+        ctx.fillStyle=this.color
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+
+    if(this.y<0||this.y+this.h>5*canvas.height/6+10){
+        this.speedy=-this.speedy
+    }
+
+    if(this.x<0||this.y<wall2.y+20){
+        this.speedy=-this.speedy
+    }
+        this.y+=this.speedy
+        this.x+=this.speedx
+    }
+
+}
+
+function Obstacle4(x,y,w,h,color,speedy,speedx){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speedy=speedy
+    this.speedx=speedx
+    this.draw=function(){
+        ctx.fillStyle=this.color
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+
+    if(this.y<0||this.y<5*canvas.height/6+10){
+        this.speedy=-this.speedy
+    }
+
+    if(this.x<0||this.y+this.h>canvas.height){
+        this.speedy=-this.speedy
+    }
+        this.y+=this.speedy
+        this.x+=this.speedx
+    }
+
+}
+
+/*
+var obstacle1= new Obstacle(200, 0, 20, 300, "red", 1,0)
+var obstacle2= new Obstacle(400, 0, 20, 300, "red", 1,0)
+var obstacle3= new Obstacle(600, 0, 20, 300, "red", 1,0)
+var obstacle4= new Obstacle(800, 0, 20, 300, "red", 1,0)
+var obstacle5= new Obstacle(1000, 0, 20, 300, "red",1,0)
+
+var obstacle6= new Obstacle(0, 200, 300, 20, "red", 0, 1)
+var obstacle7= new Obstacle(0, 400, 300, 20, "red", 0, 1)
+var obstacle8= new Obstacle(0, 600, 300, 20, "red", 0, 1)
+var obstacle11= new Obstacle(0, 20, 300, 20, "red", 0, 1)
+*/
+//section 1
+var obstacle1= new Obstacle1(3*canvas.width/4-20, 0, 20, canvas.height/3-100, "red", 0,0)
+var obstacle2= new Obstacle1(1*canvas.width/4-20, 0, 20, canvas.height/3-100, "red", 0,0)
+var obstacle3= new Obstacle1(2*canvas.width/4-20, 0, 20, canvas.height/3-100, "red", 0,0)
+//var obstacle4= new Obstacle(0, 2*canvas.height/9, 20, 20, "red", 0,0)
+
+//section 2 
+var obstacle5= new Obstacle(0, 4.1111*canvas.height/9, canvas.width/5, canvas.height/9, "red",0,0)
+
+var obstacle6= new Obstacle2(canvas.width/5, 3*canvas.height/9+20, 20, canvas.height/9, "red", 0,0)
+var obstacle7= new Obstacle2(2*canvas.width/5, 3*canvas.height/9+20, 20, canvas.height/9, "red", 0,0)
+var obstacle8= new Obstacle2(3*canvas.width/5, 3*canvas.height/9+20, 20, canvas.height/9, "red", 0,0)
+var obstacle9= new Obstacle2(4*canvas.width/5, 3*canvas.height/9+20, 20, canvas.height/9, "red", 0,0)
+
+//section 3
+var obstacle10= new Obstacle3(canvas.width/3+20, 2*canvas.height/3+20, canvas.width/3-20, 20, "red", 0,0)
+
+var obstacle11= new Obstacle4(1*canvas.width/4+20, 5*canvas.height/6+10, canvas.width/4-20, 20, "red", 0,0)
+var obstacle12= new Obstacle4(2*canvas.width/4+20, 5*canvas.height/6+10, canvas.width/4-20, 20, "red", 0,0)
+
+
+function draw(){
+    obstacle1.draw()
+    obstacle2.draw()
+    obstacle3.draw()
+    //obstacle4.draw()
+    obstacle5.draw()
+    obstacle6.draw()
+    obstacle7.draw()
+	obstacle8.draw()
+	obstacle9.draw()
+	obstacle10.draw()
+	obstacle11.draw()
+	obstacle12.draw()
+}
+
+function checkCollision(){
+    if(collision(joueur,obstacle1)||
+    collision(joueur,obstacle2)||
+    collision(joueur,obstacle3)||
+    //collision(joueur,obstacle4)||
+    collision(joueur,obstacle5)||
+    collision(joueur,obstacle6)||
+    collision(joueur,obstacle7)||
+	collision(joueur,obstacle8)||
+	collision(joueur,obstacle9)||
+	collision(joueur,obstacle10)||
+	collision(joueur,obstacle11)||
+    collision(joueur,obstacle12) ){
+        joueur.x=85
+        joueur.y=85
+        sonLoser.play()
+        gameOver()
+        
+    }
+
+    if(collision(joueur,sable)){
+        joueur.speed=5
+    }else if(collision(joueur,fast)){
+        joueur.speed=25
+        sonFast.play()
+    }else{
+        joueur.speed=10
+        sonFast.pause()
+    }
+	
+	if(collision(joueur,set1)){
+
+		obstacle1.speedy=1
+		obstacle2.speedy=1
+		obstacle3.speedy=1
+		//obstacle4.speedy=5
+		
+		obstacle5.speedx=1
+		
+		obstacle6.speedy=1
+		obstacle7.speedy=1
+		obstacle8.speedy=1
+		obstacle9.speedy=1
+
+		obstacle10.speedy=1
+		obstacle11.speedy=1
+		obstacle12.speedy=1
+    }else if(collision(joueur,set2)){
+		
+        obstacle1.speedy=5
+		obstacle2.speedy=5
+		obstacle3.speedy=5
+		//obstacle4.speedy=5
+
+		obstacle5.speedx=5
+		
+		obstacle6.speedy=5
+		obstacle7.speedy=5
+		obstacle8.speedy=5
+		obstacle9.speedy=5
+
+		obstacle10.speedy=5
+		obstacle11.speedy=5
+		obstacle12.speedy=5
+    }else if(collision(joueur,set3)){
+		obstacle1.speedy=10
+		obstacle2.speedy=10
+		obstacle3.speedy=10
+		//obstacle4.speedy=5
+		
+		obstacle5.speedx=10
+		
+		obstacle6.speedy=10
+		obstacle7.speedy=10
+		obstacle8.speedy=10
+		obstacle9.speedy=10
+
+		obstacle10.speedy=10
+		obstacle11.speedy=10
+		obstacle12.speedy=10
+    }
+
+}
+
+//gestion des collision
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+	}
+
+function hitWall(a,b){
+	
+    if(collision(a,b)&&direction=="gauche"){
+        a.x=b.x+b.w
+        console.log("hit from gauche")
+    }
+    if(collision(a,b)&&direction=="droite"){
+        a.x=b.x-a.w
+        console.log("hit from droite")
+    }
+    if(collision(a,b)&&direction=="haut"){
+        a.y=b.y+b.h
+        console.log("hit from haut")
+    }
+    if(collision(a,b)&&direction=="bas"){
+        a.y=b.y-a.h
+        console.log("hit from bas")
+    }
+} 
+
+function checkCollision2(){
+	hitWall(joueur,wall)
+	hitWall(joueur,wall2)
+	hitWall(joueur,bottomWall1)
+	hitWall(joueur,bottomWall2)
+	hitWall(joueur,bottomWall3)
+	hitWall(joueur,bottomWall4)
+	hitWall(joueur,bottomWall5)
+}
+
+function checkCollision3(){
+	//console.log("aa")
+    if(collision(joueur,coins)){
+      coins.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins1)){
+      coins1.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins2)){
+      coins2.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins3)){
+      coins3.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins4)){
+      coins4.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins5)){
+      coins5.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins6)){
+      coins6.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins7)){
+      coins7.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins8)){
+      coins8.x= 1000000
+	  money = money+1
+	  console.log (money)
+    } if(collision(joueur,coins9)){
+      coins9.x= 1000000
+	  money = money+1
+	  console.log (money)
+    }	
+}
+
+//événements clavier
+
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+    console.log(keyDown)
+})
+
+document.addEventListener("keyup", function(e){
+    delete keyDown[e.keyCode]
+    console.log(keyDown)
+})
+
+
+function clavier(){
+	//console.log(e)
+	
+	if(37 in keyDown &&joueur.x>0){
+        direction="gauche"
+		joueur.x-=joueur.speed
+		}
+	if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+        direction="droite"
+		joueur.x+=joueur.speed
+		}
+	if(38 in keyDown &&joueur.y>0){
+        direction="haut"
+		joueur.y-=joueur.speed
+		}
+	if(40 in keyDown &&joueur.y<canvas.height-joueur.h){
+        direction="bas"
+		joueur.y+=joueur.speed
+		}
+	
+	}
+	
+function pointage(){
+	ctx.fillStyle="white"
+	ctx.font="25px Arial"
+	ctx.textAlign="left"
+	ctx.fillText("Coins : "+money,canvas.width-120 , 30)	
+	
+	ctx.fillStyle="black"
+	ctx.font="25px Arial"
+	ctx.textAlign="left"
+	ctx.fillText("easy",canvas.width/27, 0+canvas.height/18)	
+
+	ctx.fillStyle="black"
+	ctx.font="25px Arial"
+	ctx.textAlign="left"
+	ctx.fillText("avrg",canvas.width/27, canvas.height/9+canvas.height/18)	
+	
+	ctx.fillStyle="black"
+	ctx.font="25px Arial"
+	ctx.textAlign="left"
+    ctx.fillText("hard",canvas.width/27, 2*canvas.height/9+canvas.height/18)	
+    
+//fin 
+    if(collision(joueur,target)){
+        target.color="purple"
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        winner()
+    }else{
+        target.color="blue"
+    }
+	}
+
+//boucle principale du jeu
+
+function showMenu(){
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    //drawCible()
+	drawSable()
+    drawTarget()
+	drawCoins()
+    drawJoueur()
+    clavier()
+    requestAnimationFrame(game)
+    draw()
+    checkCollision()
+	checkCollision2()
+	checkCollision3()
+    pointage()
+    
+}
+
+function gameOver(){
+    sonFindematch.play()
+ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.strokeStyle = "#7C7C7C"
+ctx.strokeRect(canvas.width/2-200,canvas.height/2-110,400,200)
+ctx.fillStyle="#FFFFFF"
+ctx.fillRect(canvas.width/2-200,canvas.height/2-110,400,200)
+ctx.fillStyle="#000000"
+ctx.font="45px Arial"
+ctx.textAlign="center"
+ctx.fillText("GAME OVER", canvas.width/2,canvas.height/2-50)
+ctx.fillText(" Votre score: " +money +"/10", canvas.width/2,canvas.height/2)
+
+menu=false
+
+}
+
+function winner(){
+    sonFindematch.play()
+ctx.clearRect(0,0,canvas.width,canvas.height)
+ctx.strokeStyle = "#7C7C7C"
+ctx.strokeRect(canvas.width/2-200,canvas.height/2-110,400,200)
+ctx.fillStyle="#FFFFFF"
+ctx.fillRect(canvas.width/2-200,canvas.height/2-110,400,200)
+ctx.fillStyle="#000000"
+ctx.font="45px Arial"
+ctx.textAlign="center"
+ctx.fillText("You Won!", canvas.width/2,canvas.height/2-50)
+ctx.fillText(" Votre score: " +money +"/10", canvas.width/2,canvas.height/2)
+
+menu=false
+
+}
+
+
+
+function game(){
+    if(menu==true){
+          showMenu()
+		}else{ 
+    }
+
+}
+game()
+
+    </script>
+</body>
+</html>
