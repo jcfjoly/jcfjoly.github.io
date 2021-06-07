@@ -1,0 +1,344 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-image: url(Bibliothèque.jpg);
+	background-size: contain;
+}
+#action1{
+	width: 40px;
+	height: 50px;
+	position: absolute;
+	top: 239px;
+	left: 193px;
+	cursor: pointer;
+	z-index: 1;
+}
+#action2{
+	width: 106px;
+    height: 106px;
+	position: absolute;
+	top: 466px;
+	left: 881px;
+	cursor: pointer;
+}
+#action3{
+	width: 50px;
+	height: 10px;
+	position: absolute;
+	top: 190px;
+	left: 840px;
+	cursor: pointer;
+}
+#pouraction2{
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: 489px;
+	left: 850px;
+}
+#RPC{
+	width: 215px;
+    height: 115px;
+    position: absolute;
+    margin-top:300px;
+    left: 520px;
+    background-color: rgb(2, 139, 158);
+    border: 2px black solid;
+    text-align: center;
+	cursor: none;
+    visibility: hidden;
+	z-index: 1;
+}
+#aide{
+	width: 1000px;
+	height: 700px;
+	top:40px;
+	left:125px;
+	position: absolute;
+	visibility: visible;
+}
+#charade{
+	width: 220px;
+	height: 205px;
+	position: absolute;
+	margin-top: 300px;
+	left: 500px;
+	background-color: rgb(2, 139, 158);
+	border: 2px black solid;
+	text-align: center;
+	cursor: none;
+	visibility: hidden;
+	z-index: 1;
+}
+#repere{
+	width: 200px;
+	height: 130px;
+	position: absolute;
+	margin-top: 70px;
+	left: 516px;
+	background-color: rgba(37, 108, 155, 0.938);
+	border: 2px black solid;
+	text-align: center;
+}
+#cadenas{
+	width: 220px;
+	height: 205px;
+	position: absolute;
+	margin-top: 300px;
+	left: 500px;
+	background-color: rgb(2, 139, 158);
+	border: 2px black solid;
+	text-align: center;
+	visibility: hidden;
+	z-index: 1;
+}
+#apres1{
+	width: 40px;
+	height: 50px;
+	position: absolute;
+	top: 239px;
+	left: 193px;
+	z-index: 0;
+}
+#apres2{
+	width: 106px;
+    height: 106px;
+	position: absolute;
+	top: 466px;
+	left: 881px;
+	visibility: visible;
+}
+#apres3{
+	width: 50px;
+	height: 10px;
+	position: absolute;
+	top: 190px;
+	left: 840px;
+	visibility: visible;
+}
+#porte{
+	width: 237px;
+	height: 370px;
+	position: absolute;
+	top: 329px;
+	left: 500px;
+	cursor: pointer;
+	visibility: hidden;
+}
+
+/*Commencez VOTRE CSS ici*/	
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur"> <b>Conception : Daphné Giraud 410</b></div>
+        <div id="cadreJeu"></div>
+        <div id="aide"></div>
+        <div id="repere">
+			<p id="indice">Trouvez la statuette, elle vous dira quoi faire.</p>
+		</div>
+
+		<div id="action1" onclick="statuette()"></div>
+		<div id="apres1"></div>
+        <div id="RPC">
+			<p id="etat">Roche, papier, ciseaux?</p>
+            <input type="text" id="objet">
+            <input type="button" value="Bataille" onclick="vainqueur()">
+		</div>
+
+		<div id="action2" onclick="cadre()"></div>
+		<div id="apres2"></div>
+		<div id="pouraction2"></div>
+		<div id="charade">
+			<p id="devinette">Mon premier est la première syllabe du mot chevreuil,<br/>
+				Mon deuxième est fabriqué par l'oiseau,<br/> 
+				Mon troisième se termine comme le mot abeille,<br/> 
+				Mon tout est la larve du papillon.<br/>
+				Qui suis-je ?<br/></p>
+            <input type="text" id="reponseJ">
+            <input type="button" value="OK" onclick="bonneR()">
+		</div>
+
+		<div id="action3" onclick="livre()"></div>
+		<div id="apres3"></div>
+		<div id="cadenas">
+			<p id="combinaison">1) Jour de la Saint-Jean<br/>2) Les deux derniers chiffres de l'année du premier référendum au Québec<br/>3) Les deux derniers chiffres de l'année de création du Québec</p>
+			<input type="text" id="codeJ">
+			<input type="button" value="OK" onclick="bonC()">
+		</div>
+		
+		<div id="porte" onClick="nextLevel()"></div>
+</div>
+
+    <script>
+	
+
+	function statuette(){
+		document.getElementById("RPC").style.visibility="visible"
+		document.getElementById("RPC").style.cursor="pointer"
+		document.getElementById("aide").style.visibility="visible"
+		document.getElementById("apres1").style.zIndex=2
+		indice.innerHTML="Une partie de roche, papier, ciseaux, ça vous dit?"
+	}
+
+
+	function cadre(){
+		document.getElementById("charade").style.visibility="visible"
+		document.getElementById("charade").style.cursor="pointer"
+		document.getElementById("aide").style.visibility="visible"
+		indice.innerHTML="J'ai une chanson où mon nom, Camille, se retrouve."
+
+	}
+
+	
+	function livre(){
+		document.getElementById("cadenas").style.visibility="visible"
+		document.getElementById("cadenas").style.cursor="pointer"
+		document.getElementById("aide").style.visibility="visible"
+		indice.innerHTML="Encore un peu d'effort, il ne reste plus que la clé a trouver! Pour cela, trouvez la combinaison du cadenas pour ouvrir le livre renfermant la clé."
+	}
+
+            
+	function vainqueur(){
+            var objet=document.getElementById("objet").value 
+            var choixOrdi=Math.ceil(Math.random()*3)
+			console.log(choixOrdi)
+            
+            if(objet=="Roche"){
+                if(choixOrdi==1){
+                    etat.innerHTML="NUL: L'ordinateur avait choisi RoChE"}
+                if(choixOrdi==2){
+                    etat.innerHTML="DÉFAITE: L'ordinateur avait choisi PaPiEr"}
+                if(choixOrdi==3){
+                    etat.innerHTML="VICTOIRE: L'ordinateur avait choisi CiSeAuX"
+					indice.innerHTML="Bravo, vous avez gagné la partie de roche, papier, ciseaux! Il vous faut maintenant trouver la page qu'un livre a perdue. Psst, ça brise bien une statuette."
+					document.getElementById("aide").style.visibility="hidden"
+					document.getElementById("RPC").style.visibility="hidden"
+					document.getElementById("RPC").style.zIndex=0
+					document.getElementById("apres2").style.visibility="hidden"}		
+            }
+
+            if(objet=="Papier"){
+                if(choixOrdi==2){
+                    etat.innerHTML="NUL: L'ordinateur avait choisi PaPiEr"}
+                if(choixOrdi==3){
+                    etat.innerHTML="DÉFAITE: L'ordinateur avait choisi CiSeAuX"}
+                if(choixOrdi==1){
+                    etat.innerHTML="VICTOIRE: L'ordinateur avait choisi RoChE"
+					indice.innerHTML="Bravo, vous avez gagné la partie de roche, papier, ciseaux! Il vous faut maintenant trouver la page qu'un livre a perdue. Psst, ça brise bien une statuette."
+					document.getElementById("aide").style.visibility="hidden"
+					document.getElementById("RPC").style.visibility="hidden"
+					document.getElementById("RPC").style.zIndex=0
+					document.getElementById("apres2").style.visibility="hidden"}
+            }
+
+            if(objet=="Ciseaux"){
+                if(choixOrdi==3){
+                    etat.innerHTML="NUL: L'ordinateur avait choisi CiSeAuX"}
+                if(choixOrdi==1){
+                    etat.innerHTML="DÉFAITE: L'ordinateur avait choisi RoChE"}
+                if(choixOrdi==2){
+                    etat.innerHTML="VICTOIRE: L'ordinateur avait choisi PaPiEr"
+					indice.innerHTML="Bravo, vous avez gagné la partie de roche, papier, ciseaux! Il vous faut maintenant trouver la page qu'un livre a perdue. Psst, ça brise bien une statuette."
+					document.getElementById("aide").style.visibility="hidden"
+					document.getElementById("RPC").style.visibility="hidden"
+					document.getElementById("RPC").style.zIndex=0
+					document.getElementById("apres2").style.visibility="hidden"}
+            }
+    }
+
+
+	function bonneR(){
+			var reponseJ=document.getElementById("reponseJ").value
+
+			if(reponseJ=="Chenille"){
+				indice.innerHTML="Bravo, vous avez deviné ce que je suis! Maintenant, trouvez le livre auquel cette page appartient."
+				document.getElementById("aide").style.visibility="hidden"
+				document.getElementById("charade").style.visibility="hidden"
+				document.getElementById("apres2").style.visibility="visible"
+				document.getElementById("apres3").style.visibility="hidden"
+			}
+			else{
+				indice.innerHTML="Ce n'est pas ce que je suis, essayez encore!"
+			}
+	}
+
+
+	function bonC(){
+			var codeJ=document.getElementById("codeJ").value
+
+			if(codeJ=="248008"){
+				document.getElementById("aide").style.visibility="hidden"
+				document.getElementById("cadenas").style.visibility="hidden"
+				document.getElementById("apres3").style.visibility="visible"
+				document.getElementById("porte").style.visibility="visible"
+				indice.innerHTML="Bravo, vous avez trouvé la bonne combinaison pour ouvrir le cadenas et vous avez la clé en votre possession. Ouvrez la porte pour sortir!"
+			}
+			else{
+				indice.innerHTML="Oh non, on dirait que ce n'est pas la bonne combinaison!"
+			}
+	}
+
+	
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+	}
+    </script>
+</body>
+</html>
