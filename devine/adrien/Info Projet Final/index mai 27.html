@@ -1,0 +1,481 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet"> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:250px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgrey;
+	}
+/*Commencez VOTRE CSS ici*/	
+body{background-color:black}
+#cadreJeu{
+	position:relative;
+	font-family: 'Quicksand', sans-serif;
+}
+/* Composants placés adéquatement dans le boîtier */
+#mobo{
+	background-image: url(images/mobo.png);
+	background-size:cover;
+	width:400px;
+	height:460px;
+	position:relative;
+	top:60px;
+	left:47px;
+	opacity:50%;
+}
+#psu{
+	background-image: url(images/psu.png);
+	background-size:cover;
+	width:285px;
+	height:155px;
+	position:relative;
+	top:22px;
+	left:55px;
+	opacity:50%;
+}
+#gpu{
+	background-image: url(images/gpu-top.png);
+	background-size:cover;
+	width:435px;
+	height:95px;
+	position:relative;
+	top:-325px;
+	left:55px;
+	opacity:50%;
+}
+#case{
+	background-image: url(images/case.png);
+	background-size:cover;
+	width:1000px;
+	height:700px;
+	position:relative;
+	top:0px;
+	border-radius: 10px;
+}
+#moboClick{
+	position: absolute;
+	width:380px;
+	height:420px;
+	opacity: 0%;
+	top:90px;
+	left:50px;
+}
+/* Inventaire */
+#inventory{
+    position: absolute;
+    top: 80px;
+    left: 830px;
+}
+#inventory2{
+    position: absolute;
+    top: 80px;
+    left: 830px;
+}
+li{
+    width: 100px;
+    height: 100px;
+    list-style: none;
+    margin: 3px;
+    border: 3px black solid;
+    background-color: #4E4C4C;
+}
+#invMobo{background-image: url(images/moboicon.png); display: none;}
+#invGPU{background-image: url(images/gpuicon.png); display: none;}
+#invPSU{background-image: url(images/psuicon.png); display: none;}
+#invScrewdriver{background-image: url(images/screwdrivericon.png); display: none;}
+#invMobo2{background-image: url(images/moboicon.png);}
+#invGPU2{background-image: url(images/gpuicon.png);}
+#invPSU2{background-image: url(images/psuicon.png);}
+#invScrewdriver2{background-image: url(images/screwdrivericon.png);}
+#pagePieces{ display:none; visibility: hidden}
+.invSize{
+	width: 100px;
+	height: 100px;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+/* Composants sur table */
+#tableMobo{background-image: url(images/mobo.png); left:50px; top:-50px;}
+#tableGPU{background-image: url(images/gpu.png); left:250px; top:-30px;}
+#tablePSU{background-image: url(images/psu.png); left:450px; }
+#tableScrewdriver{background-image: url(images/screwdrivericon.png); left:600px; top:-30px;}
+.tableAdjust{
+	background-size:contain;
+	background-repeat:no-repeat;
+	width:150px;
+	height:150px;
+	position:absolute;
+}
+/* Texte de vérification (1ère page) */
+#guidage{
+	font-size: 30px;
+	position:relative;
+	top:590px;
+	text-align: center;
+}
+#table{
+	background-image: url(images/table.png);
+	width:850px;
+	height:600px;
+	background-size: contain;
+	background-repeat:no-repeat;
+	align-items: center;
+	position:relative;
+	top:130px;
+}
+/* Prochaine page */
+#suivant{
+	position: absolute;
+	width:100px;
+	height:100px;
+	top:10px;
+	left:10px;
+	background-size:contain;
+	background-repeat:no-repeat;
+	background-image: url(images/suivant.png);
+	display:none;
+}
+#instructionsDiv{
+	position:absolute;
+	bottom: 10px;
+	right: 30px;
+	background-color: gray;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 10px;
+}
+#instructions{
+	font-size: 20px;
+	margin-top:10px;
+	margin-bottom:10px;
+	color: white;
+}
+.red{
+	background-color: red;
+}
+
+</style>
+</head>
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Adrien Lesage 409</b></div>
+        <div id="cadreJeu">
+			<div id="inventory">
+                <ul>
+                    <li class="invSize" id="invMobo" onclick="selectMotherboard()"></li>
+                    <li class="invSize" id="invGPU" onclick="selectGPU()"></li>
+                    <li class="invSize" id="invPSU" onclick="selectPSU()"></li>
+                    <li class="invSize" id="invScrewdriver" onclick="selectScrewdriver()"></li>
+                </ul>
+            </div>
+		<div id="suivant" onclick="prochain()"></div>
+		<!------------------------------------------Page 1---------------------------------------------->
+		<div id=pagePieces>
+			<p id=guidage>Appuyer sur "Entrer" pour commencer!</p>
+			<div id=table>
+				<div id="tableMobo" class="tableAdjust" onclick="moboCheck()"></div>
+				<div id="tableGPU" class="tableAdjust" onclick="gpuCheck()"></div>
+				<div id="tablePSU" class="tableAdjust" onclick="psuCheck()"></div>
+				<div id="tableScrewdriver" class="tableAdjust" onclick="screwdriverCheck()"></div>
+			</div>
+		</div>
+		<!------------------------------------------Page 2---------------------------------------------->
+		<div id=pageConstruction  onclick="page2Master">
+
+		</div>
+		<div id=case>
+			<div id=mobo></div>
+			<div id=moboClick class=red onclick="moboClick()"></div>
+			<div id=psu></div>
+			<div id=psuClick class=red onclick="psuClick()"></div>
+			<div id=gpu></div>
+			<div id=gpuClick class=red onclick="gpuClick()"></div>
+		</div>
+
+		<div id="inventory2">
+			<ul>
+				<li class="invSize" id="invMobo2" onclick="selectMotherboard()"></li>
+				<li class="invSize" id="invGPU2" onclick="selectGPU()"></li>
+				<li class="invSize" id="invPSU2" onclick="selectPSU()"></li>
+				<li class="invSize" id="invScrewdriver2" onclick="selectScrewdriver()"></li>
+			</ul>
+		</div>
+		<div id=instructionsDiv>
+			<p id=instructions>Équipez-vous de la carte mère et déposez-là dans le boîtier.</p>
+		<div id=moboPower></div>
+		<div id=cpuPower></div>
+		</div>
+        </div>
+    </div>
+    
+    <script>
+	//Variables qui indique au jeu sur quelle page il est (pour éviter de pouvoir s'équiper d'un pièce de l'inventaire lors de la recherche de pièces)
+	var page1=false
+	var page2=true
+	//Variable utilisée pour la vérification lors du placement de pièces.
+	var objInvSelect=0
+	//Nombreuses variables qui ont rapport 
+	var nbEssais=0
+	var bonEssais=0
+	var nbEssaisP2=0
+	var nbIndices=0
+	var sonSucces=new Audio()
+	sonSucces.src="sons/succes.wav"
+	var sonErreur=new Audio()
+	sonErreur.src="sons/erreur.wav"
+	var sonDebut=new Audio()
+	sonDebut.src="sons/debut.wav"
+	var sonMessage=new Audio()
+	sonMessage.src="sons/message.wav"
+	var startJeu=false
+	var guidage=document.getElementById("guidage")
+	var arrayChoix=["la carte mère","la carte graphique","l'alimentation","le tournevis",""]
+	var arrayComposant=""
+	var numRandom
+	var nbArray=4
+	//Fonctions qui équipent le joueur de la pièce lors de l'assemblage à la deuxième page
+	function selectMotherboard(){
+		if (page2==true){
+			document.getElementById("cadreJeu").style.cursor="url(images/moboicon.png),auto"
+			objInvSelect=1
+			console.log("Sélection = la carte mère")
+		}else{}}
+	function selectGPU(){
+		if (page2==true){
+			document.getElementById("cadreJeu").style.cursor="url(images/gpuicon.png),auto"
+			objInvSelect=2
+			console.log("Sélection = la carte graphique")
+		}else{}}
+		function selectPSU(){
+		if (page2==true){
+			document.getElementById("cadreJeu").style.cursor="url(images/psuicon.png),auto"
+			objInvSelect=3
+			console.log("Sélection = l'alimentation'")
+		}else{}}
+		function selectScrewdriver(){
+		if (page2==true){
+			document.getElementById("cadreJeu").style.cursor="url(images/screwdrivericon.png),auto"
+			objInvSelect=4
+			console.log("Sélection = le tournevis")
+		}else{}}
+	//Fonctions éxécutées lorsque les pièces sont cliquées sur la première page
+	function moboCheck(){
+		if (startJeu==true && arrayComposant=="la carte mère"){
+			console.log("It worked!")
+			sonSucces.play()
+			nbEssais=nbEssais+1
+			bonEssais=bonEssais+1
+			nbArray=nbArray-1
+			arrayChoix.splice(numRandom,1)
+			console.log(arrayChoix)
+			console.log("Bon essaies: "+bonEssais)
+			console.log(nbEssais)
+			document.getElementById("invMobo").style.display="inherit"
+			document.getElementById("tableMobo").style.display="none"
+			setTimeout(startCycle, 1500)
+
+		}else if (startJeu==true && arrayComposant!="la carte mère"){
+			console.log("Mauvais choix!")
+			sonErreur.play()
+			nbEssais=nbEssais+1
+			console.log(nbEssais)
+			guidage.innerHTML="Bah non! Vous deviez cliquer sur "+arrayComposant+"!"
+			setTimeout(startCycle, 1500)
+		}else if (startJeu==false){
+			guidage.innerHTML="Vous deviez appuyer sur une touche de clavier pour commencer!"
+			sonMessage.play()
+		}
+	}
+	function gpuCheck(){
+		if (startJeu==true && arrayComposant=="la carte graphique"){
+			console.log("It worked!")
+			sonSucces.play()
+			nbEssais=nbEssais+1
+			bonEssais=bonEssais+1
+			nbArray=nbArray-1
+			arrayChoix.splice(numRandom,1)
+			console.log(arrayChoix)
+			console.log("Bon essaies: "+bonEssais)
+			console.log(nbEssais)
+			document.getElementById("invGPU").style.display="inherit"
+			document.getElementById("tableGPU").style.display="none"
+			setTimeout(startCycle, 1500)
+
+		}else if (startJeu==true && arrayComposant!="la carte graphique"){
+			console.log("Mauvais choix!")
+			sonErreur.play()
+			nbEssais=nbEssais+1
+			console.log(nbEssais)
+			guidage.innerHTML="Bah non! Vous deviez cliquer sur "+arrayComposant+"!"
+			setTimeout(startCycle, 1500)
+		}else if (startJeu==false){
+			guidage.innerHTML="Vous deviez appuyer sur une touche de clavier pour commencer!"
+			sonMessage.play()
+		}
+	}
+	function psuCheck(){
+		if (startJeu==true && arrayComposant=="l'alimentation"){
+			console.log("It worked!")
+			sonSucces.play()
+			nbEssais=nbEssais+1
+			bonEssais=bonEssais+1
+			nbArray=nbArray-1
+			arrayChoix.splice(numRandom,1)
+			console.log(arrayChoix)
+			console.log("Bon essaies: "+bonEssais)
+			console.log(nbEssais)
+			document.getElementById("invPSU").style.display="inherit"
+			document.getElementById("tablePSU").style.display="none"
+			setTimeout(startCycle, 1500)
+
+		}else if (startJeu==true && arrayComposant!="l'alimentation"){
+			console.log("Mauvais choix!")
+			sonErreur.play()
+			nbEssais=nbEssais+1
+			console.log(nbEssais)
+			guidage.innerHTML="Bah non! Vous deviez cliquer sur "+arrayComposant+"!"
+			setTimeout(startCycle, 1500)
+		}else if (startJeu==false){
+			guidage.innerHTML="Vous deviez appuyer sur une touche de clavier pour commencer!"
+			sonMessage.play()
+		}
+	}
+	function screwdriverCheck(){
+		if (startJeu==true && arrayComposant=="le tournevis"){
+			console.log("It worked!")
+			sonSucces.play()
+			nbEssais=nbEssais+1
+			bonEssais=bonEssais+1
+			nbArray=nbArray-1
+			arrayChoix.splice(numRandom,1)
+			console.log(arrayChoix)
+			console.log("Bon essaies: "+bonEssais)
+			console.log(nbEssais)
+			document.getElementById("invScrewdriver").style.display="inherit"
+			document.getElementById("tableScrewdriver").style.display="none"
+			setTimeout(startCycle, 1500)
+
+		}else if (startJeu==true && arrayComposant!="le tournevis"){
+			console.log("Mauvais choix!")
+			sonErreur.play()
+			nbEssais=nbEssais+1
+			console.log(nbEssais)
+			guidage.innerHTML="Bah non! Vous deviez cliquer sur "+arrayComposant+"!"
+			setTimeout(startCycle, 1500)
+		}else if (startJeu==false){
+			guidage.innerHTML="Vous deviez appuyer sur une touche de clavier pour commencer!"
+			sonMessage.play()
+		}
+	}
+	//Générateur de chiffre
+	function numberGenerator(){
+		numRandom=Math.floor(Math.random()*nbArray)
+	}
+	//Choix aléatoire
+	function pickRandom(){
+		numberGenerator()
+		arrayComposant=arrayChoix[numRandom]
+		console.log(arrayComposant)
+	}
+	//Départ du jeu après avoir appuyer sur Entrer
+	function startGame(){
+		startJeu=true
+		console.log("startJeu = "+startJeu)
+		console.log("Jeu commencé!")
+		sonDebut.play()
+		startCycle()
+	}
+	//Fonction qui choisi la pièce aléatoirement et nous dis quelle c'est
+	function startCycle(){
+		if (bonEssais==4){
+			guidage.innerHTML="Bravo! Vous avez trouvé toutes les pièces en "+nbEssais+" essais! Vous pouvez maintenant passer à l'assemblage!"
+			document.getElementById("suivant").style.display="block"
+		}else{
+		pickRandom()
+		console.log("Le chiffre généré est le "+numRandom+". Vous devrez donc cliquer sur "+arrayComposant+".")
+		guidage.innerHTML="Cliquer sur "+arrayComposant+"!"
+		}
+	}
+	function startDeuxieme(){
+		document.getElementById("invMobo").style.display="inherit"
+		document.getElementById("invGPU").style.display="inherit"
+		document.getElementById("invPSU").style.display="inherit"
+		document.getElementById("invScrewdriver").style.display="inherit"
+	}
+	//Event listener pour Entrer
+	document.addEventListener('keypress', function (e){
+    if (e.key === 'Enter' && startJeu==false) {startGame()}})
+	//Prochaine page/niveau
+	function prochain(){
+		if (page1==true){
+			document.getElementById("pagePieces").style.display="none"
+			document.getElementById("pagePieces").style.visibility="hidden"
+			document.getElementById("pageConstruction").style.visibility="visible"
+			document.getElementById("pageConstruction").style.display="block"
+			page1=false
+			page2=true
+			startDeuxieme()
+		}else if (page2==true){
+			nextLevel()
+		}
+	}
+	function page2Master(){
+		document.getElementById("instructions").innerHTML="Vous n'avez pas cliqué au bon endroit!"
+		console.log("bruh")
+	}
+	//Prochain niveau
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+		}
+    </script>
+</body>
+</html>

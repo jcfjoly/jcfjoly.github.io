@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgrey;
+	}
+/*Commencez VOTRE CSS ici*/	
+body{
+	background-color:black
+}
+#cadreJeu{
+	position:relative;
+}
+#mobo{
+	background-image: url(images/mobo.png);
+	background-size:cover;
+	width:430px;
+	height:500px;
+	position:relative;
+	top:65px;
+	left:45px;
+	opacity:100%;
+}
+#case{
+	background-image: url(images/case.jpg);
+	background-size:cover;
+	width:800px;
+	height:700px;
+	position:relative;
+	top:0px;
+}
+
+
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Jean-Christophe Joly 502</b></div>
+        <div id="cadreJeu">
+		<div id=case>
+			<div id=mobo></div>
+		</div>
+		
+		<div id=sata></div>
+		<div id=moboPower></div>
+		<div id=cpuPower></div>
+        
+        
+        
+        </div>
+    </div>
+    
+    <script>
+	
+	
+	
+	
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+		}
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:250px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgreen;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:2px white solid;
+	border-radius:10px;
+	background-color:lightgrey;
+	}
+/*Commencez VOTRE CSS ici*/	
+body{
+	background-color:black
+}
+#cadreJeu{
+	position:relative;
+}
+#mobo{
+	background-image: url(images/mobo.png);
+	background-size:cover;
+	width:400px;
+	height:460px;
+	position:relative;
+	top:60px;
+	left:47px;
+	opacity:100%;
+}
+#psu{
+	background-image: url(images/psu.png);
+	background-size:cover;
+	width:285px;
+	height:155px;
+	position:relative;
+	top:22px;
+	left:55px;
+	opacity:100%;
+}
+#gpu{
+	background-image: url(images/gpu-top.png);
+	background-size:cover;
+	width:435px;
+	height:95px;
+	position:relative;
+	top:-325px;
+	left:55px;
+	opacity:100%;
+}
+#case{
+	background-image: url(images/case.png);
+	background-size:cover;
+	width:1000px;
+	height:700px;
+	position:relative;
+	top:0px;
+	border-radius: 10px;
+}
+#inventory{
+    position: absolute;
+    top: 80px;
+    left: 830px;
+}
+li{
+    width: 100px;
+    height: 100px;
+    list-style: none;
+    margin: 3px;
+    border: 3px black solid;
+    background-color: #4E4C4C;
+}
+#invMobo{
+    width: 100px;
+    height: 100px;
+    background-image: url(images/moboicon.png);
+    background-size: contain;
+	background-repeat: no-repeat;
+}
+#invGPU{
+    width: 100px;
+    height: 100px;
+    background-image: url(images/gpuicon.png);
+    background-size: contain;
+	background-repeat: no-repeat;
+}
+#invPSU{
+    width: 100px;
+    height: 100px;
+    background-image: url(images/psuicon.png);
+    background-size: contain;
+	background-repeat: no-repeat;
+}
+#invCable{
+    width: 100px;
+    height: 100px;
+    background-image: url(images/cableicon.png);
+    background-size: contain;
+	background-repeat: no-repeat;
+}
+#invScrewdriver{
+    width: 100px;
+    height: 100px;
+    background-image: url(images/screwdrivericon.png);
+    background-size: contain;
+	background-repeat: no-repeat;
+}
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Adrien Lesage 409</b></div>
+        <div id="cadreJeu">
+		<div id=pagePieces>
+			
+		</div>
+		<div id=pageConstruction>
+		<div id=case>
+			<div id="inventory">
+                <ul>
+                    <li id="invMobo" onclick="selectMotherboard()"></li>
+                    <li id="invGPU" onclick="selectGPU()"></li>
+                    <li id="invPSU" onclick="selectPSU()"></li>
+                    <li id="invCable" onclick="selectCable()"></li>
+                    <li id="invScrewdriver" onclick="selectScrewdriver()"></li>
+                </ul>
+            </div>
+			<div id=mobo></div>
+			<div id=psu></div>
+			<div id=gpu>
+		</div>
+		<div id=sata></div>
+		<div id=moboPower></div>
+		<div id=cpuPower></div>
+		</div>
+         
+        
+        </div>
+    </div>
+    
+    <script>
+	function selectMotherboard(){
+            document.getElementById("cadreJeu").style.cursor="url(images/moboicon.png),auto"
+    }
+	function selectGPU(){
+            document.getElementById("cadreJeu").style.cursor="url(images/gpuicon.png),auto"
+    }
+	function selectPSU(){
+            document.getElementById("cadreJeu").style.cursor="url(images/psuicon.png),auto"
+    }
+	function selectCable(){
+            document.getElementById("cadreJeu").style.cursor="url(images/cableicon.png),auto"
+    }
+	function selectScrewdriver(){
+            document.getElementById("cadreJeu").style.cursor="url(images/screwdrivericon.png),auto"
+    }
+	
+	
+	
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+		}
+    </script>
+</body>
+</html>
