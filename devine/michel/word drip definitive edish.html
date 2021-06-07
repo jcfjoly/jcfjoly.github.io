@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>allo</title>
+<style>
+
+#boites{
+width: 100px;
+height: auto;
+background-color: aquamarine;
+text-align: center;
+
+}
+#boite1{
+border: black 2px dashed;
+top: 100px;
+position: absolute;
+left: 100px;
+background-color: aquamarine
+}
+#boite2{
+
+border: black 2px dashed;
+top: 100px;
+position: absolute;
+left: 200px;
+background-color: aquamarine
+}
+#boite3{
+
+border: black 2px dashed;
+top: 100px;
+position: absolute;
+left: 300px;
+background-color: aquamarine
+}
+#boite4{
+
+border: black 2px dashed;
+top: 100px;
+position: absolute;
+left: 400px;
+background-color: aquamarine
+}
+#text{
+background-color: grey;
+position: absolute;
+width: 1000px;
+
+
+}
+
+
+
+
+
+</style>
+
+
+<head>
+
+
+
+</head>
+
+
+<body>
+    <div id="boites">
+<div id="boite1">boite1</div>
+
+
+<div id="boite2">boite2</div>
+
+<div id="boite3">boite3</div>
+
+<div id="boite4">boite4</div></div>
+
+
+<div id="texte">texte
+
+
+
+</div>
+<input type="text" id="motjoueur">
+
+</body>
+
+<script>
+     var vie=10
+ document.getElementById("texte").innerHTML=vie
+    var vie=10
+    document.addEventListener("keydown", clavier)
+
+    var hauteur1=1
+    var hauteur2=1
+    var hauteur3=1
+    var hauteur4=1
+    var boitenum=1
+
+    var nob1=0
+    var nob2=0
+    var nob3=0
+    var nob4=0
+var motj
+var mttexte=document.getElementById("motjoueur").value
+    var listemot1=["jour","nuit","midi","aprem","douze heure du matin du midi","jour","nuit","midʲ","aprem","douze heure du matin du midi",]
+
+    var listemot2=["salut","allo","bonjour","buenos dias","allo","salut","allo","bonjour","buenos dios","allo","salut","allo","bonjour","it was me dio","allo",]
+
+    var listemot3=["souris","chat","clavier","tapis a souris","tapis a chat",]
+
+    var listemot4=["never","gonna","give","you","up","never","gonna","let","you","down","never","gonna","turn","around","and","desert","you"]
+    descend()
+motdansboite()
+function valider(){
+mttexte=document.getElementById("motjoueur").value
+
+
+if(mttexte==listemot1[nob1]){
+cycle1()
+vie+=1
+}
+if(mttexte==listemot2[nob2]){
+cycle2()
+vie+=1
+}
+if(mttexte==listemot3[nob3]){
+cycle3()
+vie+=1
+}
+if(mttexte==listemot4[nob4]){
+cycle4()
+vie+=1
+}
+
+document.getElementById("motjoueur").value=""
+}
+function motdansboite(){
+
+document.getElementById("boite1").innerHTML=listemot1[nob1] 
+document.getElementById("boite2").innerHTML=listemot2[nob2] 
+document.getElementById("boite3").innerHTML=listemot3[nob3] 
+document.getElementById("boite4").innerHTML=listemot4[nob4] 
+
+
+
+}
+
+
+    function descend(){
+setInterval(descente,100)
+ 
+
+}
+function descente(){
+    document.getElementById("boite"+1).style.top=hauteur1+"px"
+    document.getElementById("boite"+2).style.top=hauteur2+"px"
+    document.getElementById("boite"+3).style.top=hauteur3+"px"
+    document.getElementById("boite"+4).style.top=hauteur4+"px"
+//document.getElementById("boite"+boitenum).style.top=hauteur+"px"
+hauteur1=hauteur1+1
+hauteur2=hauteur2+1
+hauteur3=hauteur3+1
+hauteur4=hauteur4+1
+verifetcycle()
+
+}
+function verifetcycle(){
+    if(hauteur1>750){cycle1()}
+    if(hauteur2>750){cycle2()}
+    if(hauteur3>750){cycle3()}
+    if(hauteur4>750){cycle4()}
+
+
+}
+function cycle1(){
+
+hauteur1=1
+vie-=1
+document.getElementById("texte").innerHTML=vie
+nob1+=1
+if(nob1==listemot1.length){
+
+nob1=0}
+document.getElementById("boite1").innerHTML=listemot1[nob1]
+
+}
+
+
+function cycle2(){
+
+hauteur2=1
+vie-=1
+document.getElementById("texte").innerHTML=vie
+nob2+=1
+if(nob2==listemot2.length){
+
+nob2=0}
+document.getElementById("boite2").innerHTML=listemot2[nob2]
+
+
+}
+
+function   cycle3(){
+
+hauteur3=1
+vie-=1
+document.getElementById("texte").innerHTML=vie
+nob3+=1
+if(nob3==listemot3.length){
+
+nob3=0
+}
+document.getElementById("boite3").innerHTML=listemot3[nob3]
+
+}
+
+function cycle4(){
+
+hauteur4=1
+vie-=1
+document.getElementById("texte").innerHTML=vie
+nob4+=1
+if(nob4==listemot4.length){
+
+nob4=0}
+document.getElementById("boite4").innerHTML=listemot4[nob4]
+
+}
+
+
+
+
+
+
+function clavier(e){
+
+
+   
+
+if(e.keyCode==13){
+valider()
+}
+
+
+}
+
+
+</script>
