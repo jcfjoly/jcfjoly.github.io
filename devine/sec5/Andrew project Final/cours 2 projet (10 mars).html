@@ -1,0 +1,1137 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Impossible game</title>
+<style>
+body{
+	background-color: lightgray;
+}	
+</style>	
+</head>
+
+<body>
+
+<script>
+// Creation d'un canvas en Javascript au lieu de HTML 
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth-50;
+canvas.height = window.innerHeight-50
+canvas.style.border = "10px white solid";
+canvas.style.backgroundColor= "black";
+canvas.style.display = "block";
+canvas.style.margin ="auto"
+document.body.appendChild(canvas);
+
+
+//variables et objets du jeu
+
+var GameOver=false
+console.log(GameOver)
+
+var money=0
+var doubleMoney=false
+
+var menu=true
+var lvl=1
+
+
+
+var joueur={
+	x:100,
+	y:100,
+	w:30,
+	h:30,
+	color:"blue",
+	speed:15
+    }
+var sable={
+    x:1620,
+    y:0,
+    w:250,
+    h:600,
+    color:"yellow"
+}
+var boost2={
+    x:0,
+    y:300,
+    w:280,
+    h:700,
+    color:"turquoise"
+}
+
+    var boost={
+    x:700,
+    y:300,
+    w:600,
+    h:300,
+    color:"turquoise"
+    }
+
+    var boost3={
+    x:400,
+    y:620,
+    w:1200,
+    h:300,
+    color:"turquoise"
+    }
+var mur={
+	x:0,
+	y:300,
+	w:1600,
+	h:20,
+	color:"white"
+    }
+
+    var mur2={
+	x:300,
+	y:600,
+	w:1600,
+	h:20,
+	color:"white"
+    }
+    var mur3={
+	x:700,
+	y:600,
+	w:20,
+	h:350,
+	color:"white"
+    }
+    var mur4={
+	x:1200,
+	y:600,
+	w:20,
+	h:350,
+	color:"white"
+    }
+    var gold={
+    x:1300,
+    y:750,
+    w:50,
+    h:50,
+    color:"gold"
+
+    }
+    var gold2={
+    x:500,
+    y:450,
+    w:50,
+    h:50,
+    color:"gold"
+
+    }
+    var gold3={
+    x:650,
+    y:125,
+    w:50,
+    h:50,
+    color:"gold"
+
+    }
+
+    var gold4={
+    x:600,
+    y:125,
+    w:50,
+    h:50,
+    color:"gold"
+
+    }
+
+    var gold5={
+    x:600,
+    y:400,
+    w:50,
+    h:50,
+    color:"gold"
+
+    }
+
+    var gold6={
+    x:600,
+    y:750,
+    w:50,
+    h:50,
+    color:"gold"
+
+    }
+
+    var gold7={
+    x:1300,
+    y:850,
+    w:50,
+    h:50,
+    color:"gold"
+
+    }
+    var end1={
+    x:1800,
+    y:620,
+    w:200,
+    h:400,
+    color:"gold"
+    
+    }
+
+    var end2={
+    x:1800,
+    y:620,
+    w:200,
+    h:400,
+    color:"gold"
+    
+    }
+
+    var shop={
+    x:400,
+    y:500,
+    w:300,
+    h:300,
+    color:"green"
+    
+    }
+
+    var continu={
+    x:1000,
+    y:500,
+    w:300,
+    h:300,
+    color:"blue"
+    
+    }
+
+    var upMoney={
+    x:1000,
+    y:500,
+    w:200,
+    h:200,
+    color:"grey"  
+    }
+
+    var upSpeed={
+    x:1300,
+    y:500,
+    w:200,
+    h:200,
+    color:"grey"
+    
+    }
+
+    var upgrade={
+    x:700,
+    y:500,
+    w:200,
+    h:200,
+    color:"grey"
+    
+    }
+
+    var continu2={
+    x:1300,
+    y:100,
+    w:200,
+    h:200,
+    color:"blue"
+    
+    }
+
+
+    var monSon=new Audio();
+    monSon.src="teleport.mp3";
+
+    var monSon2=new Audio();
+    monSon2.src="win.mp3";
+
+    var monSon3=new Audio();
+    monSon3.src="dead.mp3";
+
+    var monSon4=new Audio();
+    monSon4.src="coinS.mp3";
+
+    var monSon5=new Audio();
+    monSon5.src="background.mp3";
+
+    var monSon6=new Audio();
+    monSon6.src="zelda.mp3";
+
+    var marioImg= new Image()
+    marioImg.src="mario.png"
+
+    var coinImg= new Image()
+    coinImg.src="coin.png"
+
+var keyDown={}
+
+var direction
+
+//fonctions
+
+
+
+
+
+
+
+
+function musique(){
+    monSon.play()
+}
+function musique2(){
+    monSon2.play()
+}
+function musique3(){
+    monSon3.play()
+}
+function score(){
+	ctx.font="20px Arial"
+	ctx.fillText("Money: " + money,75,40)
+    ctx.fillStyle="white"
+}
+
+function drawJoueur(){
+	ctx.drawImage(marioImg,joueur.x, joueur.y, joueur.w, joueur.h)
+    
+	}
+function niveau(){
+ if(lvl==1){
+    drawSable()
+    drawBoost2()
+    drawBoost()
+    drawMur()
+    drawMur2()
+    drawMur3()
+    drawMur4()
+    drawend()
+    drawGold()
+
+ }
+
+ if(lvl==2){
+
+    drawshop()
+    drawcontinu()
+
+
+
+
+ }
+
+
+ if(lvl==3){
+    drawend2()
+    drawBoost3()
+    drawMur()
+    drawMur2()
+    drawGold2()
+ }   
+ if(lvl==4){
+    drawcontinu2()
+    drawupSpeed()
+    drawupMoney()
+    drawUpgrade()
+
+ }
+
+if(lvl==5){
+
+    win()
+
+
+
+
+
+}
+
+
+
+
+}
+
+
+
+    function drawSable(){
+	ctx.fillStyle=sable.color
+    ctx.fillRect(sable.x, sable.y, sable.w, sable.h)
+
+    }
+    function drawBoost2(){
+	ctx.fillStyle=boost2.color
+    ctx.fillRect(boost2.x, boost.y, boost2.w, boost2.h)
+
+    }
+    function drawBoost3(){
+	ctx.fillStyle=boost3.color
+    ctx.fillRect(boost3.x, boost3.y, boost3.w, boost3.h)
+
+    }
+    function drawMur(){
+	ctx.fillStyle=mur.color
+    ctx.fillRect(mur.x, mur.y, mur.w, mur.h)
+   
+    }
+    function drawMur2(){
+	ctx.fillStyle=mur2.color
+    ctx.fillRect(mur2.x, mur2.y, mur2.w, mur2.h)
+    
+    }
+    function drawMur3(){
+	ctx.fillStyle=mur3.color
+    ctx.fillRect(mur3.x, mur3.y, mur3.w, mur3.h)
+    
+    }
+    function drawMur4(){
+	ctx.fillStyle=mur4.color
+    ctx.fillRect(mur4.x, mur4.y, mur4.w, mur4.h)
+    
+    }
+    function drawBoost(){
+	ctx.fillStyle=boost.color
+    ctx.fillRect(boost.x, boost.y, boost.w, boost.h)
+    }
+    function drawend(){
+	ctx.fillStyle=end1.color
+    ctx.fillRect(end1.x, end1.y, end1.w, end1.h)
+    }
+    function drawend2(){
+	ctx.fillStyle=end2.color
+    ctx.fillRect(end2.x, end2.y, end2.w, end2.h)
+    }
+
+    function drawGold(){
+        ctx.drawImage(coinImg,gold.x, gold.y, gold.w, gold.h)
+        ctx.drawImage(coinImg,gold2.x, gold2.y, gold2.w, gold2.h)
+        ctx.drawImage(coinImg,gold3.x, gold3.y, gold3.w, gold3.h)
+
+    }
+
+    function drawGold2(){
+        ctx.drawImage(coinImg,gold4.x, gold4.y, gold4.w, gold4.h)
+        ctx.drawImage(coinImg,gold5.x, gold5.y, gold5.w, gold5.h)
+        ctx.drawImage(coinImg,gold6.x, gold6.y, gold6.w, gold6.h)
+        ctx.drawImage(coinImg,gold7.x, gold7.y, gold7.w, gold7.h)
+       
+
+    }
+    
+    function drawshop(){
+	ctx.fillStyle=shop.color
+    ctx.fillRect(shop.x, shop.y, shop.w, shop.h)
+    ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Shop", 550,650)
+
+    
+    }
+
+    function win(){
+        ctx.font="75px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Bravo!!!!", 900,500)
+
+    ctx.font="50px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Click to restart", 900,600)
+
+
+    canvas.addEventListener("click",function(){
+    lvl=1
+   
+    
+    })
+
+
+
+
+    }
+
+    function drawcontinu(){
+	ctx.fillStyle=continu.color
+    ctx.fillRect(continu.x, continu.y, continu.w, continu.h)
+    ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Go lvl2",1150,650)
+
+    }
+
+    function drawUpgrade(){
+	ctx.fillStyle=upgrade.color
+    ctx.fillRect(upgrade.x, upgrade.y, upgrade.w, upgrade.h)
+    ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Coming Soon", 800,600)
+
+    }
+
+    function drawcontinu2(){
+	ctx.fillStyle=continu2.color
+    ctx.fillRect(continu2.x, continu2.y, continu2.w, continu2.h)
+    ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Go lvl2", 1400,200)
+   
+
+    }
+
+    function drawupMoney(){
+	ctx.fillStyle=upMoney.color
+    ctx.fillRect(upMoney.x, upMoney.y, upMoney.w, upMoney.h)
+    if(doubleMoney==false){
+    ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("2x Money", 1100,600)
+    ctx.font="15px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Cost:2", 1100,650)
+    }
+    if(doubleMoney==true){
+
+        ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Closed", 1100,600)
+        
+
+    }
+    }
+
+    function drawupSpeed(){
+	ctx.fillStyle=upSpeed.color
+    ctx.fillRect(upSpeed.x, upSpeed.y, upSpeed.w, upSpeed.h)
+    if(joueur.speed==15){
+    ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Speed+1", 1400,600)
+    ctx.font="15px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Cost:1", 1400,650)
+    }
+
+    if(joueur.speed==20){
+
+    ctx.font="25px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="white"
+    ctx.fillText("Closed", 1400,600)
+
+
+}
+    }
+
+
+    
+   
+
+
+
+
+    
+
+
+
+
+
+   
+    function pad(x,y,w,h,color){
+        this.x=x
+        this.y=y
+        this.w=w
+        this.h=h
+        this.color=color
+        this.draw1=function(){
+            ctx.fillStyle=this.color
+            ctx.fillRect(this.x,this.y,this.w,this.h)
+        
+        }
+    }
+    
+
+    function drawMur(){
+	ctx.fillStyle=mur.color
+    ctx.fillRect(mur.x, mur.y, mur.w, mur.h)
+   
+    }
+
+
+
+    
+    function showMenu(){
+    ctx.font="50px Arial"
+    ctx.textAlign="center";
+    ctx.fillStyle="turquoise"
+    ctx.fillText("Click to start", canvas.width/2,canvas.height/2)
+    ctx.fillText("Traverser les niveaux en recoltant les pieces", canvas.width/2,canvas.height/2.5)
+    ctx.fillText("Eviter les obstacle", canvas.width/2,canvas.height/3)
+    console.log(menu)
+    canvas.addEventListener("click",function(){
+    menu=false
+   
+    
+    })
+    
+}    
+  
+    //premire zone
+    var pad1=new pad(400,620,75,75,"white")
+    var pad2=new pad(500,620,75,75,"white")
+    var pad3=new pad(625,675,75,75,"white")
+    var pad4=new pad(625,775,75,75,"white")
+    var pad5=new pad(500,850,75,75,"white")
+    var pad6=new pad(400,850,75,75,"white")
+   //deuximene zone
+   var pad7=new pad(1000,850,75,75,"white")
+   var pad8=new pad(900,850,75,75,"white")
+   var pad9=new pad(900,620,75,75,"white")
+   var pad10=new pad(1000,620,75,75,"white")
+   var pad11=new pad(1125,675,75,75,"white")
+   var pad12=new pad(1125,775,75,75,"white")
+    
+	function Obstacle(x,y,w,h,color,speed){
+        this.x=x
+        this.y=y
+        this.w=w
+        this.h=h
+        this.color=color
+        this.speed=speed
+        this.draw=function(){
+            ctx.fillStyle=this.color
+            ctx.fillRect(this.x,this.y,this.w,this.h)
+
+            if(this.y<0||this.y+this.h>canvas.height){
+
+                this.speed=-this.speed
+
+            }
+
+            this.y+=this.speed
+        }
+    }
+    var obstacle1=new Obstacle(200,10,300,20,"white",10)
+    var obstacle2=new Obstacle(900,0,20,100,"white",3)
+    var obstacle3=new Obstacle(900,200,20,100,"white",3)
+    var obstacle4=new Obstacle(1100,0,20,100,"white",3)
+    var obstacle5=new Obstacle(1100,200,20,100,"white",3)
+    var obstacle6=new Obstacle(1200,320,20,230,"white",0)
+    var obstacle7=new Obstacle(1050,320,20,110,"white",0)
+    var obstacle8=new Obstacle(1050,490,20,110,"white",0)
+    var obstacle9=new Obstacle(900,400,20,200,"white",0)
+    var obstacle10=new Obstacle(750,360,20,200,"white",0)
+    var obstacle11=new Obstacle(1600,360,100,20,"white",5)
+    var obstacle12=new Obstacle(1750,0,100,20,"white",5)
+    var obstacle13=new Obstacle(0,800,100,20,"white",5)
+    var obstacle14=new Obstacle(150,400,100,20,"white",5)
+    //lvl2
+    var obstacle15=new Obstacle(200,10,300,20,"white",10)
+    var obstacle16=new Obstacle(200,10,20,300,"white",10)
+    var obstacle17=new Obstacle(700,10,20,300,"white",10)
+    var obstacle18=new Obstacle(950,350,20,220,"white",0)
+    var obstacle19=new Obstacle(1000,450,300,20,"white",0)
+    var obstacle20=new Obstacle(1350,370,20,240,"white",0)
+    var obstacle21=new Obstacle(1000,450,400,20,"white",10)
+    var obstacle22=new Obstacle(1000,320,20,40,"white",0)
+    var obstacle23=new Obstacle(1000,600,20,240,"white",0)
+    var obstacle24=new Obstacle(800,675,20,240,"white",0)
+    var obstacle25=new Obstacle(1075,800,350,20,"white",0)
+    var obstacle26=new Obstacle(1400,800,20,240,"white",0)
+    
+
+    function draw(){
+        if(lvl==1){
+
+        obstacle1.draw()
+       
+        obstacle4.draw()
+        obstacle5.draw()
+        obstacle6.draw()
+        obstacle7.draw()
+        obstacle8.draw()
+        obstacle9.draw()
+        obstacle10.draw()
+        obstacle11.draw()
+        obstacle12.draw()
+        obstacle13.draw()
+        obstacle14.draw()
+        
+        pad1.draw1()
+        pad2.draw1()
+        pad3.draw1()
+        pad4.draw1()
+        pad5.draw1()
+        pad6.draw1()
+        pad7.draw1()
+        pad8.draw1()
+        pad9.draw1()
+        pad10.draw1()
+        pad11.draw1()
+        pad12.draw1()
+        }
+
+        if(lvl==3){
+
+            obstacle15.draw()
+            obstacle16.draw()
+            obstacle17.draw()
+            obstacle18.draw()
+            obstacle19.draw()
+            obstacle20.draw()
+            obstacle21.draw()
+            obstacle22.draw()
+            obstacle23.draw()
+            obstacle24.draw()
+            obstacle25.draw()
+            obstacle26.draw()
+
+        }
+
+    }
+    function checkCollision1(){
+        if(lvl==1){
+
+        if(collision(joueur,obstacle1)||
+           
+           collision(joueur,obstacle4)||
+           collision(joueur,obstacle5)||
+           collision(joueur,obstacle6)||
+           collision(joueur,obstacle7)||
+           collision(joueur,obstacle8)|| 
+           collision(joueur,obstacle9)||
+           collision(joueur,obstacle10)||
+           collision(joueur,obstacle11)||
+           collision(joueur,obstacle12)||
+           collision(joueur,obstacle13)||
+           collision(joueur,obstacle14)
+        ){
+            joueur.x=0
+            joueur.y=0
+            musique3()
+        }
+        if(collision(obstacle1,mur)){
+            obstacle1.y==canvas.h-mur.y
+            obstacle1.speed=-obstacle1.speed
+        }
+        if(collision(obstacle2,mur)){
+            obstacle2.y==canvas.h-mur.y
+            obstacle2.speed=-obstacle2.speed
+        }
+        if(collision(obstacle3,mur)){
+            obstacle3.y==canvas.h-mur.y
+            obstacle3.speed=-obstacle3.speed
+        }
+        if(collision(obstacle3,obstacle2)){
+            obstacle3.y==obstacle2
+            obstacle3.speed=-obstacle3.speed
+        }
+        if(collision(obstacle2,obstacle3)){
+            obstacle2.y==obstacle3
+            obstacle2.speed=-obstacle2.speed
+        }
+        if(collision(obstacle4,mur)){
+            obstacle4.y==canvas.h-mur.y
+            obstacle4.speed=-obstacle4.speed
+        }
+        if(collision(obstacle5,mur)){
+        obstacle5.y==canvas.h-mur.y
+        obstacle5.speed=-obstacle5.speed
+        }
+        if(collision(obstacle4,obstacle5)){
+            obstacle4.y==obstacle5
+            obstacle4.speed=-obstacle4.speed
+        }
+        if(collision(obstacle5,obstacle4)){
+            obstacle5.y==obstacle4
+            obstacle5.speed=-obstacle5.speed
+        }
+        if(collision(obstacle11,mur2)){
+        obstacle11.y==canvas.h-mur.y
+        obstacle11.speed=-obstacle11.speed
+        }
+        if(collision(obstacle12,mur2)){
+        obstacle12.y==canvas.h-mur.y
+        obstacle12.speed=-obstacle12.speed
+        }
+
+        if(collision(obstacle13,mur)){
+            obstacle13.y==canvas.h-mur.y
+            obstacle13.speed=-obstacle13.speed
+        }
+
+        if(collision(obstacle14,mur)){
+            obstacle14.y==canvas.h-mur.y
+            obstacle14.speed=-obstacle14.speed
+        }
+
+        if(collision(joueur,sable)){
+        joueur.speed=5
+    }else if(collision(joueur,boost)){
+        joueur.speed=30
+
+    }else  if(collision(joueur,boost2)){
+        joueur.speed=30
+
+    }else{joueur.speed=15}
+
+    if(collision(joueur,pad1)){
+        joueur.x=500
+        joueur.y=500
+        musique()
+        }
+    if(collision(joueur,pad2)){
+        joueur.x=1500
+        joueur.y=500
+        musique()
+        }
+    if(collision(joueur,pad3)){
+        joueur.x=1500
+        joueur.y=500
+        musique()
+        }
+    if(collision(joueur,pad4)){
+        joueur.x=800
+        joueur.y=800
+        musique()
+        }
+    if(collision(joueur,pad5)){
+        joueur.x=500
+        joueur.y=150
+        musique()
+        }
+    if(collision(joueur,pad6)){
+        joueur.x=1500
+        joueur.y=150
+        musique()
+        }      
+    if(collision(joueur,pad7)){
+        joueur.x=1500
+        joueur.y=150
+        musique()
+        } 
+    if(collision(joueur,pad8)){
+        joueur.x=500
+        joueur.y=150
+        musique()
+        }
+    if(collision(joueur,pad9)){
+        joueur.x=1400
+        joueur.y=800
+        musique()
+        }
+    if(collision(joueur,pad10)){
+        joueur.x=500
+        joueur.y=500
+        musique()
+        }
+    if(collision(joueur,pad11)){
+        joueur.x=0
+        joueur.y=150
+        musique()
+        }
+    if(collision(joueur,pad12)){
+        joueur.x=0
+        joueur.y=150
+        musique()
+        }
+    if(collision(joueur,gold)){
+        gold.w=0
+        gold.x=10000
+        if(doubleMoney==false){
+            money++
+        }else{
+
+            money=money+2
+        }
+        gold.h=0
+        monSon4.play()
+        }
+    if(collision(joueur,gold2)){
+        if(doubleMoney==false){
+            money++
+        }else{
+
+            money=money+2
+        }
+        gold2.w=0
+        gold2.h=0
+        gold2.x=10000
+        monSon4.play()
+        }         
+    if(collision(joueur,gold3)){
+        if(doubleMoney==false){
+            money++
+        }else{
+
+            money=money+2
+        }
+        gold3.w=0
+        gold3.h=0
+        gold3.x=10000
+        monSon4.play()
+        }   
+
+     if(collision(joueur,end1)){
+       lvl=2
+       joueur.x=50
+       joueur.y=50
+       monSon6.play()
+       
+        }             
+    }
+
+    if(lvl==2){
+
+    if(collision(joueur,shop)){
+       lvl=4
+        }             
+    if(collision(joueur,continu)){
+       lvl=3
+       joueur.x=50
+       joueur.y=50
+        }      
+      
+    }
+
+    if(lvl==4){
+
+    if(collision(joueur,upMoney)&&money>=2&&doubleMoney==false){
+
+        doubleMoney=true
+        money=money-2
+
+    }   
+    if(collision(joueur,continu2)){
+
+        lvl=3
+        joueur.x=50
+        joueur.y=50
+    }
+
+    if(collision(joueur,upSpeed)&&money>=1){
+        if(joueur.speed==15){
+    joueur.speed=joueur.speed+5
+    money=money-1
+        }
+}   
+
+    }
+    if(lvl==3){
+    if(collision(joueur,obstacle15)||
+       collision(joueur,obstacle16)||
+       collision(joueur,obstacle17)||
+       collision(joueur,obstacle18)||
+       collision(joueur,obstacle19)||
+       collision(joueur,obstacle20)||
+       collision(joueur,obstacle21)||
+       collision(joueur,obstacle22)||
+       collision(joueur,obstacle23)||
+       collision(joueur,obstacle24)||
+       collision(joueur,obstacle25)||
+       collision(joueur,obstacle26)
+    
+       
+       
+       
+           ){
+
+        joueur.x=0
+        joueur.y=0
+        musique3()
+
+    }
+
+    if(collision(joueur,boost3)){
+        joueur.speed=30
+
+    }else{joueur.speed=15}
+
+    if(collision(joueur,end2)){
+      lvl=5
+      monSon6.play()
+     
+        }   
+
+        if(collision(joueur,gold4)){
+        gold4.w=0
+        gold4.x=10000
+        if(doubleMoney==false){
+            money++
+        }else{
+
+            money=money+2
+        }
+        gold4.h=0
+        monSon4.play()
+        }
+
+        if(collision(joueur,gold5)){
+        gold5.w=0
+        gold5.x=10000
+        if(doubleMoney==false){
+            money++
+        }else{
+
+            money=money+2
+        }
+        gold5.h=0
+        monSon4.play()
+        }
+
+
+        if(collision(joueur,gold6)){
+        gold6.w=0
+        gold6.x=10000
+        if(doubleMoney==false){
+            money++
+        }else{
+
+            money=money+2
+        }
+        gold6.h=0
+        monSon4.play()
+        }
+
+        if(collision(joueur,gold7)){
+        gold7.w=0
+        gold7.x=10000
+        if(doubleMoney==false){
+            money++
+        }else{
+
+            money=money+2
+        }
+        gold7.h=0
+        monSon4.play()
+        }
+
+
+
+
+
+    }
+    }
+
+
+//gestion des collision
+
+
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+	}
+
+function hitWall(a,b){
+    if(collision(a,b)&&direction=="gauche"){
+        a.x=b.x+b.w
+        //console.log("hit from gauche")
+    }
+    if(collision(a,b)&&direction=="droite"){
+        a.x=b.x-a.w
+        //console.log("hit from droite")
+    }
+    if(collision(a,b)&&direction=="haut"){
+        a.y=b.y+b.h
+        //console.log("hit from haut")
+    }
+    if(collision(a,b)&&direction=="bas"){
+        a.y=b.y-a.h
+        //console.log("hit from bas")
+    }
+} 
+
+function checkCollision(){
+    if(lvl==1){
+    hitWall(joueur,mur)
+    hitWall(joueur,mur2)
+    hitWall(joueur,mur3)
+    hitWall(joueur,mur4)
+}
+
+if(lvl==3){
+
+    hitWall(joueur,mur)
+    hitWall(joueur,mur2)
+
+}
+    }
+//événements clavier
+
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+    //console.log(keyDown)
+})
+
+document.addEventListener("keyup", function(e){
+    delete keyDown[e.keyCode]
+    //console.log(keyDown)
+})
+
+
+function clavier(){
+	//console.log(e)
+	
+	if(37 in keyDown &&joueur.x>0){
+        direction="gauche"
+		joueur.x-=joueur.speed
+		}
+	if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+        direction="droite"
+		joueur.x+=joueur.speed
+		}
+	if(38 in keyDown &&joueur.y>0){
+        direction="haut"
+		joueur.y-=joueur.speed
+		}
+	if(40 in keyDown &&joueur.y<canvas.height-joueur.h){
+        direction="bas"
+		joueur.y+=joueur.speed
+		}	
+	
+	}
+	
+
+//boucle principale du jeu
+
+function game(){
+    if(menu==true){  
+    showMenu()
+    }else{
+    
+
+        monSon5.play()
+    
+    
+	ctx.clearRect(0,0,canvas.width,canvas.height)
+	
+    niveau()
+    clavier()
+    checkCollision()
+    draw()
+    checkCollision1()
+    score()
+    drawJoueur()
+    console.log(doubleMoney)
+    //console.log(lvl)
+    }    
+       requestAnimationFrame(game)
+}
+
+
+
+game()
+
+</script>
+</body>
+</html>
