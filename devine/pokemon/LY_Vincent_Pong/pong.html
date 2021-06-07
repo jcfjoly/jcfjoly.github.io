@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PONG GAME</title>
+    <style>
+        #normal{
+            position: fixed; 
+            display: block;
+            background-color: white; 
+            width: 220px; 
+            height: 40px;
+            border: 6px double black;
+            text-align: center;
+            font-size: 34px;
+            font-family: "serif";
+            padding: 20px;
+            cursor: pointer;
+
+            margin: auto;
+            top: 28%;
+            left: 50%;
+            transform: translate(-50%,0);
+        }
+        #normal:hover{
+            border: 4px double blueviolet;
+        }
+        #impossible{
+            position: fixed; 
+            display: block;
+            background-color: white; 
+            width: 220px; 
+            height: 40px;
+            border: 6px double black;
+            text-align: center;
+            font-size: 34px;
+            font-family: "serif";
+            padding: 20px;
+            cursor: pointer;
+
+            margin: auto;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%,0)
+        }
+        #impossible:hover{
+            border: 4px double blueviolet;
+        }
+        #options{
+            position: fixed; 
+            display: block;
+            background-color: white; 
+            width: 220px; 
+            height: 40px;
+            border: 6px double black;
+            text-align: center;
+            font-size: 34px;
+            font-family: "serif";
+            padding: 20px;
+            cursor: pointer;
+
+            margin: auto;
+            top: 62%;
+            left: 50%;
+            transform: translate(-50%,0)
+        }
+        #options:hover{
+            border: 4px double blueviolet;
+        }
+        .option{
+            position: fixed; 
+            display: none;
+            background-color: white; 
+            width: 210px; 
+            height: 20px;
+            border: 6px double black;
+            text-align: center;
+            font-size: 18px;
+            font-family: "serif";
+            padding: 10px;
+            cursor: pointer;
+            user-select: none;
+
+            margin: auto;
+            left: 50%;
+            transform: translate(-50%,0)
+        }
+        .option:hover{
+            border: 4px double blueviolet;
+        }
+        #backMenu{
+            position: fixed; 
+            display: none;
+            background-color: white; 
+            width: 180px; 
+            height: 30px;
+            border: 6px double black;
+            text-align: center;
+            font-size: 20px;
+            font-family: "serif";
+            padding: 10px;
+            cursor: pointer;
+
+            margin: auto;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%,0);
+        }
+        #backMenu:hover{
+            border: 4px double blueviolet;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" style="position: absolute; background-color: black; left: 0px; top: 0px;"></canvas>
+    <div id="normal" onclick="setMode('normal')">NORMAL</div>
+    <div id="impossible" onclick="setMode('impossible')">IMPOSSIBLE</div>
+    <div id="options" onclick="optionsClicked()">OPTIONS</div>
+
+    <div class="option" style="top: 8%" onclick="changeOptions('ballColor')">BALL COLOR: white</div>
+    <div class="option" style="top: 18%; background-color: rgb(210, 210, 210);" onclick="changeOptions('ballSize')">BALL SIZE: normal</div>
+    <div class="option" style="top: 28%" onclick="changeOptions('ballSpeed')">BALL SPEED: slow</div>
+    <div class="option" style="top: 38%" onclick="changeOptions('padColor')">PAD COLOR: white</div>
+    <div class="option" style="top: 48%; background-color: rgb(210, 210, 210);" onclick="changeOptions('padSize')">PAD SIZE: normal</div>
+    <div class="option" style="top: 58%; background-color: rgb(230, 230, 230);" onclick="changeOptions('maxPoints')">WIN POINT: 3</div>
+    <div class="option" style="top: 68%" onclick="changeOptions('restore')">RESTORE OPTIONS</div>
+    <div class="option" style="top: 82%" onclick="changeOptions('save')">SAVE</div>
+
+    <div id="backMenu" onclick="backToMenu()">BACK TO MENU</div>
+
+    <script src="canvasElemEvents.js"></script>
+    <script src="particulesSounds.js"></script>
+    <script src="game.js"></script>
+    <script src="menus.js"></script>
+    <script src="animation.js"></script>
+</body>
+</html>
