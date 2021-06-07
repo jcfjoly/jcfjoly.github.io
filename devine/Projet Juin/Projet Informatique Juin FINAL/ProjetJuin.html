@@ -1,0 +1,310 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:31px;
+	left:243px;
+	border:5px black solid;
+	border-radius:10px;
+	background-image: url(vdf.JPG);
+	}
+#robot{
+width: 250px;
+height: 272px;
+background-image: url(robot.JPG);
+top:35px;
+position: absolute;
+left: 100px;
+border-radius: 10px;
+border: 5px rgb(63, 59, 59) solid;
+
+}
+
+#niche{
+width: 100px;
+height: 100px;
+background-image: url(niche.JPG);
+top:35px;
+position: absolute;
+left: 400px;
+text-align: center;
+border-radius: 10px;
+border: 5px red solid;
+}
+
+#niche2{
+width: 100px;
+height: 100px;
+background-image: url(niche.JPG);
+top:95px;
+position: absolute;
+left: 550px;
+text-align: center;
+border-radius: 10px;
+border: 5px red solid;
+
+}
+
+
+#niche3{
+width: 100px;
+height: 100px;
+background-image: url(niche.JPG);
+top:200px;
+position: absolute;
+left: 400px;
+text-align: center;
+border-radius: 10px;
+border: 5px red solid;
+}
+
+#musee{
+width: 300px;
+height: 249px;
+background-image: url(musee.JPG);
+top:430px;
+position: absolute;
+left: 650px;
+text-align: center;
+border-radius: 10px;
+border: 5px rgb(218, 109, 21) solid;
+}
+
+#couleur{
+    position: absolute;
+    top: 15px;
+    left: 750px;
+    background-color: rgb(107, 107, 211);
+    border: 2px black solid;
+    text-align: center;
+    width: 150px;
+    height: 128px;
+	background-image: url(meteroite.JPG);
+	border-radius: 100px;
+    border:5px grey solid;
+	
+}
+
+#texte{
+    position: absolute;
+    top: 400px;
+    left: 72%;
+
+}
+
+ #div1{
+    height: 200px;
+    width: 300px;
+    background-color:rgb(51, 48, 48);
+    position: absolute;
+    top: 400px;
+    left: 50px;
+	background-image:url(vdf.JPG);
+	border-radius: 10px;
+   border: 5px grey solid;
+    
+	}
+	
+	#porte{
+		height:221px;
+		width:118px;
+		top: 400px;
+		left:400px;
+		position: absolute;
+		background-image:url(porte2.JPG);
+		border-radius:10px;
+		border: 5px white solid;
+       
+      
+    
+	}
+	
+
+	}
+
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Fadi Nouali 409</b></div>
+        <div id="cadreJeu">
+           <div id="texte">
+        <input type="text" id="motJoueur">
+    </div>
+        <div id="robot" onclick="musik()"></div>
+		<div id="musee"></div>
+		<div id="niche" onClick="musica()"> 1</div>
+        <div id="niche2" onclick="musique()">2</div>
+		<div id="niche3" onclick="music()">3</div>
+         <div id="porte"></div>
+        <div id="couleur"> </div>
+        <div id="div1">
+   <h1><center>Code pour retourner vers le présent</center></h1> <br/>
+    <center><input  type="text"  id="numero"></center> 
+    <center> <input type="button" value="Validation" onclick="valider()"> </center> 
+    
+ 
+        </div>
+    </div>
+    
+    <script>
+	 var boiteCouleur=document.getElementById("couleur")
+	  var listeCouleur=["météorite"]
+	  
+	     var topCouleur=0
+		     var motJoueur
+			 var bonChiffre=15
+			
+		 
+	var monSon=new Audio();
+    monSon.src="lion.mp3";
+	function musica(){
+
+		alert("Ce n'est pas un chien !!!");
+	{monSon.play()}
+	}
+
+	var monSon2=new Audio();
+    monSon2.src="chien.mp3";
+	function musique(){
+		alert("Bravo, tu l'as trouvé! En cadeau, je te donne le chiffre 7, symbole de chance, tu en aura besoin pour la suite. Oh non, une métérorite fonce en plein sur le musee de la ville, peut-tu faire quelque chose pour nous en débarasser?");
+	
+	{monSon2.play()}
+	
+	}
+
+	var monSon3=new Audio();
+    monSon3.src="loup.mp3";
+	function music(){
+		alert("On s'en rapproche, mais ce n'est pas un chien!!!");
+		{monSon3.play()}
+		}
+
+	var monSon4=new Audio();
+    monSon4.src="robot.mp3";
+	function musik(){
+		
+		alert("Concentre toi sur ta quete!")
+	{monSon4.play()}
+	}
+
+	
+	 
+		  
+		 
+		 
+		 
+        function goDownCouleur(){
+            topCouleur=topCouleur+10
+            boiteCouleur.style.top=topCouleur + "px"
+            boiteCouleur.innerHTML=listeCouleur[0]
+           
+        }
+		
+		
+             function validationCouleur(){
+        if(motJoueur==listeCouleur[0]){
+            topCouleur=0
+			console.log("g")
+            motJoueur=""
+			boiteCouleur.style.display="none"; { alert("Fantastique, merci beaucoup pour ton aide! Je t'offre le chiffre 8. Désormais, résout le code en additionant les deux chiffres que tu as recu pour retourner chez toi.")}
+        }
+    }
+	
+	
+	 document.addEventListener("keydown", function(e){
+        if(e.keyCode==13){
+            motJoueur=document.getElementById("motJoueur").value
+            console.log(motJoueur)
+            validationCouleur()
+		}
+	 })
+			
+	 setInterval(goDownCouleur,5000)
+
+	
+	
+	setTimeout(function(){ alert("Bonjour,tu es actuellement pieger dans le futur.Pour en sortir, tu devras realiser quelques taches pour moi...Commence par trouver mon chien, il s'est caché dans l'une de ces niches. ");}, 1000);
+	function nextLevel(){
+		window.location="test.html"
+		}
+		
+		
+		
+		function valider(){
+     var numero=document.getElementById("numero").value
+     if(numero==bonChiffre){
+      alert("Bravo")
+	 nextLevel()
+      
+
+    }
+    if(numero<bonChiffre){
+        alert("As-tu bien fait toute les étapes?")  
+     
+      
+    }
+
+    if(numero>bonChiffre){
+        alert("As-tu bien fait toute les étapes?")
+      
+       
+     }
+     
+      
+
+    console.log(numero)
+	
+   
+		}
+		
+		
+    </script>
+</body>
+</html>
