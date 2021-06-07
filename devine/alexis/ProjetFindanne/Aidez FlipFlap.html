@@ -1,0 +1,736 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-color:lightblue;
+	}
+/*Commencez VOTRE CSS ici*/
+
+/*Tuyaux mobiles début*/
+.tuyau{
+	width: 10%;
+	height: 10%;
+	position: absolute;
+	cursor: grab;
+}
+.tuyau:hover{
+	width: 11%;
+	height: 11%;
+}
+#tuyau1{
+	right: 25%;
+	top: 40%;
+}
+#tuyau2{
+	left: 10%;
+	bottom: 82%;
+	display: none;
+}
+#tuyau3{
+	left: 10%;
+	bottom: 20%;
+	transform: rotate(90deg);
+}
+/*Tuyaux mobiles fin*/
+
+/*zones d'arrivée des tuyaux mobiles début*/
+.zones{
+	width: 10%;
+	height: 10%;
+	position: absolute;
+
+}
+#zone1{
+	left: 19%;
+	top: 10%;
+}
+#zone2{
+	left: 35%;
+	top: 10%;
+}
+#zone3{
+	right: 4.2%;
+	top: 56%;
+	transform: rotate(90deg);
+}
+/*zones d'arrivée des tuyaux mobiles fin*/
+/*La Map*/
+.patern{
+	width: 10%;
+	height: 10%;
+	position: absolute;
+}
+#piece1{
+	left: 27%;
+	top: 10%;
+}
+#piece2{
+	left: 43%;
+	top: 10%;
+}
+#piece3{
+	left: 51.2%;
+	top: 10%;
+}
+#piece4{
+	left: 59.4%;
+	top: 10%;
+}
+#piece5{
+	left: 67.6%;
+	top: 10%;
+}
+#piece6{
+	left: 75.8%;
+	top: 10%;
+}
+#piece7{
+	right: 6.8%;
+	top: 11.7%;
+}
+#piece8{
+	right: 4.3%;
+	top: 21.2%;
+	transform: rotate(90deg);
+}
+#piece9{
+	right: 4.3%;
+	top: 33%;
+	transform: rotate(90deg);
+}
+#piece10{
+	right: 4.3%;
+	top: 44.8%;
+	transform: rotate(90deg);
+}
+#piece11{
+	right: 4.3%;
+	top: 67.5%;
+	transform: rotate(90deg);
+}
+#piece12{
+	right: 4.3%;
+	top: 79.3%;
+	transform: rotate(90deg);
+}
+#spawn{
+	width: 20%;
+	height: 20%;
+	position: absolute;
+	top: 3%;
+}
+#bgRegular{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+#bottomLine{
+	width: 100%;
+	height: 8%;
+	background: linear-gradient(45deg, darkgray 25%,
+	yellow 25%, yellow 50%, 
+	darkgray 50%, darkgray 75%, 
+	yellow 75%);
+	background-size: 100px 100px;
+	position: absolute;
+	bottom: 0%;
+}
+/*La map fin*/
+/*Porte a code*/
+#bg{
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    display: block; /*.....................................................................................................................................*/
+}
+.portes{
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+}
+#door1{
+ left: 0%;
+}
+#door2{
+ right: 0%;
+}
+.codingpad{
+    width: 10%;
+    height: 10%;
+    background-color: blanchedalmond;
+    position: absolute;
+}
+#case4{
+    left: 38%;
+    top: 70%;
+}
+#case2{
+    left: 38%;
+    top: 25%;
+}
+#case3{
+    left: 52%;
+    top: 25%;
+}
+#case1{
+    left: 52%;
+    top: 70%;
+}
+/*porte a code fin*/
+/*Épreuves*/
+.chests{
+	width: 20%;
+	height: 20%;
+}
+#chest1{
+	position: absolute;
+	top: 30%;
+	right: 20%;
+}
+#decoder{
+	position: absolute;
+	background-color: chocolate;
+	width: 50%;
+	height: 10%;
+	left: 24%;
+	top: 48%;
+}
+#character{
+	position: absolute;
+	top: 8%;
+	left: 4%;
+	display: none;
+}
+#QMark{
+	width: 2%;
+	height: 3%;
+	position: absolute;
+	right: 22%;
+	top: 32%;
+}
+#QMark:hover{
+	width: 2.5%;
+	height: 3.5%;
+	cursor: pointer;
+}
+#QMark2{
+	width: 2%;
+	height: 3%;
+	position: absolute;
+	left: 1%;
+	top: 8%;
+}
+#QMark2:hover{
+	width: 2.5%;
+	height: 3.5%;
+	cursor: pointer;
+}
+#QMark3{
+	width: 4.5%;
+	height: 6%;
+	position: absolute;
+	right: 1%;
+	bottom: 2%;
+}
+#QMark3:hover{
+	width: 5%;
+	height: 6.5%;
+	cursor: pointer;
+}
+#indice{
+	width: 50%;
+	height: 50%;
+	position: absolute;
+	top: 25%;
+	left: 25%;
+	display: none;
+}
+#backind1{
+	width: 20%;
+	height: 5%;
+	background-color: white;
+	position: absolute;
+	left: 40%;
+	bottom: 10%;
+	text-align: center;
+	cursor: pointer;
+}
+#helper{
+	width: 28%;
+	height: 10%;
+	position: absolute;
+	top: 2%;
+	left: 2%;
+}
+.blocker{
+	width: 10%;
+	height: 10%;
+	position: absolute;
+	background-color: azure;
+}
+#blocker1{
+	left: 19%;
+	top: 10%;
+}
+#blocker2{
+	left: 35%;
+	top: 10%;
+}
+#blocker3{
+	right: 4.2%;
+	top: 56%;
+	transform: rotate(90deg);
+}
+#bouton{
+        width: 50%;
+        height: 20%;
+        position: absolute;
+		top: 40%;
+		left: 25%;
+    }
+#boutonchoix{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+#messager{
+        position: absolute;
+        width: 100%;
+        height: 20%;
+        background-color: gray;
+        bottom: 10%;
+        left: 0;
+        display: none;
+		padding-bottom: 2%;
+    }
+    #message{
+        position: absolute;
+        top: -20%;
+        font-size: 110%;
+    }
+#RPC{
+	position: absolute;
+	height: 20%;
+	width: 20%;
+	background-color: aqua;
+	border: 2px dashed black;
+	bottom: 15%;
+	left: 3%;
+}
+#itemchoisi{
+    width: 80%;
+    height: 20%;
+	position: absolute;
+	left: 10%;
+	top: 10%;
+}
+#indice2{
+	width: 25%;
+	background-color: chartreuse;
+	position: absolute;
+	top: 22%;
+	left: 1%;
+	display: none;
+}
+#backind2{
+	width: 20%;
+	height: 20%;
+	background-color: white;
+	position: absolute;
+	bottom: 1%;
+	right: 1%;
+	padding-bottom: 3%;
+	cursor: pointer;
+}
+#MessageFin{
+	width: 80%;
+	height: 40%;
+	position: absolute;
+	top: 10%;
+	left: 10%;
+	text-align: center;
+	padding-top: 30%;
+	background-color: violet;
+	font-size: 200%;
+	border: outset black 5px;
+	display: none;
+}
+#indice3{
+	width: 10%;
+	position: absolute;
+	background-color: paleturquoise;
+	text-align: center;
+	right: 2%;
+	top: 2%;
+	display: none;
+}
+#backind3{
+	width: 98%;
+	height: 20%;
+	background-color: white;
+	position: absolute;
+	bottom: 1%;
+	left: 1%;
+	padding-bottom: 3%;
+	cursor: pointer;
+}
+/*Épreuves fin*/
+</style>
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Alexis Paradis 410</b></div>
+        <div id="cadreJeu">
+			<div bgRegular>
+				<img src="backgroundMain.png" width="100%" height="100%">
+
+				<div id="bottomLine"></div>
+			
+				<div id="spawn">
+					<div class="restZone" id="restzone"><img src="plateforme.png" width="100%" height="100%"></div>
+				</div>
+
+			    <div class="patern" id="piece1"><img src="tuyauN.png" width="100%" height="100%"></div>
+			    <div class="patern" id="piece2"><img src="tuyauN.png" width="100%" height="100%"></div>
+			    <div class="patern" id="piece3"><img src="tuyauN.png" width="100%" height="100%"></div>
+			    <div class="patern" id="piece4"><img src="tuyauN.png" width="100%" height="100%"></div>
+
+			    <div class="patern" id="piece5"><img src="tuyauN.png" width="100%" height="100%"></div>
+			    <div class="patern" id="piece6"><img src="tuyauN.png" width="100%" height="100%"></div>
+			    <div class="patern" id="piece8"><img src="tuyauN.png" width="100%" height="100%"></div>
+				<div class="patern" id="piece7"><img src="turn.png" width="100%" height="100%"></div>
+				<div class="patern" id="piece9"><img src="tuyauN.png" width="100%" height="100%"></div>
+				<div class="patern" id="piece10"><img src="tuyauN.png" width="100%" height="100%"></div>
+				<div class="patern" id="piece11"><img src="tuyauN.png" width="100%" height="100%"></div>
+				<div class="patern" id="piece12"><img src="tuyauN.png" width="100%" height="100%"></div>
+			    
+				<div class="tuyau" id="tuyau1" ondrop="drop(event)" ondragover="allowDrop(event)" ondrag="dropped1()">
+					<img src="tuyauV.png" draggable="true" ondragstart="drag(event)" id="change1" width="100%" height="100%">
+				</div>
+
+				<div class="tuyau" id="tuyau2" ondrop="drop(event)" ondragover="allowDrop(event)" ondrag="dropped2()">
+					<img src="tuyauV.png" draggable="true" ondragstart="drag(event)" id="change2" width="100%" height="100%">
+				</div>
+				<div class="tuyau" id="tuyau3" ondrop="drop(event)" ondragover="allowDrop(event)" ondrag="dropped3()">
+					<img src="tuyauV.png" draggable="true" ondragstart="drag(event)" id="change3" width="100%" height="100%">
+				</div>
+
+				<div id="RPC">
+					<div id="boutonchoix">
+					<select id="itemchoisi">
+						<option value="item1">roche</option>
+						<option value="item2">papier</option>
+						<option value="item3">ciseaux</option>
+					</select>
+						<input id="bouton" type="button" value="Choisir" onclick="rocher()">
+					</div>
+
+					<div id="messager">
+						<p id="message"></p>
+					</div>
+				</div>
+
+				<div id="QMark2"><img src="QMark.png" onclick="indiceTwo()" width="100%" height="100%"></div>
+
+				<div id="indice2">
+					Je crois que Flip Flap a été trop gourmand 30 petites tapes sur le ventre devraient l'aider.
+					<div id="backind2" onclick="backind2()">Fermer</div>
+				</div>
+
+			  	<div class="zones" id="zone1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+			  	<div class="zones" id="zone2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+			  	<div class="zones" id="zone3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+				<div class="blocker" id="blocker1"></div>
+				<div class="blocker" id="blocker2"></div>
+				<div class="blocker" id="blocker3"></div>
+
+				<div id="chest">
+					<div class="chests" id="chest1"><img src="InventoryCrateClosed.png" width="100%" height="100%">
+					<input id="decoder" type="text" onkeypress="enterKeyPressed(event)"></input>
+					</div>	
+					<div id="QMark"><img src="QMark.png" onclick="indiceOne()" width="100%" height="100%"></div>
+				</div>
+
+				<div id="bg">
+					<div class="portes" id="door1"><img src="doorL.png" width="100%" height="100%"></div>
+					<div class="portes" id="door2"><img src="doorR.png" width="100%" height="100%"></div>
+					<div class="codingpad" id="case1" onclick="color1()"><font face="Verdana">-...</font></div>
+					<div class="codingpad" id="case2" onclick="color2()"><font face="Verdana">.-.</font></div>
+					<div class="codingpad" id="case3" onclick="color3()"><font face="Verdana">...-</font></div>
+					<div class="codingpad" id="case4" onclick="color4()"><font face="Verdana">.---</font></div>
+					<div id="helper"><img src="helperLocked.png" width="100%" height="100%"></div>
+					<div id="QMark3"><img src="QMark.png" onclick="indiceThree()" width="100%" height="100%"></div>
+					<div id="indice3">.-. = r <br> ...- = v <br> .--- = j <br> -... = b <br> <br> <br>
+					<div id="backind3" onclick="backind3()">Fermer</div>
+					</div>
+				</div>
+				
+				<div id="character"><img src="character.png" id="characterMain" onclick="damage()" width="50%" height=""></div>
+
+				<div id="indice"><img src="indice1.png" width="100%" height="100%">
+					<div id="backind1" onclick="backind()">close</div>
+				</div>
+
+				<div id="MessageFin">Bien joué, vous avez réussi à sauver Flip Flap! <br> À la prochaine pour de nouvelles aventures!</div>
+
+			</div>
+        </div>
+    </div>
+    
+    <script>
+
+var inventoryCode=30
+
+var vie=30
+
+var hit=new Audio();
+    hit.src="bird.wav";
+
+var victoire=new Audio();
+    victoire.src="victory.mp3";
+
+function damage(){
+	vie=vie-1
+	hit.play()
+	console.log(vie)
+	if (vie<=0){
+		document.getElementById("tuyau2").style.display="block"
+		document.getElementById("blocker2").style.display="none"
+	}
+}
+
+function enterKeyPressed(event) {
+	var codeEntered=document.getElementById("decoder").value
+    if (inventoryCode==codeEntered && event.keyCode == 13){
+		document.getElementById("tuyau1").style.top="50%"
+		document.getElementById("blocker1").style.display="none"
+      }
+	}
+
+	function indiceOne(){
+		document.getElementById("indice").style.display="block"
+	}
+
+	function indiceTwo(){
+		document.getElementById("indice2").style.display="block"
+	}
+	function indiceThree(){
+		document.getElementById("indice3").style.display="block"
+	}
+
+	function backind(){
+		document.getElementById("indice").style.display="none"
+	}
+	function backind2(){
+		document.getElementById("indice2").style.display="none"
+	}
+	function backind3(){
+		document.getElementById("indice3").style.display="none"
+	}
+
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+  console.log(data)
+  
+  if (data=="change1"){
+	firstchange=1
+  }
+  if (data=="change2"){
+	secondchange=1
+  }
+  if (data=="change3"){
+	thirdchange=1
+  }
+  if (firstchange==1 && secondchange == 1 && thirdchange == 1){
+	document.getElementById("MessageFin").style.display="block"
+	victoire.play()
+  }
+}
+
+function dropped1(){
+	document.getElementById("change1").src="tuyauP.png";
+}
+function dropped2(){
+	document.getElementById("change2").src="tuyauP.png";
+}
+function dropped3(){
+	document.getElementById("change3").src="tuyauP.png";
+}
+	
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+		}
+
+// Voici le code pour la porte a code
+	var blue=false
+    var red=false
+    var green=false
+    var yellow=false
+
+    function color1(){
+        if (blue==false){
+            blue=true
+            document.getElementById("case1").style.backgroundColor="blue"
+        }
+    }
+    function color2(){
+        if (blue==true){
+            red=true
+            document.getElementById("case2").style.backgroundColor="red"
+        }else{
+            document.getElementById("case2").style.backgroundColor="orange"
+			window.location.reload()
+        }
+    }
+    function color3(){
+        if (red==true){
+            green=true
+            document.getElementById("case3").style.backgroundColor="green"
+        }else{
+            document.getElementById("case3").style.backgroundColor="orange"
+			window.location.reload()
+        }
+    }
+    function color4(){
+        if (green==true){
+            yellow=true
+            document.getElementById("case4").style.backgroundColor="yellow"
+        }else{
+            document.getElementById("case4").style.backgroundColor="orange"
+			window.location.reload()
+        }
+        verif()
+    }
+    function verif(){
+        if (blue==true, red==true, green==true, yellow==true)
+        document.getElementById("bg").style.display="none"
+		document.getElementById("character").style.display="block"
+    }
+	function rocher(){
+        var choicemachine=Math.ceil(Math.random()*3)
+
+      if (choicemachine==1) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Égalité"
+     }
+     if (choicemachine==2) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Victoire"
+		document.getElementById("RPC").style.display="none"
+		document.getElementById("blocker3").style.display="none"
+     }
+     if (choicemachine==3) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Défaite"
+		window.location.reload()
+     }  
+    }
+    
+     
+    function ciseaux(){
+        var choicemachine=Math.ceil(Math.random()*3)
+      if (choicemachine==1) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Égalité"
+     }
+     if (choicemachine==2) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Victoire"
+		document.getElementById("RPC").style.display="none"
+		document.getElementById("blocker3").style.display="none"
+     }
+     if (choicemachine==3) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Défaite"
+		window.location.reload()
+            }
+     }  
+    
+
+    function feuille(){
+        var choicemachine=Math.ceil(Math.random()*3)
+      if (choicemachine==1) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Égalité"
+     }
+     if (choicemachine==2) {
+        document.getElementById("messager").style.display="block"
+        message.innerHTML="Victoire"
+		document.getElementById("RPC").style.display="none"
+		document.getElementById("blocker3").style.display="none"
+     }
+     if (choicemachine==3) {
+        document.getElementById("messager").style.display="block"
+         message.innerHTML="Défaite"
+		 window.location.reload()
+     }  
+    } 
+
+    </script>
+</body>
+</html>
