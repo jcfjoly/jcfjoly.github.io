@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+#div1{
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    background-color: lightblue;
+    border: 2px solid black;
+    position: relative;
+    top: 200px;
+    text-align: center;
+}
+
+
+
+</style>
+
+</head>
+<body>
+    <div id=div1><input type="text" id="text">
+    <input type="button" id="button" value="Envoyer" onclick="valider()">
+</div>   
+ 
+
+<script>
+    
+
+function valider(){
+    
+var choixOrdi=Math.ceil(Math.random()*3) 
+console.log(choixOrdi)
+
+if(document.getElementById("text").value=="rock" && choixOrdi==1){
+    alert("Tie! The computer has also chosen rock");}
+
+
+if(document.getElementById("text").value=="rock" && choixOrdi==2){
+    alert("You lose! The computer has chosen paper");}
+
+
+if(document.getElementById("text").value=="rock" && choixOrdi==3){
+    alert("You win! The computer has chosen scissors");}
+
+if(document.getElementById("text").value=="paper" && choixOrdi==1){
+    alert("You win! The computer has chosen rock");}
+
+
+if(document.getElementById("text").value=="paper" && choixOrdi==2){
+    alert("Tie! The computer has also chosen paper");}
+
+
+if(document.getElementById("text").value=="paper" && choixOrdi==3){
+    alert("You lose! The computer has chosen scissors");}
+
+if(document.getElementById("text").value=="scissors" && choixOrdi==1){
+    alert("You lose! The computer has chosen rock");}
+
+
+if(document.getElementById("text").value=="scissors" && choixOrdi==2){
+    alert("You win! The computer has chosen paper");}
+
+
+if(document.getElementById("text").value=="scissors" && choixOrdi==3){
+    alert("Tie! The computer has also chosen scissors");}
+
+
+}
+
+   
+   
+
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>
