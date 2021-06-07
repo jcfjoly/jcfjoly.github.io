@@ -1,0 +1,574 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Document sans nom</title>
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-color:lightblue;
+	}
+/*Commencez VOTRE CSS ici*/	
+#victory{
+	width: 990px;
+	height: 325px;
+	position:absolute;
+	background-color: rgb(15, 167, 15);
+	font-size: 80px;
+	text-align: center;
+	border:black;
+	border:solid;
+	top:20px;
+	display:none;
+}
+#losing{
+	width: 990px;
+	height: 325px;
+	position:absolute;
+	background-color: rgb(255, 0, 0);
+	font-size: 80px;
+	text-align: center;
+	border:black;
+	border:solid;
+	top:20px;
+	display:none;
+}
+#vault{
+	background-image:url(vault.jpg);
+	width:1000px;
+	height:700px;
+	background-size: 100% 100%;
+	position:absolute;
+	margin:auto;
+	}
+#vault2{
+	background-image:url(vault2.png);
+	width:1000px;
+	height:700px;
+	background-size: 100% 100%;
+	position:absolute;
+	margin:auto;
+	display:none;
+	}
+#vault3{
+	background-image:url(vault3.png);
+	width:1000px;
+	height:700px;
+	background-size: 100% 100%;
+	position:absolute;
+	margin:auto;
+	display:none;
+	}
+#escape{
+	width:300px;
+	height:200px;
+	background-image:url(exit.PNG);
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 50px;
+	left: 320px;
+	cursor:pointer;	
+	}
+#escape2{
+	width:300px;
+	height:200px;
+	background-image:url(exit2.PNG);
+	background-size: 100% 100%;
+	position: absolute;
+	bottom: 50px;
+	left: 320px;
+	cursor:pointer;	
+	display:none;
+	}
+#ceiling{
+	width:300px;
+	height:80px;
+	background-color: blanchedalmond;
+	position: absolute;
+	top: 10px;
+	left: 306px;
+	opacity: 1%;	
+	}
+#randomDrawer{
+	width:80px;
+	height:100px;
+	position: absolute;
+	bottom: 260px;
+	left: 760px;
+	opacity: 0%;
+	}
+#note{
+	width:30px;
+	height:35px;
+	position:absolute;
+	left:200px;
+	bottom:320px;
+	cursor:pointer;
+	background-color:#FF6;
+	font-size:2px;
+	}
+#bigNote{
+	width:500px;
+	height:583px;
+	position:absolute;
+	left:250px;
+	bottom:50px;
+	cursor:pointer;
+	background-color:#FF6;
+	font-size: 24px;
+	display:none;
+	border:solid;
+	}
+#passwordPaper{
+	width: 270px;
+	height: 100px;
+	position: absolute;
+	right: 370px;
+	top: 200px;
+	background-color:rgb(202, 201, 201);
+	display:none;
+	cursor:help;
+	opacity: 0.07;
+	font-size: 30px;
+	border:solid;
+	}
+#insideDrawer{
+	width: 700px;
+	height: 750px;
+	background-image: url(drawer.PNG);
+	background-size: 100% 100%;
+	position: absolute;
+	right: 150px;
+	top: 0px;
+	display:none;
+	cursor:pointer;
+}
+#key{
+	width:30px;
+	height:35px;
+	background-image: url(key.jpg);
+	background-size: 100% 100%;
+	position:absolute;
+	left:440px;
+	bottom:0px;
+	cursor:pointer;
+	display: none;
+	cursor:pointer;
+}
+#lock{
+	width: 250px;
+	height: 600px;
+	background-image: url(lock.PNG);
+	background-size: 100% 100%;
+	position: absolute;
+	right: 370px;
+	top: 30px;
+	display:none;
+	
+}
+#number1{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 50px;
+	right:539px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number2{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 50px;
+	right:480px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number3{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 50px;
+	right:422px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number4{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 90px;
+	right:539px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number5{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 90px;
+	right:480px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number6{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 90px;
+	right:422px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number7{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 127px;
+	right:539px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number8{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 127px;
+	right:480px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number9{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 127px;
+	right:422px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#number0{
+	width:40px;
+	height:30px;
+	background-color: black;
+	position: absolute;
+	top: 162px;
+	right:480px;
+	display:none;
+	opacity: 0%;
+	cursor:pointer;
+}
+#clickHere{
+	width:150px;
+	height:100px;
+	background-image: url(clickhere.png);
+	background-size: 100% 100%;
+	position: absolute;
+	top: 320px;
+	left: 50px;
+	display:block;
+	cursor:pointer;
+
+
+}
+
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Albert Nguyen 406</b></div>
+        <div id="cadreJeu">
+        	<div id="vault"></div>
+			<div id="vault2"></div>
+			<div id="vault3"></div>
+        	<div id="escape" onClick="bigger()"></div>
+			<div id="escape2"></div>
+        	<div id="randomDrawer" onClick="openDrawer()"></div>
+            <div id="insideDrawer" onClick="closeDrawer()"></div>
+            <div id="passwordPaper" onClick="password()"></div> 
+            <div id="ceiling" onClick="ceiling()"></div>
+			<div id="key" onClick="gotKey()"></div>
+            <div id= "note" onClick="readingMode()">Vous vous trouvez coincé dans votre propre vault. Comme vouse étiez paranoïaque avant, vous avez installé un système pour pouvoir en sortir au cas où, mais vous ne vous en rappelé aucunement des étapes.</br></br>1. "Mieux vaut m'avoir au plafond qu'au pied</br></br>2. Vers la droite x 15. Vers le bas x 10</br></br>3. Chiffre1 : -1,  Chiffre2 : -3,  Chiffre3 : -2, </br>Chiffre5 : -4 </div>
+            <div id="hidden"></div>
+			<div id="lock" onClick="normalMode()"></div>>
+			<div id="clickHere"></div>
+			<div id="number1" onClick= "plus1()"></div>
+            <div id="number2" onClick= "plus2()"></div>
+			<div id="number3" onClick= "plus3()"></div>
+			<div id="number4" onClick= "plus4()"></div>
+			<div id="number5" onClick= "plus5()"></div>
+			<div id="number6" onClick= "plus6()"></div>
+			<div id="number7" onClick= "plus7()"></div>
+			<div id="number8" onClick= "plus8()"></div>
+			<div id="number9" onClick= "plus9()"></div>
+			<div id="number0" onClick= "plus0()"></div>
+			<div id="bigNote" onClick="normalMode()">Vous vous trouvez coincé dans votre propre vault. Comme vouse étiez paranoïaque avant, vous avez installé un système pour pouvoir en sortir au cas où, mais vous ne vous en rappelé aucunement des étapes.</br></br>1. "Mieux vaut m'avoir au plafond qu'au pied</br></br>2. Vers la droite x 15. Vers le bas x 10</br></br>3. Chiffre1 : -1,  Chiffre2 : -3,  Chiffre3 : -2, </br>Chiffre5 : -4 </div>
+			<div id="victory"></br>Vous êtes sorti!</div>
+			<div id="losing"></br>Vous avez detruit votre seul accès de sorti</div>
+			
+        </div>
+    </div>
+    
+    
+    
+    <script>
+		var drawer=false;
+		var heightOfKey=30;
+		var key=false;
+		var firstStep=false;
+		var absolute=0;
+		var choix1=Math.ceil(Math.random()*8);
+		var choix2=Math.ceil(Math.random()*6);
+		var choix3=Math.ceil(Math.random()*7);
+		var choix4=Math.ceil(Math.random()*9);
+		var choix5=Math.ceil(Math.random()*5);
+		var finalStep=false
+
+		console.log(choix1)
+		console.log(choix2)
+		console.log(choix3)
+		console.log(choix4)
+		console.log(choix5)
+
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+		}
+	
+	function readingMode(){
+		document.getElementById("bigNote").style.display="block";
+		document.getElementById("note").style.display="none";
+		document.getElementById("clickHere").style.display="none";
+		firstStep=true;
+		}
+	function normalMode(){
+		document.getElementById("bigNote").style.display="none";
+		document.getElementById("note").style.display="block";
+		
+		}
+	function closeDrawer(){
+		document.getElementById("insideDrawer").style.display="none";
+		document.getElementById("vault3").style.display="none";
+		document.getElementById("passwordPaper").style.display="none";
+		}
+	function openDrawer(){
+		if(drawer==true){
+		document.getElementById("insideDrawer").style.display="block";
+		document.getElementById("passwordPaper").style.display="block";
+		document.getElementById("vault3").style.display="block";
+		finalStep=true
+		}
+		if(drawer==false){
+		alert("Il te manque la clé")
+			}
+		}
+
+
+
+	setInterval (droppingKey,10)
+		function droppingKey(){
+			if(key==true){
+			document.getElementById("key").style.display="block";
+			heightOfKey=heightOfKey+1.7;
+			document.getElementById("key").style.top=heightOfKey+"px";
+			if(heightOfKey>550){
+				key=false;
+				document.getElementById("losing").style.display="block";
+				}
+			}
+		}
+	function gotKey(){
+		key=false;
+		drawer=true;
+		document.getElementById("key").style.display="none";
+	}
+
+
+
+	
+	function ceiling(){
+		if (firstStep==true){
+		key=true;
+		document.getElementById("ceiling").style.display="none";
+		document.getElementById("vault2").style.display="block";
+		document.getElementById("vault").style.display="none";
+	}
+		else{
+			alert("pas maintenant")
+		}
+	}
+	function bigger(){
+		if (finalStep==true){
+		document.getElementById("lock").style.display="block";
+		document.getElementById("number1").style.display="block"
+		document.getElementById("number2").style.display="block"
+		document.getElementById("number3").style.display="block"
+		document.getElementById("number4").style.display="block"
+		document.getElementById("number5").style.display="block"
+		document.getElementById("number6").style.display="block"
+		document.getElementById("number7").style.display="block"
+		document.getElementById("number8").style.display="block"
+		document.getElementById("number9").style.display="block"
+		document.getElementById("number0").style.display="block"
+		}
+		else{
+			alert("non non")
+		}
+	}
+
+
+	function password(){
+		var nombre1= choix1+1
+		var nombre2= choix2+3
+		var nombre3= choix3+2
+		var nombre5= choix5+4
+		document.getElementById("passwordPaper").innerHTML="mot de passe :"+ nombre1 +nombre2 +nombre3 +choix4 +nombre5;
+		document.getElementById("passwordPaper").style.backgroundColor="white";
+		document.getElementById("passwordPaper").style.opacity="100%";
+	}
+	
+	
+
+	var n = 0;
+	function check(){
+		var liste=[choix1,choix2,choix3,choix4,choix5]
+		if(absolute==liste[n]){
+			n++;
+
+		}
+		else{
+			document.getElementById("losing").style.display="block";
+			document.getElementById("lock").style.display="none";
+			finalStep=false;
+		}
+		if (n==5){
+			document.getElementById("victory").style.display="block";
+			document.getElementById("lock").style.display="none";
+			finalStep=false;
+		}
+	}
+	function plus1(){
+		absolute = 1;
+		check();
+	}
+
+	function plus2(){
+		absolute = 2;
+		check();
+	}
+
+	function plus3(){
+		absolute = 3
+		check();
+	}
+
+	function plus4(){
+		absolute = 4
+		check();
+	}
+
+	function plus5(){
+		absolute = 5
+		check();
+	}
+
+	function plus6(){
+		absolute = 6
+		check();
+	}
+
+	function plus7(){
+		absolute = 7
+		check();
+	}
+
+	function plus8(){
+		absolute = 8
+		check();
+	}
+
+	function plus9(){
+		absolute = 9
+		check();
+	}
+
+	function plus0(){
+		absolute = 0
+		check()
+	}
+
+
+
+	
+		
+	
+
+
+
+
+    </script>
+</body>
+</html>
