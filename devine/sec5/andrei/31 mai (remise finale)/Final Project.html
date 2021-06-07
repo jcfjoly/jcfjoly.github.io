@@ -1,0 +1,694 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Capture the Flag</title>
+    <style>
+        canvas {
+            border: 2px black solid;
+            background-color: lightblue;
+            margin: auto;
+            display: block;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <canvas id="monCanvas"></canvas>
+
+    <script>
+        //canvas taille fixe
+        var canvas = document.getElementById("monCanvas")
+        var c = canvas.getContext("2d")
+        canvas.width = 1600
+        canvas.height = 800
+
+        //variables
+        var keyDown = {}
+        var counter1 = 0
+        var counter2 = 0
+        var direction1
+        var direction2
+        var speedUpgrade = 0
+        var menu=1
+
+        //images
+        var imgMenu = new Image()
+		imgMenu.src = "menu.png"
+
+        var imgBlue = new Image()
+		imgBlue.src = "flagBlue.png"
+
+        var imgRed = new Image()
+		imgRed.src = "flagRed.png"
+
+        var imgBrick = new Image()
+		imgBrick.src = "brick.jpg"
+
+        var imgLava = new Image()
+		imgLava.src = "lava.png"
+
+        //sons
+        var audioDeath = new Audio();
+		audioDeath.src = "death.mp3"
+        var audioPoint = new Audio();
+		audioPoint.src = "point.mp3"
+        var audioShoot = new Audio();
+		audioShoot.src = "shoot.mp3"
+
+
+        var joueur1 = {
+            x: 50,
+            y: 300,
+            h: 25,
+            w: 25,
+            vie: 3,
+            color: "red",
+            speed: 10
+        }
+
+        var joueur2 = {
+            x: canvas.width - 50,
+            y: 300,
+            h: 25,
+            w: 25,
+            vie: 3,
+            color: "blue",
+            speed: 10
+        }
+
+        //fonctions
+        //menu de depart
+        function showMenu(){
+            if (menu==1){
+                var text = 'PLAY'
+                var text2 = '(Click anywhere to start)'
+
+                c.font = "50px Arial"
+                c.fillStyle = "white"
+                c.fillText(text, canvas.width / 2 - c.measureText(text).width / 2, 80)
+
+                c.font = "20px Arial"
+                c.fillStyle = "white"
+                c.fillText(text2, canvas.width / 2 - c.measureText(text2).width / 2, 110)
+
+                c.drawImage(imgMenu, 300, 300, 1000, 430)
+                document.addEventListener("click", function(){menu = 0})
+            }
+        }
+
+        //ecran de fin et restart
+        function gameOver() {
+            if (joueur1.vie<1){
+            c.clearRect(0, 0, canvas.width, canvas.height)
+			var text3 = 'Player 2 wins with '+joueur2.vie+" flags left"
+            var text4 = '(Click anywhere to restart)'
+
+            c.font = "50px Arial"
+            c.fillStyle = "white"
+            c.fillText(text3, canvas.width / 2 - c.measureText(text3).width / 2, canvas.height / 2)
+
+            c.font = "25px Arial"
+            c.fillStyle = "white"
+            c.fillText(text4, canvas.width / 2 - c.measureText(text4).width / 2, canvas.height / 1.5)
+
+			canvas.addEventListener("click", function () {
+                window.location.reload(true)
+			})
+        }
+        if (joueur2.vie<1){
+            c.clearRect(0, 0, canvas.width, canvas.height)
+			var text3 = 'Player 1 wins with '+joueur1.vie+" flags left"
+            var text4 = '(Click anywhere to restart)'
+
+            c.font = "50px Arial"
+            c.fillStyle = "white"
+            c.fillText(text3, canvas.width / 2 - c.measureText(text3).width / 2, canvas.height / 2)
+
+            c.font = "25px Arial"
+            c.fillStyle = "white"
+            c.fillText(text4, canvas.width / 2 - c.measureText(text4).width / 2, canvas.height / 1.5)
+
+			canvas.addEventListener("click", function () {
+                window.location.reload(true)
+			})
+        }
+		}
+
+        //fonctions constructeurs
+        function Missiles1(x, y, w, h, speed, color) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.speed = speed
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x += this.speed, this.y, this.w, this.h, this.color)
+
+            }
+        }
+
+        function Missiles2(x, y, w, h, speed, color) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.speed = speed
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x += this.speed, this.y, this.w, this.h, this.color)
+
+            }
+
+        }
+
+        function Obstacle(x, y, w, h, color, speedX, speedY) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.speedX = speedX
+            this.speedY = speedY
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x, this.y, this.w, this.h)
+
+                if (this.y < 0 || this.y + this.h > canvas.height) {
+					this.speedY = -this.speedY
+				}
+				if (this.x < 0 || this.x + this.w > canvas.width) {
+					this.speedX = -this.speedX
+				}
+				this.y += this.speedY
+				this.x += this.speedX
+            }
+        }
+
+        function countReload() {
+            counter1=1
+            counter2=1
+        }
+
+        setInterval(countReload, 300)
+
+        //vies (flags)
+        function vies() {
+			c.font = "25px Arial"
+			c.textAlign = "left"
+            c.fillStyle="red"
+			c.fillText("Flags left : " + joueur1.vie, 50, 50)
+            c.fillStyle="blue"
+            c.fillText("Flags left : " + joueur2.vie, canvas.width-200, 50)
+        }
+
+        //tirer gauche et droite
+        function shoot() {
+            if (32 in keyDown && counter1 > 0) {
+                counter1 = 0
+                couleur = "black"
+                audioShoot.play()
+                if (direction1=="gauche"){
+                    Missiles2.speed=-15
+                    sacMissile1.push(new Missiles2(joueur1.x + 15, joueur1.y + 15, 10, 5, Missiles2.speed, couleur))
+                }
+                if (direction1=="droite"){
+                    Missiles2.speed=15
+                    sacMissile1.push(new Missiles2(joueur1.x + 15, joueur1.y + 15, 10, 5, Missiles2.speed, couleur))
+                }
+                else{
+                    sacMissile1.push(new Missiles2(joueur1.x + 15, joueur1.y + 15, 10, 5, Missiles2.speed, couleur))
+                }
+
+            }
+            if (13 in keyDown && counter2 > 0) {
+                counter2 = 0
+                couleur = "black"
+                audioShoot.play()
+                if (direction2=="gauche"){
+                    Missiles1.speed=-15
+                    sacMissile2.push(new Missiles1(joueur2.x + 15, joueur2.y + 15, 10, 5, Missiles1.speed, couleur))
+                }
+                if (direction2=="droite"){
+                    Missiles1.speed=15
+                    sacMissile2.push(new Missiles1(joueur2.x + 15, joueur2.y + 15, 10, 5, Missiles1.speed, couleur))
+                }
+                else{
+                    sacMissile2.push(new Missiles1(joueur2.x + 15, joueur2.y + 15, 10, 5, Missiles1.speed, couleur))
+                }
+            }
+        }
+
+        var sacMissile1 = []
+        var sacMissile2 = []
+
+        function draw() {
+            murGauche.draw()
+            murDroite.draw()
+            murHaut.draw()
+            murBas.draw()
+            mur1.draw()
+            speedUp.draw()
+            flag1.draw()
+            flag2.draw()
+            murHG.draw()
+            murBG.draw() 
+            murHD.draw()
+            murBD.draw()
+
+            c.drawImage(imgRed, flag1.x, flag1.y, 25, 25)
+            c.drawImage(imgBlue, flag2.x, flag2.y, 25, 25)
+            c.drawImage(imgLava, mur1.x, mur1.y, mur1.w, mur1.h)
+            c.drawImage(imgBrick, murBG.x, murBG.y, murBG.w, murBG.h)
+            c.drawImage(imgBrick, murBD.x, murBD.y, murBD.w, murBD.h)
+            c.drawImage(imgBrick, murHD.x, murHD.y, murHD.w, murHD.h)
+            c.drawImage(imgBrick, murHG.x, murHG.y, murHG.w, murHG.h)
+
+            for (i = 0; i < sacMissile1.length; i++) {
+                sacMissile1[i].draw()
+
+            }
+            for (i = 0; i < sacMissile2.length; i++) {
+                sacMissile2[i].draw()
+
+            }
+            if (joueur1.vie > 0) {
+                c.fillStyle = joueur1.color
+                c.fillRect(joueur1.x, joueur1.y, joueur1.w, joueur1.h)
+            }
+            if (joueur2.vie > 0) {
+                c.fillStyle = joueur2.color
+                c.fillRect(joueur2.x, joueur2.y, joueur2.w, joueur2.h)
+
+            }
+        }
+
+        function collision(a, b) {
+            if (a.x + a.w > b.x &&
+                a.x < b.x + b.w &&
+                a.y < b.y + b.h &&
+                a.y + a.h > b.y) {
+
+                return (true)
+            }
+        }
+
+        var murGauche = new Obstacle(-10, 0, 10, canvas.height, "purple", 0, 0)
+        var murDroite = new Obstacle(canvas.width, 0, 10, canvas.height, "purple", 0, 0)
+        var murHaut = new Obstacle(0, -10, canvas.width, 10, "purple", 0, 0)
+        var murBas = new Obstacle(0, canvas.height, canvas.width, 10, "purple", 0, 0)
+        var mur1 = new Obstacle(canvas.width/2, canvas.height/2-250, 25, 500, "lightblue", 0, 2)
+        var murHG = new Obstacle(300, 0, 25, 300, "purple", 0, 0)
+        var murBG = new Obstacle(300, canvas.height-300, 25, 300, "purple", 0, 0)
+        var murHD = new Obstacle(canvas.width-300, 0, 25, 300, "purple", 0, 0)
+        var murBD = new Obstacle(canvas.width-300, canvas.height-300, 25, 300, "purple", 0, 0)
+        var speedUp = new Obstacle(Math.random()*1600, Math.random()*800, 20, 20, "gold", 0, 0)
+        var flag1 = new Obstacle(50, canvas.height/2, 25, 25, "lightblue", 0, 0)
+        var flag2 = new Obstacle(canvas.width-50, canvas.height/2, 25, 25, "lightblue", 0, 0)
+
+        //collisions
+        function checkCollision() {
+            for (i = 0; i < sacMissile1.length; i++) {
+                if (collision(joueur2, sacMissile1[i])) {
+                sacMissile1.splice(i, 1)
+                joueur2.x=5000
+                audioDeath.play()
+                setTimeout(function(){joueur2.y=50,joueur2.x=canvas.width-50}, 2000)
+            }
+        }
+        for (i = 0; i < sacMissile2.length; i++) {
+            if (collision(joueur1, sacMissile2[i])) {
+                sacMissile2.splice(i, 1)
+                joueur1.x=5000
+                audioDeath.play()
+                setTimeout(function(){joueur1.y=50,joueur1.x=50-joueur1.w}, 2000)
+            }
+        }
+
+        for (i = 0; i < sacMissile1.length; i++) {
+             if (collision(mur1, sacMissile1[i])||collision(murGauche, sacMissile1[i])||collision(murDroite, sacMissile1[i])||collision(murHG, sacMissile1[i])||collision(murHD, sacMissile1[i])||collision(murBG, sacMissile1[i])||collision(murBD, sacMissile1[i])) {
+                sacMissile1.splice(i, 1)
+            }
+        }
+        for (i = 0; i < sacMissile2.length; i++) {
+            if (collision(mur1, sacMissile2[i])||collision(murGauche, sacMissile2[i])||collision(murDroite, sacMissile2[i])||collision(murHG, sacMissile2[i])||collision(murHD, sacMissile2[i])||collision(murBG, sacMissile2[i])||collision(murBD, sacMissile2[i])) {
+                sacMissile2.splice(i, 1)
+            }
+        }
+
+
+            if (collision(joueur1, mur1)) {
+                joueur1.x=5000
+                audioDeath.play()
+                setTimeout(function(){joueur1.y=50,joueur1.x=50-joueur1.w}, 2000)
+            }
+
+            if (collision(joueur2, mur1)) {
+                joueur2.x=5000
+                audioDeath.play()
+                setTimeout(function(){joueur2.y=50,joueur2.x=canvas.width-50}, 2000)
+            }
+
+
+            if (collision(joueur1, murHG) && direction1 == "haut") {
+                joueur1.y = murHG.y + murHG.h
+            }
+            if (collision(joueur1, murHG) && direction1 == "bas") {
+                joueur1.y = murHG.y - joueur1.h
+            }
+            if (collision(joueur1, murHG) && direction1 == "gauche") {
+                joueur1.x = murHG.x + murHG.w
+            }
+            if (collision(joueur1, murHG) && direction1 == "droite") {
+                joueur1.x = murHG.x - joueur1.w
+            }
+
+            if (collision(joueur2, murHG) && direction2 == "haut") {
+                joueur2.y = murHG.y + murHG.h
+            }
+            if (collision(joueur2, murHG) && direction2 == "bas") {
+                joueur2.y = murHG.y - joueur2.h
+            }
+            if (collision(joueur2, murHG) && direction2 == "gauche") {
+                joueur2.x = murHG.x + murHG.w
+            }
+            if (collision(joueur2, murHG) && direction2 == "droite") {
+                joueur2.x = murHG.x - joueur2.w
+            }
+            
+
+            if (collision(joueur1, murBG) && direction1 == "haut") {
+                joueur1.y = murBG.y + murBG.h
+            }
+            if (collision(joueur1, murBG) && direction1 == "bas") {
+                joueur1.y = murBG.y - joueur1.h
+            }
+            if (collision(joueur1, murBG) && direction1 == "gauche") {
+                joueur1.x = murBG.x + murBG.w
+            }
+            if (collision(joueur1, murBG) && direction1 == "droite") {
+                joueur1.x = murBG.x - joueur1.w
+            }
+
+            if (collision(joueur2, murBG) && direction2 == "haut") {
+                joueur2.y = murBG.y + murBG.h
+            }
+            if (collision(joueur2, murBG) && direction2 == "bas") {
+                joueur2.y = murBG.y - joueur2.h
+            }
+            if (collision(joueur2, murBG) && direction2 == "gauche") {
+                joueur2.x = murBG.x + murBG.w
+            }
+            if (collision(joueur2, murBG) && direction2 == "droite") {
+                joueur2.x = murBG.x - joueur2.w
+            }
+
+
+            if (collision(joueur1, murHD) && direction1 == "haut") {
+                joueur1.y = murHD.y + murHD.h
+            }
+            if (collision(joueur1, murHD) && direction1 == "bas") {
+                joueur1.y = murHD.y - joueur1.h
+            }
+            if (collision(joueur1, murHD) && direction1 == "gauche") {
+                joueur1.x = murHD.x + murHD.w
+            }
+            if (collision(joueur1, murHD) && direction1 == "droite") {
+                joueur1.x = murHD.x - joueur1.w
+            }
+
+            if (collision(joueur2, murHD) && direction2 == "haut") {
+                joueur2.y = murHD.y + murHD.h
+            }
+            if (collision(joueur2, murHD) && direction2 == "bas") {
+                joueur2.y = murHD.y - joueur2.h
+            }
+            if (collision(joueur2, murHD) && direction2 == "gauche") {
+                joueur2.x = murHD.x + murHD.w
+            }
+            if (collision(joueur2, murHD) && direction2 == "droite") {
+                joueur2.x = murHD.x - joueur2.w
+            }
+
+
+            if (collision(joueur1, murBD) && direction1 == "haut") {
+                joueur1.y = murBD.y + murBD.h
+            }
+            if (collision(joueur1, murBD) && direction1 == "bas") {
+                joueur1.y = murBD.y - joueur1.h
+            }
+            if (collision(joueur1, murBD) && direction1 == "gauche") {
+                joueur1.x = murBD.x + murBD.w
+            }
+            if (collision(joueur1, murBD) && direction1 == "droite") {
+                joueur1.x = murBD.x - joueur1.w
+            }
+
+            if (collision(joueur2, murBD) && direction2 == "haut") {
+                joueur2.y = murBD.y + murBD.h
+            }
+            if (collision(joueur2, murBD) && direction2 == "bas") {
+                joueur2.y = murBD.y - joueur2.h
+            }
+            if (collision(joueur2, murBD) && direction2 == "gauche") {
+                joueur2.x = murBD.x + murBD.w
+            }
+            if (collision(joueur2, murBD) && direction2 == "droite") {
+                joueur2.x = murBD.x - joueur2.w
+            }
+
+            if (collision(joueur1, speedUp)) {
+                joueur1.speed=15
+                speedUpgrade++
+                speedUp.x=joueur1.x
+                speedUp.y=joueur1.y
+                speedUp.color="lightblue"
+            }
+            if (collision(joueur2, speedUp)) {
+                joueur2.speed=15
+                speedUpgrade++
+                speedUp.x=joueur2.x
+                speedUp.y=joueur2.y
+                speedUp.color="lightblue"
+            }
+            if (speedUpgrade>300){
+                joueur1.speed=10
+                joueur2.speed=10
+                speedUp.x=5000
+            }
+            
+            if (collision(joueur1, flag2)) {
+                flag2.x=joueur1.x
+                flag2.y=joueur1.y-5
+            }
+            if (collision(joueur1, flag1)&&!collision(joueur2,flag1)) {
+                flag1.x=50
+                flag1.y=canvas.height/2
+            }
+            if (collision(joueur2, flag1)) {
+                flag1.x=joueur2.x
+                flag1.y=joueur2.y-5
+            }
+            if (collision(joueur2, flag2)&&!collision(joueur1,flag2)) {
+                flag2.x=canvas.width-50
+                flag2.y=canvas.height/2
+            }
+
+            if (collision(flag1, flag2)&&flag1.x==50&&flag1.y==canvas.height/2) {
+                joueur2.vie--
+                flag2.x=canvas.width-50
+                flag2.y=canvas.height/2
+                audioPoint.play()
+            }
+            if (collision(flag1, flag2)&&flag2.x==canvas.width-50&&flag2.y==canvas.height/2) {
+                joueur1.vie--
+                flag1.x=50
+                flag1.y=canvas.height/2
+                audioPoint.play()
+            }
+
+            if (collision(joueur1, murGauche) && direction1 == "gauche") {
+                joueur1.x = murGauche.x + murGauche.w
+            }
+            if (collision(joueur1, murGauche) && direction1 == "droite") {
+                joueur1.x = murGauche.x - joueur1.w
+            }
+            if (collision(joueur1, murGauche) && direction1 == "haut") {
+                joueur1.y = murGauche.y + murGauche.h
+            }
+            if (collision(joueur1, murGauche) && direction1 == "bas") {
+                joueur1.y = murGauche.y - joueur1.h
+            }
+
+            if (collision(joueur1, murDroite) && direction1 == "gauche") {
+                joueur1.x = murDroite.x + murDroite.w
+            }
+            if (collision(joueur1, murDroite) && direction1 == "droite") {
+                joueur1.x = murDroite.x - joueur1.w
+            }
+            if (collision(joueur1, murDroite) && direction1 == "haut") {
+                joueur1.y = murDroite.y + murDroite.h
+            }
+            if (collision(joueur1, murDroite) && direction1 == "bas") {
+                joueur1.y = murDroite.y - joueur1.h
+            }
+
+            if (collision(joueur1, murHaut) && direction1 == "gauche") {
+                joueur1.x = murHaut.x + murHaut.w
+            }
+            if (collision(joueur1, murHaut) && direction1 == "droite") {
+                joueur1.x = murHaut.x - joueur1.w
+            }
+            if (collision(joueur1, murHaut) && direction1 == "haut") {
+                joueur1.y = murHaut.y + murHaut.h
+            }
+            if (collision(joueur1, murHaut) && direction1 == "bas") {
+                joueur1.y = murHaut.y - joueur1.h
+            }
+
+            if (collision(joueur1, murBas) && direction1 == "gauche") {
+                joueur1.x = murBas.x + murBas.w
+            }
+            if (collision(joueur1, murBas) && direction1 == "droite") {
+                joueur1.x = murBas.x - joueur1.w
+            }
+            if (collision(joueur1, murBas) && direction1 == "haut") {
+                joueur1.y = murBas.y + murBas.h
+            }
+            if (collision(joueur1, murBas) && direction1 == "bas") {
+                joueur1.y = murBas.y - joueur1.h
+            }
+
+
+            if (collision(joueur2, murGauche) && direction2 == "gauche") {
+                joueur2.x = murGauche.x + murGauche.w
+            }
+            if (collision(joueur2, murGauche) && direction2 == "droite") {
+                joueur2.x = murGauche.x - joueur2.w
+            }
+            if (collision(joueur2, murGauche) && direction2 == "haut") {
+                joueur2.y = murGauche.y + murGauche.h
+            }
+            if (collision(joueur2, murGauche) && direction2 == "bas") {
+                joueur2.y = murGauche.y - joueur2.h
+            }
+
+            if (collision(joueur2, murDroite) && direction2 == "gauche") {
+                joueur2.x = murDroite.x + murDroite.w
+            }
+            if (collision(joueur2, murDroite) && direction2 == "droite") {
+                joueur2.x = murDroite.x - joueur2.w
+            }
+            if (collision(joueur2, murDroite) && direction2 == "haut") {
+                joueur2.y = murDroite.y + murDroite.h
+            }
+            if (collision(joueur2, murDroite) && direction2 == "bas") {
+                joueur2.y = murDroite.y - joueur2.h
+            }
+
+            if (collision(joueur2, murHaut) && direction2 == "gauche") {
+                joueur2.x = murHaut.x + murHaut.w
+            }
+            if (collision(joueur2, murHaut) && direction2 == "droite") {
+                joueur2.x = murHaut.x - joueur2.w
+            }
+            if (collision(joueur2, murHaut) && direction2 == "haut") {
+                joueur2.y = murHaut.y + murHaut.h
+            }
+            if (collision(joueur2, murHaut) && direction2 == "bas") {
+                joueur2.y = murHaut.y - joueur.h
+            }
+
+            if (collision(joueur2, murBas) && direction2 == "gauche") {
+                joueur2.x = murBas.x + murBas.w
+            }
+            if (collision(joueur2, murBas) && direction2 == "droite") {
+                joueur2.x = murBas.x - joueur2.w
+            }
+            if (collision(joueur2, murBas) && direction2 == "haut") {
+                joueur2.y = murBas.y + murBas.h
+            }
+            if (collision(joueur2, murBas) && direction2 == "bas") {
+                joueur2.y = murBas.y - joueur2.h
+            }
+        }
+       
+        //mouvements avec clavier
+        document.addEventListener("keydown", function (e) {
+            keyDown[e.keyCode] = true
+            console.log(keyDown)
+        })
+
+        document.addEventListener("keyup", function (e) {
+            delete keyDown[e.keyCode]
+            console.log(keyDown)
+        })
+
+        function clavier() {
+            if (37 in keyDown && joueur2.x > 0) {
+                direction2 = "gauche"
+                joueur2.x -= joueur2.speed
+            }
+            else if (39 in keyDown && joueur2.x < canvas.width - joueur2.w) {
+                direction2 = "droite"
+                joueur2.x += joueur2.speed
+            }
+            else if (38 in keyDown && joueur2.y > 0) {
+                direction2 = "haut"
+                joueur2.y -= joueur2.speed
+            }
+            else if (40 in keyDown && joueur2.y < canvas.height - joueur2.h) {
+                direction2 = "bas"
+                joueur2.y += joueur2.speed
+            }
+
+
+            if (65 in keyDown && joueur1.x > 0) {
+                direction1 = "gauche"
+                joueur1.x -= joueur1.speed
+            }
+            else if (68 in keyDown && joueur1.x < canvas.width - joueur1.w) {
+                direction1 = "droite"
+                joueur1.x += joueur1.speed
+            }
+            else if (87 in keyDown && joueur1.y > 0) {
+                direction1 = "haut"
+                joueur1.y -= joueur1.speed
+                
+            }
+            else if (83 in keyDown && joueur1.y < canvas.height - joueur1.h) {
+                direction1 = "bas"
+                joueur1.y += joueur1.speed
+            }
+
+        }
+
+        //boucle principale
+        function game() {
+        if (menu==1){
+            showMenu()
+            requestAnimationFrame(game)
+        }
+        if (menu==0){
+            requestAnimationFrame(game)
+            c.clearRect(0, 0, canvas.width, canvas.height)
+            checkCollision()
+            shoot()
+            draw()
+            vies()
+            clavier()
+            gameOver()
+            }
+        }
+        game()
+
+    </script>
+</body>
+
+</html>

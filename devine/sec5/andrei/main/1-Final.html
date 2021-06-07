@@ -1,0 +1,679 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Jeu Clavier</title>
+	<style>
+		body {
+			background-color: lightgray;
+		}
+	</style>
+</head>
+
+<body>
+
+	<script>
+		//canvas 
+		var canvas = document.createElement("canvas");
+		var ctx = canvas.getContext("2d");
+		canvas.width = window.innerWidth - 50;
+		canvas.height = window.innerHeight - 50
+		canvas.style.border = "10px purple solid";
+		canvas.style.backgroundColor = "black";
+		canvas.style.display = "block";
+		canvas.style.margin = "auto"
+		document.body.appendChild(canvas);
+
+
+		//variables et objets du jeu
+		var joueur = {
+			x: 50,
+			y: 50,
+			w: 30,
+			h: 30,
+			color: "blue",
+			speed: 10,
+			lives: 3
+		}
+
+		var cible = {
+			x: canvas.width - 135,
+			y: canvas.height - 215,
+			w: 135,
+			h: 200,
+		}
+
+		var keys = 0
+
+		var win = 0
+
+		var keyDown = {}
+		var direction
+
+		//sons
+		var audioDeath = new Audio();
+		audioDeath.src = "death.mp3"
+		var audioTeleport = new Audio();
+		audioTeleport.src = "portal.mp3"
+		var audioKey = new Audio();
+		audioKey.src = "key.mp3"
+		var audioWin = new Audio();
+		audioWin.src = "win.mp3"
+
+		//images
+		var imgCible = new Image()
+		imgCible.src = "finish.png"
+		var imgPortal = new Image()
+		imgPortal.src = "portal.jpg"
+		var imgSand = new Image()
+		imgSand.src = "sand.jpg"
+
+		//fonctions
+
+		function vies() {
+			ctx.font = "75px Arial"
+			ctx.textAlign = "left"
+			ctx.fillText("Lives : " + joueur.lives, canvas.width - 600, 200)
+
+			if (joueur.lives < 1) {
+				joueur.x = 0
+				joueur.y = 0
+				gameOver()
+			}
+			if (win >= 1) {
+				gameWin()
+			}
+		}
+		function finishLine() {
+			if (collision(joueur, cible) && keys > 3) {
+				win++
+				audioWin.play()
+				joueur.x = 0
+				joueur.y = 0
+			}
+		}
+		function countKeys() {
+			if (joueur.lives > 0 && win == 0) {
+				ctx.font = "75px Arial"
+				ctx.textAlign = "left"
+				ctx.fillText("Keys : " + keys + "/4", canvas.width - 600, 400)
+			}
+		}
+		function gameWin() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			joueur.color = "black"
+			ctx.textAlign = "center"
+			ctx.font = "75px Arial"
+			ctx.fillText("YOU WIN!", canvas.width / 2, canvas.height / 2)
+			ctx.fillText("(click anywhere to restart)", canvas.width / 2, canvas.height / 2 + 100)
+			canvas.addEventListener("click", function () {
+				window.location.reload(true)
+
+			})
+		}
+
+		function gameOver() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			joueur.color = "black"
+			ctx.textAlign = "center"
+			ctx.font = "75px Arial"
+			ctx.fillText("GAME OVER!", canvas.width / 2, canvas.height / 2)
+			ctx.fillText("(click anywhere to restart)", canvas.width / 2, canvas.height / 2 + 100)
+			canvas.addEventListener("click", function () {
+				window.location.reload(true)
+
+			})
+		}
+
+		function drawJoueur() {
+			ctx.fillStyle = joueur.color
+			ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+		}
+
+		function drawCible() {
+			ctx.fillStyle = cible.color
+			ctx.fillRect(cible.x, cible.y, cible.w, cible.h)
+			ctx.drawImage(imgCible, canvas.width - 135, canvas.height - 215, 200, 200)
+			ctx.drawImage(imgPortal, canvas.width / 2 - 435, 0, 220, 60)
+			ctx.drawImage(imgSand, 0, 165, 200, 600)
+		}
+
+		//constructeur
+		function Obstacle(x, y, w, h, color, speedX, speedY) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.color = color
+			this.speedX = speedX
+			this.speedY = speedY
+			this.draw = function () {
+				ctx.fillStyle = this.color
+				ctx.fillRect(this.x, this.y, this.w, this.h)
+
+				if (this.y < 0 || this.y + this.h > canvas.height) {
+					this.speedY = -this.speedY
+				}
+				if (this.x < 0 || this.x + this.w > canvas.width) {
+					this.speedX = -this.speedX
+				}
+				this.y += this.speedY
+				this.x += this.speedX
+			}
+		}
+
+		var murGauche = new Obstacle(-10, 0, 10, canvas.height, "purple", 0, 0)
+		var murDroite = new Obstacle(canvas.width, 0, 10, canvas.height, "purple", 0, 0)
+		var murHaut = new Obstacle(0, -10, canvas.width, 10, "purple", 0, 0)
+		var murBas = new Obstacle(0, canvas.height, canvas.width, 10, "purple", 0, 0)
+		var murUnlock1 = new Obstacle(0, 150, 200, 15, "violet", 0, 0)
+		var murUnlock2 = new Obstacle(305, canvas.height - 100, 15, 100, "violet", 0, 0)
+		var murUnlock3 = new Obstacle(500, canvas.height - 200, 220, 15, "violet", 0, 0)
+		var murUnlock4 = new Obstacle(0, 765, 200, 15, "violet", 0, 0)
+		var mur1 = new Obstacle(200, 0, 20, canvas.height - 100, "purple", 0, 0)
+		var mur2 = new Obstacle(300, canvas.height - 120, 200, 20, "purple", 0, 0)
+		var mur3 = new Obstacle(300, canvas.height - 520, 200, 400, "purple", 0, 0)
+		var mur4 = new Obstacle(200, canvas.height - 520, 100, 20, "purple", 0, 0)
+		var mur5 = new Obstacle(900, canvas.height - 100, 20, 100, "purple", 0, 0)
+		var mur6 = new Obstacle(720, 0, 200, canvas.height - 100, "purple", 0, 0)
+		var mur7 = new Obstacle(220, 0, 280, canvas.height / 2, "purple", 0, 0)
+		var mur8 = new Obstacle(canvas.width / 2 + 215, 0, 720, canvas.height / 2 + 285, "purple", 0, 0)
+		var obstacle1 = new Obstacle(0, 250, 100, 20, "red", 3, 0)
+		var obstacle2 = new Obstacle(100, 450, 100, 20, "red", 2.5, 0)
+		var obstacle3 = new Obstacle(220, canvas.height - 500, 15, 400, "red", 0, 0)
+		var obstacle4 = new Obstacle(290, canvas.height - 500, 15, 400, "red", 0, 0)
+		var obstacle5 = new Obstacle(235, canvas.height - 500, 55, 15, "red", 0, 0)
+		var obstacle6 = new Obstacle(321, canvas.height - 100, 15, 100, "red", 3, 0)
+		var obstacle7 = new Obstacle(0, 650, 100, 20, "red", 1.5, 0)
+		var obstacle8 = new Obstacle(920, 0, 15, canvas.height, "red", 0, 0)
+		var obstacle9 = new Obstacle(935, canvas.height - 15, 935, 15, "red", 0, 0)
+		var obstacle10 = new Obstacle(1135, 0, 15, canvas.height / 2 + 300, "red", 0, 0)
+		var obstacle11 = new Obstacle(1150, canvas.height / 2 + 285, 720, 15, "red", 0, 0)
+		var sable = new Obstacle(0, 165, 200, 200, "burlywood", 0, 0)
+		var sable2 = new Obstacle(0, 365, 200, 200, "chocolate", 0, 0)
+		var sable3 = new Obstacle(0, 565, 200, 200, "saddlebrown", 0, 0)
+		var speed1 = new Obstacle(935, 80, 200, canvas.height - 95, "orange", 0, 0)
+		var speed2 = new Obstacle(1135, canvas.height - 215, 600, 200, "orange", 0, 0)
+		var mortLente = new Obstacle(500, 150, 220, 540, "cyan", 0, 0)
+		var key1 = new Obstacle(250, canvas.height / 2 + 50, 20, 20, "gold", 0, 0)
+		var key2 = new Obstacle(870, canvas.height - 60, 20, 20, "gold", 0, 0)
+		var key3 = new Obstacle(150, 70, 20, 20, "gold", 0, 0)
+		var key4 = new Obstacle(85, 720, 20, 20, "gold", 0, 0)
+		var tpPad1 = new Obstacle(500, 0, 220, 60, "gray", 0, 0)
+		var tpPad2 = new Obstacle(1000, 40, 20, 20, "black", 0, 0)
+		var last = new Obstacle(0, 0, 0, 0, "white", 0, 0)
+
+
+		function draw() {
+			murGauche.draw()
+			murDroite.draw()
+			murHaut.draw()
+			murBas.draw()
+			murUnlock1.draw()
+			murUnlock2.draw()
+			murUnlock3.draw()
+			murUnlock4.draw()
+			mur1.draw()
+			mur2.draw()
+			mur3.draw()
+			mur4.draw()
+			mur5.draw()
+			mur6.draw()
+			mur7.draw()
+			mur8.draw()
+			sable.draw()
+			sable2.draw()
+			sable3.draw()
+			speed1.draw()
+			speed2.draw()
+			mortLente.draw()
+			key1.draw()
+			key2.draw()
+			key3.draw()
+			key4.draw()
+			tpPad1.draw()
+			tpPad2.draw()
+			last.draw()
+		}
+
+		function drawObstacles() {
+			obstacle1.draw()
+			obstacle2.draw()
+			obstacle3.draw()
+			obstacle4.draw()
+			obstacle5.draw()
+			obstacle6.draw()
+			obstacle7.draw()
+			obstacle8.draw()
+			obstacle9.draw()
+			obstacle10.draw()
+			obstacle11.draw()
+		}
+
+		function drawKeys() {
+			key1.draw()
+			key2.draw()
+			key3.draw()
+			key4.draw()
+		}
+		//collisions
+		function checkCollision() {
+			if (collision(joueur, murGauche) && direction == "gauche") {
+				joueur.x = murGauche.x + murGauche.w
+			}
+			if (collision(joueur, murGauche) && direction == "droite") {
+				joueur.x = murGauche.x - joueur.w
+			}
+			if (collision(joueur, murGauche) && direction == "haut") {
+				joueur.y = murGauche.y + murGauche.h
+			}
+			if (collision(joueur, murGauche) && direction == "bas") {
+				joueur.y = murGauche.y - joueur.h
+			}
+
+			if (collision(joueur, murDroite) && direction == "gauche") {
+				joueur.x = murDroite.x + murDroite.w
+			}
+			if (collision(joueur, murDroite) && direction == "droite") {
+				joueur.x = murDroite.x - joueur.w
+			}
+			if (collision(joueur, murDroite) && direction == "haut") {
+				joueur.y = murDroite.y + murDroite.h
+			}
+			if (collision(joueur, murDroite) && direction == "bas") {
+				joueur.y = murDroite.y - joueur.h
+			}
+
+			if (collision(joueur, murHaut) && direction == "gauche") {
+				joueur.x = murHaut.x + murHaut.w
+			}
+			if (collision(joueur, murHaut) && direction == "droite") {
+				joueur.x = murHaut.x - joueur.w
+			}
+			if (collision(joueur, murHaut) && direction == "haut") {
+				joueur.y = murHaut.y + murHaut.h
+			}
+			if (collision(joueur, murHaut) && direction == "bas") {
+				joueur.y = murHaut.y - joueur.h
+			}
+
+			if (collision(joueur, murBas) && direction == "gauche") {
+				joueur.x = murBas.x + murBas.w
+			}
+			if (collision(joueur, murBas) && direction == "droite") {
+				joueur.x = murBas.x - joueur.w
+			}
+			if (collision(joueur, murBas) && direction == "haut") {
+				joueur.y = murBas.y + murBas.h
+			}
+			if (collision(joueur, murBas) && direction == "bas") {
+				joueur.y = murBas.y - joueur.h
+			}
+
+			if (collision(joueur, murUnlock1) && direction == "gauche") {
+				joueur.x = murUnlock1.x + murUnlock1.w
+			}
+			if (collision(joueur, murUnlock1) && direction == "droite") {
+				joueur.x = murUnlock1.x - joueur.w
+			}
+			if (collision(joueur, murUnlock1) && direction == "haut") {
+				joueur.y = murUnlock1.y + murUnlock1.h
+			}
+			if (collision(joueur, murUnlock1) && direction == "bas") {
+				joueur.y = murUnlock1.y - joueur.h
+			}
+
+			if (collision(joueur, murUnlock2) && direction == "gauche") {
+				joueur.x = murUnlock2.x + murUnlock2.w
+			}
+			if (collision(joueur, murUnlock2) && direction == "droite") {
+				joueur.x = murUnlock2.x - joueur.w
+			}
+			if (collision(joueur, murUnlock2) && direction == "haut") {
+				joueur.y = murUnlock2.y + murUnlock2.h
+			}
+			if (collision(joueur, murUnlock2) && direction == "bas") {
+				joueur.y = murUnlock2.y - joueur.h
+			}
+
+			if (collision(joueur, murUnlock3) && direction == "gauche") {
+				joueur.x = murUnlock3.x + murUnlock3.w
+			}
+			if (collision(joueur, murUnlock3) && direction == "droite") {
+				joueur.x = murUnlock3.x - joueur.w
+			}
+			if (collision(joueur, murUnlock3) && direction == "haut") {
+				joueur.y = murUnlock3.y + murUnlock3.h
+			}
+			if (collision(joueur, murUnlock3) && direction == "bas") {
+				joueur.y = murUnlock3.y - joueur.h
+			}
+
+			if (collision(joueur, murUnlock4) && direction == "gauche") {
+				joueur.x = murUnlock4.x + murUnlock4.w
+			}
+			if (collision(joueur, murUnlock4) && direction == "droite") {
+				joueur.x = murUnlock4.x - joueur.w
+			}
+			if (collision(joueur, murUnlock4) && direction == "haut") {
+				joueur.y = murUnlock4.y + murUnlock4.h
+			}
+			if (collision(joueur, murUnlock4) && direction == "bas") {
+				joueur.y = murUnlock4.y - joueur.h
+			}
+
+			if (collision(joueur, mur1) && direction == "gauche") {
+				joueur.x = mur1.x + mur1.w
+			}
+			if (collision(joueur, mur1) && direction == "droite") {
+				joueur.x = mur1.x - joueur.w
+			}
+			if (collision(joueur, mur1) && direction == "haut") {
+				joueur.y = mur1.y + mur1.h
+			}
+			if (collision(joueur, mur1) && direction == "bas") {
+				joueur.y = mur1.y - joueur.h
+			}
+
+			if (collision(joueur, mur2) && direction == "gauche") {
+				joueur.x = mur2.x + mur2.w
+			}
+			if (collision(joueur, mur2) && direction == "droite") {
+				joueur.x = mur2.x - joueur.w
+			}
+			if (collision(joueur, mur2) && direction == "haut") {
+				joueur.y = mur2.y + mur2.h
+			}
+			if (collision(joueur, mur2) && direction == "bas") {
+				joueur.y = mur2.y - joueur.h
+			}
+
+			if (collision(joueur, mur3) && direction == "gauche") {
+				joueur.x = mur3.x + mur3.w
+			}
+			if (collision(joueur, mur3) && direction == "droite") {
+				joueur.x = mur3.x - joueur.w
+			}
+			if (collision(joueur, mur3) && direction == "haut") {
+				joueur.y = mur3.y + mur3.h
+			}
+			if (collision(joueur, mur3) && direction == "bas") {
+				joueur.y = mur3.y - joueur.h
+			}
+
+			if (collision(joueur, mur4) && direction == "gauche") {
+				joueur.x = mur4.x + mur4.w
+			}
+			if (collision(joueur, mur4) && direction == "droite") {
+				joueur.x = mur4.x - joueur.w
+			}
+			if (collision(joueur, mur4) && direction == "haut") {
+				joueur.y = mur4.y + mur4.h
+			}
+			if (collision(joueur, mur4) && direction == "bas") {
+				joueur.y = mur4.y - joueur.h
+			}
+
+			if (collision(joueur, mur5) && direction == "gauche") {
+				joueur.x = mur5.x + mur5.w
+			}
+			if (collision(joueur, mur5) && direction == "droite") {
+				joueur.x = mur5.x - joueur.w
+			}
+			if (collision(joueur, mur5) && direction == "haut") {
+				joueur.y = mur5.y + mur5.h
+			}
+			if (collision(joueur, mur5) && direction == "bas") {
+				joueur.y = mur5.y - joueur.h
+			}
+
+			if (collision(joueur, mur6) && direction == "gauche") {
+				joueur.x = mur6.x + mur6.w
+			}
+			if (collision(joueur, mur6) && direction == "droite") {
+				joueur.x = mur6.x - joueur.w
+			}
+			if (collision(joueur, mur6) && direction == "haut") {
+				joueur.y = mur6.y + mur6.h
+			}
+			if (collision(joueur, mur6) && direction == "bas") {
+				joueur.y = mur6.y - joueur.h
+			}
+
+			if (collision(joueur, mur7) && direction == "gauche") {
+				joueur.x = mur7.x + mur7.w
+			}
+			if (collision(joueur, mur7) && direction == "droite") {
+				joueur.x = mur7.x - joueur.w
+			}
+			if (collision(joueur, mur7) && direction == "haut") {
+				joueur.y = mur7.y + mur7.h
+			}
+			if (collision(joueur, mur7) && direction == "bas") {
+				joueur.y = mur7.y - joueur.h
+			}
+
+			if (collision(obstacle1, mur1)) {
+				obstacle1.speedX = -obstacle1.speedX
+			}
+			if (collision(obstacle1, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle2, mur1)) {
+				obstacle2.speedX = -obstacle2.speedX
+			}
+			if (collision(obstacle2, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle3, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle4, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle5, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle6, mur5) || obstacle6.x <= 320) {
+				obstacle6.speedX = -obstacle6.speedX
+			}
+			if (collision(obstacle6, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle7, mur1)) {
+				obstacle7.speedX = -obstacle7.speedX
+			}
+			if (collision(obstacle7, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle8, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle9, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle10, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+			if (collision(obstacle11, joueur)) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				audioDeath.play()
+			}
+
+			if (collision(key1, joueur)) {
+				keys++
+				key1.x += 100000
+				murUnlock2.x = 100000
+				audioKey.play()
+			}
+			if (collision(key2, joueur)) {
+				keys++
+				key2.x += 100000
+				murUnlock3.x = 100000
+				audioKey.play()
+			}
+			if (collision(key3, joueur)) {
+				keys++
+				key3.x += 100000
+				murUnlock1.x = 100000
+				audioKey.play()
+			}
+			if (collision(key4, joueur)) {
+				keys++
+				key4.x += 100000
+				murUnlock4.x = 100000
+				audioKey.play()
+			}
+
+			if (collision(joueur, sable)) {
+				joueur.speed = 6
+			} else if (collision(joueur, sable2)) {
+				joueur.speed = 3
+			} else if (collision(joueur, sable3)) {
+				joueur.speed = 1.5
+			} else if (collision(joueur, speed1) || collision(joueur, speed2)) {
+				joueur.speed = 20
+			} else {
+				joueur.speed = 8
+			}
+
+			if (collision(mortLente, joueur) && joueur.w > 0) {
+				joueur.w = joueur.w - 0.2
+				joueur.h = joueur.h - 0.2
+			} else if (joueur.w <= 0) {
+				joueur.x = 0
+				joueur.y = 0
+				joueur.lives--
+				joueur.w = 30
+				joueur.h = 30
+			} else {
+				joueur.w = 30
+				joueur.h = 30
+			}
+
+			if (collision(tpPad1, joueur)) {
+				joueur.x = tpPad2.x
+				joueur.y = tpPad2.y
+				audioTeleport.play()
+			}
+		}
+
+		function collision(a, b) {
+			if (a.x + a.w > b.x &&
+				a.x < b.x + b.w &&
+				a.y < b.y + b.h &&
+				a.y + a.h > b.y) {
+
+				return (true)
+			}
+		}
+
+		function hitWall(a, b) {
+			if (collision(a, b) && direction == "gauche") {
+				a.x = b.x + b.w
+				console.log("hit from gauche")
+			}
+			if (collision(a, b) && direction == "droite") {
+				a.x = b.x - a.w
+				console.log("hit from droite")
+			}
+			if (collision(a, b) && direction == "haut") {
+				a.y = b.y + b.h
+				console.log("hit from haut")
+			}
+			if (collision(a, b) && direction == "bas") {
+				a.y = b.y - a.h
+				console.log("hit from bas")
+			}
+		}
+
+		//mouvements clavier
+
+		document.addEventListener("keydown", function (e) {
+			keyDown[e.keyCode] = true
+			console.log(keyDown)
+		})
+
+		document.addEventListener("keyup", function (e) {
+			delete keyDown[e.keyCode]
+			console.log(keyDown)
+		})
+
+
+		function clavier() {
+
+			if (37 in keyDown && joueur.x > 0) {
+				direction = "gauche"
+				joueur.x -= joueur.speed
+			}
+			else if (39 in keyDown && joueur.x < canvas.width - joueur.w) {
+				direction = "droite"
+				joueur.x += joueur.speed
+			}
+			else if (38 in keyDown && joueur.y > 0) {
+				direction = "haut"
+				joueur.y -= joueur.speed
+			}
+			else if (40 in keyDown && joueur.y < canvas.height - joueur.h) {
+				direction = "bas"
+				joueur.y += joueur.speed
+			}
+
+		}
+
+
+		//boucle principale du jeu
+
+		function game() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			draw()
+			drawCible()
+			drawObstacles()
+			drawKeys()
+			clavier()
+			vies()
+			finishLine()
+			countKeys()
+			checkCollision()
+			requestAnimationFrame(game)
+			drawJoueur()
+		}
+		game()
+
+	</script>
+</body>
+
+</html>
