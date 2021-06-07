@@ -1,0 +1,787 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Le bureau Infernal</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-image: url("images/bullpen.jpg");
+	background-size: cover;
+	z-index: 1;
+	}
+/*Commencez VOTRE CSS ici*/	
+#instructions{
+	width: 850px;
+	height: 200px;
+	background-color: black;
+	border: white solid 2px;
+	border-radius: 30px;
+	position: absolute;
+	left: 75px;
+	bottom: 35px;
+	z-index: 3;
+}
+#instructions2{
+	width: 850px;
+	height: 200px;
+	background-color: black;
+	border: white solid 2px;
+	border-radius: 30px;
+	position: absolute;
+	left: 75px;
+	bottom: 35px;
+	z-index: 2;
+}
+#instructions3{
+	width: 850px;
+	height: 200px;
+	background-color: black;
+	border: white solid 2px;
+	border-radius: 30px;
+	position: absolute;
+	left: 75px;
+	bottom: 35px;
+	z-index: 1;
+}
+#instructions4{
+	width: 850px;
+	height: 200px;
+	background-color: black;
+	border: white solid 2px;
+	border-radius: 30px;
+	position: absolute;
+	left: 75px;
+	bottom: 35px;
+	z-index: 6;
+	visibility: hidden;
+}
+#instructions5{
+	width: 850px;
+	height: 200px;
+	background-color: black;
+	border: white solid 2px;
+	border-radius: 30px;
+	position: absolute;
+	left: 75px;
+	bottom: 35px;
+	z-index: 6;
+	visibility: hidden;
+}
+#instructions6{
+	width: 850px;
+	height: 200px;
+	background-color: black;
+	border: white solid 2px;
+	border-radius: 30px;
+	position: absolute;
+	left: 75px;
+	bottom: 35px;
+	z-index: 6;
+	visibility: hidden;
+}
+#instructions7{
+	width: 850px;
+	height: 200px;
+	background-color: black;
+	border: white solid 2px;
+	border-radius: 30px;
+	position: absolute;
+	left: 75px;
+	bottom: 35px;
+	z-index: 6;
+	visibility: hidden;
+}
+.text{
+	color: white;
+	position: absolute;
+	left: 15px;
+	font-size: 150%;
+}
+.continue{
+	position: absolute;
+	bottom: 25px;
+	right: 35px;
+	color: white;
+	border: 1px white solid;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+span{
+	opacity: 0;
+}
+span.appear{
+	opacity: 1;
+}
+#accèsBureau{
+	width: 200px;
+	height: 70px;
+	position: absolute;
+	top: 450px;
+	right: 10px;
+	transform: rotateZ(6deg);
+	visibility: hidden;
+	cursor: pointer;
+}
+#accèsBureau2{
+	width: 250px;
+	height: 70px;
+	position: absolute;
+	left: 150px; 
+	top: 400px;
+	transform: rotateZ(6deg);
+	visibility: hidden;
+	cursor: pointer;
+}
+#bureau{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:-5px;
+	left:-5px;
+	margin: none;
+	border:5px black solid;
+	border-radius:10px;
+	background-image: url("images/istockphoto-1151732761-612x612.jpg");
+	background-size: cover;
+	visibility: hidden;
+	z-index: 5;
+}
+#phone{
+	width: 220px;
+	height: 115px;
+	position: absolute;
+	bottom: 100px;
+	right: 10px;
+	transform: rotateZ(26deg);
+	cursor: pointer;
+}
+#plante{
+	width: 140px;
+	height: 140px;
+	position: absolute;
+	top: 30px;
+	right: 150px;
+	cursor: pointer;
+}
+#lunettes{
+	width: 160px;
+	height: 80px;
+	position: absolute;
+	bottom: 230px;
+	right: 10px;
+	transform: rotateZ(26deg);
+	cursor: pointer;
+}
+#lunettesJeu{
+	position: absolute;
+	top: 200px;
+	width: 600px;
+	height: 300px;
+	border: 2px solid black;
+	z-index: 6;
+	padding: 10px;
+	background-color:lightgray;
+	color: royalblue;
+	font-size: 120%;
+	visibility: hidden;
+}
+#plusOuMoins{
+	position: absolute;
+	top: 40%; 
+	color: royalblue;
+}
+#lunettesContinuer{
+	visibility: hidden;
+	position: absolute;
+	bottom: 10%;
+	left: 10px;
+}
+#tel{
+	position: absolute;
+	top: 50px;
+	left: 100px;
+	z-index: 6;
+	width: 300px;
+	height: 600px;
+	background-image: url("images/phoneScreen.png");
+	background-size: cover;
+	visibility: hidden;
+}	
+.app{
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	cursor: pointer;
+}
+.row1{
+	top: 66px;
+}
+.row2{
+	top: 137px;
+}
+.row3{
+	top: 208px;
+}
+.row4{
+	top: 279px;
+}
+.row5{
+	top: 350px;
+}
+.row6{
+	bottom: 35px;
+}
+.column1{
+	left: 38px;
+}
+.column2{
+	left: 98px;
+}
+.column3{
+	left: 158px;
+}
+.column4{
+	left: 219px;
+}
+#année{
+	position: absolute;
+	top: 50px;
+	left: 25px;
+	width: 50px;
+	height: 20px;
+	visibility: hidden;
+	cursor: pointer;
+}
+#chiffre7{
+	position: absolute;
+	width: 50px;
+	height: 75px;
+	top: 483px;
+	left: 20px;
+	visibility: hidden;
+}
+#chiffre0{
+	position: absolute;
+	width: 50px;
+	height: 75px;
+	top: 83px;
+	left: 193px;
+	visibility: hidden;
+}
+#chiffre2{
+	position: absolute;
+	width: 50px;
+	height: 75px;
+	top: 255px;
+	right: 162px;
+	visibility: hidden;
+}
+#chiffre5{
+	position: absolute;
+	width: 50px;
+	height: 75px;
+	bottom: 0px;
+	left: 570px;
+	visibility: hidden;
+}
+</style>
+</head>
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Rayan Bellot 406</b></div>
+        <div id="cadreJeu">
+        <div id="bullpen">
+			<div id="accèsBureau" onclick="bureau()"></div>
+			<div id="accèsBureau2" onclick="bureau()"></div>
+			<div id="instructions">
+				<p class="text" id="text1">Il fait chaud, n'est-ce pas? Malheureusement pour vous, cet espace de travail est bondé de monde et votre patron a décidé d'installer un système de sécurité pour vous empêcher de vous échapper.</p>
+				<p class="continue" onclick="instructions2()">Continuer</p>
+			</div>
+			<div id="instructions2">
+				<p class="text" id="text2">Ce système de sécurité comporte trois portes, une avec un code à quatre chiffres, l'autre avec une date spécifique à rentrer et la dernière avec un bouton si petit que vos yeux ne peuvent pas le voir, vous aurez donc besoin de lunettes pour appuyer sur le bouton.</p>
+				<p class="continue" onclick="instructions3()">Continuer</p>
+			</div>
+			<div id="instructions3">
+				<p class="text" id="text3">J'ai entendu dire que l'homme qui vous tourne le dos est marié à la fille du patron. Peut-être qu'il a de quoi sortir sur son bureau.</p>
+				<p class="continue" onclick="hideInstructions()">Continuer</p>
+			</div>
+			<div id="instructions7">
+				<p class="text" id="text7">Vous avez enfin trouvé les indices nécessaires à votre évasion de cet enfer. Maintenant que vous savez comment ouvrir les portes, je suis sûr que vous pourrez vous échapper sans mon aide. Veuillez cliquer sur Continuer pour passer au prochain jeu.</p>
+				<p class="continue" onclick="nextLevel()">Continuer</p>
+			</div>
+		</div>
+		<div id="bureau">
+			<div id="phone" onclick="showTel()"></div>
+			<div id="tel">
+				<div id="FaceTime" class="app row1 column1" onclick="wrongApp()"></div>
+				<div id="Calendar" class="app row1 column2" onclick="openCalendar()"></div>
+				<div id="Photos" class="app row1 column3" onclick="wrongApp()"></div>
+				<div id="Camera" class="app row1 column4" onclick="wrongApp()"></div>
+				<div id="Mail" class="app row2 column1" onclick="wrongApp()"></div>
+				<div id="Clock" class="app row2 column2" onclick="wrongApp()"></div>
+				<div id="Maps" class="app row2 column3" onclick="wrongApp()"></div>
+				<div id="Weather" class="app row2 column4" onclick="wrongApp()"></div>
+				<div id="Reminders" class="app row3 column1" onclick="wrongApp()"></div>
+				<div id="Notes" class="app row3 column2" onclick="wrongApp()"></div>
+				<div id="Stocks" class="app row3 column3" onclick="wrongApp()"></div>
+				<div id="News" class="app row3 column4" onclick="wrongApp()"></div>
+				<div id="Books" class="app row4 column1" onclick="wrongApp()"></div>
+				<div id="AppStore" class="app row4 column2" onclick="wrongApp()"></div>
+				<div id="Podcasts" class="app row4 column3" onclick="wrongApp()"></div>
+				<div id="TV" class="app row4 column4" onclick="wrongApp()"></div>
+				<div id="Health" class="app row5 column1" onclick="wrongApp()"></div>
+				<div id="Home" class="app row5 column2" onclick="wrongApp()"></div>
+				<div id="Wallet" class="app row5 column3" onclick="wrongApp()"></div>
+				<div id="Settings" class="app row5 column4" onclick="wrongApp()"></div>
+				<div id="Phone" class="app row6 column1" onclick="wrongApp()"></div>
+				<div id="Safari" class="app row6 column2" onclick="wrongApp()"></div>
+				<div id="IMessage" class="app row6 column3" onclick="wrongApp()"></div>
+				<div id="Music" class="app row6 column4" onclick="wrongApp()"></div>
+				<div id="année" onclick="hideTel()"></div>
+			</div>
+			<div id="instructions4">
+				<p class="text" id="text4">Il semblerait que la date importante est le 25 mai... mais de quelle année? Peut-être que l'année est affichée quelque part sur l'écran. Cliquez dessus pour fermer l'écran du téléphone et essayez de vous rappeler de la date complète.</p>
+				<p class="continue" onclick="hideInstructions4()">Continuer</p>
+			</div>
+			<div id="plante" onclick="feuilles()">
+				<div></div>
+			</div>
+			<div id="chiffre7" onclick="click7()"></div>
+			<div id="chiffre0" onclick="click0()"></div>
+			<div id="chiffre2" onclick="click2()"></div>
+			<div id="chiffre5" onclick="click5()"></div>
+			<div id="instructions5">
+				<p class="text" id="text5">Le code de la porte est dissimulé dans ces feuilles. Une fois que vous aurez trouvé les quatres chiffres en cliquant dessus, vous n'aurez plus qu'à les placer en ordre croissant pour dévérouiller la porte. Attention, votre curseur ne vous aidera pas pour cette épreuve.</p>
+				<p class="continue" onclick="hideInstructions5()">Continuer</p>
+			</div>
+			<div id="instructions6">
+				<p class="text" id="text6">Les chiffres sont 7, 0, 2 et 5. Il vous faudra les placer en ordre croissant. Je ne pense pas avoir à vous aider pour ça.</p>
+				<p class="continue" onclick="hideInstructions6()">Continuer</p>
+			</div>
+			<div id="lunettes" onclick="lunettesAfficher()"></div> 
+			<div id="lunettesJeu">
+				<p id="msg">Quel pourcentage de votre force devriez-vous utiliser pour prendre ces lunettes en titane?</p>
+				<input type="text" id="player">
+				<input type="button" id="valider" value="Valider" onclick="take()">
+				<p id="plusOuMoins"></p>
+				<input type="button" value="Continuer" onclick="lunettesContinuer()" id="lunettesContinuer">
+			</div>
+		</div>		
+		</div>        
+        </div>
+		</div>
+    <script>
+		var plantDone=false
+		var phoneDone=false
+		var lunettesDone=false
+		var wrong=new Audio
+		wrong.src="wrong.mp3"
+		var ambiance= new Audio
+		ambiance.src="officeBack.wav"
+		ambiance.play()
+		ambiance.loop=true
+		ambiance.volume=0.45
+		var numberClick=new Audio
+		numberClick.src="ding.wav"
+		var text=document.getElementById("text1")
+		var stringText=text.textContent
+		var splitText=stringText.split("")
+		text.textContent=""
+		function instructions1(){
+			for(i=0;i<splitText.length;i++){
+				text.innerHTML+="<span>"+splitText[i]+"</span>"
+			}
+			var letterNumber=0
+			var int1= setInterval(appear, 75)
+			function appear(){
+				var span=text.getElementsByTagName("span")[letterNumber]
+				span.classList.add("appear")
+				letterNumber++
+				if(letterNumber==splitText.length){
+					clearInterval(int1)
+					int1= null
+				}
+			}
+		}
+		instructions1()
+		var textInstructions2=document.getElementById("text2")
+		var stringTextInstructions2=textInstructions2.textContent
+		var splitTextInstructions2=stringTextInstructions2.split("")
+		textInstructions2.textContent=""
+		function instructions2(){
+			document.getElementById("instructions").style.visibility="hidden"
+			for(i=0;i<splitTextInstructions2.length;i++){
+				textInstructions2.innerHTML+="<span>"+splitTextInstructions2[i]+"</span>"
+			}
+			var letterNumber2=0
+			var int2= setInterval(appear2, 50)
+			function appear2(){
+				var span2=textInstructions2.getElementsByTagName("span")[letterNumber2]
+				span2.classList.add("appear")
+				letterNumber2++
+				if(letterNumber2==splitTextInstructions2.length){
+					clearInterval(int2)
+					int2= null
+				}
+			}
+		}
+		var textInstructions3=document.getElementById("text3")
+		var stringTextInstructions3=textInstructions3.textContent
+		var splitTextInstructions3=stringTextInstructions3.split("")
+		console.log(splitTextInstructions3)
+		textInstructions3.textContent=""
+		function instructions3(){
+			document.getElementById("instructions2").style.visibility="hidden"
+			for(i=0;i<splitTextInstructions3.length;i++){
+				textInstructions3.innerHTML+="<span>"+splitTextInstructions3[i]+"</span>"
+			}
+			var letterNumber3=0
+			var int3= setInterval(appear3, 50)
+			function appear3(){
+				var span3=textInstructions3.getElementsByTagName("span")[letterNumber3]
+				span3.classList.add("appear")
+				letterNumber3++
+				if(letterNumber3==splitTextInstructions3.length){
+					clearInterval(int3)
+					int3= null
+				}
+			}
+		}
+		var textInstructions4=document.getElementById("text4")
+		var stringTextInstructions4=textInstructions4.textContent
+		var splitTextInstructions4=stringTextInstructions4.split("")
+		console.log(splitTextInstructions4)
+		textInstructions4.textContent=""
+		function instructions4(){
+			document.getElementById("instructions4").style.visibility="visible"
+			for(i=0;i<splitTextInstructions4.length;i++){
+				textInstructions4.innerHTML+="<span>"+splitTextInstructions4[i]+"</span>"
+			}
+			var letterNumber4=0
+			var int4= setInterval(appear4, 50)
+			function appear4(){
+				var span4=textInstructions4.getElementsByTagName("span")[letterNumber4]
+				span4.classList.add("appear")
+				letterNumber4++
+				if(letterNumber4==splitTextInstructions4.length){
+					clearInterval(int4)
+					int4= null
+				}
+			}
+		}
+		var textInstructions5=document.getElementById("text5")
+		var stringTextInstructions5=textInstructions5.textContent
+		var splitTextInstructions5=stringTextInstructions5.split("")
+		console.log(splitTextInstructions5)
+		textInstructions5.textContent=""
+		function instructions5(){
+			document.getElementById("instructions5").style.visibility="visible"
+			for(i=0;i<splitTextInstructions5.length;i++){
+				textInstructions5.innerHTML+="<span>"+splitTextInstructions5[i]+"</span>"
+			}
+			var letterNumber5=0
+			var int5= setInterval(appear5, 50)
+
+			function appear5(){
+				var span5=textInstructions5.getElementsByTagName("span")[letterNumber5]
+				span5.classList.add("appear")
+				letterNumber5++
+				if(letterNumber5==splitTextInstructions5.length){
+					clearInterval(int5)
+					int5= null
+				}
+			}
+		}
+		var textInstructions6=document.getElementById("text6")
+		var stringTextInstructions6=textInstructions6.textContent
+		var splitTextInstructions6=stringTextInstructions6.split("")
+		console.log(splitTextInstructions6)
+		textInstructions6.textContent=""
+		function instructions6(){
+			document.getElementById("instructions6").style.visibility="visible"
+			for(i=0;i<splitTextInstructions6.length;i++){
+				textInstructions6.innerHTML+="<span>"+splitTextInstructions6[i]+"</span>"
+			}
+			var letterNumber6=0
+			var int6= setInterval(appear6, 50)
+
+			function appear6(){
+				var span6=textInstructions6.getElementsByTagName("span")[letterNumber6]
+				span6.classList.add("appear")
+				letterNumber6++
+				if(letterNumber6==splitTextInstructions6.length){
+					clearInterval(int6)
+					int6= null
+				}
+			}
+		}
+		var textInstructions7=document.getElementById("text7")
+		var stringTextInstructions7=textInstructions7.textContent
+		var splitTextInstructions7=stringTextInstructions7.split("")
+		console.log(splitTextInstructions7)
+		textInstructions7.textContent=""
+		function instructions7(){
+			document.getElementById("phone").style.visibility="hidden"
+			document.getElementById("plante").style.visibility="hidden"
+			document.getElementById("lunettes").style.visibility="hidden"
+			document.getElementById("instructions7").style.visibility="visible"
+			for(i=0;i<splitTextInstructions7.length;i++){
+				textInstructions7.innerHTML+="<span>"+splitTextInstructions7[i]+"</span>"
+			}
+			var letterNumber7=0
+			var int7= setInterval(appear7, 50)
+
+			function appear7(){
+				var span7=textInstructions7.getElementsByTagName("span")[letterNumber7]
+				span7.classList.add("appear")
+				letterNumber7++
+				if(letterNumber7==splitTextInstructions7.length){
+					clearInterval(int7)
+					int7= null
+				}
+			}
+		}
+		function hideInstructions(){
+			document.getElementById("instructions3").style.visibility="hidden"
+			document.getElementById("accèsBureau").style.visibility="visible"
+			document.getElementById("accèsBureau2").style.visibility="visible"
+		}
+		function bureau(){
+			document.getElementById("bureau").style.visibility="visible"
+		}
+		var bonChiffre=Math.ceil(Math.random()*100)
+		function lunettesAfficher(){
+			document.getElementById("phone").style.visibility="hidden"
+			document.getElementById("plante").style.visibility="hidden"
+			document.getElementById("lunettes").style.visibility="hidden"
+			document.getElementById("lunettesJeu").style.visibility="visible"
+			if(lunettesDone===true){
+			document.getElementById("lunettesContinuer").style.visibility="visible"
+			}
+		}
+		function take(){
+			let player=document.getElementById("player").value
+			if(player==bonChiffre){
+                document.getElementById("plusOuMoins").innerHTML="Vous avez utilisé la bonne force pour prendre les lunettes, vous pouvez maintenant essayer de trouver les autres indices ou vous diriger vers les portes si vous les avez tous trouvés."
+				lunettesDone=true
+				document.getElementById("lunettesContinuer").style.visibility="visible"				
+			}
+            if(player>bonChiffre){
+                document.getElementById("plusOuMoins").innerHTML="Mais pas aussi fort quand même! C'est des lunettes!"
+            }
+            if(player<bonChiffre){
+                document.getElementById("plusOuMoins").innerHTML="Elles sont en titane, ce n'est pas un effort aussi minable qui vous permettra de les prendre avec vous."
+            }
+		}
+		function lunettesContinuer(){
+			document.getElementById("lunettesJeu").style.visibility="hidden"
+			document.getElementById("phone").style.visibility="visible"
+			document.getElementById("plante").style.visibility="visible"
+			document.getElementById("lunettes").style.visibility="visible"
+			document.getElementById("lunettesContinuer").style.visibility="hidden"
+			document.getElementById("plusOuMoins").innerHTML=""
+			document.getElementById("msg").innerHTML="Je sais que les lunettes sont encore sur le bureau, mais tu pourras les utiliser plus tard. Fais moi confiance."
+			document.getElementById("player").style.visibility="hidden"
+			document.getElementById("valider").style.visibility="hidden"
+			checkIfDone()
+		}
+		function wrongApp(){
+			wrong.play()
+		}
+		function openCalendar(){
+			document.getElementById("tel").style.backgroundImage="url('images/calendar.png')"
+			document.getElementById("FaceTime").style.visibility="hidden"
+			document.getElementById("Calendar").style.visibility="hidden"
+			document.getElementById("Camera").style.visibility="hidden"
+			document.getElementById("Photos").style.visibility="hidden"
+			document.getElementById("Mail").style.visibility="hidden"
+			document.getElementById("Clock").style.visibility="hidden"
+			document.getElementById("Maps").style.visibility="hidden"
+			document.getElementById("Weather").style.visibility="hidden"
+			document.getElementById("Reminders").style.visibility="hidden"
+			document.getElementById("Notes").style.visibility="hidden"
+			document.getElementById("Stocks").style.visibility="hidden"
+			document.getElementById("News").style.visibility="hidden"
+			document.getElementById("Books").style.visibility="hidden"
+			document.getElementById("AppStore").style.visibility="hidden"
+			document.getElementById("Podcasts").style.visibility="hidden"
+			document.getElementById("TV").style.visibility="hidden"
+			document.getElementById("Health").style.visibility="hidden"
+			document.getElementById("Home").style.visibility="hidden"
+			document.getElementById("Wallet").style.visibility="hidden"
+			document.getElementById("Settings").style.visibility="hidden"
+			document.getElementById("Phone").style.visibility="hidden"
+			document.getElementById("Safari").style.visibility="hidden"
+			document.getElementById("IMessage").style.visibility="hidden"
+			document.getElementById("Music").style.visibility="hidden"
+			instructions4()
+		}
+		function hideInstructions4(){
+			document.getElementById("instructions4").style.visibility="hidden"
+			document.getElementById("année").style.visibility="visible"
+		}
+		function hideInstructions5(){
+			document.getElementById("instructions5").style.visibility="hidden"
+			document.getElementById("chiffre7").style.visibility="visible"
+			document.getElementById("chiffre0").style.visibility="visible"
+			document.getElementById("chiffre2").style.visibility="visible"
+			document.getElementById("chiffre5").style.visibility="visible"
+		}
+		function hideInstructions6(){
+			document.getElementById("instructions6").style.visibility="hidden"
+			document.getElementById("phone").style.visibility="visible"
+			document.getElementById("plante").style.visibility="visible"
+			document.getElementById("lunettes").style.visibility="visible"
+		}
+		function hideTel(){
+			document.getElementById("tel").style.visibility="hidden"
+			phoneDone=true
+			checkIfDone()
+			document.getElementById("phone").style.visibility="visible"
+			document.getElementById("plante").style.visibility="visible"
+			document.getElementById("lunettes").style.visibility="visible"
+		}
+		function showTel(){
+			if(phoneDone===true){
+				
+			}else{
+				document.getElementById("tel").style.visibility="visible"
+				document.getElementById("phone").style.visibility="hidden"
+				document.getElementById("plante").style.visibility="hidden"
+				document.getElementById("lunettes").style.visibility="hidden"
+			}
+		}
+		function feuilles(){
+			if(plantDone===true){
+				instructions6()
+				document.getElementById("phone").style.visibility="hidden"
+				document.getElementById("plante").style.visibility="hidden"
+				document.getElementById("lunettes").style.visibility="hidden"
+			}else{
+				instructions5()
+				document.getElementById("bureau").style.backgroundImage="url('images/plante.jpeg')"
+				document.getElementById("phone").style.visibility="hidden"
+				document.getElementById("plante").style.visibility="hidden"
+				document.getElementById("lunettes").style.visibility="hidden"
+			}
+		}
+		var clickedNumbers=0
+		function click7(){
+			clickedNumbers++
+			document.getElementById("chiffre7").style.visibility="hidden"
+			numberClick.play()
+			if(clickedNumbers==4){
+				document.getElementById("bureau").style.backgroundImage="url('images/istockphoto-1151732761-612x612.jpg')"
+				plantDone=true
+				checkIfDone()
+				document.getElementById("phone").style.visibility="visible"
+				document.getElementById("plante").style.visibility="visible"
+				document.getElementById("lunettes").style.visibility="visible"
+			}
+		}
+		function click0(){
+			clickedNumbers++
+			document.getElementById("chiffre0").style.visibility="hidden"
+			numberClick.play()
+			if(clickedNumbers==4){
+				document.getElementById("bureau").style.backgroundImage="url('images/istockphoto-1151732761-612x612.jpg')"
+				plantDone=true
+				checkIfDone()
+				document.getElementById("phone").style.visibility="visible"
+				document.getElementById("plante").style.visibility="visible"
+				document.getElementById("lunettes").style.visibility="visible"
+			}
+		}
+		function click2(){
+			clickedNumbers++
+			document.getElementById("chiffre2").style.visibility="hidden"
+			numberClick.play()
+			if(clickedNumbers==4){
+				document.getElementById("bureau").style.backgroundImage="url('images/istockphoto-1151732761-612x612.jpg')"
+				plantDone=true
+				checkIfDone()
+				document.getElementById("phone").style.visibility="visible"
+				document.getElementById("plante").style.visibility="visible"
+				document.getElementById("lunettes").style.visibility="visible"
+			}
+		}
+		function click5(){
+			clickedNumbers++
+			document.getElementById("chiffre5").style.visibility="hidden"
+			numberClick.play()
+			if(clickedNumbers==4){
+				document.getElementById("bureau").style.backgroundImage="url('images/istockphoto-1151732761-612x612.jpg')"
+				plantDone=true
+				checkIfDone()
+				document.getElementById("phone").style.visibility="visible"
+				document.getElementById("plante").style.visibility="visible"
+				document.getElementById("lunettes").style.visibility="visible"
+			}
+		}
+		function checkIfDone(){
+			if(plantDone===true&&lunettesDone===true&&phoneDone===true){
+				document.getElementById("bureau").style.visibility="hidden"
+				document.getElementById("phone").style.visibility="hidden"
+				document.getElementById("plante").style.visibility="hidden"
+				document.getElementById("lunettes").style.visibility="hidden"
+				document.getElementById("accèsBureau2").style.visibility="hidden"
+				document.getElementById("accèsBureau").style.visibility="hidden"
+				instructions7()
+
+			}else{
+
+			}
+		}
+		function nextLevel(){
+			//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+			window.location="test.html"
+		}
+    </script>
+</body>
+</html>
