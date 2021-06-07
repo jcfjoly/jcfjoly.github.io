@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Fortnite Victory Royal - Léo Liu</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-color:lightblue;
+	background-image: url(images/background1.png);
+	background-size: cover;
+	}
+/*Commencez VOTRE CSS ici*/	
+#alerte1{
+	position: relative;
+	padding: 5px;
+	border-radius: 10px;
+	
+	top: 50px;
+	left: 750px;
+	display: block;
+	width: 200px;
+	
+	text-align: center;
+	background-color: #a37b0b;
+	font-family:Tahoma, Geneva, sans-serif;
+}
+
+#fortniteSible{
+	width: 75px;
+	height: 75px;
+	position: absolute;
+	left: 175px;
+	top: 60px;
+	}
+
+#img1{
+	left: 560px;
+	top: -150px;
+	width: 200px;
+	height: 200px;
+	position: relative;
+	visibility: hidden;
+	}
+
+#tip{
+    position:relative;
+    left: 300px;
+    top: 300px;
+    visibility: hidden;
+}
+
+#litHITBOX{
+    position: relative;
+    left: 400px;
+    top: -120px;
+    width: 580px;
+    height: 400px;
+}
+
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+
+</style>	
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+      	<div id="auteur" onClick="nextLevel()"> <b>Conception: Léo Liu 401</b></div>
+        
+        <div id="cadreJeu">
+            <div id="alerte1">Félicitations! Tu as battu le jeu <b>fortnite victory royal</b>, tu deviens officiellement un vainqueur de Fortnite.</div>
+            <img id="img1" src="images/forniteguy1.png">
+            <div id="fortniteSible" onclick = nextLevel()></div>
+
+            <div id="tip">[Clique sur le lit pour recommencer le jeu]</div>
+            <div id="litHITBOX" onclick="reset()"></div>
+		</div>
+        
+    </div>
+    
+    <script>
+
+	// getting rid of alerte1
+	 setTimeout(function(){
+		document.getElementById("alerte1").innerHTML = ""
+		document.getElementById("alerte1").setAttribute("style", "visibility: hidden")
+		console.log("alerte1 disappearing")}
+		, 4000);
+		
+	// appearing alerte2
+	 setTimeout(function(){
+		document.getElementById("alerte1").innerHTML = "N'oublier pas d'écrire à Elon Musk pour qu'il puisse me sponsoriser."
+		document.getElementById("alerte1").setAttribute("style", "visibility: visibe;")
+		console.log("alerte2 appearing")}
+		, 5000);
+		
+		// appearing alerte3	
+	 setTimeout(function(){
+		document.getElementById("img1").setAttribute("style", "visibility: visible;")
+		document.getElementById("alerte1").innerHTML = "Voici les crédits de cet œurvre: </br>Design graphique: Léo Liu</br>Design de page : Léo Liu</br>Directeur de design: Léo Liu</br>Chef de programmation: Léo Liu</br>Directeur général: Léo Liu</br>Tout d'autre: Léo Liu"
+		document.getElementById("alerte1").setAttribute("style", "height: 160px; font-size: 15px; background-color: #bf5858")
+		document.getElementById("tip").setAttribute("style", "visibility: visible")
+
+		console.log("alerte3 appearing")}
+		, 7500);
+	
+    function reset(){
+        localStorage.setItem("hasKey", "false")
+		window.location="scene1-start-scene1.html"
+    }
+	
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="prochain_niveau.html"
+		}
+    </script>
+</body>
+</html>

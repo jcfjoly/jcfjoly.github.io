@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Fortnite Victory Royal - Léo Liu</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+    #cadreJeu{
+        width:1000px;
+        height:700px;
+        position:absolute;
+        top:35px;
+        left:120px;
+        border:5px black solid;
+        border-radius:10px;
+        background-color:rgb(92, 145, 105);
+        }
+    /*Commencez VOTRE CSS ici*/	
+
+    #dialog{
+        display: block;
+        font-family: Comic Sans MS;
+        left: 450px;
+        position: relative;
+        top: -400px;
+        width: 500px;
+        font-size: 18px;
+        background-color: #e7e994;
+        text-align: center;
+        padding: 5px;
+        border-radius: 10px;
+    }
+    #choix1{
+        width: 50px;
+        height: 50px;
+        position: relative;
+        top: -350px;
+        left: 525px;
+        background-color: blue;
+    }
+
+    #choix2{
+        width: 50px;
+        height: 50px;
+        position: relative;
+        top: -400px;
+        left: 675px;
+        background-color: yellow;
+    }
+
+    #choix3{
+        width: 50px;
+        height: 50px;
+        position: relative;
+        top: -450px;
+        left: 825px;
+        background-color: green;
+    }
+
+    #alert{
+        background-color: rgb(235, 115, 115);
+        left: 550px;
+        top: -300px;
+        width: 330px;
+        position: relative;
+        font-family: Comic Sans MS;
+        text-align: center;
+        padding: 5px;
+        border-radius: 10px;
+        visibility: hidden;
+    }
+
+    #cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+
+    #level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+    
+    #auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+
+    
+    </style>	
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception: Léo Liu 401</b></div>
+        <div id="cadreJeu">
+			
+            <img id="img1" src="images/forniteguy1.png">
+            <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; left: 220px;position: relative;">Jonesy</div>
+            <div id="dialog">Bravo, tu as trouvé le clé, il ne te reste que peu pour t'échapper de ta chambre, dis-moi, quelle était la couleur de ma voiture?</div>
+            <div>
+                <div id="choix1" onclick="correct()"></div>
+                <div id="choix2" onclick="wrong()"></div>
+                <div id="choix3" onclick="wrong()"></div>
+            </div>
+            <div id="alert">AHAGAGAHHAGAHGA, mauvaise réponse! retourne dans ta chambre et recommence! Fais attention la prochaine fois!</div>
+        </div>
+    </div>
+    
+    <script>
+	
+	hasKey = false;
+	
+    function correct(){
+        var music = new Audio()
+        music.src = "audio/horn.wav"
+
+        music.play()
+        setTimeout(function(){
+            window.location = "scene6.html";            
+        }, 3000);
+    }
+	
+	function wrong(){
+        document.getElementById("alert").setAttribute("style", "visibility: visible")
+		setTimeout(function(){
+            window.location = "scene1-start-scene1.html";            
+        }, 3000);
+    }
+    </script>
+</body>
+</html>

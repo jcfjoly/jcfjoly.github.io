@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Fortnite Victory Royal - Léo Liu</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+    #cadreJeu{
+        width:1000px;
+        height:700px;
+        position:absolute;
+        top:35px;
+        left:120px;
+        border:5px black solid;
+        border-radius:10px;
+        background-color:lightblue;
+        background-image: url(images/fortnite_background.png);
+        background-size: cover;
+        }
+    /*Commencez VOTRE CSS ici*/	
+    #hidden_message1{
+        position: relative;
+        padding: 5px;
+        border-radius: 10px;
+        
+        top: 100px;
+        left: 750px;
+        display: block;
+        width: 200px;
+        height: 140px;
+        
+        text-align: justify;
+        background-color: #000000;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        cursor: url(images/icon_magnifying_glass.png), auto;
+    }
+    
+    #maisonSible{
+        width: 200px;
+        height: 260px;
+        position: absolute;
+        left: 0px;
+        top: 140px;
+        }
+
+    #voitureSible{
+        width: 270px;
+        height: 90px;
+        position: absolute;
+        left: 140px;
+        top: 440px;
+        }
+    
+    #img1{
+        left: 560px;
+        top: -150px;
+        width: 200px;
+        height: 200px;
+        position: relative;
+        visibility: hidden;
+        }
+
+    #keyz{
+        top: 470px;
+        left: 10px;
+        position: relative;
+        visibility: hidden;
+    }
+
+    #cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+
+    #level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+
+    #auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+
+    </style>	
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception: Léo Liu 401</b></div>
+        <div id="cadreJeu">
+			
+            <div id="hidden_message1">
+                Bienvenue dans le monde de Fortnite, bien sûr le meilleur jeu du monde! Si tu veux sortir de ta chambre, tu dois battre le pro gamer de Fortnite dans la maison! Bonne chance!
+            </div>
+            <div id="maisonSible" onclick="transfer()"></div>
+            <div id="voitureSible" onclick="transferCar()"></div>
+            <img src="images/keys.png" id="keyz">
+    </div>
+    
+    <script>
+	
+    console.log(localStorage.getItem("hasKey"))
+
+    if(localStorage.getItem("hasKey") == "true"){
+        document.getElementById("keyz").setAttribute("style", "visibility: visible")
+    }
+	function transfer(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+        window.location="scene3.html"      
+	}
+
+    function transferCar(){
+        var music = new Audio()
+        music.src = "audio/car_lock.wav"
+        music.play()
+        setInterval(function(){
+            window.location="scene4.html"
+        }, 500);
+    }
+    </script>
+</body>
+</html>

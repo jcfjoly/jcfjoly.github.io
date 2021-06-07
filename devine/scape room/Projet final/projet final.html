@@ -1,0 +1,613 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:red;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:red;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-image:url(room.png);
+	
+	}
+/*Commencez VOTRE CSS ici*/	
+#menu{
+    width:1000px;
+	height:700px;
+	position:absolute;
+	background-image:url(menu.png);
+    background-size: 100% 100%;	
+}
+#end{
+    width:1000px;
+	height:700px;
+	position:absolute;
+	background-image:url(Trash.png);
+    background-size: 100% 100%;	
+	display: none;
+}
+#win{
+    width:1000px;
+	height:700px;
+	position:absolute;
+	background-image:url(good\ job.png);
+    background-size: 100% 100%;	
+	display: none;
+}
+#laptop{
+	width:100px;
+	height:100px;
+	position:absolute;
+	top: 520px;
+	left: 600px;
+	background-image:url(laptop.png);
+    background-size: 100% 100%;
+	}
+#backpack{
+	width:100px;
+	height:100px;
+	position:absolute;
+	top: 600px;
+	left: 270px;
+	background-image:url(backpack.png);
+    background-size: 100% 100%;
+	display: none;
+	}
+#affiche{
+	width:90px;
+	height:90px;
+	position:absolute;
+	top: 252px;
+	left: 602px;
+	background-image:url(affiche.jpg);
+    background-size: 100% 100%;
+	}
+
+#bomb1{
+	width:70px;
+	height:90px;
+	position:absolute;
+	top: 252px;
+	left: 700px;
+	background-image:url(bomb\ 1.jpg);
+    background-size: 100% 100%;
+	}
+#bomb2{
+	width:70px;
+	height:95px;
+	position:absolute;
+	top: 290px;
+	left: 200px;
+	background-image:url(bomb\ 2.jpg);
+    background-size: 100% 100%;
+	
+	}
+
+#vote{
+	width:90px;
+	height:90px;
+	position:absolute;
+	top: 252px;
+	left: 800px;
+	background-image:url(vote.png);
+    background-size: 100% 100%;
+	}
+#image{
+	width:90px;
+	height:90px;
+	position:absolute;
+	top: 252px;
+	left: 602px;
+	background-image:url(image.png);
+    background-size: 100% 100%;
+	display: none;
+	}
+
+#exit{
+    width:50px;
+	height:50px;
+	position:absolute;
+	top: 0px;
+	left: 900px;
+	background-image:url(Exit.png);
+    background-size: 100% 100%;
+   display: none;   
+}
+#exit2{
+    width:100px;
+	height:50px;
+	position:absolute;
+	top: 0px;
+	left: 900px;
+	background-image:url(exit2.png);
+    background-size: 100% 100%;
+   display: none;   
+}
+#back{
+    width:50px;
+	height:50px;
+	position:absolute;
+	top: 0px;
+	left: 900px;
+	background-image:url(back.png);
+    background-size: 100% 100%;
+   display: none;   
+}
+
+#Indice1{
+    width:900px;
+	height:600px;
+	position:absolute;
+	top: 50px;
+	left: 50px;
+	background-image:url(Indice\ 1.png);
+    background-size: 100% 100%;
+    display: none;
+    
+}
+#Indice2{
+    width:900px;
+	height:600px;
+	position:absolute;
+	top: 50px;
+	left: 50px;
+	background-image:url(Indice\ 2.png);
+    background-size: 100% 100%;
+    display: none;
+    
+}
+#Indice3{
+    width:900px;
+	height:600px;
+	position:absolute;
+	top: 50px;
+	left: 50px;
+	background-image:url(Indice\ 3.png);
+    background-size: 100% 100%;
+    display: none;
+    
+}
+#files{
+	width: 50px;
+	height:50px;
+	position:absolute;
+	top: 50px;
+	left: 50px;
+	background-image:url(file.png);
+    background-size: 100% 100%;
+    display: none;
+}
+#files2{
+	width: 50px;
+	height:50px;
+	position:absolute;
+	top: 100px;
+	left: 50px;
+	background-image:url(file.png);
+    background-size: 100% 100%;
+    display: none;
+}
+#pcscreen{
+    width:900px;
+	height:600px;
+	position:absolute;
+	top: 50px;
+	left: 50px;
+	background-image:url(pc\ screen.png);
+    background-size: 100% 100%;
+    display: none;
+    
+}
+#numero{
+	position:absolute;
+	top: 500px;
+	left: 350px;
+	display: none;
+	  
+}
+#button{
+	position:absolute;
+	top: 500px;
+	left: 550px;
+	display: none;	
+}
+
+#motdepasse{
+	color: white;
+	position: absolute;
+	top: 475px;
+	left:300px;
+	display: none;
+
+}
+#start{
+	position:absolute;
+	top: 500px;
+	left: 450px;
+	
+}
+#restart{
+	position:absolute;
+	top: 600px;
+	left: 450px;
+	display: none;
+	
+}
+#MasaruTsuboi{
+	width:200px;
+	height:290px;
+	background-size: 100% 100%;
+	background-image:url(Masaru\ Tsuboi.jpg);
+	
+}
+#YamatoTakechi{
+	width:200px;
+	height:290px;
+	background-size: 100% 100%;
+	background-image:url(Yamato\ Takechi.jpg);
+	position: center;
+}
+#choixdujoueur{
+	width:900px;
+	height:600px;
+	position: fixed;
+	left:850px;
+	display: none;
+	color: red;
+}
+#pause{
+	display: none;
+}
+
+
+</style>
+
+</head>
+
+<body>
+	
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Yubo Qi 406</b></div>
+        <div id="cadreJeu">
+		<div id="back" onclick="back()"> </div>
+        <div id="exit" onclick="exit()"> </div>
+		<div id="pcscreen"></div>
+		<div id="motdepasse"><b> Trouver le mot de passe entre 0-100 vous avez 7 essaie</b></div>
+		<input type="text" id="numero">
+        <input type="button" value="Enyoyer" onclick="valider()" id="button">
+		<div id="files" onclick="files()"></div>
+		<div id="files2" onclick="files2()"></div>
+        <div id="Indice1"></div>
+		<div id="Indice2"></div>
+		<div id="vote" onclick="vote()"></div>
+		<div id="image" onclick="image()"></div>
+		<div id="Indice3"></div>
+		<div id="backpack" onclick="backpack()"></div>
+        <div id="affiche" onclick="affiche()"></div>
+		<div id="bomb1" onclick="bomb1()"></div>
+		<div id="bomb2" onclick="bomb2()"></div>
+        <div id="laptop" onclick="laptop()"></div>
+		<div id="backpack" onclick="backpack()"></div>
+		<div id="ciseau" onclick="ciseau()"></div>
+		<div id="menu"></div>
+		<input type="button" value="Commencez" onclick="start()" id="start">
+		<div id="end"></div>
+		<div id="win"></div>
+		<input type="button" value="restart" onclick="restart()" id="restart">
+		<div id="choixdujoueur"> 
+            <p>Votre reponse?</p>
+			Masaru Tsuboi<input type="radio" id="Masaru" name="reponse" />
+            <div id="MasaruTsuboi"></div>
+            Yamato Takechi <input type="radio"  id="Yamato" name="reponse"/>
+            <div id="YamatoTakechi"></div>
+            <input type="button" value="vote" onclick="choix()">
+        </div>
+		<div id="exit2" onclick="exit2()"> </div>
+		
+    </div>
+    
+    <script>
+		
+		var windowSon=new Audio()
+        windowSon.src="Win7.mp3"
+		windowSon.volume=0.2
+		var badSon=new Audio()
+        badSon.src="bad.mp3"
+		var buttonSon=new Audio()
+        buttonSon.src="button.mp3"
+		var cutSon=new Audio()
+        cutSon.src="cut.wav"
+		var bpackSon=new Audio()
+        bpackSon.src="backpack.wav"
+		var bellSon=new Audio()
+        bellSon.src="bell.mp3"
+		bellSon.volume=0.2
+		var mouseSon=new Audio()
+        mouseSon.src="mouse.mp3"
+		var boomSon=new Audio()
+        boomSon.src="boom.mp3"
+		var wrongSon=new Audio()
+        wrongSon.src="wrong.mp3"
+		
+		
+		var essaie=0
+		 var bonChiffre=Math.ceil(Math.random()*100)
+        console.log(bonChiffre)
+        var gotans=false
+        function laptop(){
+			windowSon. play()
+            document.getElementById("exit").style.display="none"
+			document.getElementById("files").style.display="none"
+			document.getElementById("files2").style.display="none"
+            document.getElementById("pcscreen").style.display="block"
+            document.getElementById("affiche").style.display="none"
+            document.getElementById("laptop").style.display="none"
+			document.getElementById("numero").style.display="block"
+			document.getElementById("button").style.display="block"
+			document.getElementById("motdepasse").style.display="block"
+			document.getElementById("backpack").style.display="none"
+			document.getElementById("bomb2").style.display="none"
+			document.getElementById("bomb1").style.display="none"
+			document.getElementById("vote").style.display="none"
+			
+        }
+        function exit(){
+			buttonSon. play()
+            document.getElementById("pcscreen").style.display="none"
+            document.getElementById("exit").style.display="none"
+			document.getElementById("files2").style.display="none"
+            document.getElementById("affiche").style.display="block"
+            document.getElementById("laptop").style.display="block"
+			document.getElementById("files").style.display="none"
+			document.getElementById("Indice1").style.display="none"
+			document.getElementById("motdepasse").style.display="none"
+			document.getElementById("numero").style.display="none"
+			document.getElementById("button").style.display="none"
+			document.getElementById("backpack").style.display="block"
+			document.getElementById("Indice2").style.display="none"
+			document.getElementById("bomb2").style.display="block"
+			document.getElementById("bomb1").style.display="block"
+			document.getElementById("vote").style.display="block"
+
+        }
+		function files(){
+			mouseSon. play()
+			alert("C'est la dernière personne qui était avec Suzune")
+			document.getElementById("back").style.display="block"
+			document.getElementById("files2").style.display="none"
+			document.getElementById("exit").style.display="none"
+			document.getElementById("files").style.display="none"
+            document.getElementById("pcscreen").style.display="none"
+            document.getElementById("affiche").style.display="none"
+            document.getElementById("laptop").style.display="none"
+			document.getElementById("Indice1").style.display="block"
+			document.getElementById("backpack").style.display="none"
+			
+
+
+		}
+		function back(){
+			mouseSon. play()
+			document.getElementById("back").style.display="none"
+            document.getElementById("pcscreen").style.display="block"
+            document.getElementById("exit").style.display="block"
+            document.getElementById("affiche").style.display="none"
+            document.getElementById("laptop").style.display="none"
+			document.getElementById("files").style.display="block"
+			document.getElementById("Indice1").style.display="none"
+			document.getElementById("files2").style.display="block"
+			document.getElementById("Indice3").style.display="none"
+			document.getElementById("backpack").style.display="none"
+			document.getElementById("bomb2").style.display="none"
+			document.getElementById("bomb1").style.display="none"
+		}
+		function files2(){
+			mouseSon. play()
+            document.getElementById("exit").style.display="block"
+			document.getElementById("files").style.display="none"
+			document.getElementById("files2").style.display="none"
+            document.getElementById("pcscreen").style.display="none"
+            document.getElementById("affiche").style.display="none"
+            document.getElementById("laptop").style.display="none"
+			document.getElementById("Indice3").style.display="block"
+			document.getElementById("back").style.display="block"
+			document.getElementById("exit").style.display="none"
+			document.getElementById("backpack").style.display="none"
+			document.getElementById("bomb2").style.display="none"
+			document.getElementById("bomb1").style.display="none"
+		
+        }
+		function ciseau(){
+			cutSon. play()
+            document.getElementById("affiche").style.display="none"
+            document.getElementById("laptop").style.display="none"
+			document.getElementById("backpack").style.display="none"
+		
+        }
+		function image(){
+			document.getElementById("cadreJeu").style.cursor="default"
+			document.getElementById("Indice2").style.display="block"
+			document.getElementById("exit").style.display="block"
+			document.getElementById("image").style.display="none" 
+			document.getElementById("backpack").style.display="none"
+			document.getElementById("bomb2").style.display="none"
+			document.getElementById("bomb1").style.display="none"
+			document.getElementById("vote").style.display="none"
+			document.getElementById("laptop").style.display="none"
+
+		}
+		function backpack(){
+			bpackSon. play()
+			gotans=true
+            alert("Vous avez trouver un ciseau")
+			document.getElementById("cadreJeu").style.cursor="url(ciseau.png),auto"
+        }
+		function vote(){
+			document.getElementById("choixdujoueur").style.display="block"
+			document.getElementById("affiche").style.display="none"
+            document.getElementById("laptop").style.display="none"
+			document.getElementById("backpack").style.display="none"
+			document.getElementById("vote").style.display="none"
+			document.getElementById("bomb1").style.display="none"
+			document.getElementById("bomb2").style.display="none"
+			document.getElementById("exit2").style.display="block"
+			document.getElementById("cadreJeu").style.backgroundImage="none"
+			document.getElementById("cadreJeu").style.backgroundColor="black"
+		}
+		function exit2(){
+			buttonSon. play()
+			document.getElementById("choixdujoueur").style.display="none"
+			document.getElementById("affiche").style.display="block"
+            document.getElementById("laptop").style.display="block"
+			document.getElementById("backpack").style.display="block"
+			document.getElementById("vote").style.display="block"
+			document.getElementById("bomb1").style.display="block"
+			document.getElementById("bomb2").style.display="block"
+			document.getElementById("exit2").style.display="none"
+			document.getElementById("cadreJeu").style.backgroundImage="url(room.png)"
+		}
+
+		function valider(){
+			buttonSon. play()
+			console.log(essaie)
+			var numero=document.getElementById("numero").value
+			console.log(numero)
+
+			if(numero==bonChiffre){
+			document.getElementById("back").style.display="none"
+            document.getElementById("pcscreen").style.display="block"
+            document.getElementById("exit").style.display="block"
+            document.getElementById("affiche").style.display="none"
+            document.getElementById("laptop").style.display="none"
+			document.getElementById("files").style.display="block"
+			document.getElementById("Indice1").style.display="none"
+			document.getElementById("files2").style.display="none"
+			document.getElementById("motdepasse").style.display="none"
+			document.getElementById("numero").style.display="none"
+			document.getElementById("button").style.display="none"	
+			}
+			if(numero<bonChiffre){
+				badSon.play
+        alert("essaie encore Trop petit")
+		essaie++
+        }
+        if(numero>bonChiffre){
+			badSon.play
+        alert("essaie encore Trop grand")
+		essaie++
+        }
+			if(essaie==7){
+				wrongSon. play
+				document.getElementById("end").style.display="block"
+				document.getElementById("restart").style.display="block"
+
+			}
+		}
+		function bomb1(){
+		boomSon. play()
+		alert("vous avez touche une bombe!")
+		document.getElementById("end").style.display="block"
+		document.getElementById("restart").style.display="block"
+
+		}
+		function bomb2(){
+		boomSon. play()
+		alert("vous avez touche une bombe!")
+		document.getElementById("end").style.display="block"
+		document.getElementById("restart").style.display="block"
+
+		}
+
+		function start(){
+			bellSon. play()
+			document.getElementById("menu").style.display="none"
+			document.getElementById("start").style.display="none"
+
+
+		}
+		function restart(){
+			buttonSon. play()
+			window.location.href="projet final.html"
+		}
+
+		function choix(){
+			if(Masaru.checked){
+			document.getElementById("end").style.display="block"
+		    document.getElementById("restart").style.display="block"
+			document.getElementById("choixdujoueur").style.display="none"
+			document.getElementById("exit2").style.display="none"
+
+
+			}
+
+			if(Yamato.checked){
+			document.getElementById("win").style.display="block"
+			document.getElementById("choixdujoueur").style.display="none"
+			document.getElementById("exit2").style.display="none"
+			
+
+
+}
+
+		}
+
+
+        function affiche(){
+	
+            if(gotans==false){
+		    alert("Pas Encore! Trouve un cisseau")
+            }
+			if(gotans==true){
+				document.getElementById("affiche").style.display="none"
+				document.getElementById("image").style.display="block"   
+            }
+        }
+
+    </script>
+
+
+</html>
+	

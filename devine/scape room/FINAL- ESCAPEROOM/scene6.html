@@ -1,0 +1,332 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Fortnite Victory Royal - Léo Liu</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+    #cadreJeu{
+        width:1000px;
+        height:700px;
+        position:absolute;
+        top:35px;
+        left:120px;
+        border:5px black solid;
+        border-radius:10px;
+        background-color:rgb(92, 145, 105);
+        }
+    /*Commencez VOTRE CSS ici*/	
+
+    #dialog{
+        display: block;
+        font-family: Comic Sans MS;
+        left: 450px;
+        position: relative;
+        top: -300px;
+        width: 500px;
+        font-size: 18px;
+        background-color: #e7e994;
+        text-align: center;
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    #alert{
+        background-color: rgb(235, 115, 115);
+        left: 655px;
+        top: 600px;
+        width: 330px;
+        position: relative;
+        font-family: Comic Sans MS;
+        text-align: center;
+        padding: 5px;
+        border-radius: 10px;
+        visibility: hidden;
+    }
+
+    #img1{
+        left: 30px;
+        top: 150px;
+        width: 350px;
+        height: 350px;
+        position: relative;
+    }
+
+    .opt_individuel{
+    float: center;
+    width: 150px;
+    height: 135px;
+    margin-right: 2%;
+    margin-left: 2%;
+    margin-top: 10px;
+    left: 420px;
+    top: -300px;
+    position: relative;
+    }
+
+    .bouton_individuel{
+    float: center;
+    margin-right: 7%;
+    margin-left: 7%;
+    border: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border-radius: 5px;
+    position: relative;
+    left: 415px;
+    top: -285px;
+    }
+
+    #computerplay{
+        position: relative;
+        left: 550px;
+        top: -190px;
+        width: 300px;
+        background-color: rgb(127, 129, 212);
+        text-align: center;
+        font-size: 30px;
+        border-radius: 10px;
+        border-width: 2px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    
+    #cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+    
+    #level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+
+    #auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+
+    </style>	
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception: Léo Liu 401</b></div>
+        <div id="cadreJeu">
+			
+            <img id="img1" src="images/fortnitedance1.png">
+            <div id="dialog">Un dernier défi pour toi avant de te laisser partir: Roche, papier ou ciseaux?</div>
+            <div id="selectOption">
+               <div style="margin-left: auto; margin-right: auto;">
+                    <img src="images/roche.jpeg" class="opt_individuel">
+                    <img src="images/paper.jpeg" class="opt_individuel">
+                    <img src="images/ciseaux.jpg" class="opt_individuel">
+                </div>
+                <div style="margin-left: auto; margin-right: auto;">
+                    <button class="bouton_individuel" id="bouton0" onclick="roche()">roche</button>
+                    <button class="bouton_individuel" id="bouton1" onclick="papier()">papier</button>
+                    <button class="bouton_individuel" id="bouton2" onclick="ciseaux()">ciseaux</button>
+                </div>
+                <div id="computerplay">Jonesy joue... ???</div>
+                </div>
+            </div>
+            <div id="alert">Tu as gagné, je te laisse aller.</div>
+        </div>
+    </div>
+    
+    <script>
+	
+    var choice = ""
+    var timesLeft = 9
+    var timesLeftFIN = 0
+    var myInterval
+    var win = 0
+
+    imgROCHE = document.getElementsByClassName("opt_individuel")[0]
+    imgPAPIER = document.getElementsByClassName("opt_individuel")[1]
+    imgCISEAUX = document.getElementsByClassName("opt_individuel")[2]
+
+    function roche(){
+        imgCISEAUX.setAttribute("style", "border:none")
+        imgPAPIER.setAttribute("style", "border:none")
+        imgROCHE.setAttribute("style", "border:none")
+
+        document.getElementById("alert").setAttribute("style", "visibility: hidden")
+        imgROCHE.setAttribute("style", "border: 4px solid; border-radius: 15px; border-color: #324d78")
+
+        // Disable boutons
+        for(var i = 0; i < 3; i++){
+            var strName = "bouton" + i
+            document.getElementById(strName).disabled = true
+        }
+        
+        choice = "roche"
+        console.log("Player choice: " + choice)
+        var choices = ["roche","papier", "ciseaux"]
+        choiceSYSNUM = Math.floor(Math.random()*3)
+        choiceSYS = choices[choiceSYSNUM]
+        console.log("System choice: " + choiceSYS)
+
+        // Determine results
+        if(choiceSYS == "roche"){
+            console.log("Match nul -- " + choice + " : " + choiceSYS)
+            win = 1
+        }else if(choiceSYS == "papier"){
+            console.log("Match perdu -- " + choice + " : " + choiceSYS)
+            win = 0
+        }else if(choiceSYS == "ciseaux"){
+            console.log("Match gagné -- " + choice + " : " + choiceSYS)
+            win = 2
+        }
+
+        imperialShuffle(choiceSYSNUM)
+        
+        
+    }
+
+    function papier(){
+        imgCISEAUX.setAttribute("style", "border:none")
+        imgPAPIER.setAttribute("style", "border:none")
+        imgROCHE.setAttribute("style", "border:none")
+
+        document.getElementById("alert").setAttribute("style", "visibility: hidden")
+        imgPAPIER.setAttribute("style", "border: 4px solid; border-radius: 15px; border-color: #324d78")
+
+        for(var i = 0; i < 3; i++){
+            var strName = "bouton" + i
+            document.getElementById(strName).disabled = true
+        }
+
+        choice = "papier"
+        console.log("Player choice: " + choice)
+        var choices = ["roche", "papier", "ciseaux"]
+        choiceSYSNUM = Math.floor(Math.random()*3)
+        choiceSYS = choices[choiceSYSNUM]
+        console.log("System choice: " + choiceSYS)
+
+        // Determine results
+        if(choiceSYS == "roche"){
+            win = 2
+            console.log("Match gagné -- " + choice + " : " + choiceSYS)
+        }else if(choiceSYS == "papier"){
+            win = 1
+            console.log("Match nul -- " + choice + " : " + choiceSYS)
+        }else if(choiceSYS == "ciseaux"){
+            win = 0
+            console.log("Match perdu -- " + choice + " : " + choiceSYS)
+        }
+
+        imperialShuffle(choiceSYSNUM)
+
+    }
+
+    function ciseaux(){
+        imgCISEAUX.setAttribute("style", "border:none")
+        imgPAPIER.setAttribute("style", "border:none")
+        imgROCHE.setAttribute("style", "border:none")
+
+        imgCISEAUX = document.getElementsByClassName("opt_individuel")[2]
+        imgCISEAUX.setAttribute("style", "border: 4px solid; border-radius: 15px; border-color: #324d78")
+
+        for(var i = 0; i < 3; i++){
+            var strName = "bouton" + i
+            document.getElementById(strName).disabled = true
+        }
+
+        choice = "ciseaux"
+        console.log("Player choice: " + choice)
+        var choices = ["roche", "papier", "ciseaux"]
+        choiceSYSNUM = Math.floor(Math.random()*3)
+        choiceSYS = choices[choiceSYSNUM]
+        console.log("System choice: " + choiceSYS)
+
+        // Determine results
+        if(choiceSYS == "roche"){
+            console.log("Match perdu -- " + choice + " : " + choiceSYS)
+            win = 0
+        }else if(choiceSYS == "papier"){
+            console.log("Match gagné -- " + choice + " : " + choiceSYS)
+            win = 2
+        }else if(choiceSYS == "ciseaux"){
+            console.log("Match nul -- " + choice + " : " + choiceSYS)
+            win = 1
+        }
+
+        imperialShuffle(choiceSYSNUM)
+
+    }
+
+    async function imperialShuffle(increase){
+        texts = ["Roche", "Papier", "Ciseaux"]
+        console.log(increase)
+        for(var i = 0; i < 13 + increase; i++){
+            console.log(texts[i % 3])
+            document.getElementById("computerplay").innerHTML = "Jonesy joue... " + " " + texts[i % 3]
+            await sleep(350)
+        }
+
+        if(win == 0 || win == 1){
+            document.getElementById("alert").innerHTML = "Tu n'as pas gagné, try harder."
+            document.getElementById("alert").setAttribute("style", "visibility: visible")
+            reinitialize()
+        }else{
+            document.getElementById("alert").innerHTML = "Tu as gagné, je te laisse aller."
+            document.getElementById("alert").setAttribute("style", "visibility: visible")
+            
+            var music = new Audio()
+            music.src = "audio/levelup.mp3"
+            music.play()
+
+            setTimeout(function(){
+                window.location = "scene7-end-scene7.html"
+            }, 4000);
+        }
+    }
+
+
+    function reinitialize(){
+        win = 0
+        imgCISEAUX.setAttribute("style", "border:none")
+        imgPAPIER.setAttribute("style", "border:none")
+        imgROCHE.setAttribute("style", "border:none")
+
+
+
+        for(var i = 0; i < 3; i++){
+            var strName = "bouton" + i
+            document.getElementById(strName).disabled = false
+        }
+
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+    </script>
+</body>
+</html>

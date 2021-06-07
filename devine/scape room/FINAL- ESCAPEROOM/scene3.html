@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Fortnite Victory Royal - Léo Liu</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+    #cadreJeu{
+        width:1000px;
+        height:700px;
+        position:absolute;
+        top:35px;
+        left:120px;
+        border:5px black solid;
+        border-radius:10px;
+        background-color:lightblue;
+        background-image: url(images/locked_door_background.jpeg);
+        background-size: cover;
+        }
+    /*Commencez VOTRE CSS ici*/	
+    #message1{
+        position: relative;
+        padding: 5px;
+        border-radius: 10px;
+        
+        top: 100px;
+        left: 100px;
+        display: block;
+        width: 200px;
+        height: 80px;
+        
+        text-align: justify;
+        background-color: #a18a4a;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+        visibility: hidden;
+    }
+    
+    #maisonSible{
+        width: 270px;
+        height: 550px;
+        position: absolute;
+        left: 400px;
+        top: 90px;
+        }
+
+    #img1{
+        left: 10px;
+        top: 550px;
+        width: 50px;
+        height: 50px;
+        position: relative;
+        }
+    
+    #cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+    
+    #level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+    
+    #auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+
+    </style>	
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception: Léo Liu 401</b></div>
+        <div id="cadreJeu">
+			
+            <div id="message1">
+               Oups, cette porte est bloquée, il me semble que le clé est <b>dans la voiture</b>...
+            </div>
+            <img src="images/return_icon.png" id="img1" onclick="back()">
+            <div id="maisonSible" onclick = "showDialog()"></div>
+        </div>
+    </div>
+    
+    <script>
+	var music = new Audio()
+    music.src = "audio/closed_door.wav"
+    
+    var music1 = new Audio()
+    music1.src = "audio/door_open.wav"
+
+    console.log(localStorage.getItem("hasKey"))
+    function showDialog(){
+        if(localStorage.getItem("hasKey") == "true"){
+            document.getElementById("message1").innerHTML = "Tu peux entrer maintenant."
+            document.getElementById("message1").setAttribute("style", "visibility: visible; height: 30px");
+            music1.play()
+            setTimeout(function(){
+                window.location = "scene5.html"
+            }, 1500);
+        }else{
+            music.play()
+            document.getElementById("message1").setAttribute("style", "visibility: visible");
+        }
+    }
+	
+	function back(){
+		window.location = "scene2.html";
+    }
+    </script>
+</body>
+</html>
