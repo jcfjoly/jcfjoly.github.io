@@ -1,0 +1,168 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-pong!</title>
+
+    <style>
+
+        #monCanvas{
+            border: 10px #045682 solid;
+            background-color:#1A83BB;
+            margin:auto;
+            display:block;
+            }
+		body{
+			background-image:url(geometricPattern.jpg);
+			}
+	
+        </style>
+
+</head>
+<body>
+    <canvas id="monCanvas"></canvas>
+    
+
+<script>
+    var canvas=document.getElementById("monCanvas")
+    var c=canvas.getContext("2d")
+
+    canvas.width=window.innerWidth-50
+    canvas.height=window.innerHeight-50
+
+
+    var balle={
+        x:30,
+        y:45,
+        r:20,
+        dx:5,
+        dy:7,
+    }
+
+    var pad={
+       x:100,
+       y:canvas.height-25,
+       w:125,
+       h:25, 
+    }
+	
+	var score=0
+	var hScore=0
+	var gameOver=false
+	var menu=true
+
+    function drawBalle(){
+        c.fillStyle="#C3D6E1"
+        c.beginPath()
+        c.arc(balle.x,balle.y,balle.r,0,Math.PI*2,false)
+        c.fill()
+
+        if(balle.x<balle.r || balle.x>canvas.width-balle.r){
+            balle.dx=-balle.dx
+        }
+
+        if(balle.y<balle.r || balle.y> canvas.height-balle.r){
+            balle.dy=-balle.dy
+        }
+		if(balle.y+balle.r>canvas.height){
+			gameOver=true
+			}
+
+        balle.x+=balle.dx
+        balle.y+=balle.dy
+    }
+
+    function drawPad(){
+        c.fillStyle="#012E46"
+        c.fillRect(pad.x,pad.y,pad.w,pad.h)
+    }
+
+    function collision(){
+        if(balle.x+balle.r>pad.x && balle.x-balle.r<pad.x+pad.w && balle.y+balle.r>=pad.y){
+            balle.dy=-balle.dy
+			score++
+        }
+        
+
+    }
+
+function pointage(){
+	c.font="25px Arial"
+	c.textAlign="left"
+	c.fillStyle="#C3D6E1"
+	c.fillText("Pointage: "+score,30,30)
+	c.font="15px Arial"
+	c.textAlign="left"
+	c.fillStyle="#C3D6E1"
+	c.fillText("High Score: "+hScore,30,50)
+	}
+
+function fin(){
+	c.lineWidth=5
+	c.fillStyle="#04517A"
+	c.strokeRect(canvas.width/2-150,canvas.height/2-63,300,100)
+	c.fillRect(canvas.width/2-150,canvas.height/2-63,300,100)
+	
+	c.font="45px Arial"
+	c.textAlign="center"
+	c.fillStyle="#C3D6E1"
+	c.fillText("GAME OVER", canvas.width/2,canvas.height/2)
+	balle.y=50
+	if(score>hScore){
+		hScore=score
+		}
+	canvas.addEventListener("click", function(){
+		gameOver=false
+		score=0})
+	}
+	
+function showMenu(){
+	c.lineWidth=5
+	c.fillStyle="#04517A"
+	c.strokeRect(canvas.width/2-150,canvas.height/2-63,300,100)
+	c.fillRect(canvas.width/2-150,canvas.height/2-63,300,100)
+	
+	c.font="45px Arial"
+	c.textAlign="center"
+	c.fillStyle="#C3D6E1"
+	c.fillText("START", canvas.width/2,canvas.height/2)
+	canvas.addEventListener("click", function(){menu=false})
+	}
+	
+   canvas.addEventListener("mousemove", souris)
+
+   function souris(e){
+    //console.log(e)
+    if(e.offsetX<canvas.width-pad.w){
+
+        pad.x=e.offsetX
+    }else{
+        pad.x=canvas.width-pad.w
+    }
+    
+
+   }
+
+  function game(){
+	  if(menu==true){
+		  showMenu()
+		  }
+		  else{
+    c.clearRect(0,0,canvas.width,canvas.height)
+    collision()
+    pointage()
+	console.log(gameOver)
+	if(gameOver==false){
+	drawBalle()
+    drawPad()
+	}
+	else{fin()}
+			}
+    requestAnimationFrame(game)
+	
+  }
+game()
+
+    </script>
+</body>
+</html>
