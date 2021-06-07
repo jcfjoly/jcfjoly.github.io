@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHASE</title>
+    <style>
+        body {
+            background-color: rgb(0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <img id="wasd" width="1" height="1" src="wasd.png">
+    <img id="pointer" width="1" height="1" src="pointer.png">
+    <img id="arrowKeys" width="1" height="1" src="arrowKeys.png">
+
+    <img id="acceleration" width="1" height="1" src="acceleration.png">
+    <img id="invincibility" width="1" height="1" src="invincibility.png">
+    <img id="shrink" width="1" height="1" src="shrink.png">
+    <img id="slow" width="1" height="1" src="slow.png">
+    <img id="weaken" width="1" height="1" src="weaken.png">
+    <img id="expand" width="1" height="1" src="expand.png">
+
+    <img id="desert" width="1" height="1" src="desert.png">
+    <img id="forest" width="1" height="1" src="forest.png">
+    <img id="mountains" width="1" height="1" src="mountains.png">
+    <img id="planet" width="1" height="1" src="planet.png">
+    <img id="neon" width="1" height="1" src="neon.png">
+
+
+    <audio id="music1">
+        <source src="Meditation.mp3">
+    </audio>
+    <audio id="music2">
+        <source src="driverealfast.mp3">
+    </audio>
+
+
+    <audio id="music3">
+        <source src="makethisright.mp3">
+    </audio>
+
+    <audio id="music4">
+        <source src="A monster.mp3">
+    </audio>
+
+    <audio id="music5">
+        <source src="fightingAnimals.mp3">
+    </audio>
+
+    <audio id="music6">
+        <source src="zawarudo.mp3">
+    </audio>
+
+
+    <audio id="music7">
+        <source src="Super Smash Bros. Melee - Announcer Failure.mp3">
+    </audio>
+
+    <audio id="audio1">
+        <source src="coinnotif.mp3">
+    </audio>
+    <audio id="audio2">
+        <source src="buy.mp3">
+    </audio>
+
+    <script>
+        //Création du canvas
+        var canvas = document.createElement("canvas");
+        var ctx = canvas.getContext("2d");
+
+
+
+
+        //Configurations du canvas
+        canvas.width = 1900;
+        canvas.height = 920;
+        canvas.style.border = "5px white solid";
+        canvas.style.backgroundColor = "black";
+        canvas.style.display = "block";
+        canvas.style.margin = "auto"
+        document.body.appendChild(canvas);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Variables
+
+
+
+
+        //Joueur
+        var joueur = {
+            x: 500,
+            y: 450,
+            w: 40,
+            h: 40,
+            color: "blue",
+            speed: 6.5,
+            invincibility: 0
+        }
+
+
+
+        //Cible, murs et obstacles
+        var cible = {
+            x: 2500,
+            y: 450,
+            w: 40,
+            h: 40,
+            color: "yellow",
+            speed: 6
+        }
+
+
+
+
+        var murDébutCentre = new Wall(50, 55, 15, 800, 0, "white", "vertical")
+        var murDébutHaut = new Wall(50, 55, 1500, 15, 0, "white", "horizontal")
+        var murDébutBas = new Wall(50, 850, 1500, 15, 0, "white", "horizontal")
+        var murPorte1 = new Wall(murDébutHaut.w + 50, 55, 15, 200, 0, "white", "vertical")
+        var murPorte2 = new Wall(murPorte1.x, murPorte1.h + 50, 200, 15, 0, "white", "horizontal")
+        var murPorte3 = new Wall(murDébutBas.w + 50, murDébutBas.y - murPorte1.h + murDébutBas.h, 15, 200, 0, "white", "vertical")
+        var murPorte4 = new Wall(murPorte3.x, murPorte3.y, 200, 15, 0, "white", "horizontal")
+
+
+        //Fonctionalités
+        var gameOver = false
+        var gameWon = false
+        var gameStarted = false
+        var keyDown = {}
+        var p = 3
+        var terrain = []
+        var coins = 0
+        var shop = false
+        var dashItem = false
+        var immuneItem = false
+        var stopwatchItem = false
+        var itemBought1 = false
+        var itemBought2 = false
+        var itemBought3 = false
+        var gauge = false
+        var gaugeAmount = 300
+        var background1x = 1800
+        var background1 = false
+        var background2x = background1x + 4000
+        var background2 = false
+        var chosen = false
+        var map = Math.floor(Math.random() * 4)
+        var map2 = Math.floor(Math.random() * 4)
+        var music = 0.02
+
+
+
+        var mushu = new Image()
+        mushu.src = "morshu.png"
+        var stopwatch = new Image()
+        stopwatch.src = "stopwatch.png"
+        var dash = new Image()
+        dash.src = "dash.png"
+        var immune = new Image()
+        immune.src = "immune.png"
+
+        var leftAndRight = new Image()
+        leftAndRight.src = "leftandright.png"
+        var money = new Image()
+        money.src = "coin.png"
+
+
+
+
+        var wasd = document.getElementById("wasd")
+        var arrowKeys = document.getElementById("arrowKeys")
+        var pointer = document.getElementById("pointer")
+        var desert = document.getElementById("desert")
+        var mountains = document.getElementById("mountains")
+        var planet = document.getElementById("planet")
+        var forest = document.getElementById("forest")
+        var neon = document.getElementById("neon")
+
+        var acceleration = document.getElementById("acceleration")
+        var invincibility = document.getElementById("invincibility")
+        var shrink = document.getElementById("shrink")
+        var slow = document.getElementById("slow")
+        var weaken = document.getElementById("weaken")
+        var expand = document.getElementById("expand")
+
+        var meditation = document.getElementById("music1")
+        var coda = document.getElementById("music2")
+        var makethisright = document.getElementById("music3")
+        var aMonster = document.getElementById("music4")
+        var fightingAnimals = document.getElementById("music5")
+
+        var zawarudo = document.getElementById("music6")
+        var failure = document.getElementById("music7")
+        var coinNotif = document.getElementById("audio1")
+        var buyNotif = document.getElementById("audio2")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Fonctions
+
+
+
+
+        //Dessine le joueur
+        function drawJoueur() {
+            ctx.fillStyle = joueur.color
+            ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+
+        }
+
+
+
+        //Dessine la cible
+        function drawCible() {
+            ctx.fillStyle = cible.color
+            ctx.fillRect(cible.x, cible.y, cible.w, cible.h)
+
+
+            if (checkCollision(joueur, cible)) {
+                cible.color = "blue"
+                gameWon = true
+            } else {
+                cible.color = "yellow"
+            }
+        }
+
+
+
+        //Dessine un background
+        function drawBackgrounds() {
+            startx = 1800
+
+
+
+            if (map == 0 && chosen != true) {
+                ctx.drawImage(desert, background1x, 0, 4000, 919)
+                ctx.drawImage(desert, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                    fightingAnimals.play()
+                    fightingAnimals.volume = music
+                }
+
+            } else if (map == 1 && chosen != true) {
+                ctx.drawImage(forest, background1x, 0, 4000, 919)
+                ctx.drawImage(forest, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                    coda.play()
+                    coda.volume = music
+                    coda.loop = true
+
+                }
+
+            } else if (map == 2 && chosen != true) {
+                ctx.drawImage(neon, background1x, 0, 4000, 919)
+                ctx.drawImage(neon, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                    aMonster.play()
+                    aMonster.volume = music
+                }
+
+
+            }
+            else if (map == 3 && chosen != true) {
+                ctx.drawImage(mountains, background1x, 0, 4000, 919)
+                ctx.drawImage(mountains, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                    makethisright.play()
+                    makethisright.volume = music
+
+                }
+            } else if (map2 == 0 && chosen != true) {
+                ctx.drawImage(desert, background1x, 0, 4000, 919)
+                ctx.drawImage(desert, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                }
+            } else if (map2 == 1 && chosen != true) {
+                ctx.drawImage(forest, background1x, 0, 4000, 919)
+                ctx.drawImage(forest, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                }
+            } else if (map2 == 2 && chosen != true) {
+                ctx.drawImage(neon, background1x, 0, 4000, 919)
+                ctx.drawImage(neon, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                }
+            }
+            else if (map2 == 3 && chosen != true) {
+                ctx.drawImage(mountains, background1x, 0, 4000, 919)
+                ctx.drawImage(mountains, background2x, 0, 4000, 919)
+                if (gameStarted) {
+                    meditation.volume = 0
+                }
+            }
+
+            if (shop == true) {
+                map = 10
+                chosen = false
+
+            }
+
+            if (joueur.x > 1800) {
+
+                if (joueur.x > background1x + 2000) {
+                    background2x = background1x + 4000
+                }
+                if (joueur.x > background2x + 2000) {
+                    background1x = background2x + 4000
+                }
+
+
+                if (!stopwatchItem) {
+                    background1x++
+                    background1 = true
+                    background2x++
+                    background2 = true
+                } else if (37 in keyDown || 65 in keyDown) {
+                    background1x += 0
+                    background1 = true
+                    background2x += 0
+                    background2 = true
+                }
+
+
+
+            }
+        }
+
+        //Dessine des images
+        function drawImages() {
+
+            if (shop == false) {
+                ctx.drawImage(leftAndRight, 200, 500, 400, 300)
+                ctx.drawImage(wasd, 150, 150, 225, 150)
+                ctx.drawImage(arrowKeys, 400, 115, 300, 225)
+            }
+
+
+            ctx.font = "500px Arial"
+            ctx.textAlign = "center"
+            ctx.fillStyle = "white"
+            ctx.fillText("CHASE", 4000, 700)
+
+            ctx.drawImage(mushu, 20000, 400, 300, 200)
+
+
+        }
+
+
+
+
+        //Dessine du texte
+        function drawText() {
+
+            if (gameStarted == false) {
+                ctx.font = "30px Arial"
+                ctx.textAlign = "center"
+                ctx.fillStyle = "white"
+                ctx.fillText("Use WASD or the arrow keys to move", 400, 360)
+
+
+                ctx.font = "35px Arial"
+                ctx.textAlign = "center"
+                ctx.fillStyle = "white"
+                ctx.fillText("Now, go after that yellow thing -->", 1400, 600)
+
+                ctx.font = "30px Arial"
+                ctx.textAlign = "center"
+                ctx.fillStyle = "white"
+                ctx.fillText("Use left and right to slow or accelerate time", 400, 800)
+            }
+            if (gameStarted == true && joueur.x > 1700 && gameWon == false) {
+                ctx.font = "25px Arial"
+                ctx.textAlign = "left"
+                ctx.fillStyle = "white"
+                ctx.fillText("Invincibility points: " + joueur.invincibility, joueur.x - 900, 100)
+
+                ctx.font = "25px Arial"
+                ctx.textAlign = "left"
+                ctx.fillStyle = "white"
+                ctx.fillText("Speed: " + joueur.speed, joueur.x - 900, 200)
+
+                ctx.font = "25px Arial"
+                ctx.textAlign = "left"
+                ctx.fillStyle = "white"
+                ctx.fillText("Coins: " + coins, joueur.x - 900, 300)
+
+                if (cible.x > joueur.x - canvas.width / 2 + canvas.width) {
+                    ctx.drawImage(pointer, joueur.x + 815, 425, 125, 80)
+                }
+
+                gauge = true
+
+            } else {
+                gauge = false
+            }
+
+            if (gameWon == true) {
+                ctx.font = "45px Arial"
+                ctx.textAlign = "center"
+                ctx.fillStyle = "white"
+                ctx.fillText("Congratulations! You caught whatever that is", cible.x, cible.y - 100)
+
+                ctx.font = "45px Arial"
+                ctx.textAlign = "center"
+                ctx.fillStyle = "white"
+                ctx.fillText("Click anywhere to play again", cible.x, cible.y + 200)
+            }
+            if (gameOver == true) {
+                ctx.font = "45px Arial"
+                ctx.textAlign = "center"
+                ctx.fillStyle = "white"
+                ctx.fillText("The yellow thingy got away! Click to try again", joueur.x, joueur.y)
+            }
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Génère des objets
+        function generation() {
+            var randomPixel = Math.random() * 500
+            var randomPixel2 = Math.random() * 400
+            var number = randomNumber()
+            if (gameStarted == true) {
+                if (number >= 0 && number <= 3) {
+                    terrain.push(new Obstacle(joueur.x + 2000, 0, 40, randomPixel, "red", 5, true))
+                } else if (number > 3 && number <= 6) {
+                    terrain.push(new Obstacle(joueur.x + 2000, 200, 100, 100, "red", 5, false))
+                } else if (number > 6 && number <= 9) {
+                    terrain.push(new Obstacle(joueur.x + 2000, 200, 25, 300, "red", 5, false))
+                } else if (number > 9 && number <= 12) {
+                    terrain.push(new Obstacle(joueur.x + 2000, 300, 50, 50, "red", 5, false))
+                } else if (number > 12 && number <= 15) {
+                    terrain.push(new Obstacle(joueur.x + 2000, 0, 200, 200, "red", 5, false))
+                } else if (number > 15 && number <= 18) {
+                    terrain.push(new Obstacle(joueur.x + 2000, 0, 200, 200, "red", 5, false), new Obstacle(joueur.x + 2000, 700, 200, 200, "red", 5, false))
+                } else if (number > 18 && number <= 21) {
+                    terrain.push(new Obstacle(joueur.x + 2000, canvas.height - randomPixel, 40, randomPixel, "red", 5, true))
+                } else if (number > 21 && number <= 24) {
+                    terrain.push(new Obstacle(joueur.x + 2000, canvas.height - randomPixel, 40, randomPixel, "red", 5, true), new Obstacle(joueur.x + 2000, 0, 40, randomPixel2, "red", 5, true))
+                } else if (number > 24 && number <= 27) {
+                    terrain.push(new Obstacle(cible.x + 800, 200, 100, 100, "red", 5, false), new Obstacle(joueur.x + 2000, 300, 100, 100, "red", 5, false))
+                } else if (number > 27 && number <= 30) {
+                    terrain.push(new Obstacle(cible.x + 700, 100, 200, 200, "red", 5, false), new Obstacle(joueur.x + 2000, 300, 200, 200, "red", 5, false))
+                } else if (number > 30 && number <= 33) {
+                    terrain.push(new Obstacle(joueur.x + 2000, 200, 200, 200, "red", 5, false))
+                } else if (number > 33 && number <= 36) {
+                    terrain.push(new PowerUp(joueur.x + 2000, canvas.height / 2, 100, 100, "aquamarine", "acceleration", 1))
+                } else if (number > 36 && number <= 37) {
+                    terrain.push(new PowerUp(joueur.x + 2000, canvas.height / 2, 100, 100, "green", "invincibility", 3))
+                } else if (number > 37 && number <= 38) {
+                    terrain.push(new PowerUp(joueur.x + 2000, canvas.height / 2, 100, 100, "pink", "shrink", 20))
+                } else if (number > 38 && number <= 39) {
+                    terrain.push(new PowerDown(joueur.x + 2000, canvas.height / 2, 100, 100, "purple", "expand", 20))
+                } else if (number > 39 && number <= 40) {
+                    terrain.push(new PowerDown(joueur.x + 2000, canvas.height / 2, 100, 100, "brown", "slow", 1))
+                } else if (number > 40 && number <= 41) {
+                    terrain.push(new PowerDown(joueur.x + 2000, canvas.height / 2, 100, 100, "grey", "weaken", 3))
+                } else {
+                    terrain.push(new Coin(joueur.x + 2000, randomPixel, 50, 50))
+                }
+            }
+
+        }
+        var monInterval = setInterval(generation, 1000)
+
+        function generate() {
+            for (i = 0; i < terrain.length; i++) {
+                terrain[i].draw()
+            }
+        }
+
+
+
+
+
+
+
+
+        //Dessine des murs
+        function Wall(x, y, w, h, speed, color, collisionSide) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.speed = speed
+            this.color = color
+            this.collisionSide = collisionSide
+
+            this.draw = function () {
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x -= this.speed, this.y, this.w, this.h)
+                if (this.collisionSide == "vertical") {
+                    verticalCollision(joueur, this)
+                }
+                if (this.collisionSide == "horizontal") {
+                    horizontalCollision(joueur, this)
+                }
+
+            }
+
+        }
+
+
+        //Dessine des obstacles
+        function Obstacle(x, y, w, h, color, speed, horizontalOrNot) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.speed = speed
+            this.horizontalOrNot = horizontalOrNot
+
+            this.draw = function () {
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, this.w, this.h)
+                kill(joueur, this)
+
+                if (shop == true) {
+                    this.x = -1000
+                }
+
+
+
+                if (horizontalOrNot == true) {
+                    horizontalMovement(this)
+                } else { verticalMovement(this) }
+
+            }
+
+        }
+
+
+
+        //Dessine des power-ups et des power-downs
+        function PowerUp(x, y, w, h, color, effect, value) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.effect = effect
+            this.value = value
+
+            this.draw = function () {
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, this.w, this.h)
+                if (shop == true) {
+                    this.x = -1000
+                }
+                if (this.effect == "acceleration") {
+                    ctx.drawImage(acceleration, this.x, this.y, 100, 100)
+                    if (checkCollision(joueur, this)) {
+                        joueur.speed += this.value
+                        this.x = -500
+                    }
+
+                }
+                if (this.effect == "invincibility") {
+                    ctx.drawImage(invincibility, this.x - 25, this.y, 150, 100)
+                    if (checkCollision(joueur, this)) {
+                        joueur.invincibility += this.value
+                        this.x = -500
+
+                    }
+                    if (immuneItem == true) {
+                        this.value = 0
+                    }
+
+                }
+                if (this.effect == "shrink") {
+                    ctx.drawImage(shrink, this.x, this.y, 100, 100)
+                    if (checkCollision(joueur, this)) {
+
+                        joueur.w -= this.value
+                        joueur.h -= this.value
+                        this.x = -500
+                    }
+
+                }
+
+
+            }
+        }
+
+
+
+
+        function PowerDown(x, y, w, h, color, effect, value, movement) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.effect = effect
+            this.value = value
+            this.movement = movement
+
+            this.draw = function () {
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, this.w, this.h)
+                if (this.effect == "slow") {
+                    ctx.drawImage(slow, this.x, this.y, 100, 100)
+
+                    if (checkCollision(joueur, this)) {
+                        joueur.speed -= this.value
+                        this.x = -500
+                    }
+
+                }
+                if (this.effect == "weaken") {
+                    ctx.drawImage(weaken, this.x, this.y, 100, 100)
+
+                    if (checkCollision(joueur, this)) {
+
+                        joueur.invincibility -= this.value
+                        this.x = -500
+                    }
+
+                }
+                if (this.effect == "expand") {
+                    ctx.drawImage(expand, this.x, this.y, 100, 100)
+
+                    if (checkCollision(joueur, this)) {
+                        joueur.w += this.value
+                        joueur.h += this.value
+                        this.x = -500
+                    }
+
+                }
+
+
+            }
+        }
+
+        function Coin(x, y, w, h) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+
+            this.draw = function () {
+                ctx.drawImage(money, this.x, this.y, this.w, this.h)
+                if (shop == true) {
+                    this.x = -1000
+                }
+                if (checkCollision(joueur, this)) {
+                    coinNotif.volume = 0.1
+                    coinNotif.play()
+                    coins++
+                    this.x = -500
+
+
+                }
+            }
+        }
+
+
+
+
+
+
+
+        //Détecte s'il y a une collision (a est le collisionneur et b est le heurté)
+        function checkCollision(a, b) {
+            if (a.x + a.w > b.x &&
+                a.x < b.x + b.w &&
+                a.y < b.y + b.h &&
+                a.y + a.h > b.y) {
+                return true
+            }
+        }
+
+
+
+        //Crée une collision verticale
+        function verticalCollision(a, b) {
+            if (checkCollision(a, b) && a.x < b.x) {
+                a.x = b.x - a.w
+            } else if (checkCollision(a, b) && a.x + a.w > b.x) {
+                a.x = b.x + b.w
+            }
+        }
+
+
+
+        //Crée une collision horizontale
+        function horizontalCollision(a, b) {
+            if (checkCollision(a, b) && a.y < b.y) {
+                a.y = b.y - a.h
+            } else if (checkCollision(a, b) && a.y + a.h > b.y) {
+                a.y = b.y + b.h
+            }
+        }
+
+
+
+        //Éllimine le joueur et met fin à la partie
+        function kill(a, b) {
+            if (checkCollision(a, b)) {
+                if (joueur.invincibility <= 0) {
+                    gameOver = true
+                } else if (!dashItem) {
+                    b.x = -500
+                    joueur.invincibility--
+                }
+            }
+        }
+
+
+
+        //Fait un mouvement vertical
+        function verticalMovement(object) {
+            object.y += object.speed
+            if (object.y + object.h >= 925) {
+                object.y = 925 - object.h
+                object.speed = -object.speed
+
+
+            }
+            if (object.y <= 0) {
+                object.y = 0
+                object.speed = -object.speed
+            }
+
+            if (background1 == true) {
+                //    object.x++
+            }
+
+            if (37 in keyDown || 65 in keyDown) {
+
+
+                if (object.speed == 5) {
+
+                    if (!stopwatchItem) {
+                        object.y -= 4
+                    } else { object.y -= object.speed }
+                } else {
+                    if (!stopwatchItem) {
+                        object.y += 4
+                    } else { object.y -= object.speed }
+                }
+
+
+
+            }
+
+            if (39 in keyDown || 68 in keyDown) {
+                if (object.speed == -5) {
+                    object.y -= 4
+                } else {
+                    object.y += 4
+                }
+            }
+        }
+
+        function horizontalMovement(object) {
+
+            if (background1 == true) {
+                object.x -= 5
+            } else { object.x -= object.speed }
+
+            if (37 in keyDown || 65 in keyDown) {
+
+                if (!stopwatchItem) {
+                    object.x += 4
+
+                } else { object.x += object.speed }
+            }
+
+            if (39 in keyDown || 68 in keyDown) {
+                object.x -= 4
+            }
+            if (object.x < 2000) {
+                object.x = -1000
+            }
+
+        }
+
+
+
+
+
+        //Choisis un chiffre aléatoire
+
+        function randomNumber() {
+            var result = Math.floor(Math.random() * 60)
+            return result
+        }
+
+
+        //Choisis une bande sonore aléatoire
+
+
+
+
+
+        //Regroupe les murs
+
+        function drawObjects() {
+
+            murDébutCentre.draw()
+            murDébutHaut.draw()
+            murDébutBas.draw()
+            murPorte1.draw()
+            murPorte2.draw()
+            murPorte3.draw()
+            murPorte4.draw()
+
+        }
+
+
+
+
+
+        //Shop
+
+        function shopLocation() {
+
+            if (joueur.x > 20000) {
+                shop = true
+                joueur.x = 500
+                joueur.y = 450
+                cible.x = 2500
+            }
+            if (shop == true) {
+                ctx.font = "30px Arial"
+                ctx.textAlign = "center"
+                ctx.fillStyle = "yellow"
+                ctx.fillText("Coins: " + coins, 200, 200)
+                background1x = 1800
+
+
+                ctx.drawImage(mushu, 600, 200, 300, 200)
+
+                ctx.drawImage(dash, 500, 500, 100, 100)
+
+                if (joueur.x >= 500 && joueur.x <= 600 && joueur.y >= 500 && joueur.y <= 600 && !itemBought1) {
+                    ctx.font = "30px Arial"
+                    ctx.textAlign = "center"
+                    ctx.fillStyle = "white"
+                    ctx.fillText("This -dash- will allow you to teleport a short distance in front of you instead of speeding up time (d or ->)", 800, 800)
+
+                    var buyButton = ctx.fillRect(625, 650, 250, 50)
+                    ctx.fillStyle = "black"
+                    ctx.fillText("Spacebar to buy", 750, 685)
+
+                    ctx.fillStyle = "yellow"
+                    ctx.fillText("8 coins", 975, 690)
+
+                    if (32 in keyDown && coins >= 8) {
+                        dashItem = true
+                        buyNotif.volume = 0.1
+                        buyNotif.play()
+
+
+                    }
+                }
+
+                if (dashItem == true) {
+                    ctx.fillStyle = "black"
+                    ctx.fillRect(500, 500, 100, 100)
+                    if (!itemBought1) {
+                        itemBought1 = true;
+                        coins -= 8
+
+
+                    }
+                }
+
+
+                ctx.fillStyle = "red"
+                ctx.fillRect(700, 500, 100, 100)
+                ctx.drawImage(immune, 700, 500, 100, 100)
+
+                if (joueur.x >= 700 && joueur.x <= 800 && joueur.y >= 500 && joueur.y <= 600 && !itemBought2) {
+                    ctx.font = "30px Arial"
+                    ctx.textAlign = "center"
+                    ctx.fillStyle = "white"
+                    ctx.fillText("This -immune- will allow you to resist any hit while slowing time,", 800, 800)
+                    ctx.fillText("but green powerups no longer grant you invincibility points (a or <-)", 800, 840)
+
+                    var buyButton = ctx.fillRect(625, 650, 250, 50)
+                    ctx.fillStyle = "black"
+                    ctx.fillText("Spacebar to buy", 750, 685)
+                    ctx.fillStyle = "yellow"
+                    ctx.fillText("10 coins", 975, 690)
+
+                    if (32 in keyDown && coins >= 10) {
+                        immuneItem = true
+                        buyNotif.volume = 0.1
+                        buyNotif.play()
+
+
+                    }
+                }
+
+                if (immuneItem == true) {
+                    ctx.fillStyle = "black"
+                    ctx.fillRect(700, 500, 100, 100)
+                    if (!itemBought2) {
+                        itemBought2 = true;
+                        coins -= 10
+
+                    }
+                }
+
+
+
+                ctx.drawImage(stopwatch, 900, 500, 100, 100)
+
+                if (joueur.x >= 900 && joueur.x <= 1000 && joueur.y >= 500 && joueur.y <= 600 && !itemBought3) {
+                    ctx.font = "30px Arial"
+                    ctx.textAlign = "center"
+                    ctx.fillStyle = "white"
+                    ctx.fillText("This -timepiece- will allow you to stop time completely ", 800, 800)
+                    ctx.fillText("instead of slowing time but depletes gauge faster (a or <-)", 800, 840)
+
+                    var buyButton = ctx.fillRect(625, 650, 250, 50)
+                    ctx.fillStyle = "black"
+                    ctx.fillText("Spacebar to buy", 750, 685)
+
+                    ctx.fillStyle = "yellow"
+                    ctx.fillText("12 coins", 975, 690)
+
+
+                    if (32 in keyDown && coins >= 12) {
+                        stopwatchItem = true
+                        buyNotif.volume = 0.1
+                        buyNotif.play()
+
+
+                    }
+
+
+                }
+
+                if (stopwatchItem == true) {
+                    ctx.fillStyle = "black"
+                    ctx.fillRect(900, 500, 100, 100)
+                    if (!itemBought3) {
+                        itemBought3 = true;
+                        coins -= 12
+
+
+                    }
+                }
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function gaugeDisplay() {
+            if (gauge == true) {
+
+                ctx.fillStyle = "cyan"
+                ctx.fillRect(joueur.x + 600, 50, gaugeAmount, 25)
+                if (gaugeAmount <= 300) {
+                    gaugeAmount++
+                }
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        //Active ces fonctionalités quand le joueur dépasse la ligne
+        function playGame() {
+            meditation.play()
+            meditation.volume = music
+            if (joueur.x > 1700) {
+                shop = false
+                gameStarted = true
+                if (gameWon == false) {
+                    joueur.x += joueur.speed
+                    cible.x += cible.speed
+
+
+
+                    if (cible.x > joueur.x + 1000) {
+                        cible.speed -= 0.001
+                    } else {
+                        cible.speed += 0.001
+                    }
+
+
+                    if (37 in keyDown || 65 in keyDown) {
+
+
+
+                        if (stopwatchItem == true && gaugeAmount >= 0) {
+                            joueur.x -= joueur.speed
+                            cible.x -= cible.speed
+                            gaugeAmount -= 4
+                            zawarudo.volume = 0.1
+                            zawarudo.play()
+                            music = 0.005
+                            aMonster.playbackRate = 0.99
+                            coda.playbackRate = 0.99
+                            fightingAnimals.playbackRate = 0.99
+                            makethisright.playbackRate = 0.99
+                        } else if (gaugeAmount >= 0) {
+                            gaugeAmount -= 2.5
+                            joueur.x -= 5
+                            cible.x -= 5
+                            music = 0.005
+                            aMonster.playbackRate = 0.99
+                            coda.playbackRate = 0.99
+                            fightingAnimals.playbackRate = 0.99
+                            makethisright.playbackRate = 0.99
+
+                        }
+                        if (immuneItem == true) {
+                            joueur.invincibility = 100
+                        }
+                    }
+
+
+                    if (39 in keyDown || 68 in keyDown) {
+                        if (!dashItem && gaugeAmount >= 0) {
+                            joueur.x += 5
+                            cible.x += 5
+                            gaugeAmount -= 2.5
+                        } else if (gaugeAmount >= 0 && dashItem == true) {
+                            joueur.x += 300
+                            joueur.invincibility = 100
+                            gaugeAmount -= 300
+
+
+                        }
+
+
+                    }
+                    if (39 in keyDown && 37 in keyDown || 65 in keyDown && 68 in keyDown) {
+                        gaugeAmount += 4
+                    }
+
+                    ctx.save()
+                    ctx.translate(-joueur.x + canvas.width / 2, 0)
+
+
+                } else if (gameWon == true) {
+                    cible.speed = 0
+                    joueur.invincibility = 1000
+
+                    ctx.save()
+                    ctx.translate(-cible.x + canvas.width / 2, -cible.y + canvas.height / 2)
+
+
+
+
+
+
+                    canvas.addEventListener("click", function () {
+                        gameStarted = false
+                        location.reload()
+                    })
+
+
+
+                }
+            }
+
+        }
+
+
+
+
+        //Ramène au début à la mort du joueur
+        function finDePartie() {
+            if (gameOver == true) {
+                gameStarted = false
+                failure.load()
+                failure.play()
+                failure.volume = 0.1
+                failure.loop = false
+
+                terrain = []
+                background1x = 2000
+                joueur.x = 500
+                joueur.y = 450
+                joueur.w = 30
+                joueur.h = 30
+                joueur.speed = 6.5
+                joueur.invincibility = 0
+                cible.x = 2500
+                cible.y = 450
+                cible.w = 40
+                cible.h = 40
+                cible.speed = 6
+                canvas.addEventListener("click", function () {
+                    gameOver = false
+                })
+            }
+
+        }
+
+
+
+
+
+
+
+        //Détecte les touches quand elles sont appuyées
+        document.addEventListener("keydown", function (e) {
+            keyDown[e.keyCode] = true
+        })
+
+        document.addEventListener("keyup", function (e) {
+            if (immuneItem == true) {
+                joueur.invincibility = 0
+            }
+            if (dashItem == true) {
+                joueur.invincibility = 0
+            }
+            if (!stopwatchItem) {
+                music = 0.02
+                aMonster.playbackRate = 1
+                coda.playbackRate = 1
+                fightingAnimals.playbackRate = 1
+                makethisright.playbackRate = 1
+            }
+
+            delete keyDown[e.keyCode]
+        })
+
+
+
+
+
+
+        //Bouge le joueur selon les touches appuyées
+        function clavier() {
+
+            if (gameStarted == false || shop == true) {
+                if (37 in keyDown && joueur.x > 0 || 65 in keyDown && joueur.x > 0) {
+                    direction = "gauche"
+                    joueur.x -= 25
+
+                }
+                if (39 in keyDown || 68 in keyDown) {
+                    direction = "droite"
+                    joueur.x += 25
+
+
+
+                }
+            }
+
+
+
+
+            if (38 in keyDown && joueur.y > 0 || 87 in keyDown && joueur.y > 0) {
+                direction = "haut"
+                joueur.y -= 15
+            }
+            if (40 in keyDown && joueur.y < 875 || 83 in keyDown && joueur.y < 875) {
+                direction = "bas"
+                joueur.y += 15
+            }
+        }
+
+
+
+        //Composantes du jeu + caméra suit le joueur (3h de recherches T-T)
+        function game() {
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+            requestAnimationFrame(game)
+
+            shopLocation()
+            playGame()
+            drawBackgrounds()
+            drawObjects()
+            drawImages()
+            generate()
+            gaugeDisplay()
+            drawText()
+            drawJoueur()
+            drawCible()
+            finDePartie()
+            ctx.restore()
+            clavier()
+
+
+
+        }
+        game()
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
