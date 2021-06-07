@@ -1,0 +1,346 @@
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>combat des elements or smth</title>
+
+<style>
+  #bdv1{
+	width:500px;
+	height:50px;
+	background-color:red;
+  position: fixed;
+        right: 150px;
+        top: 50px;
+
+	}
+
+  #bdv2{
+	width:500px;
+	height:50px;
+	background-color:red;
+  position: fixed;
+  left: 150px;
+   top: 50px;
+	}
+  #portrait2{
+width: 400px;
+height: 400px;
+background-color: lightskyblue;
+position: fixed;
+  left: 230px;
+   top: 120px;
+  }
+  #portrait1{
+    width: 400px;
+height: 400px;
+background-color: lightsalmon;
+position: fixed;
+  right:230px;
+  top: 120px; 
+ }
+
+#roche{
+width:70px ;
+height: 70px;
+background-color: burlywood;
+position: fixed;
+left: 150px;
+top: 120px;
+transition: all 2s;
+
+
+}
+ #papier{
+   width:70px ;
+height: 70px;
+background-color: white;
+position: fixed;
+left: 150px;
+top: 210px;
+transition: all 2s;
+}
+  #ciseaux{
+    width:70px ;
+height: 70px;
+background-color: silver;
+position: fixed;
+left: 150px;
+top: 300px;
+transition: all 2s;
+}
+#roche:hover{
+width:90px ;
+height: 90px;
+background-color: burlywood;
+position: fixed;
+left: 150px;
+top: 110px;
+
+
+}
+ #papier:hover{
+   width:90px ;
+height: 90px;
+background-color: white;
+position: fixed;
+left: 150px;
+top: 200px;
+
+
+}
+  #ciseaux:hover{
+    width:90px ;
+height: 90px;
+background-color: silver;
+position: fixed;
+left: 150px;
+top: 290px;
+}
+/* -----------------------------------------enemie---------------------------------------------------------------------------  */
+#rochee{
+width:70px ;
+height: 70px;
+background-color: burlywood;
+position: fixed;
+right: 150px;
+top: 120px;
+transition: all 2s;
+
+
+}
+ #papiere{
+   width:70px ;
+height: 70px;
+background-color: white;
+position: fixed;
+right: 150px;
+top: 210px;
+transition: all 2s;
+}
+  #ciseauxe{
+    width:70px ;
+height: 70px;
+background-color: silver;
+position: fixed;
+right: 150px;
+top: 300px;
+transition: all 2s;
+}
+
+
+#valider{ 
+
+position: fixed;
+left: 960px;
+top: 500px 
+}
+  body{
+ background-color: lightgray ;
+ }
+head{position: absolute;}
+</style>
+
+
+<head>
+
+
+ <div id="bdv1">      </div>
+ <div id="bdv2" >  </div>
+
+  <div id="portrait1" >  </div>
+  <div id="portrait2" >  </div>
+
+  <div id="roche" onclick="roche()">roche</div>
+  <div id="papier" onclick="papier()">papier</div>
+  <div id="ciseaux" onclick="ciseaux()">ciseaux</div>
+  <input type="button" value="valider" id="valider" onclick="valider()"> 
+
+  <div id="rochee" onclick="rochee()">roche</div>
+  <div id="papiere" onclick="papiere()">papier</div>
+  <div id="ciseauxe" onclick="ciseauxe()">ciseaux</div>
+                
+
+
+</head>     
+
+
+
+
+
+
+
+<!--roche 2 papier 3 ciseaux 1   -->
+<script>
+  var choixj=0
+function roche(){
+  choixj=2
+ 
+document.getElementById("roche").style.width= 90+"px"
+document.getElementById("papier").style.width= 70+"px" 
+document.getElementById("ciseaux").style.width= 70+"px" 
+document.getElementById("roche").style.height= 70+"px"
+  document.getElementById("papier").style.height= 70+"px"
+document.getElementById("ciseaux").style.height= 70+"px"
+
+document.getElementById("roche").style.border= "black solid 1px"
+document.getElementById("papier").style.border= "0px" 
+document.getElementById("ciseaux").style.border= "0px" 
+}
+function papier(){
+choixj=3
+
+document.getElementById("roche").style.width= 70+"px"
+document.getElementById("papier").style.width= 90+"px"
+document.getElementById("ciseaux").style.width= 70+"px"
+document.getElementById("roche").style.height= 70+"px"
+document.getElementById("papier").style.height= 70+"px"
+document.getElementById("ciseaux").style.height= 70+"px"
+
+document.getElementById("roche").style.border= "0px"
+document.getElementById("papier").style.border=  "black solid 1px"
+document.getElementById("ciseaux").style.border= "0px" 
+}
+function ciseaux(){
+choixj=1
+
+document.getElementById("roche").style.width= 70+"px"
+document.getElementById("papier").style.width= 70+"px"
+document.getElementById("ciseaux").style.width= 90+"px"
+document.getElementById("roche").style.height= 70+"px"
+document.getElementById("papier").style.height= 70+"px"
+document.getElementById("ciseaux").style.height= 70+"px"
+
+document.getElementById("roche").style.border= "0px"
+document.getElementById("papier").style.border= "0px" 
+document.getElementById("ciseaux").style.border=  "black solid 1px"
+}
+
+
+/* eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee */
+var recursiontot=99999
+ var recursionchx=9999999
+var modpc=0
+var modj=0
+
+
+function valider(){
+
+
+/* script ganger ou perdre un match*/
+
+
+var choixpc=Math.ceil(Math.random()*3)
+console.log(choixpc+" est le choix du pc")
+if(choixpc==1){  /*  gagner   */ chxrecursion=choixj-1   
+                if(chxrecursion==0){chxrecursion=3}   
+              
+              modpc=1
+              modj=0
+              
+              }
+
+
+
+
+
+
+
+
+if(choixpc==3){/*     nul   */chxrecursion=choixj     
+
+
+
+
+modpc=0
+modj=0
+                }
+
+
+
+
+
+
+
+
+if(choixpc==2){   /*    perdre  */  chxrecursion=choixj+1  
+  if(chxrecursion==4){chxrecursion=1}           
+
+modpc=0
+modj=1
+
+
+
+                        }
+                
+ 
+/*      barre de vie    */
+function dmg(){
+document.getElementById("bdv1").style.width= 1+"px"
+document.getElementById("bdv2").style.width= 1+"px"
+}
+console.log(chxrecursion+" est le choix final")
+
+console.log(choixj+" est votre choix")
+var nomagique=12
+
+recursiontot=nomagique + chxrecursion
+
+
+
+cycle()
+
+  }
+function cycle2(){
+
+if (recursiontot>0){
+  recursiontot=recursiontot-1
+
+   document.getElementById("rochee").style.border="0px" 
+  document.getElementById("papiere").style.border=  "black solid 1px"
+  document.getElementById("ciseauxe").style.border="0px" 
+  setTimeout(cycle,120*1)
+  
+ 
+ }else{dmge()}
+}
+function cycle1(){
+
+if (recursiontot>0){
+  recursiontot=recursiontot-1
+ 
+document.getElementById("rochee").style.border=  "black solid 1px"
+document.getElementById("papiere").style.border="0px" 
+document.getElementById("ciseauxe").style.border="0px" 
+setTimeout(cycle2,120*1)
+
+   }else{dmge()}
+}
+function cycle(){
+
+if (recursiontot>0){
+  recursiontot=recursiontot-1
+ 
+document.getElementById("rochee").style.border="0px" 
+document.getElementById("papiere").style.border="0px" 
+document.getElementById("ciseauxe").style.border=  "black solid 1px"
+setTimeout(cycle1,120*1)
+
+ }else{ dmge() }
+}
+
+/* eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee */
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
