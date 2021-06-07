@@ -1,0 +1,398 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Jeu clavier</title>
+<style>
+body{
+	background-color: black;
+}	
+</style>	
+</head>
+
+<body>
+
+<script>
+//sons
+	var mort=new Audio()
+		mort.src="sons/mort.mp3"
+	var newLevel=new Audio()
+		newLevel.src="sons/level.mp3"
+	var end=new Audio()
+		end.src="sons/end.mp3"
+// Creation du canvas
+var canvasSize = 1
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+if(window.innerWidth<window.innerHeight){
+	canvasSize = window.innerWidth-50;
+}else{
+	canvasSize = window.innerHeight-50;
+}
+canvas.width = canvasSize
+canvas.height =canvasSize
+canvas.style.border = "10px white solid";
+canvas.style.backgroundColor= "lightgray";
+canvas.style.display = "block";
+canvas.style.margin ="auto"
+document.body.appendChild(canvas);
+
+
+//objets
+//classes permettant la creation de multiples objets facilement
+class Obstacle{
+    constructor(x,y,w,h,color,speedH,speedV, xR, yR, a){
+        this.x=x*canvasSize/1000
+        this.y=y*canvasSize/1000
+        this.h=h*canvasSize/1000
+        this.w=w*canvasSize/1000
+        this.color=color
+        this.speedH=speedH*canvasSize/1000
+		this.speedV=speedV*canvasSize/1000
+		this.xR=xR*canvasSize/1000
+		this.yR=yR*canvasSize/1000
+		this.a=a
+        obstacles.push(this)
+    }
+    draw(){
+        ctx.fillStyle="red"//this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+    }
+}
+let obstacles=[]
+
+class Mur{
+    constructor(x,y,w,h,color,speed){
+        this.x=x*canvasSize/1000
+        this.y=y*canvasSize/1000
+        this.h=h*canvasSize/1000
+        this.w=w*canvasSize/1000
+        this.color=color
+        this.speed=speed*canvasSize/1000
+        murs.push(this)
+    }
+    draw(){
+        ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+    }
+}
+let murs=[]
+class Fragment{
+	constructor(x,y,w,h){
+		this.x=x
+		this.y=y
+		this.h=h
+		this.w=w
+		this.speed=2
+	}
+}
+
+class Immortality{
+	constructor(x,y){
+		this.x=x*canvasSize/1000,
+		this.y=y*canvasSize/1000,
+		this.w=30*canvasSize/1000,
+		this.h=30*canvasSize/1000,
+		this.color="yellow"
+		immortalities.push(this)
+	}
+	draw(){
+        ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		if(collision(joueur, this)){
+			immortality=true
+			immStart=new Date().getTime()
+			joueur.color="gold"
+		}
+    }
+}
+let immortalities=[]
+var immortality=false
+var immStart= 1
+var joueur={
+	x:200*canvasSize/1000,
+	y:485*canvasSize/1000,
+	w:30*canvasSize/1000,
+	h:30*canvasSize/1000,
+	color:"blue",
+	speedH: 10*canvasSize/1000,
+	speedV: 10*canvasSize/1000
+	}
+
+var cible={
+	x:800*canvasSize/1000,
+	y:485*canvasSize/1000,
+	w:30*canvasSize/1000,
+	h:30*canvasSize/1000,
+	color:"green"
+	}	
+
+var keyDown={}
+
+//fonctions
+function draw(a){
+	ctx.fillStyle=a.color
+    ctx.fillRect(a.x, a.y, a.w, a.h)
+	}
+
+
+
+
+	
+function drawCible(){
+	ctx.fillStyle=cible.color
+    ctx.fillRect(cible.x, cible.y, cible.w, cible.h)
+    
+    if(collision(joueur,cible)){
+		cible.color="yellow"
+		lvl++
+		nextLevel=true
+		newLevel.play()
+    }else{
+        cible.color="green"
+    }
+	}
+
+//fonction qui dessine tout les murs et les obstacles
+function drawObjets(){
+	for(i=0; i<obstacles.length; i++){
+		obstacles[i].speedH+=Math.sign(obstacles[i].xR-obstacles[i].x)*obstacles[i].a
+		obstacles[i].speedV+=Math.sign(obstacles[i].yR-obstacles[i].y)*obstacles[i].a
+		obstacles[i].x+=obstacles[i].speedH
+		obstacles[i].y+=obstacles[i].speedV
+		obstacles[i].draw()
+		
+		if(collision(joueur,obstacles[i])){
+			if(immortality==false){
+				death()
+			}
+		}
+	}
+	for(i=0; i<murs.length; i++){
+		murs[i].draw()
+		if(collision(joueur,murs[i])){
+		wall(joueur,murs[i])
+		}
+	}
+	for(i=0; i<immortalities.length; i++){
+		//console.log("immortal")
+		immortalities[i].draw()
+	}
+}
+
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+	}
+
+function block(a,b){
+    let ref={
+        x:b.x+b.w/2,
+        y:b.y+b.h/2
+    }
+    if(Math.abs(a.x-ref.x)>Math.abs(a.y-ref.y)){
+			if(a.x-ref.x>0){
+				a.x+=a.speedH
+			}else{
+				a.x-=a.speedH
+			}
+		}else{
+			if(a.y-ref.y>0){
+				a.y+=a.speedV
+			}else{
+				a.y-=a.speedV
+			}
+		}
+}
+function wall(j,c){
+	if(collision(j, c)){
+		if(37 in keyDown || 39 in keyDown){
+			if(j.x < c.x+c.w/2){
+			j.x-= j.speedH
+			}else{
+				j.x+= j.speedH
+			}
+		}
+		if(38 in keyDown||40 in keyDown){
+			if(j.y<c.y+c.h/2){
+			j.y-= j.speedV;
+			}else{
+			j.y+= j.speedV;
+			}
+		}
+	}
+}
+var deathCount=0
+function death(){
+	nextLevel=true
+	immortality=false
+	deathCount++
+	mort.play()
+}
+
+function morts(){
+		ctx.fillStyle="black"
+		ctx.font="35px geogia"
+		ctx.textAlign="center"
+		ctx.fillText("morts:"+deathCount,canvas.width/2,30)
+	}
+
+function update(){
+	if(new Date().getTime()-immStart>4000){
+		immortality=false
+		joueur.color="blue"
+	}
+}
+ //selection des niveaux
+ var nextLevel=true
+ var lvl=1
+function lvlSetUP(){
+	obstacles=[]
+	murs=[]
+	immortalities=[]
+	if(lvl==0){
+
+	}
+	if (lvl==1){
+		joueur.x=200*canvasSize/1000,
+		joueur.y=485*canvasSize/1000,
+		cible.x=800*canvasSize/1000,
+		cible.y=485*canvasSize/1000,
+		new Obstacle(485, 100, 30, 200, "red", 0, 20, 485, 400, 2)
+	}
+	if(lvl==2){
+		joueur.x=360*canvasSize/1000,
+		joueur.y=950*canvasSize/1000,
+		cible.x=640*canvasSize/1000,
+		cible.y=950*canvasSize/1000,
+		new Mur(220, 0, 30, 1000, "white")
+		new Mur(750, 0, 30, 1000, "white")
+		new Mur(485, 250, 30, 750, "white")
+		new Obstacle(0, 385, 150, 30, "red", 20, 0, 425, 385, 2)
+		new Obstacle(850, 625, 150, 30, "red", -20, 0, 425, 625, 2)
+	}
+	if(lvl==3){
+		joueur.x=30*canvasSize/1000,
+		joueur.y=940*canvasSize/1000,
+		cible.x=940*canvasSize/1000,
+		cible.y=30*canvasSize/1000,
+		new Mur(235, 860, 30, 280, "white")
+		new Mur(235, 860, 280, 30, "white")
+		new Mur(485, 610, 30, 280, "white")
+		new Mur(485, 610, 280, 30, "white")
+		new Mur(735, 360, 30, 280, "white")
+		new Mur(735, 360, 280, 30, "white")
+		new Mur(-15, 610, 280, 30, "white")
+		new Mur(235, 360, 30, 280, "white")
+		new Mur(235, 360, 280, 30, "white")
+		new Mur(485, 110, 30, 280, "white")
+		new Mur(485, 110, 280, 30, "white")
+		new Mur(735, 0, 30, 140, "white")
+		new Obstacle(250, 450, 100, 100, "red", 0, 40, 450, 450, 2)
+	}
+	if(lvl==4){
+		joueur.x=30*canvasSize/1000,
+		joueur.y=30*canvasSize/1000,
+		cible.x=940*canvasSize/1000,
+		cible.y=30*canvasSize/1000,
+		new Immortality(160, 30)
+		new Immortality(425, 940)
+		new Immortality(690, 30)
+		new Immortality(940, 940)
+		new Mur(220, 0, 30, 800, "white")
+		new Mur(750, 0, 30, 800, "white")
+		new Mur(485, 200, 30, 800, "white")
+		new Mur(310, 600, 115, 30, "white")
+		new Mur(220, 400, 90, 30, "white")
+		new Mur(425, 400, 90, 30, "white")
+		new Mur(485, 350, 150, 30, "white")
+		new Mur(630, 550, 150, 30, "white")
+		new Mur(485, 750, 150, 30, "white")
+		new Mur(750, 250, 150, 30, "white")
+		new Mur(750, 500, 150, 30, "white")
+		new Mur(750, 750, 150, 30, "white")
+		new Mur(880, 375, 120, 30, "white")
+		new Mur(880, 625, 120, 30, "white")
+		new Obstacle(0, 200, 1000, 600, "red", 0, 0, 0, 0, 0)
+	}
+	if(lvl==5){
+		joueur.x=3000*canvasSize/1000,
+		joueur.y=3000*canvasSize/1000,
+		cible.x=94000*canvasSize/1000,
+		cible.y=3000*canvasSize/1000,
+		end.play()
+		ctx.fillStyle="black"
+		ctx.font="50px georgia"
+		ctx.textAlign="center"
+		ctx.fillText("Vous avez réussi avec "+deathCount+" morts!", canvas.width/2, canvas.height/2-20)
+	}
+	
+ nextLevel=false
+}
+function reussite(){
+		ctx.fillStyle="black"
+		ctx.font="50px georgia"
+		ctx.textAlign="center"
+		ctx.fillText("Vous avez réussi avec "+deathCount+" morts!", canvas.width/2, canvas.height/2-20)
+	}
+//événements clavier
+
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+   // console.log(keyDown)
+})
+
+document.addEventListener("keyup", function(e){
+    delete keyDown[e.keyCode]
+   // console.log(keyDown)
+})
+
+
+function clavier(){
+	//console.log(e)
+	
+	if(37 in keyDown &&joueur.x>0){
+		joueur.x-=joueur.speedH
+		}
+	if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+		joueur.x+=joueur.speedH
+		}
+	if(38 in keyDown &&joueur.y>0){
+		joueur.y-=joueur.speedV
+		}
+	if(40 in keyDown &&joueur.y<canvas.height-joueur.h){
+		joueur.y+=joueur.speedV
+		}	
+	
+	}
+	
+
+//boucle principale du jeu
+
+function game(){
+	ctx.clearRect(0,0,canvas.width,canvas.height)
+	if(nextLevel==true){
+		lvlSetUP()
+	}
+	if(lvl==5){
+		reussite()
+	}else{
+	morts()
+	update()
+	drawObjets()
+	drawCible()
+    draw(joueur)
+	}	
+	clavier()
+	requestAnimationFrame(game)
+	}	
+game()
+
+</script>
+</body>
+</html>

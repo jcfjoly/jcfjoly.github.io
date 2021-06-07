@@ -1,0 +1,469 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protection spatiale</title>
+
+    <style>
+
+        canvas{
+            background-color:#0b0a09;
+            margin:auto;
+            display:block;
+        }
+        
+        
+    </style>
+
+</head>
+<body>
+
+    <canvas id="monCanvas"></canvas>
+
+<script>
+
+//Canvas
+var canvas=document.getElementById("monCanvas")
+var ctx=canvas.getContext("2d")
+canvas.width=1200
+canvas.height=600
+//Fin canvas
+
+//Zone à protèger
+var protectedZone={
+	x:0,
+	y:500,
+	w:1200,
+	h:100,
+    color:"white",
+    vie:20
+}
+
+var city=new Image()
+
+function drawPZ(){
+    ctx.fillStyle="white"
+    ctx.font="28px Arial"
+    ctx.fillText("Vie de la zone protèger: "+protectedZone.vie,1000,50)
+    if(protectedZone.vie>15){
+        city.src="city.jpg"
+        ctx.fillStyle=protectedZone.color
+	    ctx.drawImage(city,protectedZone.x,protectedZone.y,protectedZone.w,protectedZone.h)
+    }else if(protectedZone.vie>10&&protectedZone.vie<=15){
+        city.src="redCity.jpg"
+        ctx.fillStyle=protectedZone.color
+	    ctx.drawImage(city,protectedZone.x,protectedZone.y,protectedZone.w,protectedZone.h)
+    }else if(protectedZone.vie>5&&protectedZone.vie<=10){
+        city.src="flameCity.jpg"
+        ctx.fillStyle=protectedZone.color
+	    ctx.drawImage(city,protectedZone.x,protectedZone.y,protectedZone.w,protectedZone.h)
+    }else if(protectedZone.vie>0&&protectedZone.vie<=5){
+        city.src="burningCity.jpg"
+        ctx.fillStyle=protectedZone.color
+	    ctx.drawImage(city,protectedZone.x,protectedZone.y,protectedZone.w,protectedZone.h)
+    }else{
+    perdu=true
+    gagne=false
+    music.pause()
+    lost.play()
+    }
+}
+//Fin zone à protèger
+
+//Vaisseau
+var vaisseau={
+    x:575,
+    y:400,
+    w:50,
+    h:75,
+    color:"white",
+    speed:10,
+}
+
+var destroyed=0
+var choixVaisseau=new Image()
+choixVaisseau.src="vaisseau1.png"
+
+function drawVaisseau(){
+    if(49 in keyDown){
+        choixVaisseau.src="vaisseau1.png"
+        ctx.fillStyle=vaisseau.color
+        ctx.drawImage(choixVaisseau,vaisseau.x,vaisseau.y,vaisseau.w,vaisseau.h)
+    }else if(50 in keyDown){
+        choixVaisseau.src="vaisseau2.png"
+        ctx.fillStyle=vaisseau.color
+        ctx.drawImage(choixVaisseau,vaisseau.x,vaisseau.y,vaisseau.w,vaisseau.h)
+    }else if(51 in keyDown){
+        choixVaisseau.src="vaisseau3.png"
+        ctx.fillStyle=vaisseau.color
+        ctx.drawImage(choixVaisseau,vaisseau.x,vaisseau.y,vaisseau.w,vaisseau.h)
+    }else if(52 in keyDown){
+        choixVaisseau.src="vaisseau4.png"
+        ctx.fillStyle=vaisseau.color
+        ctx.drawImage(choixVaisseau,vaisseau.x,vaisseau.y,vaisseau.w,vaisseau.h)
+    }else{
+        ctx.fillStyle=vaisseau.color
+        ctx.drawImage(choixVaisseau,vaisseau.x,vaisseau.y,vaisseau.w,vaisseau.h)
+    }
+
+    ctx.fillStyle="white"
+    ctx.font="28px Arial"
+    ctx.fillText("Obstacles détruits: "+destroyed,1000,100)  
+}
+
+var keyDown={}
+
+document.addEventListener("keydown", function(e){keyDown[e.keyCode]=true})
+document.addEventListener("keyup", function(e){delete keyDown[e.keyCode]})
+
+function mouvement(){
+    if(37 in keyDown &&vaisseau.x>0){
+        vaisseau.x-=vaisseau.speed
+	}
+    else if(39 in keyDown &&vaisseau.x<canvas.width-vaisseau.w){
+        vaisseau.x+=vaisseau.speed
+    }
+    else{}
+}
+    
+//Fin vaisseau
+
+//Missiles
+var sacMissiles=[]
+
+function Missile(x,y,w,h,color,speed){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speed=speed
+    this.draw=function(){
+        ctx.fillStyle=this.color
+    ctx.fillRect(this.x,this.y-=this.speed,this.w,this.h)
+    }
+}
+
+setInterval(tir,250)
+
+function tir(){
+    posX=vaisseau.x+22.5
+    posY=vaisseau.y
+    speed=7.5
+    couleur=["#ffe900","#ff7f11","#ff4747","#da4167","#8d0147"]
+    rand=Math.floor(Math.random()*couleur.length)
+    if(aide==false){
+        sacMissiles.push(new Missile(posX,posY,5,5,couleur[rand],speed))
+    }
+}
+
+function drawMissiles(){
+    for(i=0;i<sacMissiles.length;i++){
+        sacMissiles[i].draw()
+        if (sacMissiles[i].y<0){
+            sacMissiles.splice(i,1)
+        }
+    }
+}
+//Fin missiles
+
+//Obstacles
+var sacObstacles=[]
+
+function Obstacles(x,y,w,h,color,speed,vie){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speed=speed
+    this.draw=function(){
+        ctx.fillStyle=this.color
+    ctx.fillRect(this.x,this.y+=this.speed,this.w,this.h)
+    }
+}
+
+function cible(){
+    posX=Math.random()*1100
+    posY=0
+    speed=3
+    couleur=["#083d77","#63adf2","#06ef35"]
+    rand=Math.floor(Math.random()*couleur.length)
+    if(aide==false){
+        sacObstacles.push(new Obstacles(posX,posY,50,50,couleur[rand],speed,))
+    }
+}
+
+setInterval(cible,1000)
+
+function drawObstacles(){
+    for(i=0;i<sacObstacles.length;i++){
+        sacObstacles[i].draw()
+    }
+}
+//Fin obstacles
+
+//Collisions
+var destroy=new Audio()
+destroy.src="destroy.mp3"
+
+var explosion=new Audio()
+explosion.src="explosion.mp3"
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+		
+		return(true)
+	}
+}
+
+function checkCollision(){
+    for(i=0;i<sacMissiles.length;i++)
+    for(j=0;j<sacObstacles.length;j++){
+        if(collision(sacMissiles[i],sacObstacles[j])){
+            sacObstacles.splice(j,1)
+            sacMissiles.splice(i,1)
+            destroyed++
+            destroy.play()
+            if(destroyed>=50){
+                gagne=true
+                perdu=false
+                music.pause()
+                winGame.play()
+            }
+        }
+    }
+}
+
+function attack(){
+    for(j=0;j<sacObstacles.length;j++)
+    if(collision(sacObstacles[j],protectedZone)){
+            protectedZone.vie--
+            sacObstacles.splice(j,1)
+            explosion.play()
+        }
+}
+//Fin collisions
+
+//Musique
+var music=new Audio()
+music.src="BGM.mp3"
+
+function backGroundMusic(){
+    if(80 in keyDown){
+    music.play()
+    }else if(83 in keyDown){
+    music.pause()
+    }else{}
+}
+//Fin de musique
+
+//Menu
+var menu=true
+
+function showMenu(){
+    ctx.line="5px #696969 solid"
+	ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width/2-300,canvas.height/6,600,300)
+	ctx.fillRect(canvas.width/2-300,canvas.height/6,600,300)
+	ctx.font="19px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("INSTRUCTIONS", canvas.width/2,canvas.height/4-12)
+    ctx.fillText("But: Protéger la ville en détruisant les obstacles", canvas.width/2, canvas.height/4+40)
+    ctx.fillText("- Utiliser les flèches pour bouger de gauche à droite",canvas.width/2,canvas.height/4+80)
+    ctx.fillText("- Détruiser 50 obstacles pour gagner",canvas.width/2,canvas.height/4+120)
+    ctx.fillText("Musique: appuyer sur la touche p (play) ou s (stop)",canvas.width/2,canvas.height/4+160)
+    ctx.fillText("Choix du vaisseau: appuyer sur les touches 1, 2, 3 ou 4",canvas.width/2,canvas.height/4+200)
+    ctx.fillText("Bonne chance!",canvas.width/2,canvas.height/4+240)
+
+    ctx.line="5px #696969 solid"
+	ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width/2-100,canvas.height*0.75,200,100)
+	ctx.fillRect(canvas.width/2-100,canvas.height*0.75,200,100)
+	ctx.font="45px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("JOUER", canvas.width/2,canvas.height*0.85+7)
+
+    ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width-300,canvas.height-25,300,25)
+	ctx.fillRect(canvas.width-300,canvas.height-25,300,25)
+	ctx.font="15px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("Images: dessinées par Anilou Winter", canvas.width-150,canvas.height-5)
+		
+	canvas.addEventListener("click", function(){
+        if(menu==true){
+            sacObstacles.splice(0,sacObstacles.length)
+            sacMissiles.splice(0,sacMissiles.length)
+        }
+    menu=false})
+}
+//Fin menu
+
+//Menu aide
+var aide=false
+
+function help(){
+    if(72 in keyDown){
+        aide=true
+    }else{aide=false}
+}
+
+function showHelp(){
+    ctx.line="5px #696969 solid"
+	ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width/2-300,canvas.height/6,600,300)
+	ctx.fillRect(canvas.width/2-300,canvas.height/6,600,300)
+	ctx.font="19px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("MENU AIDE", canvas.width/2,canvas.height/4-12)
+    ctx.fillText("But: Protéger la ville en détruisant les obstacles", canvas.width/2, canvas.height/4+40)
+    ctx.fillText("- Utiliser les flèches pour bouger de gauche à droite",canvas.width/2,canvas.height/4+80)
+    ctx.fillText("- Détruiser 50 obstacles pour gagner",canvas.width/2,canvas.height/4+120)
+    ctx.fillText("Musique: appuyer sur la touche p (play) ou s (stop)",canvas.width/2,canvas.height/4+180)
+    ctx.fillText("Choix du vaisseau: appuyer sur les touches 1, 2, 3 ou 4",canvas.width/2,canvas.height/4+220)
+}
+
+function writeHelp(){
+    ctx.fillStyle="white"
+    ctx.font="20px Arial"
+    ctx.fillText("Pour afficher le menu aide, appuyer sur h",canvas.width-1000,25)
+}
+//Fin menu aide
+
+//End of game (victoire & défaite)
+perdu=false
+var lost=new Audio()
+lost.src="lost.mp3"
+
+function lose(){
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+
+    ctx.lineWidth=5
+	ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width/2-300,canvas.height/4,600,150)
+	ctx.fillRect(canvas.width/2-300,canvas.height/4,600,150)
+	ctx.font="25px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("OH NON! La ville a été détruite!", canvas.width/2,canvas.height/4+50)
+    ctx.fillText("Cliquez sur REJOUER pour retenter votre chance.", canvas.width/2, canvas.height/4+125)
+
+	ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	ctx.fillRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	ctx.font="45px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("REJOUER", canvas.width/2,canvas.height*0.75+10)
+
+    ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width-350,canvas.height-50,350,50)
+	ctx.fillRect(canvas.width-350,canvas.height-50,350,50)
+	ctx.font="25px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("Chanson: Fix You par Coldplay", canvas.width-175,canvas.height-15)
+
+    ctx.fillStyle="white"
+    ctx.font="28px Arial"
+    ctx.fillText("Vie de la zone protéger: "+protectedZone.vie,1000,50)
+
+    ctx.fillStyle="white"
+    ctx.font="28px Arial"
+    ctx.fillText("Obstacles détruits: "+destroyed,1000,100)
+		
+	canvas.addEventListener("click", function(){
+    menu=false
+    location.reload()})
+}
+
+var gagne=false
+var winGame=new Audio()
+winGame.src="win.mp3"
+
+function win(){
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+
+    ctx.lineWidth=5
+	ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width/2-300,canvas.height/4,600,150)
+	ctx.fillRect(canvas.width/2-300,canvas.height/4,600,150)
+	ctx.font="25px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("Vous avez réussi! La ville est sauvée!", canvas.width/2,canvas.height/4+50)
+    ctx.fillText("Cliquez sur REJOUER pour retenter votre chance.", canvas.width/2, canvas.height/4+125)
+
+	ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	ctx.fillRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	ctx.font="45px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("REJOUER", canvas.width/2,canvas.height*0.75+10)
+
+    ctx.fillStyle="#e6e6e6"
+	ctx.strokeRect(canvas.width-515,canvas.height-50,515,50)
+	ctx.fillRect(canvas.width-515,canvas.height-50,515,50)
+	ctx.font="25px Arial"
+	ctx.textAlign="center"
+	ctx.fillStyle="#0b0a09"
+	ctx.fillText("Chanson: We Are The Champions par Queen", canvas.width-257,canvas.height-15)
+
+    ctx.fillStyle="white"
+    ctx.font="28px Arial"
+    ctx.fillText("Vie de la zone protéger: "+protectedZone.vie,1000,50)
+
+    ctx.fillStyle="white"
+    ctx.font="28px Arial"
+    ctx.fillText("Obstacles détruits: "+destroyed,1000,100)
+		
+	canvas.addEventListener("click", function(){
+    menu=false
+    location.reload()})
+    }
+//fin de end of game
+
+//Boucle principale
+function game(){
+    if (menu==true){
+        showMenu()
+    }else if(perdu==true){
+        lose()
+    }else if(gagne==true){
+        win()
+    }else if(aide==true){
+        showHelp()
+        help()
+    }else{
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        drawObstacles()
+        drawPZ()
+        drawMissiles()
+        drawVaisseau()
+        mouvement()
+        checkCollision()
+        attack()
+        help()
+        writeHelp()
+    }
+    backGroundMusic()
+    requestAnimationFrame(game)
+}
+
+game()
+//Fin boucle principale
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,552 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu 2D</title>
+</head>
+<body>
+    
+<script>
+
+    //Canvas
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth-50;
+    canvas.height = window.innerHeight-50
+    canvas.style.border = "5px #e8ffff solid";
+    canvas.style.backgroundColor= "000f0f";
+    canvas.style.display = "block";
+    canvas.style.margin ="auto"
+    document.body.appendChild(canvas);
+    //Fin canvas
+
+    //Départ & arrivée
+    var depart={
+        x:canvas.width-75,
+        y:canvas.height-canvas.height*0.25,
+        w:75,
+        h:canvas.height*0.25,
+        color:"#78fcff"
+    }
+
+    var arrivee={
+        x:canvas.width-75,
+        y:0,
+        w:75,
+        h:canvas.height*0.25,
+        color:"78fcff"
+    }
+
+    function drawDepartArrivee(){
+        ctx.fillStyle=depart.color
+        ctx.fillRect(depart.x,depart.y,depart.w,depart.h)
+
+        ctx.fillStyle=arrivee.color
+        ctx.fillRect(arrivee.x,arrivee.y,arrivee.w,arrivee.h)
+    }
+    //Fin départ & arrivée
+
+    //Parcours
+    function Parcours(x,y,w,h,color){
+        this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+	    }
+    }
+
+    var parcours1=new Parcours(canvas.width*0.25,canvas.height*0.25,canvas.width*0.75,20,"#e8ffff")
+    var parcours2=new Parcours(0,canvas.height/2,canvas.width-250,20,"#e8ffff")
+    var parcours3=new Parcours(canvas.width*0.1,canvas.height*0.75,canvas.width*0.9,20,"#e8ffff")
+
+    function drawParcours(){
+        parcours1.draw()
+        parcours2.draw()
+        parcours3.draw()
+    }
+    //fin parcours
+
+    //Héros(création,déplacement)
+    var joueur={
+        x:canvas.width-50,
+        y:canvas.height-50,
+        w:30,
+        h:30,
+        color:"#00c4c8",
+        speed:5
+    }
+
+    var herosDefault=new Image()
+    herosDefault.src="herosDefault.jpg"
+
+    var herosLeft=new Image()
+    herosLeft.src="herosLeft.jpg"
+
+    var herosRight=new Image()
+    herosRight.src="herosRight.jpg"
+
+    var herosUp=new Image()
+    herosUp.src="herosUp.jpg"
+
+    var herosDown=new Image()
+    herosDown.src="herosDown.jpg"
+
+    function drawJoueur(){
+        ctx.fillStyle=joueur.color
+        ctx.drawImage(herosDefault,joueur.x,joueur.y,joueur.w,joueur.h)
+    }
+
+    var keyDown={}
+
+    document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+    console.log(keyDown)
+    })
+    document.addEventListener("keyup", function(e){
+        delete keyDown[e.keyCode]
+        console.log(keyDown)
+    })
+
+    function deplacement(){
+        if(37 in keyDown &&joueur.x>0){
+            joueur.x-=joueur.speed
+            ctx.drawImage(herosLeft,joueur.x,joueur.y,joueur.w,joueur.h)
+		}
+        else if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+            joueur.x+=joueur.speed
+            ctx.drawImage(herosRight,joueur.x,joueur.y,joueur.w,joueur.h)
+        }
+        else if(38 in keyDown &&joueur.y>0){
+            joueur.y-=joueur.speed
+            ctx.drawImage(herosUp,joueur.x,joueur.y,joueur.w,joueur.h)
+         }
+        else if(40 in keyDown &&joueur.y<canvas.height-joueur.h){
+            joueur.y+=joueur.speed
+            ctx.drawImage(herosDown,joueur.x,joueur.y,joueur.w,joueur.h)
+        }
+        else{
+            ctx.drawImage(herosDefault,joueur.x,joueur.y,joueur.w,joueur.h)
+        }
+        wall(joueur, parcours1)
+        wall(joueur, parcours2)
+        wall(joueur, parcours3)
+	}
+    //fin héros
+
+    //Obstacles (création, déplacement)
+    function Motionless(x,y,w,h,color,){
+        this.x=x
+        this.y=y
+        this.w=w
+        this.h=h
+        this.color=color
+        this.draw=function(){
+            ctx.fillStyle=this.color
+            ctx.fillRect(this.x,this.y,this.w,this.h)
+        }
+    }
+
+    var motionlessTop1= new Motionless(350,0,50,50,"#ff0e00")
+    var motionlessTop2= new Motionless(350,canvas.height*0.25-50,50,50,"#ff0e00")
+    var motionlessTop3= new Motionless(463,canvas.height*0.08,125,65,"#ff0e00")
+    var motionlessTop4= new Motionless(650,0,50,75,"#ff0e00")
+    var motionlessTop5= new Motionless(650,canvas.height*0.25-25,50,25,"#ff0e00")
+    var motionlessTop6= new Motionless(745,0,100,125,"#ff0e00")
+    var motionlessTop7= new Motionless(925,0,50,90,"#ff0e00")
+    var motionlessTop8= new Motionless(925,canvas.height*0.25-20,50,20,"#ff0e00")
+    var motionlessTop9= new Motionless(1050,0,50,50,"#ff0e00")
+    var motionlessTop10= new Motionless(1050,canvas.height*0.25-75,50,75,"#ff0e00")
+    
+
+    var motionlessBottom1= new Motionless(200,canvas.height/2+20,50,10,"#ff0e00")
+    var motionlessBottom2= new Motionless(200,canvas.height*0.75-65,50,65,"#ff0e00")
+    var motionlessBottom3= new Motionless(325,canvas.height/2+20,50,65,"#ff0e00")
+    var motionlessBottom4= new Motionless(325,canvas.height*0.75-10,50,10,"#ff0e00")
+    var motionlessBottom5= new Motionless(450,canvas.height/2+70,175,45,"#ff0e00")
+    var motionlessBottom6= new Motionless(450,canvas.height*0.75-10,175,10,"#ff0e00")
+    var motionlessBottom7= new Motionless(700,canvas.height/2+20,50,25,"#ff0e00")
+    var motionlessBottom8= new Motionless(700,canvas.height*0.75-50,50,50,"#ff0e00")
+    var motionlessBottom9= new Motionless(815,canvas.height/2+70,100,25,"#ff0e00")
+    var motionlessBottom10= new Motionless(815,canvas.height*0.75-10,100,10,"#ff0e00")
+    var motionlessBottom11= new Motionless(1005,canvas.height/2+20,50,75,"#ff0e00")
+    
+
+    function FastObstacle(x,y,w,h,color,speed){
+        this.x=x
+        this.y=y
+        this.w=w
+        this.h=h
+        this.color=color
+        this.speed=speed
+        this.draw=function(){
+            ctx.fillStyle=this.color
+            ctx.fillRect(this.x,this.y,this.w,this.h)
+            if(this.y<canvas.height*0.25+20||this.y+this.h>canvas.height/2){
+                this.speed=-this.speed
+            }
+            this.y+=this.speed
+        }
+    }
+
+    var movingFast1= new FastObstacle(350,canvas.height*0.25+20,30,25,"#ff0e00",Math.random()*8.5)
+    var movingFast2= new FastObstacle(500,canvas.height*0.25+20,30,25,"#ff0e00",Math.random()*8.5)
+    var movingFast3= new FastObstacle(650,canvas.height*0.25+20,30,25,"#ff0e00",Math.random()*8.5)
+    var movingFast4= new FastObstacle(800,canvas.height*0.25+20,30,25,"#ff0e00",Math.random()*8.5)
+    var movingFast5= new FastObstacle(950,canvas.height*0.25+20,30,25,"#ff0e00",Math.random()*8.5)
+
+    function SlowObstacle(x,y,w,h,color,speed){
+        this.x=x
+        this.y=y
+        this.w=w
+        this.h=h
+        this.color=color
+        this.speed=speed
+        this.draw=function(){
+            ctx.fillStyle=this.color
+            ctx.fillRect(this.x,this.y,this.w,this.h)
+            if(this.y<canvas.height*0.75+20||this.y+this.h>canvas.height){
+                this.speed=-this.speed
+            }
+            this.y+=this.speed
+        }
+    }
+    var movingSlowly1= new SlowObstacle(250,canvas.height-50,20,25,"#ff0e00",Math.random()*7.5)
+    var movingSlowly2= new SlowObstacle(450,canvas.height-50,20,25,"#ff0e00",Math.random()*7.5)
+    var movingSlowly3= new SlowObstacle(650,canvas.height-50,20,25,"#ff0e00",Math.random()*7.5)
+    var movingSlowly4= new SlowObstacle(850,canvas.height-50,20,25,"#ff0e00",Math.random()*7.5)
+    var movingSlowly5= new SlowObstacle(1050,canvas.height-50,20,25,"#ff0e00",Math.random()*7.5)
+
+    function drawObstacles(){
+        motionlessTop1.draw()
+        motionlessTop2.draw()
+        motionlessTop3.draw()
+        motionlessTop4.draw()
+        motionlessTop5.draw()
+        motionlessTop6.draw()
+        motionlessTop7.draw()
+        motionlessTop8.draw()
+        motionlessTop9.draw()
+        motionlessTop10.draw()
+
+        movingFast1.draw()
+        movingFast2.draw()
+        movingFast3.draw()
+        movingFast4.draw()
+        movingFast5.draw()
+
+        motionlessBottom1.draw()
+        motionlessBottom2.draw()
+        motionlessBottom3.draw()
+        motionlessBottom4.draw()
+        motionlessBottom5.draw()
+        motionlessBottom6.draw()
+        motionlessBottom7.draw()
+        motionlessBottom8.draw()
+        motionlessBottom9.draw()
+        motionlessBottom10.draw()
+        motionlessBottom11.draw()
+
+        movingSlowly1.draw()
+        movingSlowly2.draw()
+        movingSlowly3.draw()
+        movingSlowly4.draw()
+        movingSlowly5.draw()
+    }
+    //fin obstacles
+
+    //Zones & power-up/power-down
+    var smaller1=new Power(canvas.width-175,canvas.height*0.75+20,30,canvas.height*0.25,"#bffeff")
+    var smaller2=new Power(250,canvas.height*0.75-20,30,30,"#bffeff")
+    var smaller3=new Power(1025,canvas.height*0.25+20,30,canvas.height*0.125+10,"#bffeff")
+    var smaller4=new Power(400,0,30,30,"#bffeff")
+
+    var normalSize1=new Power(canvas.width*0.1,canvas.height*0.75+20,30,canvas.height*0.25,"#00faff")
+    var normalSize2=new Power(1025,canvas.height/2-canvas.height*0.125+10,30,canvas.height*0.125-10,"#00faff")
+
+    var grow=new Audio()
+    grow.src="growing.mp3"
+    var shrink=new Audio()
+    shrink.src="shrinking.mp3"
+
+    function Power(x,y,w,h,color,){
+        this.x=x
+        this.y=y
+        this.w=w
+        this.h=h
+        this.color=color
+        this.draw=function(){
+            ctx.fillStyle=this.color
+            ctx.fillRect(this.x,this.y,this.w,this.h)
+        }
+    }
+
+    function drawZones(){
+        smaller1.draw()
+        smaller2.draw()
+        smaller3.draw()
+        smaller4.draw()
+        normalSize1.draw()
+        normalSize2.draw()
+
+        if(collision(joueur,smaller1)||collision(joueur,smaller2)||collision(joueur,smaller3)||collision(joueur,smaller4)){
+            joueur.w=15
+            joueur.h=15
+            shrink.play()
+            grow.pause()
+        }
+        if(collision(joueur,normalSize1)||collision(joueur,normalSize2)){
+            joueur.w=30
+            joueur.h=30
+            grow.play()
+            shrink.pause()
+        }
+    }	
+    //Fin zones & power-up/power-down
+
+    //Collisions(avec obstacles, murs & arrivée)
+    function collision(a,b){
+        if(a.x+a.w>b.x&&
+        a.x<b.x+b.w&&
+        a.y<b.y+b.h&&
+        a.y+a.h>b.y){
+
+            return(true)}
+	}
+
+        function wall(j,p){
+        if(collision(j, p)){
+            if(37 in keyDown || 39 in keyDown){
+                if(j.x < p.x+c.w/2){
+                j.x-= j.speed
+                }else{
+                    j.x+= j.speed
+                }
+            }
+            if(38 in keyDown||40 in keyDown){
+                if(j.y<p.y+p.h/2){
+                j.y-= j.speed;
+                }else{
+                j.y+= j.speed;
+                }
+            }
+        }
+    }
+
+    var loseALife=new Audio()
+    loseALife.src="loseALife.wav"
+
+    var winGame=new Audio()
+    winGame.src="winGame.mp3"
+
+    var gameOver=new Audio()
+    gameOver.src="gameOver.mp3"
+
+
+    function checkCollision(){
+        if(collision(joueur,movingSlowly1)||
+            collision(joueur,movingSlowly2)||
+            collision(joueur,movingSlowly3)||
+            collision(joueur,movingSlowly4)||
+            collision(joueur,movingSlowly5)||
+            collision(joueur,movingFast1)||
+            collision(joueur,movingFast2)||
+            collision(joueur,movingFast3)||
+            collision(joueur,movingFast4)||
+            collision(joueur,movingFast5)||
+            collision(joueur,motionlessTop1)||
+            collision(joueur,motionlessTop2)||
+            collision(joueur,motionlessTop3)||
+            collision(joueur,motionlessTop4)||
+            collision(joueur,motionlessTop5)||
+            collision(joueur,motionlessTop6)||
+            collision(joueur,motionlessTop7)||
+            collision(joueur,motionlessTop8)||
+            collision(joueur,motionlessTop9)||
+            collision(joueur,motionlessTop10)||
+            collision(joueur,motionlessBottom1)||
+            collision(joueur,motionlessBottom2)||
+            collision(joueur,motionlessBottom3)||
+            collision(joueur,motionlessBottom4)||
+            collision(joueur,motionlessBottom5)||
+            collision(joueur,motionlessBottom6)||
+            collision(joueur,motionlessBottom7)||
+            collision(joueur,motionlessBottom8)||
+            collision(joueur,motionlessBottom9)||
+            collision(joueur,motionlessBottom10)||
+            collision(joueur,motionlessBottom11)
+            ){
+            joueur.x=canvas.width-50
+            joueur.y=canvas.height-50
+            joueur.w=30
+            joueur.h=30
+            vies--
+            loseALife.play()
+            if(vies==0){
+                perdu=true
+                gameOver.play()
+            }
+        }
+                
+    }
+
+    function finDuJeu(){
+        if((joueur.x>canvas.width-75)&&(joueur.y<canvas.height*0.25)){
+            gagne=true
+            winGame.play()
+        }
+    }
+    //Fin collisions
+
+    //Menu & instructions
+    var menu=true
+    var c=canvas.getContext("2d")
+    var click=new Audio()
+    click.src="mouseClick.mP3"
+
+    function showMenu(){
+        c.lineWidth=5
+	    c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width/2-300,canvas.height/6,600,300)
+	    c.fillRect(canvas.width/2-300,canvas.height/6,600,300)
+	    c.font="19px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("INSTRUCTIONS", canvas.width/2,canvas.height/4-12)
+        c.fillText("But: Déplacer le héro de la première zone turquoise à la deuxième.", canvas.width/2, canvas.height/4+40)
+        c.fillText("- La collision avec n'importe quel obstacle rouge vous ramène",canvas.width/2,canvas.height/4+80)
+        c.fillText("au point de départ et vous fait perdre une vie.",canvas.width/2,canvas.height/4+120)
+        c.fillText("- Les bandes/zones turquoises pâles vous rendrons plus petit et les",canvas.width/2,canvas.height/4+160)
+        c.fillText("bandes/zones turquoises foncées vous rendrons votre taille normale.",canvas.width/2,canvas.height/4+200)
+        c.fillText("Bonne chance!",canvas.width/2,canvas.height/4+240)
+
+        c.lineWidth=5
+	    c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width/2-100,canvas.height*0.75,200,100)
+	    c.fillRect(canvas.width/2-100,canvas.height*0.75,200,100)
+	    c.font="45px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("JOUER", canvas.width/2,canvas.height*0.85+7)
+		
+	    canvas.addEventListener("click", function(){
+        menu=false
+        click.play()})
+    }
+    //Fin menu & instructions
+
+    //Vies
+    var vies=20
+
+    function pointDeVie(){
+	c.font="25px Arial"
+	c.textAlign="left"
+	c.fillStyle="#e8ffff"
+	c.fillText("Vie(s) restante(s): "+vies,30,30)
+	}
+
+    var perdu=false
+
+    function lose(){
+        c.lineWidth=5
+	    c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width/2-300,canvas.height/4,600,150)
+	    c.fillRect(canvas.width/2-300,canvas.height/4,600,150)
+	    c.font="25px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("VOUS AVEZ PERDU :(", canvas.width/2,canvas.height/4+50)
+        c.fillText("Cliquer sur REJOUER pour retenter votre chance.", canvas.width/2, canvas.height/4+125)
+
+	    c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	    c.fillRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	    c.font="45px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("REJOUER", canvas.width/2,canvas.height*0.75+10)
+
+        c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width-350,canvas.height-50,350,50)
+	    c.fillRect(canvas.width-350,canvas.height-50,350,50)
+	    c.font="25px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("Chanson: Fix You par Coldplay", canvas.width-175,canvas.height-15)
+		
+	    canvas.addEventListener("click", function(){
+    
+        menu=false
+        click.play()
+        location.reload()})
+    }
+
+    var gagne=false
+
+    function win(){
+        c.lineWidth=5
+	    c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width/2-300,canvas.height/4,600,150)
+	    c.fillRect(canvas.width/2-300,canvas.height/4,600,150)
+	    c.font="25px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("VOUS AVEZ GAGNÉ :)", canvas.width/2,canvas.height/4+50)
+        c.fillText("Cliquer sur REJOUER pour retenter votre chance.", canvas.width/2, canvas.height/4+125)
+
+	    c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	    c.fillRect(canvas.width/2-150,canvas.height*0.66,300,100)
+	    c.font="45px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("REJOUER", canvas.width/2,canvas.height*0.75+10)
+
+        c.fillStyle="#e8ffff"
+	    c.strokeRect(canvas.width-515,canvas.height-50,515,50)
+	    c.fillRect(canvas.width-515,canvas.height-50,515,50)
+	    c.font="25px Arial"
+	    c.textAlign="center"
+	    c.fillStyle="#000f0f"
+	    c.fillText("Chanson: We Are The Champions par Queen", canvas.width-257,canvas.height-15)
+		
+	    canvas.addEventListener("click", function(){
+        menu=false
+        click.play()
+        location.reload()})
+    }
+    //Fin vies
+
+    //Boucle principale du jeu
+    function game(){
+        if(menu==true){
+		    showMenu()
+	    }else if(perdu==true){
+            lose()
+        }else if(gagne==true){
+            win()
+        }else{
+            ctx.clearRect(0,0,canvas.width,canvas.height)
+            drawDepartArrivee()
+            drawZones()
+            drawParcours()
+            drawJoueur()
+            drawObstacles()
+            deplacement()
+            checkCollision()
+            pointDeVie()
+            finDuJeu()
+        }
+        requestAnimationFrame(game)
+    }
+
+game()
+    
+
+</script>
+
+</body>
+</html>
