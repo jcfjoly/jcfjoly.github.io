@@ -1,0 +1,891 @@
+<!DOCTYPE HTML>
+<HTML>
+<head>
+<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8">
+<title>voler des possesions simultor 2007</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	z-index: 9;
+	}
+	
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	z-index: 1001;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	z-index: -10;
+	background-color: black;
+	
+	}
+/*Commencez VOTRE CSS ici*/	
+#phase1{
+
+display: none;
+width: 100px;
+height: 100px;
+position: absolute;
+z-index: 2;
+top:35px;
+left:125px;
+background-color: black;
+
+}
+#phase1desc{
+width: 100px;
+height: 100px;
+
+}
+
+
+
+#p1img1{
+
+position: absolute;
+top: 0px;
+
+}
+
+#cle1{
+position: absolute;
+top: 510px;	
+left: 680px;
+display: block;
+}
+#cle1:hover{
+	border: 1px solid black;
+}
+#cle2:hover{
+	border: 1px solid black;
+}
+#cle3:hover{
+	border: 1px solid black;
+}
+#cle4:hover{
+	border: 1px solid black;
+}
+#cle5:hover{
+	border: 1px solid black;
+}
+#pillow:hover{
+	border: 1px solid black;
+}
+#cle2{
+position: absolute;
+top: 250px;	
+left: 25px;
+opacity: .5;
+display: block;
+}
+#cle3{
+position: absolute;
+top: 360px;	
+left: 800px;
+display: block;
+}
+#cle4{
+position: absolute;
+top: 400px;	
+left: 40px;
+display: block;
+}
+#cle5{
+position: absolute;
+top: 400px;	
+left: 590px;
+display: block;
+}
+#pillow{
+position: absolute;
+top: 360px;	
+left: 565px;
+z-index: 11;
+
+display: block;
+}
+#trapdoor{
+position: absolute;
+top: 500px;	
+left: 70px;
+display: block;
+transform: rotate(0deg);
+}
+#safelocked{
+position: absolute;
+top: 550px;	
+left: 120px;
+display: none;
+
+
+}
+#safelockedfront{
+position: absolute;
+top: 50%;	
+left: 200px;
+display: none;
+transform: rotate(0deg);
+
+}
+#dialandanswer{
+display: none;
+position: absolute;
+}
+#butup1{
+	position: absolute;
+left: 300px;
+top: 80px;
+z-index: 2;
+background-color: grey;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+background-image: url("images/uparrow.png");
+}
+#butdown1{
+	position: absolute;
+	z-index: 2;
+	left: 300px;
+	top: 220px;
+	background-color: grey;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+background-image: url('images/downarrow.png');
+}
+#butup2{
+	position: absolute;
+	z-index: 2;
+	left: 400px;
+	top: 80px;
+	background-color: grey;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+background-image: url("images/uparrow.png");
+
+}
+#butdown2{
+	position: absolute;
+	z-index: 2;
+	left: 400px;
+	top: 220px;
+	background-color: gray;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+background-image: url("images/downarrow.png");
+}
+#butdown3{
+	position: absolute;
+	z-index: 2;
+	left: 500px;
+	top: 220px;
+	background-color: grey;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+background-image: url("images/downarrow.png");
+}
+#butup3{
+	position: absolute;
+	z-index: 2;
+	left: 500px;
+	top: 80px;
+	background-color: grey;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+background-image: url("images/uparrow.png");
+
+}
+#ans1{
+	position: absolute;
+	z-index: 2;
+	left: 295px;
+	top: 150px;
+	background-color: white;
+	border: solid 5px black;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+
+}
+#ans2{
+	position: absolute;
+	z-index: 2;
+	left: 395px;
+	top: 150px;
+	background-color: white;
+	border: solid 5px black;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+
+}
+#ans3{
+	position: absolute;
+	z-index: 2;
+	left: 495px;
+	top: 150px;
+	background-color: white;
+	border: solid 5px black;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+}
+#unlock{
+	position: absolute;
+	z-index: 2;
+	left: 410px;
+	top: 340px;
+
+	width: 100px;
+	height: 100px;
+padding: 10px;
+
+}
+#enter{
+	position: absolute;
+	z-index: 2;
+	left: 600px;
+	top: 150px;
+	background-color: white;
+	border: solid 5px black;
+	width: 40px;
+	height: 30px;
+padding: 10px;
+
+}
+
+#indices{
+position: absolute;
+z-index: 30;
+top: 50px;
+left: 195px;
+background-color: rgba(0, 247, 255, 0.2);
+font-size: 200%;
+display: none;
+}
+
+#phase0{
+
+display: none;
+
+position: relative;
+z-index: 2;
+top:0px;
+left:0px;
+display: block;
+z-index: 10;
+
+}
+#textephase2{
+position: absolute;
+left: 100px;
+top: 100px;
+
+
+}
+#thhouse{
+position: relative;
+z-index: 2;
+top:-660px;
+left:250px;
+display: block;
+
+}
+#title{
+position: absolute;
+z-index: 2;
+top:-125px;
+left:250px;
+display: block;
+
+}
+#commencer{
+	position: absolute;
+	z-index: 2;
+	left: 510px;
+	top: -350px;
+	background-color: white;
+	border: solid 5px black;
+	width: 70px;
+	height: 70px;
+padding: 10px;
+z-index: 100;
+opacity: .45;
+
+}
+#commencer:hover{
+opacity: .9;
+
+
+}
+#commencercar{
+	position: absolute;
+	z-index: 2;
+	left: 1100px;
+	top: -170px;
+	background-color: white;
+	border: solid 5px black;
+	width: 70px;
+	height: 70px;
+padding: 10px;
+z-index: 100;
+opacity: .45;
+
+}
+#commencercar:hover{
+opacity: .9;
+
+
+}
+#commencerroof{
+	position: absolute;
+	z-index: 2;
+	left: 640px;
+	top: -570px;
+	background-color: white;
+	border: solid 5px black;
+	width: 70px;
+	height: 55px;
+padding: 10px;
+z-index: 100;
+opacity: .45;
+
+}
+#commencerroof:hover{
+opacity: .9;
+
+
+}
+#commencerdoor{
+	position: absolute;
+	z-index: 2;
+	left: 650px;
+	top: -350px;
+	background-color: white;
+	border: solid 5px black;
+	width: 70px;
+	height: 90px;
+padding: 10px;
+z-index: 100;
+opacity: .45;
+
+}
+#commencerdoor:hover{
+opacity: .9;
+
+
+}
+</style>
+
+</head>
+
+<body>
+	
+    <div id="cadreTotal">
+		
+	
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : yu michel 406 </b></div>
+        <div id="cadreJeu">
+			
+      <!--  plan: 1 cliquez sur 1 objet eparpille avec indice <br>
+		2 devinez code combinaison(indice nb total) <br>
+		attendre 2 minute <br>
+		tomber et esquiver <br>
+		cutscene <br> -->
+	
+			
+        
+        
+        </div>
+		<div id="indices">indices</div>
+		<div id="phase1">
+
+		
+					<div id="p1img">
+								<div id="dialandanswer">
+			<img src="images/uparrow.png" id="butup1" alt="uparrow1" width="40" height="40" onclick="butup1()">		
+			<img src="images/uparrow.png" id="butup2" alt="uparrow2" width="40" height="40" onclick="butup2()">		
+			<img src="images/uparrow.png" id="butup3" alt="uparrow3" width="40" height="40" onclick="butup3()">						
+			
+			<img src="images/downarrow.png" id="butdown1" alt="downarrow1" width="40" height="40" onclick="butdown1()">		
+			<img src="images/downarrow.png" id="butdown2" alt="downarrow2" width="40" height="40" onclick="butdown2()">		
+			<img src="images/downarrow.png" id="butdown3" alt="downarrow3" width="40" height="40" onclick="butdown3()">		
+			<div id="ans1" > 0</div>
+			<div id="ans2" > 0</div>
+			<div id="ans3" > 0</div>
+			<div id="enter" onclick="enter()"> enter </div>
+			<div id="unlock" onclick="unlock()"></div>
+			</div>
+							<img src="images/pillow.png" id="pillow" alt="pillow" width="150" height="150" onclick="pillow()">
+						<img src="images/home.jpg" id="home" alt="maison" width="1000" height="700">
+						<img src="images/cle1.png" id="cle1" alt="cle1" width="50" height="50" onclick="clew1()">
+						<img src="images/cle2.png" id="cle2" alt="cle2" width="60" height="80" onclick="clew2()">
+						<img src="images/cle3.png" id="cle3" alt="cle3" width="60" height="30" onclick="clew3()">
+						<img src="images/cle4.png" id="cle4" alt="cle4" width="60" height="60" onclick="clew4()">
+						<img src="images/cle5.png" id="cle5" alt="cle5" width="90" height="50" onclick="cle5()">
+						<img src="images/trapdoor.png" id="trapdoor" alt="trapdoor.exe" width="250" height="250" onclick="trapdoor()">
+						<img src="images/safelocked.png" id="safelocked" alt="safelocked" width="124" height="125" onclick="safelocked()">
+						<img src="images/safelockedfront.png" id="safelockedfront" alt="safelockedfront" width="550" height="550" >
+					
+					</div>
+
+			</div>
+    </div>
+
+	<div id="phase0">
+	 
+		<div id="commencer" onclick="startgame()">commencer la partie par la fenetre</div>
+		<div id="commencerroof" onclick="startgame()">commencer la partie par le toit</div>
+		<div id="commencercar" onclick="nextLevel()">commencer la partie par la voiture</div>
+		<div id="commencerdoor" onclick="startgame()">commencer la partie par la porte principal</div>
+		<div id="commencerdoor" onclick="startgame()">commencer la partie par la porte principal</div>
+		
+
+	 <img src="images/thhouse.jpeg" id="thhouse" alt="vault" width="1000" height="700" >
+	 <img src="images/title.png" id="title" alt="vault" width="1000" height="300" >
+
+
+
+	</div>
+    
+    <script>
+
+document.body.style.zoom="125%"
+		//phase 0
+		function startgame(){
+			glassbreak.play()
+document.getElementById("phase0").style.display="none"	
+	setTimeout(undimall,3700)
+	}
+	function undimall(){
+		document.getElementById("phase1").style.display="block"	
+		document.getElementById("indices").style.display="block"	
+
+
+
+
+}
+	//dev tool--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+//sons
+var glassbreak=new Audio()
+glassbreak.src="images/glass.wav"
+
+var crateopen=new Audio()
+crateopen.src="images/open.wav"
+		//var
+	var	nextstageop1=1
+	var	nextstageop2=0
+var cluetrans=.99
+
+//le systeme de cadenas
+var reponse
+var myanswer
+var answer
+var ans1=0
+var ans2=0
+var ans3=0
+		//dialogue--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		function cleartxt(){
+			cluetrans=.99
+			document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255,"+cluetrans+")"
+			unbrighten()
+setTimeout(cleartxt2,1500)
+
+			
+			
+
+		}
+		function cleartxt2(){
+
+			document.getElementById("indices").innerHTML="indice"
+			document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255,.2)"
+		}
+		function unbrighten(){
+
+			if(cluetrans > .2){
+
+				cluetrans -=.05
+				document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255,"+cluetrans+")"
+			setTimeout(unbrighten,100)
+
+
+
+			}else{}
+
+
+		}
+
+
+
+	//phase 1--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	function safelocked(){
+genanswer()
+document.getElementById("safelocked").style.display="none"
+document.getElementById("dialandanswer").style.display="block"
+document.getElementById("safelockedfront").style.display="block"
+
+
+
+}
+	var cle2op=.5
+ var compteechec=0
+ var pillowlock=0
+ var gotkey=0
+		function pillow(){
+			if(pillowlock==1){
+	
+           document.getElementById("pillow").style.display="none"
+		  }else{		   document.getElementById("indices").innerHTML="dormir? a cette heure de la journe?  (veillez patientez)  "
+		   document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		   setTimeout(cleartxt,500)
+
+
+		   }
+		}
+		function cle5(){
+			
+		
+			document.getElementById("indices").innerHTML="vous avez trouvez la cle    (veillez patientez) "
+			document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+			setTimeout(cleartxt,500)
+			document.getElementById("phase1").style.cursor="url(images/cle5s.png),auto"
+			document.getElementById("cle5").style.display="none"
+			gotkey=1
+		
+
+		}
+		function safeappear(){
+		
+			document.getElementById("trapdoor").style.display="none"
+			document.getElementById("safelocked").style.display="block"
+			
+			
+			
+					}
+		function trapdoor(){
+			if(gotkey==1){
+				setTimeout(safeappear,2000)
+				document.getElementById("phase1").style.cursor="auto"
+
+			}else{}
+
+
+
+		}
+
+		function clew1(){
+			
+	
+           document.getElementById("cle1").style.display="none"
+		   
+		   document.getElementById("indices").innerHTML="la cle que vous cherche n'est pas celle ci  (veillez patientez)  "
+		   document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		   setTimeout(cleartxt,500)
+		   compteechec +=1
+		   if(compteechec==4){p1indice()}
+		   console.log(compteechec)
+		}
+		function clew2(){
+			
+		
+			cle2op+=.2
+           document.getElementById("cle2").style.opacity=cle2op
+		 
+		   if(cle2op <= 1){	document.getElementById("indices").innerHTML="vous n'y voyez pas clair, reesayer  (veillez patientez) "
+		   document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, "+cle2op+")"
+		   setTimeout(cleartxt,5)}else{
+		
+			document.getElementById("indices").innerHTML="la cle que vous cherche n'est pas celle ci  (veillez patientez) "
+			document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+			setTimeout(cleartxt,500)
+			document.getElementById("cle2").style.display="none"
+			compteechec +=1
+		
+			if(compteechec==4){p1indice()}
+		   console.log(compteechec)
+		   }
+		}
+		function clew3(){
+			
+		
+           document.getElementById("cle3").style.display="none"
+		   
+		   document.getElementById("indices").innerHTML="la cle que vous cherche n'est pas celle ci  (veillez patientez) "
+		   document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		   setTimeout(cleartxt,500)
+		   compteechec +=1
+		   if(compteechec==4){p1indice()}
+		   console.log(compteechec)
+		}
+		function clew4(){
+			
+			//document.getElementById("pillow").style.display="none"
+           document.getElementById("cle4").style.display="none"
+		   
+		   document.getElementById("indices").innerHTML="la cle que vous cherche n'est pas celle ci  (veillez patientez) "
+		   document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		   setTimeout(cleartxt,500)
+
+		   compteechec +=1
+		   if(compteechec==4){p1indice()}
+		   console.log(compteechec)
+		}
+//cadenas a combinaison--------------------------------------------------------------------------------------------------------------------------------------------------------------
+		function butup1(){
+			if(ans1<9){
+		ans1+=1
+		document.getElementById("ans1").innerHTML=ans1}else{
+			ans1=0
+			document.getElementById("ans1").innerHTML=" 0"
+
+		}
+	}
+		function butup2(){
+			if(ans2<9){
+		ans2+=1
+		document.getElementById("ans2").innerHTML=ans2}else{
+			ans2=0
+			document.getElementById("ans2").innerHTML=" 0"
+
+		}
+
+		}
+		function butup3(){
+			if(ans3<9){
+		ans3+=1
+		document.getElementById("ans3").innerHTML=ans3}else{
+			ans3=0
+			document.getElementById("ans3").innerHTML=" 0"
+
+		}
+
+
+		}
+		function butdown1(){
+			if(ans1>0){
+		ans1-=1
+		document.getElementById("ans1").innerHTML=ans1}else{
+			ans1=9
+			document.getElementById("ans1").innerHTML=" 9"
+
+		}	
+	}
+		function butdown2(){
+			if(ans2>0){
+		ans2-=1
+		document.getElementById("ans2").innerHTML=ans2}else{
+			ans2=9
+			document.getElementById("ans2").innerHTML=" 9"
+
+		}
+		}
+		function butdown3(){			if(ans3>0){
+		ans3-=1
+		document.getElementById("ans3").innerHTML=ans3}else{
+			ans3=9
+			document.getElementById("ans3").innerHTML=" 9"
+
+		}}
+var wrongans=0
+var guest=0
+		function enter(){
+	strans1=ans1.toString()
+	strans2=ans2.toString()
+	strans3=ans3.toString()
+	myanswer=strans1.concat(strans2,strans3)
+			
+		myanswerint=parseInt(myanswer, 10)
+if(myanswerint==reponse){alert("tricheur")
+location.reload()}else{				
+		if(wrongans<6){
+					if(myanswerint<answer){
+						document.getElementById("indices").innerHTML="votre reponse est plus petite que la reponse  (veillez patientez) "
+		document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		wrongans+=1
+		setTimeout(cleartxt,500)	
+		}
+		if(myanswerint>answer){
+						document.getElementById("indices").innerHTML="votre reponse est plus grande que la reponse  (veillez patientez) "
+		document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		wrongans+=1
+		setTimeout(cleartxt,500)	
+		}
+		if(myanswerint==answer){
+						document.getElementById("indices").innerHTML="bravo tirez sur la ''roue''(veillez patientez) "
+		document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		guest=1
+
+		//vous avez gagnez function
+
+		setTimeout(cleartxt,500)	
+		}}else{
+			document.getElementById("indices").innerHTML="durant vos essais vous realisez que la porte n'etait pas barre tirer sur la ''roue''(veillez patientez) "
+		document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+		setTimeout(cleartxt,2000)
+
+
+
+}}
+		}
+
+function unlock(){
+setTimeout(dimall,2000)
+crateopen.play()
+setTimeout(nextLevel,12000)
+	if(guest==0){
+		document.getElementById("indices").innerHTML="qui a oublie de barrer son coffre fort? SUCCÈS (veillez patientez) "
+document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+setTimeout(cleartxt,1000)
+
+
+
+	}else{
+		document.getElementById("indices").innerHTML="votre genie de la serrurerie vous a sauvez du temps(veillez patientez) "
+document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+setTimeout(cleartxt,1500)
+
+
+	}
+
+
+
+
+
+}
+function dimall(){
+
+if(nextstageop1>0){
+nextstageop1-=.01
+document.getElementById("phase1").style.opacity=nextstageop1
+document.getElementById("indices").style.opacity=nextstageop1
+setTimeout(dimall,01)
+
+
+
+
+}
+
+
+
+
+}
+	  function genanswer(){
+answer=Math.ceil(Math.random()*999)
+
+reponse=Math.ceil(Math.random()*999)
+console.log(reponse)
+	  }
+
+function p1indice(){
+
+document.getElementById("indices").innerHTML="dans votre deesperation vous voyez qqc scintiller sous les oreillers  (veillez patientez) "
+document.getElementById("indices").style.backgroundColor="rgba(0, 247, 255, 0.99)"
+
+setTimeout(cleartxt,5000)
+pillowlock=1
+
+//cadenas a combinaison
+function safelocked(){
+
+//document.getElementById("safelocked").style.display="none"
+//document.getElementById("dialandanswer").style.display="block"
+
+}
+
+
+
+//phase0--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//transitions--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+}
+function safeappear(){
+			
+			document.getElementById("trapdoor").style.display="none"
+			document.getElementById("safelocked").style.display="block"
+			
+			
+			
+					}
+function nextstage1(){
+
+	document.getElementById("phase1").style.opacity=1
+
+ transition12()
+ 
+setTimeout(transition21, 5000)
+}
+	function transition12(){
+
+
+
+		
+
+if(nextstageop1 > 0){
+
+	nextstageop1-=.05
+	document.getElementById("phase1").style.opacity=nextstageop1
+setTimeout(transition12,10)
+
+
+
+}else{}
+
+
+	}
+
+	function transition21(){
+		}
+
+	
+	
+	function nextLevel(){
+	
+		window.location="test.HTML"
+		}
+    </script>
+</body>
+</HTML>
