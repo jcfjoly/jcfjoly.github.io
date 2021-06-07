@@ -1,0 +1,1983 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Bob's Adventure 2: Bob's got a Gun</title>
+    <style>
+        body {
+            background-color: #0a296b;
+        }
+
+        #Name {
+            position: absolute;
+            top: 200px;
+            width: 200px;
+            left: calc(50% - 100px);
+
+        }
+    </style>
+</head>
+
+<body>
+    <form id="name-form">
+        <input type="text" id="Name" name="Name" size="10">
+    </form>
+    <script>
+        var canvas = document.createElement("canvas");
+        var c = canvas.getContext("2d");
+        canvas.width = 1870
+        canvas.height = 887
+        canvas.style.border = "5px white solid";
+        canvas.style.backgroundColor = "#21610B";
+        canvas.style.display = "block";
+        canvas.style.margin = "auto"
+        document.body.appendChild(canvas);
+
+
+        Name.style.display = 'none'
+
+        //SFX
+        var caveSound = new Audio()
+        caveSound.src = "sfx/cave.mp3"
+        var gameOverSound = new Audio()
+        gameOverSound.src = "sfx/game over.mp3"
+        var heart2Sound = new Audio()
+        heart2Sound.src = "sfx/heart2.mp3"
+        var heart1Sound = new Audio()
+        heart1Sound.src = "sfx/heart1.mp3"
+        var hitSound = new Audio()
+        hitSound.src = "sfx/hit.mp3"
+        var secretSound = new Audio()
+        secretSound.src = "sfx/secret.mp3"
+        var winSound = new Audio()
+        winSound.src = "sfx/win.mp3"
+        var pUpSound = new Audio()
+        pUpSound.src = "sfx/powerUp.mp3"
+        var bossMusic = new Audio()
+        bossMusic.src = "sfx/boss music.mp3"
+
+        //Images
+        var bob0Img = new Image()
+        bob0Img.src = "sprites/bob0.png"
+        var bob1Img = new Image()
+        bob1Img.src = "sprites/bob1.png"
+        var bob2Img = new Image()
+        bob2Img.src = "sprites/bob2.png"
+        var ctrl1Img = new Image()
+        ctrl1Img.src = "sprites/controller1.png"
+        var ctrl2Img = new Image()
+        ctrl2Img.src = "sprites/controller2.png"
+        var ctrl3Img = new Image()
+        ctrl3Img.src = "sprites/controller3.png"
+        var ctrl4Img = new Image()
+        ctrl4Img.src = "sprites/controller4.png"
+        var kbImg = new Image()
+        kbImg.src = "sprites/kb.png"
+        var robertImg = new Image()
+        robertImg.src = "sprites/robert.png"
+        var fireImg = new Image()
+        fireImg.src = "sprites/bonfire.png"
+        var gunImg = new Image()
+        gunImg.src = "sprites/gun.png"
+        var ny0Img = new Image()
+        ny0Img.src = "sprites/bobN.png"
+        var ny1Img = new Image()
+        ny1Img.src = "sprites/bobN1.png"
+        var ny2Img = new Image()
+        ny2Img.src = "sprites/bobN2.png"
+        var ka0Img = new Image()
+        ka0Img.src = "sprites/bobK.png"
+        var ka1Img = new Image()
+        ka1Img.src = "sprites/bobK1.png"
+        var ka2Img = new Image()
+        ka2Img.src = "sprites/bobK2.png"
+        var enemyImg = new Image()
+        enemyImg.src = "sprites/bobE.png"
+        var stoneBG = new Image()
+        stoneBG.src = "sprites/stone wall.png"
+        var keyImg = new Image()
+        keyImg.src = "sprites/small key.png"
+        var bossKeyImg = new Image()
+        bossKeyImg.src = "sprites/bosskey.png"
+        var mapImg = new Image()
+        mapImg.src = "sprites/Map.png"
+        var mapIconImg = new Image()
+        mapIconImg.src = "sprites/map icon.png"
+        var spike1Img = new Image()
+        spike1Img.src = "sprites/spike1.png"
+        var spike2Img = new Image()
+        spike2Img.src = "sprites/spike2.png"
+        var protoImg = new Image()
+        var spike3Img = new Image()
+        spike3Img.src = "sprites/spike3.png"
+        var spike4Img = new Image()
+        spike4Img.src = "sprites/spike4.png"
+        protoImg.src = "sprites/bob prototypes.png"
+        var frameImg = new Image()
+        frameImg.src = "sprites/frame.png"
+        var signImg = new Image()
+        signImg.src = "sprites/sign.png"
+        var cloudImg = new Image()
+        cloudImg.src = "sprites/cloud.png"
+        var bImg = new Image()
+        bImg.src = "sprites/blue.png"
+        var oImg = new Image()
+        oImg.src = "sprites/orange.png"
+        var wingsImg = new Image()
+        wingsImg.src = "sprites/wings.png"
+        var wingsCDImg = new Image()
+        wingsCDImg.src = "sprites/wings on cd.png"
+        var bobbyImg = new Image()
+        bobbyImg.src = "sprites/bobby.png"
+        var blockImg = new Image()
+        blockImg.src = "sprites/obstacle.png"
+        var tabletImg = new Image()
+        tabletImg.src = "sprites/tablet.png"
+        var overImg = new Image()
+        overImg.src = "sprites/overcharged.png"
+        var crownImg = new Image()
+        crownImg.src = "sprites/crown.png"
+
+
+
+
+        /*var = new Image()
+        .src="sprites/.png"*/
+
+        var hasUserEnteredName = false
+        const NameForm = document.getElementById("name-form")
+        NameForm.addEventListener("submit", function (e) {
+            e.preventDefault()
+            hasUserEnteredName = true
+            NameForm.style.display = 'none'
+        })
+
+        //Variables
+        var direction
+
+        var jump = false
+
+        var jumpNb = 1
+
+        var keyDown = {}
+
+        var playerName
+
+        var mag = []
+
+        var bag = []
+
+        var blocks = []
+
+        var cooldown = false
+
+        var nyneoSkin = false
+
+        var kazzanSkin = false
+
+        var room = 1
+
+        var menu = true
+
+        var respawn = false
+
+        var respawn2 = false
+
+        var controlsM = false
+
+        var robDialogue = false
+        var rob5 = true
+        var rob8 = true
+
+        var move = true
+
+        var player = {
+            x: 50,
+            y: canvas.height - 100,
+            w: 100,
+            h: 100,
+            j: 0,
+            speed: 10
+        }
+
+        var lives = 5
+
+        var map = false
+
+        var key = false
+        var bKey = false
+
+        var gun = false
+
+        var wings = false
+
+        var end = false
+
+        var achievements = false
+
+        var loreA = false
+
+        var overA = false
+
+        var nyneoA = false
+
+        var kazzanA = false
+
+        var winA = false
+
+        var rectY = 395
+        var rectX = 270
+
+        var blueX = 300
+        var blueY = 787
+
+        function ambience() {
+            if (!menu && !byF1 && !byF2 && lives != 0) {
+                caveSound.play()
+            } else {
+                caveSound.pause()
+            }
+            if (byF1 || byF2 && room == 16) {
+                bossMusic.play()
+                bossMusic.loop= true
+            }
+        }
+
+        function userName() {
+            playerName = document.getElementById("Name").value
+        }
+
+        function shoot() {
+            if (gun && !cooldown && (90 in keyDown || 34 in keyDown) && move) {
+                if (direction == "r") {
+                    mag.push(new Bullets(player.x + 90, player.y + 50, 10, 10, 30))
+                    hitSound.play()
+                }
+                if (direction == "l") {
+                    mag.push(new Bullets(player.x, player.y + 50, 10, 10, -30))
+                    hitSound.play()
+                }
+                cooldown = true
+                setTimeout(function () { cooldown = false }, 500)
+            }
+            for (i = 0; i < mag.length; i++) {
+                mag[i].draw()
+            }
+        }
+
+        function drawPlayer() {
+            if (gun) {
+                if (playerName == "nyneo") {
+                    if (direction == "r" || !direction) {
+                        c.drawImage(ny1Img, player.x, player.y, player.w, player.h)
+                    } else if (direction == "l") {
+                        c.drawImage(ny2Img, player.x, player.y, player.w, player.h)
+                    }
+
+                } else if (playerName == "kazzan") {
+                    if (direction == "r" || !direction) {
+                        c.drawImage(ka1Img, player.x, player.y, player.w, player.h)
+                    } else if (direction == "l") {
+                        c.drawImage(ka2Img, player.x, player.y, player.w, player.h)
+                    }
+                } else if (direction == "r" || !direction) {
+                    c.drawImage(bob1Img, player.x, player.y, player.w, player.h)
+                } else if (direction == "l") {
+                    c.drawImage(bob2Img, player.x, player.y, player.w, player.h)
+                }
+            } else if (playerName == "nyneo") {
+                c.drawImage(ny0Img, player.x, player.y, player.w, player.h)
+            } else if (playerName == "kazzan") {
+                c.drawImage(ka0Img, player.x, player.y, player.w, player.h)
+            } else {
+                c.drawImage(bob0Img, player.x, player.y, player.w, player.h)
+            }
+            player.y -= player.j
+
+            // Lives
+            if (!menu) {
+                c.fillStyle = "black"
+                c.font = "75px arial"
+                c.fillText("X" + lives, canvas.width - 150, 100)
+                c.drawImage(bob0Img, canvas.width - 220, 43, 60, 60)
+            }
+            // Power Ups
+            if (map && !menu && !gotMap) {
+                c.drawImage(mapIconImg, canvas.width - 330, 30, 93.75, 75)
+            }
+            if (key && !menu && !gotMap) {
+                c.drawImage(keyImg, canvas.width - 415, 30, 75, 75)
+
+            }
+            if (wings && !menu) {
+                if (dashCD <= 0) {
+                    c.drawImage(wingsImg, canvas.width - 495, 30, 75, 75)
+                } else { c.drawImage(wingsCDImg, canvas.width - 495, 30, 75, 75) }
+            }
+            if (bKey) {
+                c.drawImage(bossKeyImg, canvas.width - 575, 30, 75, 75)
+            }
+        }
+
+        function drawMenu() {
+            if (menu) {
+                player.x = 50
+                player.y = canvas.height - 100
+                hasUserEnteredName = false
+                playerName = ""
+                respawn = false
+                respawn2 = false
+                end = false
+                gun = false
+                rob5 = true
+                rob8 = true
+                map = false
+                key = false
+                bKey = false
+                wings = false
+                nyneoSkin = false
+                kazzanSkin = false
+                robDialogue = false
+                room = 1
+                c.fillStyle = "black"
+                c.fillRect(65, 60, 1750, 750)
+                c.fillStyle = "white"
+                c.font = "125px arial"
+                c.fillText("BOB'S ADVENTURE 2:", 250, 175)
+                c.fillText("BOB'S GOT A GUN", 375, 300)
+                c.font = "75px arial"
+                c.fillText("Play the game", 300, 450)
+                c.fillText("Controls", 1000, 450)
+                c.fillText("Bob's Adventure 1", 300, 600)
+                c.fillText("Achievements", 1000, 600)
+                c.fillRect(rectX, rectY, 25, 55)
+                setTimeout(function () {
+                    if (38 in keyDown && rectY > 395) {
+                        rectY -= 150
+                    }
+                    if (40 in keyDown && rectY < 545) {
+                        rectY += 150
+                    }
+                    if (39 in keyDown && rectX < 970) {
+                        rectX += 700
+                    }
+                    if (37 in keyDown && rectX > 270) {
+                        rectX -= 700
+                    }
+
+                    if (rectX == 270 && rectY == 395 && menu && 13 in keyDown) {
+                        menu = false
+                    }
+                    if (rectX == 270 && rectY == 545 && menu && 13 in keyDown) {
+                        self.location = "Bob.html"
+                    }
+                    if (rectX == 970 && rectY == 395 && menu && 13 in keyDown) {
+                        controlsM = true
+                    }
+                    if (rectX == 970 && rectY == 545 && menu && 13 in keyDown) {
+                        achievements = true
+                    }
+                }, 200)
+                if (controlsM) {
+                    c.fillStyle = "black"
+                    c.fillRect(65, 60, 1750, 750)
+                    c.fillStyle = "white"
+                    c.fillRect(325, 300, 50, 50)
+                    c.fillRect(325, 360, 50, 50)
+                    c.fillRect(265, 360, 50, 50)
+                    c.fillRect(385, 360, 50, 50)
+                    c.drawImage(kbImg, 400, 100, 256, 148)
+                    c.drawImage(ctrl1Img, 1200, 100, 250, 155)
+                    c.drawImage(ctrl2Img, 1000, 300, 100, 100)
+                    c.drawImage(ctrl3Img, 1225, 500, 200, 200)
+                    c.drawImage(ctrl4Img, 1150, 300, 100, 100)
+                    c.fillStyle = "white"
+                    c.font = "50px arial"
+                    c.fillText(": Move", 450, 366)
+                    c.fillText("Z : Shoot", 325, 600)
+                    c.fillText("Space : Jump", 325, 500)
+                    c.fillText("X : Dash", 325, 700)
+                    c.fillText("<= Esc", 90, 775)
+                    c.fillText(": Move", 1275, 366)
+                    c.fillText("Dash", 1260, 490)
+                    c.fillText("Shoot", 1085, 615)
+                    c.fillText("Enter", 1430, 615)
+                    c.fillText("Jump", 1260, 740)
+                    if (27 in keyDown) {
+                        controlsM = false
+                    }
+
+                }
+                if (achievements) {
+                    c.fillStyle = "black"
+                    c.fillRect(65, 60, 1750, 750)
+                    c.fillStyle = "white"
+                    c.font = "50px arial"
+                    c.fillText("<= Esc", 90, 775)
+                    if (!nyneoA) { c.fillText("???", 500, 200) }
+                    if (!kazzanA) { c.fillText("???", 1300, 200) }
+                    c.fillText("Overcharged", 500, 400)
+                    c.fillText("Knowledge", 1300, 400)
+                    c.fillText("Finally free!", canvas.width / 2, 650)
+                    if (nyneoA) {
+                        c.fillText("nyneo", 500, 200)
+                        c.fillText("the Youngest", 500, 250)
+                        c.drawImage(ny0Img, 390, 150, 100, 100)
+                    }
+                    if (kazzanA) {
+                        c.fillText("kazzan", 1300, 200)
+                        c.fillText("the Oldest", 1300, 250)
+                        c.drawImage(ka0Img, 1190, 150, 100, 100)
+                    }
+                    if (loreA) {
+                        c.drawImage(tabletImg, 1190, 300, 100, 121.21)
+                    }
+                    if (overA) {
+                        c.drawImage(overImg, 390, 300, 100, 136.36)
+                    }
+                    if (winA) {
+                        c.drawImage(crownImg, canvas.width / 2 - 125, 600, 100, 67)
+                    }
+                    if(27 in keyDown){
+                        achievements = false
+                    }
+
+
+                }
+            }
+        }
+
+        function drawGameOver() {
+            if (lives == 0) {
+                document.getElementById('Name').value = ""
+                hasUserEnteredName = false
+                playerName =""
+                c.fillStyle = "black"
+                c.fillRect(0, 0, 1900, 900)
+                c.fillStyle = "white"
+                c.font = "100px arial"
+                c.fillText("GAME OVER", canvas.width / 2 - 300, 200)
+                c.font = "50px arial"
+                c.fillText("Press Enter to Respawn", 700, 400)
+                c.fillText("Press Esc to go back to the menu", 600, 500)
+                if (27 in keyDown) {
+                    menu = true
+                    lives = 5
+                    bag.splice(0, bag.length)
+                    blocks.splice(0, blocks.length)
+                }
+                if (13 in keyDown) {
+                    lives = 5
+                    bag.splice(0, bag.length)
+                    blocks.splice(0, blocks.length)
+                    if (respawn && !respawn2) {
+                        room = 5
+                        player.x = canvas.width / 2 - 150
+                        player.y = canvas.height - 100
+                    } else if (respawn2) {
+                        room = 10
+                        player.x = 1200
+                        player.y = canvas.height - 100
+                    } else {
+                        room = 1
+                        player.x = 50
+                        player.y = canvas.height - 100
+                    }
+                }
+            }
+        }
+
+        function drawMap() {
+            if (map && 27 in keyDown && !menu) {
+                c.drawImage(mapImg, canvas.width / 2 - 515, canvas.height / 2 - 270)
+                secretSound.play()
+            }
+        }
+
+        function drawEnemies(a, b) {
+            for (i = 0; i < bag.length; i++) {
+                bag[i].draw()
+                for (e = 0; e < mag.length; e++) {
+                    if (collision(mag[e], bag[i])) {
+                        bag.splice(i, 1)
+                        mag.splice(e, 1)
+                        meterL += 60
+                    }
+                }
+            }
+
+
+
+        }
+
+        function drawObstacles() {
+            for (i = 0; i < blocks.length; i++) {
+                blocks[i].draw()
+                if (collision(player, blocks[i])) {
+                    lives--
+                    room = 10
+                    player.x = 1200
+                    player.y = canvas.height - 100
+                    dashD = 0
+                    blocks.splice(0, blocks.length)
+                    byF1 = false
+                    byF2 = false
+                    byLives = 15
+                    bossMusic.pause()
+                }
+
+            }
+        }
+
+        function Bullets(x, y, w, h, speed) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.speed = speed
+            this.draw = function () {
+                c.fillStyle = "grey"
+                c.fillRect(this.x += this.speed, this.y, this.w, this.h)
+            }
+        }
+
+        function Objects(x, y, w, h, color) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x, this.y, this.w, this.h)
+            }
+        }
+
+        function Enemy(x, y, w, h) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.draw = function () {
+                c.drawImage(enemyImg, this.x, this.y, this.w, this.h)
+            }
+        }
+
+        function Platform(x, y, w, h, color) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x, this.y, this.w, this.h)
+            }
+        }
+
+        function Obstacles(x, y, w, h, speed) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.speed = speed
+            this.draw = function () {
+                c.drawImage(blockImg, this.x += this.speed, this.y, this.w, this.h)
+            }
+        }
+
+        var robert = new Objects(canvas.width / 2 - 50, canvas.height - 100, 100, 100, "white")
+        var bonfire = new Objects(canvas.width / 2 - 200, canvas.height - 203.5, 108, 203.5, "white")
+        var bonfire2 = new Objects(1200, canvas.height - 203.5, 108, 203.5, "white")
+        var gunHB = new Objects(1200, canvas.height - 225 / 3, 315 / 3, 225 / 3, "white")
+        var sign = new Objects(450, canvas.height - 150, 145, 100)
+        var blueHB = new Objects(blueX, blueY, 100, 100, "white")
+        var wingsHB = new Objects(canvas.width / 2 - 100, 0, 200, canvas.height - 550)
+        var bKeyHB = new Objects(canvas.width / 2 - 50, canvas.height - 200, 100, 200)
+        var loreHB = new Objects(canvas.width / 2 - 100, canvas.height - 300, 200, 300)
+        var bobbyHB = new Objects(canvas.width - 200, 0, 100, 100)
+
+        var door1 = new Objects(canvas.width - 30, canvas.height - 275, 30, 275, "sienna")
+        var door2 = new Objects(0, canvas.height - 275, 30, 275, "sienna")
+        var door3 = new Objects(canvas.width / 2 - 135.5, 0, 275, 30, "sienna")
+        var door4 = new Objects(canvas.width / 2 - 135.5, canvas.height - 30, 275, 30, "sienna")
+
+        var spike1 = new Objects(500, canvas.height - 375, 1500, 90, "white")
+        var spike2 = new Objects(523, 250, 817, 90)
+        var spike3 = new Objects(1550, 250, 440, 90)
+
+        var spike4 = new Objects(0, 250, 240, 90)
+        var spike5 = new Objects(523, 250, 1347, 90)
+        var spike6 = new Objects(0, canvas.height - 375, 812, 90)
+        var spike7 = new Objects(1050, canvas.height - 375, 478, 90)
+        var spike8 = new Objects(1730, canvas.height - 375, 140, 90)
+
+        var spike9 = new Objects(canvas.width / 2 - 45, canvas.height - 440, 90, 440)
+        var spike10 = new Objects(canvas.width / 2 - 45, -240, 90, 440)
+
+        //5
+        var plat1 = new Platform(canvas.width / 2 - 550, canvas.height - 275, 200, 25, "black")
+        var plat2 = new Platform(canvas.width / 2 + 350, canvas.height - 275, 200, 25, "black")
+        var plat3 = new Platform(canvas.width / 2 - 100, canvas.height - 550, 200, 25, "black")
+        //6
+        var plat4 = new Platform(canvas.width / 2 - 100, canvas.height - 325, 200, 25, "black")
+        //9 
+        var plat5 = new Platform(150, canvas.height - 175, 200, 25, "black")
+        var plat6 = new Platform(400, 460, 1150, 25, "black")
+        var plat7 = new Platform(799.5, 198, 900, 25, "black")
+        //11
+        var plat8 = new Platform(300, 245, 180, 25, "#00bfff")
+        var plat9 = new Platform(1400, 495, 180, 25, "#00bfff")
+        var plat10 = new Platform(800, 745, 180, 25, "#00bfff")
+        //12
+        var plat11 = new Platform(200, canvas.height - 230, 180, 25)
+        var plat12 = new Platform(canvas.width - 380, canvas.height - 230, 180, 25)
+        var plat13 = new Platform(canvas.width / 2 - 400, canvas.height - 550, 800, 25, "black")
+        //13 
+        var plat14 = new Platform(canvas.width / 2 - 100, 198, 200, 25, "black")
+        var plat15 = new Platform(290, canvas.height - 427, 200, 25, "black")
+        var plat16 = new Platform(canvas.width / 2 - 100, canvas.height - 427, 200, 25, "black")
+        //16
+        var plat17 = new Platform(canvas.width / 2 - 100, canvas.height - 300, 200, 25, "black")
+
+
+        const rooms = [null, room1, room2, room3, room4, room5, room6, room7, room8, room9, room10, room11, room12, room13, room14, room15, room16, room17, room18, room19]
+        function drawRoom() {
+            rooms[room]()
+        }
+
+        function checkDoors() {
+            if (collision(player, door1) && room == 1) {
+                room = 2
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 2 && gun) {
+                room = 3
+                player.x = 50
+                player.y = canvas.height - 100
+                bag.push(new Enemy(1300, canvas.height - 100, 100, 100))
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 2) {
+                room = 1
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 3 && bag.length == 0) {
+                room = 4
+                player.x = 50
+                player.y = canvas.height - 100
+                bag.push(new Enemy(canvas.width - 150, canvas.height - 425, 100, 100))
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 3 && bag.length == 0) {
+                room = 2
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 4 && bag.length == 0) {
+                room = 5
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 4 && bag.length == 0) {
+                room = 3
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 5 && bag.length == 0) {
+                room = 4
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 5 && bag.length == 0) {
+                room = 6
+                player.x = 50
+                player.y = canvas.height - 100
+                rob5 = false
+                bag.push(new Enemy(0, canvas.height - 425, 100, 100))
+                bag.push(new Enemy(0, canvas.height - 725, 100, 100))
+                bag.push(new Enemy(canvas.width - 100, canvas.height - 725, 100, 100))
+                bag.push(new Enemy(canvas.width - 100, canvas.height - 425, 100, 100))
+                meterL = 400
+            }
+            if (collision(player, door3) && room == 5 && bag.length == 0 && key) {
+                room = 9
+                player.x = canvas.width / 2 - 50
+                player.y = canvas.height - 130
+                meterL = 400
+                player.j = 25
+                bag.push(new Enemy(canvas.width - 150, canvas.height - 100, 100, 100))
+                bag.push(new Enemy(50, 100, 100, 100))
+            }
+            if (collision(player, door2) && room == 6 && bag.length == 0) {
+                room = 5
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door4) && room == 6 && bag.length == 0) {
+                room = 7
+                player.x = canvas.width / 2 - 50
+                player.y = 30
+                jump = true
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 7 && bag.length == 0) {
+                room = 8
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 7 && bag.length == 0) {
+                room = 18
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door3) && room == 7 && bag.length == 0) {
+                room = 6
+                player.x = canvas.width / 2 - 50
+                player.y = canvas.height - 130
+                meterL = 400
+                player.j = 25
+            }
+            if (collision(player, door4) && room == 7 && bag.length == 0) {
+                room = 13
+                player.x = canvas.width / 2 - 50
+                player.y = 30
+                jump = true
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 8 && bag.length == 0 && map) {
+                room = 7
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                rob8 = false
+                meterL = 400
+            }
+            if (collision(player, door4) && room == 9 && bag.length == 0) {
+                room = 5
+                player.x = canvas.width / 2 - 50
+                player.y = 30
+                jump = true
+                meterL = 400
+            }
+            if (collision(player, door3) && room == 9 && bag.length == 0) {
+                room = 10
+                player.x = canvas.width / 2 - 50
+                player.y = canvas.height - 130
+                meterL = 400
+                player.j = 25
+                if (!blueDeath) { blueLives = 10 }
+            }
+            if (collision(player, door2) && room == 10 && bag.length == 0) {
+                room = 11
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                if (!wings) { blueD1 = true }
+                meterL = 400
+            }
+            if (collision(player, door4) && room == 10 && bag.length == 0) {
+                room = 9
+                player.x = canvas.width / 2 - 50
+                player.y = 30
+                jump = true
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 10 && bKey) {
+                room = 16
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+                if (!byDeath) {
+                    byD1 = true
+                    byLives = 15
+                }
+            }
+            if (collision(player, door3) && room == 11 && bag.length == 0) {
+                room = 12
+                player.x = canvas.width / 2 - 50
+                player.y = canvas.height - 130
+                meterL = 400
+                player.j = 25
+            }
+            if (collision(player, door1) && room == 11 && bag.length == 0 && wings) {
+                room = 10
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door4) && room == 12 && bag.length == 0 && wings) {
+                room = 11
+                player.x = canvas.width / 2 - 50
+                player.y = 30
+                jump = true
+                meterL = 400
+                blueDeath = true
+            }
+            if (collision(player, door1) && room == 13 && bag.length == 0) {
+                room = 14
+                oD1 = true
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door3) && room == 13 && bag.length == 0) {
+                room = 7
+                player.x = canvas.width / 2 - 50
+                player.y = canvas.height - 130
+                meterL = 400
+                player.j = 25
+            }
+            if (collision(player, door1) && room == 14 && bag.length == 0) {
+                room = 15
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 14 && bag.length == 0) {
+                room = 13
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 15) {
+                room = 14
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 16 && byDeath) {
+                room = 17
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+                rob17 = true
+            }
+            if (collision(player, door2) && room == 16 && byDeath) {
+                room = 10
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 17) {
+                winA = true
+                end = true
+
+            }
+            if (collision(player, door2) && room == 17) {
+                room = 16
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 18) {
+                room = 7
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door2) && room == 18) {
+                room = 19
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+            if (collision(player, door1) && room == 19) {
+                room = 18
+                player.x = 50
+                player.y = canvas.height - 100
+                meterL = 400
+            }
+        }
+
+        function room1() {
+            c.fillStyle = "#7f7f7f"
+            c.fillRect(400, canvas.height - 100, 100, 50)
+            c.fillRect(375, canvas.height - 50, 150, 50)
+            door1.draw()
+
+        }
+
+        function room2() {
+            c.drawImage(fireImg, canvas.width / 2 - 200, canvas.height - 203.5, 108, 203.5)
+            c.drawImage(robertImg, canvas.width / 2 - 50, canvas.height - 100, 100, 100)
+            if (player.x > 400 && player.x < canvas.width - 400) {
+                c.fillStyle = "black"
+                c.font = "75px arial"
+                c.fillText("↑: Interact with objects and people", 375, 200)
+            }
+            if (collision(player, robert) && 38 in keyDown && !playerName) {
+                robDialogue = true
+                NameForm.style.display = 'block'
+            }
+            if (robDialogue) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Oh hey! I'm Elder Robert. What's your name?", 100, 150)
+                Name.style.display = 'block'
+                if (hasUserEnteredName) {
+                    c.fillStyle = "black"
+                    c.fillRect(60, 60, 1750, 400)
+                    c.fillStyle = "white"
+                    c.font = "50px arial"
+                    if (playerName != "nyneo" && playerName != "kazzan") {
+                        c.fillText("Hello " + playerName + ", nice to meet you! This dungeon will be very dangerous if you go in alone.", 100, 150, 1600)
+                        c.fillText("Here, take this gun! Pick it up and go blast some enemies!", 100, 250)
+                        if (!gun) { c.drawImage(gunImg, 1200, canvas.height - 225 / 3, 315 / 3, 225 / 3) }
+                        if (collision(player, gunHB) && 38 in keyDown) {
+                            gun = true
+                        }
+                    } else if (playerName == "nyneo") {
+                        nyneoA = true
+                        c.fillText("Hmm... nyneo... I think I have heard this name before, but I don't know where. Anyways.", 100, 150, 1600)
+                        c.fillText("Here, take this gun! Pick it up and go blast some enemies!", 100, 250)
+                        if (!gun) { c.drawImage(gunImg, 1200, canvas.height - 225 / 3, 315 / 3, 225 / 3) }
+                        if (collision(player, gunHB) && 38 in keyDown) {
+                            gun = true
+                        }
+                    } else if (playerName == "kazzan") {
+                        kazzanA = true
+                        c.fillText("Hmm... kazzan... I think I have heard this name before, but I don't know where. Anyways.", 100, 150, 1600)
+                        c.fillText("Here, take this gun! Pick it up and go blast some enemies!", 100, 250)
+                        if (!gun) { c.drawImage(gunImg, 1200, canvas.height - 225 / 3, 315 / 3, 225 / 3) }
+                        if (collision(player, gunHB) && 38 in keyDown) {
+                            gun = true
+                        }
+                    }
+
+                }
+                if (playerName == "nyneo") {
+                    nyneoSkin = true
+                }
+                if (playerName == "kazzan") {
+                    kazzanSkin = true
+                }
+                if (gun) {
+                    door2.draw()
+                    door1.draw()
+                }
+            }
+        }
+
+        function room3() {
+            if (bag.length != 0) {
+                c.fillStyle = "gray"
+                c.fillRect(canvas.width - 30, canvas.height - 275, 50, 275)
+                c.fillRect(0, canvas.height - 275, 30, 275)
+
+            } else {
+                door1.draw()
+                door2.draw()
+            }
+        }
+
+        function room4() {
+            c.fillStyle = "black"
+            c.fillRect(canvas.width - 200, canvas.height - 325, 200, 25)
+            if (bag.length != 0) {
+                c.fillStyle = "gray"
+                c.fillRect(canvas.width - 30, canvas.height - 275, 50, 275)
+                c.fillRect(0, canvas.height - 275, 30, 275)
+
+            } else {
+                door1.draw()
+                door2.draw()
+            }
+        }
+
+        var robertSpeech1 = false
+        var robertSpeech2 = false
+        var robertSpeech3 = false
+        function room5() {
+            door1.draw()
+            door2.draw()
+            door3.draw()
+            c.fillStyle = "gray"
+            c.fillRect(canvas.width / 2 - 135.5, 0, 275, 30)
+            c.fillStyle = "#00a8f3"
+            c.fillRect(canvas.width / 2 - 25, 0, 50, 30)
+            plat1.draw()
+            checkPlatforms(plat1)
+            plat2.draw()
+            checkPlatforms(plat2)
+            plat3.draw()
+            checkPlatforms(plat3)
+            c.drawImage(fireImg, canvas.width / 2 - 200, canvas.height - 203.5, 108, 203.5)
+            if (collision(player, bonfire) && 40 in keyDown) {
+                respawn = true
+                respawn2 = false
+                lives = 5
+                c.fillStyle = "black"
+                c.font = "120px arial"
+                c.fillText("Respawn Point set", 300, 150)
+            }
+            if (rob5) { c.drawImage(robertImg, canvas.width / 2 - 50, canvas.height - 100, 100, 100) }
+            if (collision(player, robert) && 38 in keyDown && !robertSpeech1 && rob5) {
+                robertSpeech1 = true
+            }
+            if (robertSpeech1) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Hey " + playerName + "! A strange meter will appear in certain rooms with enemies. If it runs ", 100, 150, 1600)
+                c.fillText("out, you will lose a life. Your remaining lives are shown at the top right", 100, 250)
+                c.fillText("corner of your screen. Also, you can refill the meter by shooting enemies.", 100, 350)
+                c.fillText("Enter", 1575, 450)
+                setTimeout(function () {
+                    if (13 in keyDown && robertSpeech1) {
+                        robertSpeech1 = false
+                        robertSpeech2 = true
+                    }
+                }, 200)
+            }
+
+            if (robertSpeech2) {
+                robertSpeech1 = false
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Anyway, I have a really bad feeling about this dungeon. You should be very", 100, 150)
+                c.fillText("careful in here. Did you know you can set your respawn point at a bonfire if", 100, 250)
+                c.fillText("you press ↓ ? I'm going to go explore this cavern a little bit more. See ya!", 100, 350)
+                c.fillText("Enter", 1575, 450)
+
+                setTimeout(function () {
+                    if (13 in keyDown && robertSpeech2) {
+                        robertSpeech2 = false
+                    }
+                }, 200)
+            }
+
+        }
+
+        function room6() {
+            door2.draw()
+            door4.draw()
+            c.fillStyle = "black"
+            c.fillRect(canvas.width - 200, canvas.height - 325, 200, 25)
+            c.fillRect(0, canvas.height - 325, 200, 25)
+            c.fillRect(canvas.width - 200, canvas.height - 625, 200, 25)
+            c.fillRect(0, canvas.height - 625, 200, 25)
+            plat4.draw()
+            checkPlatforms(plat4)
+
+            if (bag.length != 0) {
+                c.fillStyle = "gray"
+                c.fillRect(canvas.width / 2 - 135.5, canvas.height - 30, 275, 30)
+                c.fillRect(0, canvas.height - 275, 30, 275)
+            }
+
+        }
+
+        function room7() {
+            c.drawImage(stoneBG, -10, -10, 1900, 900)
+            plat2.draw()
+            checkPlatforms(plat2)
+            plat3.draw()
+            checkPlatforms(plat3)
+            door1.draw()
+            door2.draw()
+            door3.draw()
+            door4.draw()
+
+        }
+
+        var gotMap = false
+        function room8() {
+            c.drawImage(stoneBG, -10, -10, 1900, 900)
+            door2.draw()
+            if (rob8) { c.drawImage(robertImg, canvas.width / 2 - 50, canvas.height - 100, 100, 100) }
+            if (collision(player, robert) && 38 in keyDown && !robertSpeech3 && rob8 && !map && !key) {
+                robertSpeech3 = true
+            }
+            if (robertSpeech3) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Hello there, " + playerName + "! I was exploring this room, and I found some things. I thought", 100, 150, 1600)
+                c.fillText("I could give you these items to help you in your quest. Well, I'm off now!", 100, 250)
+                c.fillText("Enter", 1575, 450)
+                setTimeout(function () {
+                    if (13 in keyDown && robertSpeech3) {
+                        robertSpeech3 = false
+                        map = true
+                        key = true
+                        gotMap = true
+                        heart2Sound.play()
+                    }
+                }, 200)
+            }
+            if (gotMap) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("You received the Map and a Key!", 100, 150)
+                c.fillText("Hold Esc on keyboard or + on controller to open the Map", 100, 250)
+                c.fillText("Enter", 1575, 450)
+                setTimeout(function () {
+                    if (13 in keyDown && gotMap) {
+                        gotMap = false
+                    }
+                }, 200)
+            }
+        }
+
+        function room9() {
+            door3.draw()
+            door4.draw()
+            c.fillStyle = "black"
+            c.fillRect(0, 200, 200, 25)
+            c.drawImage(spike2Img, 1700, canvas.height - 375, 440, 90)
+            c.drawImage(spike2Img, 1300, canvas.height - 375, 440, 90)
+            c.drawImage(spike2Img, 900, canvas.height - 375, 440, 90)
+            c.drawImage(spike2Img, 500, canvas.height - 375, 440, 90)
+            c.drawImage(spike1Img, 900, 250, 440, 90)
+            c.drawImage(spike2Img, 523, 250, 440, 90)
+            c.drawImage(spike2Img, 1550, 250, 440, 90)
+            plat5.draw()
+            plat6.draw()
+            plat7.draw()
+            checkPlatforms(plat5)
+            checkPlatforms(plat6)
+            checkPlatforms(plat7)
+            if (bag.length != 0) {
+                c.fillStyle = "gray"
+                c.fillRect(canvas.width / 2 - 135.5, canvas.height - 30, 275, 30)
+                c.fillRect(canvas.width / 2 - 135.5, 0, 275, 30)
+            }
+            if (collision(player, spike1) || collision(player, spike2) || collision(player, spike3)) {
+                lives--
+                if (bag.length != 0) {
+                    bag = []
+                    room = 5
+                    player.x = canvas.width / 2 - 50
+                    player.y = 200
+                    player.j = 0
+                } else {
+                    bag = []
+                    player.x = canvas.width / 2 - 50
+                    player.y = 100
+                    player.j = 0
+                }
+            }
+        }
+
+        var signText = false
+        function room10() {
+            door4.draw()
+            c.fillStyle = "#fec700"
+            c.fillRect(canvas.width - 30, canvas.height - 275, 30, 275)
+            c.fillStyle = "#0ed145"
+            c.fillRect(canvas.width - 30, canvas.height - 162.5, 30, 50)
+            door2.draw()
+            c.drawImage(frameImg, canvas.width / 2 - 400, canvas.height / 2 - 210, 800, 400)
+            c.drawImage(protoImg, canvas.width / 2 - 350, canvas.height / 2 - 162.5)
+            c.drawImage(signImg, 450, canvas.height - 150, 145, 100)
+            c.fillStyle = "cyan"
+            c.fillRect(0, canvas.height - 275, 30, 275)
+            c.drawImage(fireImg, 1200, canvas.height - 203.5, 108, 203.5)
+            if (40 in keyDown && collision(player, bonfire2)) {
+                respawn2 = true
+                respawn = false
+                lives = 5
+                c.fillStyle = "black"
+                c.font = "120px arial"
+                c.fillText("Respawn Point set", 300, 150)
+            }
+            if (collision(player, sign) && 38 in keyDown) {
+                signText = true
+            }
+            if (signText) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("The sign reads:", 100, 150)
+                c.fillText("\"These are the fallen Bob prototypes our Great Master once made.", 100, 250)
+                c.fillText("Lest we forget.\"", 100, 350)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    signText = false
+                }
+            }
+        }
+
+        var blueD1 = false
+        var blueD2 = false
+        var blueF1 = false
+        var blueLives = 10
+        var blueDeath = false
+        function room11() {
+            c.fillStyle = "#00bfff"
+            c.fillRect(0, 0, 1900, 900)
+            checkPlatforms(plat8)
+            checkPlatforms(plat9)
+            checkPlatforms(plat10)
+            c.drawImage(cloudImg, 300, 200, 180, 105)
+            c.drawImage(cloudImg, 1400, 450, 180, 105)
+            c.drawImage(cloudImg, 800, 700, 180, 105)
+            c.fillStyle = "cyan"
+            c.fillRect(canvas.width - 30, canvas.height - 275, 30, 275)
+            c.drawImage(bImg, blueX, blueY, 100, 100)
+            if (blueD1) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Hey! What are you doing here? Boss told me to keep the Wind Wings safe.", 100, 150)
+                c.fillText("You're never going to pass me. These wings are ours!", 100, 250)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    blueD1 = false
+                    blueF1 = true
+                }
+            }
+
+            //FIGHT
+            if (blueF1) {
+                for (i = 0; i < mag.length; i++) {
+                    if (collision(mag[i], blueHB) && blueLives > 0) {
+                        mag.splice(i, 1)
+                        blueLives--
+                        meterL += 60
+                    }
+                }
+                if (blueLives == 10) {
+                    blueX = 300
+                    blueY = 787
+                    blueHB = new Objects(blueX, blueY, 100, 100, "white")
+                } else if (blueLives == 9 || blueLives == 5 || blueLives == 3) {
+                    blueX = 340
+                    blueY = 145
+                    blueHB = new Objects(blueX, blueY, 100, 100, "white")
+                } else if (blueLives == 8 || blueLives == 6 || blueLives == 2) {
+                    blueX = 840
+                    blueY = 645
+                    blueHB = new Objects(blueX, blueY, 100, 100, "white")
+
+                } else if (blueLives == 7 || blueLives == 4 || blueLives == 1) {
+                    blueX = 1440
+                    blueY = 395
+                    blueHB = new Objects(blueX, blueY, 100, 100, "white")
+                }
+                if (blueLives == 0) {
+                    blueF1 = false
+                    blueD2 = true
+                }
+            }
+            if (blueD2) {
+                player.x = 900
+                player.y = 787
+                blueX = 650
+                blueY = 787
+                direction = "l"
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Ugh! You got me. Please don't tell Boss about this.", 100, 150)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    blueD2 = false
+                    blueDeath = true
+                }
+            }
+            if (blueDeath) {
+                c.drawImage(cloudImg, canvas.width / 2 - 90, canvas.height - 600, 180, 105)
+                checkPlatforms(plat3)
+                c.fillStyle = "cyan"
+                c.fillRect(canvas.width / 2 - 135.5, 0, 275, 30)
+            }
+
+        }
+
+
+        var wingsT = false
+        function room12() {
+            c.fillStyle = "#00bfff"
+            c.fillRect(0, 0, 1900, 900)
+            c.drawImage(cloudImg, 200, canvas.height - 275)
+            c.drawImage(cloudImg, canvas.width - 380, canvas.height - 275)
+            plat13.draw()
+            checkPlatforms(plat11)
+            checkPlatforms(plat12)
+            checkPlatforms(plat13)
+            c.fillStyle = "#7f7f7f"
+            c.fillRect(canvas.width / 2 - 50, canvas.height - 650, 100, 50)
+            c.fillRect(canvas.width / 2 - 75, canvas.height - 600, 150, 50)
+            if (!wings) { c.drawImage(wingsImg, 800, 50, 200, 200) }
+            if (38 in keyDown && !wingsT && collision(player, wingsHB) && !wings) {
+                wingsT = true
+                wings = true
+                heart2Sound.play()
+            }
+            if (wingsT) {
+                c.fillStyle = "black"
+                c.fillRect(60, canvas.height - 460, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("You received the Wind Wings!", 100, canvas.height - 350)
+                c.fillText("Press X on keyboard or the upper button on controller to Dash", 100, canvas.height - 250)
+                c.fillText("Enter", 1575, canvas.height - 150)
+                if (13 in keyDown) {
+                    wingsT = false
+                }
+            }
+            if (wings) {
+                c.fillStyle = "cyan"
+                c.fillRect(canvas.width / 2 - 135.5, canvas.height - 30, 275, 30)
+            }
+        }
+
+        function room13() {
+            c.drawImage(stoneBG, -10, -10, 1900, 900)
+            door1.draw()
+            door3.draw()
+            plat14.draw()
+            plat15.draw()
+            plat16.draw()
+            checkPlatforms(plat14)
+            checkPlatforms(plat15)
+            checkPlatforms(plat16)
+            c.drawImage(spike1Img, 0, canvas.height - 375, 440, 90)
+            c.drawImage(spike2Img, 1730, canvas.height - 375, 440, 90)
+            c.drawImage(spike1Img, 372, canvas.height - 375, 440, 90)
+            c.drawImage(spike2Img, 1050, canvas.height - 375, 440, 90)
+            c.drawImage(spike1Img, 1088, canvas.height - 375, 440, 90)
+            c.drawImage(spike1Img, -200, 250, 440, 90)
+            c.drawImage(spike2Img, 1721, 250, 440, 90)
+            c.drawImage(spike2Img, 1321, 250, 440, 90)
+            c.drawImage(spike2Img, 922, 250, 440, 90)
+            c.drawImage(spike2Img, 523, 250, 440, 90)
+            if (collision(player, spike4) || collision(player, spike5) || collision(player, spike6) || collision(player, spike7) || collision(player, spike8)) {
+                lives--
+                player.x = canvas.width / 2 - 50
+                player.y = 30
+                jump = true
+                player.j = 0
+            }
+
+        }
+
+        var oD1 = false
+        var oD2 = false
+        var oD3
+        function room14() {
+            c.drawImage(stoneBG, -10, -10, 1900, 900)
+            door1.draw()
+            door2.draw()
+            c.drawImage(oImg, canvas.width / 2 - 50, canvas.height - 100, 100, 100)
+            if (oD1 && !bKey) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Hey! What are you doing here? Who are you? What do you want? Who ", 100, 150)
+                c.fillText("sent you?", 100, 250)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    oD2 = true
+                    oD1 = false
+
+                }
+            }
+            if (oD2) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Sorry, I got really scared. I don't get visitors often, haha. Anyway, you're", 100, 150)
+                c.fillText("telling me Elder Robert told you to look around? It's been a while since I", 100, 250)
+                c.fillText("talked to him. It must mean that he wants you to go see Bobby... *sigh*", 100, 350)
+                c.fillText("Enter", 1575, 450)
+                setTimeout(function () {
+                    if (13 in keyDown) {
+                        oD2 = false
+                        oD3 = true
+                    }
+                }, 200)
+            }
+            if (oD3) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("He has been acting a little weird lately... The key in the next room will let you", 100, 150)
+                c.fillText("enter Boss' room. The fact that Robert sent you means you can beat him.", 100, 250)
+                c.fillText("You should still be careful, though. I wish you the best of luck, " + playerName + ".", 100, 350, 1600)
+                c.fillText("Enter", 1575, 450)
+                setTimeout(function () {
+                    if (13 in keyDown) {
+                        oD3 = false
+                    }
+                }, 200)
+            }
+
+        }
+
+        function room15() {
+            c.drawImage(stoneBG, -10, -10, 1900, 900)
+            door2.draw()
+            c.fillStyle = "#7f7f7f"
+            c.fillRect(canvas.width / 2 - 50, canvas.height - 100, 100, 50)
+            c.fillRect(canvas.width / 2 - 75, canvas.height - 50, 150, 50)
+            if (!bKey) { c.drawImage(bossKeyImg, canvas.width / 2 - 50, canvas.height - 200, 100, 100) }
+            if (38 in keyDown && !bKey && collision(player, bKeyHB)) {
+                bKey = true
+                heart1Sound.play()
+            }
+        }
+
+
+        var byD1 = false
+        var byD2 = false
+        var byD3 = false
+        var byF1 = false
+        var byF2 = false
+        var bobbyS = 2
+        var blockCD = 0
+        var byCD = 393
+        var blockNb
+        var byLives = 15
+        var byDeath = false
+        function room16() {
+            door1.draw()
+            door2.draw()
+            if (!byF1 && !byF2) { c.drawImage(bobbyImg, canvas.width / 2 - 50, canvas.height - 100, 100, 100) }
+            if (!byDeath) {
+                c.fillStyle = "gray"
+                c.fillRect(canvas.width - 30, canvas.height - 275, 50, 275)
+                c.fillRect(0, canvas.height - 275, 30, 275)
+            }
+            if (byD1) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                if (playerName != "nyneo" && playerName != "kazzan") {
+                    c.fillText("Who are you? HOW DID YOU ENTER MY ROOM? And those wings...", 100, 150)
+                    c.fillText("Orange and Blue... I knew they couldn't be trusted! Well, you're going to", 100, 250)
+                    c.fillText("pay for their mistakes. Prepare to suffer. ", 100, 350)
+                    c.fillText("Enter", 1575, 450)
+                } else {
+                    c.fillText(playerName + "? I thought we would never see you again! Wait... You're not " + playerName + "!", 100, 150)
+                    c.fillText("You're an impostor! Now I'm angry. Prepare to suffer. PREPARE TO DIE!", 100, 250)
+                    c.fillText("Enter", 1575, 450)
+                }
+                if (13 in keyDown) {
+                    byD1 = false
+                    byF1 = true
+                }
+            }
+
+            if (byF1 && byLives != 0) {
+
+                var rand = Math.floor(Math.random() * 3)
+                plat17.draw()
+                checkPlatforms(plat17)
+                c.drawImage(bobbyImg, bobbyHB.x, bobbyHB.y, 100, 100)
+                bobbyHB.y += bobbyS
+                if (byCD == 0) {
+                    bobbyS *= -1
+                    byCD = 393
+                    if (bobbyS > 0) {
+                        bobbyHB.y = 0
+                    } else {
+                        bobbyHB.y = canvas.height - 100
+                    }
+                }
+                for (i = 0; i < mag.length; i++) {
+                    if (collision(mag[i], bobbyHB) && byLives > 0) {
+                        mag.splice(i, 1)
+                        byLives--
+                        meterL += 30
+
+                    }
+                }
+
+                if (blockCD == 0) {
+                    if (rand == 0) {
+                        blocks.push(new Obstacles(canvas.width, 0, 295.66, 295.66, -10))
+                        blockCD = 100
+                    }
+                    if (rand == 1) {
+                        blocks.push(new Obstacles(canvas.width, 295.66, 295.66, 295.66, -10))
+                        blockCD = 100
+                    }
+                    if (rand == 2) {
+                        blocks.push(new Obstacles(canvas.width, 591.33, 295.66, 295.66, -10))
+                        blockCD = 100
+                    }
+                }
+                if (blockCD > 0) { blockCD-- }
+                if (byCD > 0) { byCD-- }
+                if (byLives == 5) {
+                    byF1 = false
+                    byD2 = true
+                    blocks.splice(0, blocks.length)
+                }
+            }
+
+            if (byD2) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Ugh... You're pretty strong. Now I see how you got here. But you haven't", 100, 150)
+                c.fillText("seen my full power yet! Watch this!", 100, 250)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    byD2 = false
+                    byF2 = true
+                    meterL = 400
+                }
+            }
+
+            if (byF2 && byLives != 0) {
+                c.drawImage(bobbyImg, bobbyHB.x, bobbyHB.y, 100, 100)
+                bobbyHB.y += bobbyS
+                if (byCD == 0) {
+                    bobbyS *= -1
+                    byCD = 393
+                    if (bobbyS > 0) {
+                        bobbyHB.y = 0
+                    } else {
+                        bobbyHB.y = canvas.height - 100
+                    }
+                }
+                for (i = 0; i < mag.length; i++) {
+                    if (collision(mag[i], bobbyHB) && byLives > 0) {
+                        mag.splice(i, 1)
+                        byLives--
+                        meterL += 50
+                    }
+                }
+                if (blockCD == 0) {
+                    blocks.push(new Obstacles(canvas.width, 0, 295.66, 295.66, -10))
+                    blockCD = 200
+                    blocks.push(new Obstacles(canvas.width, 591.33, 295.66, 295.66, -10))
+
+
+                }
+                if (blockCD == 100) {
+                    blocks.push(new Obstacles(canvas.width, 295.66, 295.66, 295.66, -10))
+                }
+                if (blockCD > 0) { blockCD-- }
+                if (byCD > 0) { byCD-- }
+            }
+            if (byLives == 0 && !byDeath) {
+                blocks.splice(0,blocks.length)
+                byD3 = true
+                byD1 = false
+                byD2 = false
+                byF1 = false
+                byF2 = false
+            }
+
+            if (byD3) {
+
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("How... How did you beat me? Robert never trained me to be like that...", 100, 150)
+                c.fillText("What did he do to you? But now is not the time to cry and whine...", 100, 250)
+                c.fillText("You're free to go, " + playerName + ". You can leave this dungeon by going right.", 100, 350, 1600)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    byD3 = false
+                    byDeath = true
+                    bossMusic.pause()
+                }
+            }
+        }
+
+
+        var rob17 = false
+        function room17() {
+            door1.draw()
+            door2.draw()
+            c.drawImage(robertImg, canvas.width / 2 - 50, canvas.height - 100, 100, 100)
+            if (rob17) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Wow! You made it! I was sure you could beat him. Congratulations,", 100, 150)
+                c.fillText(playerName + ". I am really proud of you. Now you can finally leave this place.", 100, 250, 1600)
+                c.fillText("I'll see you on the other side!", 100, 350)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    rob17 = false
+                }
+            }
+
+        }
+
+        function room18() {
+            c.drawImage(stoneBG, -10, -10, 1900, 900)
+            door1.draw()
+            door2.draw()
+            plat1.draw()
+            plat2.draw()
+            checkPlatforms(plat1)
+            checkPlatforms(plat2)
+            c.drawImage(spike3Img, canvas.width / 2 - 45, canvas.height - 440, 90, 440)
+            c.drawImage(spike4Img, canvas.width / 2 - 45, -240, 90, 440)
+            if (collision(player, spike10) || collision(player, spike9)) {
+                lives--
+                player.x = canvas.width - 150
+                player.y = canvas.height - 100
+                dashD = 0
+            }
+
+        }
+        var lore1 = false
+        var lore2 = false
+        var lore3 = false
+        function room19() {
+            c.drawImage(stoneBG, -10, -10, 1900, 900)
+            door1.draw()
+            c.drawImage(tabletImg, canvas.width / 2 - 100, canvas.height - 300, 200, 300)
+            if (38 in keyDown && collision(player, loreHB)) {
+                lore1 = true
+            }
+            if (lore1) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("Legend speaks of two Brothers, ... and ... . They were polar opposites, yet", 100, 150)
+                c.fillText("inseparable. One day, right before the Great War took place, ..., the older", 100, 250)
+                c.fillText("brother, passed away. Filled with grief and sorrow, ... tried to bring him ", 100, 350)
+                c.fillText("Enter", 1575, 450)
+                if (13 in keyDown) {
+                    lore1 = false
+                    lore2 = true
+                }
+            }
+            if (lore2) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("back from the dead, by creating a robot copy, a clone of him. Seeing his", 100, 150)
+                c.fillText("older brother alive once again, he decided to use his newly found powers", 100, 250)
+                c.fillText("for good and created robots to fight for the Coalition in the Great War of ...03.", 100, 350)
+                c.fillText("Enter", 1575, 450)
+                setTimeout(function () {
+                    if (13 in keyDown) {
+                        lore2 = false
+                        lore3 = true
+                    }
+                }, 200)
+            }
+            if (lore3) {
+                c.fillStyle = "black"
+                c.fillRect(60, 60, 1750, 400)
+                c.fillStyle = "white"
+                c.font = "50px arial"
+                c.fillText("His scientific prowess made him receive the title of Great Master, or even", 100, 150)
+                c.fillText("the title of Superior Engineer. He was acclaimed worldwide as the saviour", 100, 250)
+                c.fillText("of Humanity. May He and His Brother rest in peace forever.", 100, 350)
+                c.fillText("Enter", 1575, 450)
+                setTimeout(function () {
+                    if (13 in keyDown) {
+                        lore3 = false
+                        loreA = true
+                    }
+                }, 200)
+            }
+        }
+
+        function drawEnd() {
+            if (end) {
+                c.fillStyle = "black"
+                c.fillRect(0, 0, 1900, 900)
+                c.fillStyle = "white"
+                c.font = "100px arial"
+                c.fillText("BOB'S ADVENTURE 2:", 425, 200)
+                c.fillText("BOB'S GOT A GUN", 500, 300)
+                c.font = "50px arial"
+                c.fillText("A game by Simon \"nyneo\" Lauzé", 575, 400)
+                c.fillText("Press Enter to go back to the Menu", 550, 500)
+                c.fillText("Bobby/Boss fight music used: \"Highscore\" by Teminite & Panda Eyes", 155, canvas.height - 50)
+                if (13 in keyDown) {
+                    menu = true
+                }
+            }
+
+        }
+
+        function platforms() {
+            if (player.y + player.h >= canvas.height) {
+                jump = false
+                player.j = 0
+                jumpNb = 1
+                player.y = canvas.height - player.h
+            }
+            if (player.y <= 0) {
+                jump = true
+                player.j = 0
+                jumpNb = 0
+            }
+            if (player.x < 0) {
+                player.x = 0
+            }
+            if (player.x + 100 > canvas.width) {
+                player.x = canvas.width - 100
+            }
+        }
+
+        function checkPlatforms(a) {
+            if (collision(a, player) && player.j <= 0) {
+                player.j = 0
+                jump = false
+                jumpNb = 1
+                player.y = a.y - player.h
+            } else {
+                jump = true
+
+            }
+        }
+
+        function collision(a, b) {
+            if (a.x + a.w > b.x &&
+                a.x < b.x + b.w &&
+                a.y < b.y + b.h &&
+                a.y + a.h > b.y) {
+
+                return (true)
+            }
+
+        }
+
+        function gravity() {
+
+            if (jump && player.j >= -40 && player.j <= 40) {
+                jumpNb--
+                player.j -= 2
+            }
+        }
+
+        var meterColor
+        var overcharged = false
+        var meterL = 400
+        function meter() {
+            if (room == 6 || room == 9 || room == 11 && !blueD1 && !blueD2 && !blueDeath && !(map && 27 in keyDown)) {
+                if (meterL >= 500) {
+                    meterColor = "blue"
+                    player.speed = 15
+                    c.fillStyle = "white"
+                    c.font = "40px Arial"
+                    c.fillText("OVERCHARGED", 50, 165)
+                    overcharged = true
+                    overA = true
+
+                } else if (meterL >= 200 && meterL <= 500) {
+                    meterColor = "green"
+                    player.speed = 10
+                    overcharged = false
+                } else if (meterL < 200 && meterL >= 100) {
+                    meterColor = "yellow"
+                    player.speed = 10
+                } else if (meterL < 100) {
+                    meterColor = "red"
+                    player.speed = 10
+                }
+                c.fillStyle = meterColor
+                c.lineWidth = 5
+                c.strokeRect(50, 30, meterL, 100)
+                c.fillRect(50, 30, meterL, 100)
+
+                if (meterL >= -1 && !overcharged && bag.length != 0) {
+                    meterL -= 0.75
+                } else if (room == 11 && !blueD1 && meterL >= -1 && !blueD2 && !blueDeath) {
+                    if (!overcharged) {
+                        meterL -= 0.75
+                    } else { meterL -= 0.30 }
+                } else if (overcharged) {
+                    meterL -= 0.30
+                }
+            }
+            if (room == 16 && !byD1 && !byDeath && !byD3 && !byD2 && !(map && 27 in keyDown)) {
+                if (meterL >= 500) {
+                    meterColor = "blue"
+                    player.speed = 15
+                    c.fillStyle = "white"
+                    c.font = "40px Arial"
+                    c.fillText("OVERCHARGED", 50, 165)
+                    overcharged = true
+                    overA = true
+
+                } else if (meterL >= 200 && meterL <= 500) {
+                    meterColor = "green"
+                    player.speed = 10
+                    overcharged = false
+                } else if (meterL < 200 && meterL >= 100) {
+                    meterColor = "yellow"
+                    player.speed = 10
+                } else if (meterL < 100) {
+                    meterColor = "red"
+                    player.speed = 10
+                }
+                c.fillStyle = meterColor
+                c.lineWidth = 5
+                c.strokeRect(50, 30, meterL, 100)
+                c.fillRect(50, 30, meterL, 100)
+                if (meterL >= -1 && !overcharged && bag.length != 0) {
+                    meterL -= 0.75
+                } else { meterL -= 0.30 }
+            }
+            if (room == 6 && meterL <= 0) {
+                room = 5
+                lives--
+                player.x = canvas.width / 2 - 150
+                player.y = canvas.height - 100
+                dashD = 0
+                bag.splice(0, bag.length)
+
+            }
+            if(room == 9  && meterL <= 0) {
+                room = 5
+                lives--
+                player.x = canvas.width / 2 - 150
+                player.y = canvas.height - 100
+                dashD = 0
+                bag.splice(0, bag.length)
+            }
+            if (room == 11 && meterL <= 0) {
+                lives--
+                room = 10
+                blueLives = 10
+                player.x = 1200
+                player.y = canvas.height - 100
+                dashD = 0
+            }
+            if (room == 16 && meterL <= 0) {
+                lives--
+                room = 10
+                player.x = 1200
+                player.y = canvas.height - 100
+                dashD = 0
+                blocks.splice(0, blocks.length)
+                byF1 = false
+                byF2 = false
+                byLives = 15
+            }
+        }
+
+        var dash = false
+        var dashCD = 0
+        var dashD = 0
+        function dashMec() {
+            if (dashCD > 0) {
+                dashCD--
+            }
+            if (dashD > 0) {
+                dashD--
+            }
+
+            if ((88 in keyDown || 33 in keyDown) && wings && dashCD == 0 && dashD == 0) {
+                dash = true
+                dashD = 10
+                dashCD = 100
+            }
+
+            if (dash && dashD != 0) {
+                if (direction == "l" && player.x > 0) {
+                    player.x -= 45
+                }
+                if (direction == "r" && player.x < canvas.width - 100) {
+                    player.x += 45
+                }
+
+                jump = false
+                player.j = 0
+
+            }
+            if (dashD == 0) {
+                dash = false
+                jump = true
+            }
+        }
+
+        function ableToMove() {
+            if (menu || lives==0|| lore1 || lore2 || lore3 || robertSpeech1 || rob17 || robertSpeech2 || robertSpeech3 || gotMap || (map && 27 in keyDown && !menu) || signText || blueD1 || blueD2 || wingsT || dash || oD2 || oD1 || oD3 || byD1 || byD3 || end) {
+                move = false
+            } else {
+                move = true
+            }
+        }
+
+        function controls() {
+            if (39 in keyDown && player.x + 100 < canvas.width && move) {
+                player.x += player.speed
+                direction = "r"
+            }
+
+            if (37 in keyDown && player.x > 0 && move) {
+                player.x -= player.speed
+                direction = "l"
+            }
+
+            if (32 in keyDown && move && jumpNb == 1) {
+                player.j = 40
+                jump = true
+                jumpNb--
+            }
+
+        }
+
+        document.addEventListener("keydown", function (e) {
+            keyDown[e.keyCode] = true
+        })
+
+        document.addEventListener("keyup", function (e) {
+            delete keyDown[e.keyCode]
+        })
+
+        function game() {
+            c.clearRect(0, 0, canvas.width, canvas.height)
+            userName()
+            ambience()
+            ableToMove()
+            drawRoom()
+            shoot()
+            drawObstacles()
+            drawEnemies()
+            drawPlayer()
+            meter()
+            dashMec()
+            drawMenu()
+            drawEnd()
+            drawMap()
+            drawGameOver()
+            checkDoors()
+            platforms()
+            controls()
+            gravity()
+            requestAnimationFrame(game)
+        }
+
+        game()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,945 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Bob's Adventure</title>
+	<style>
+		body {
+			background-color: #0a296b;
+		}
+	</style>
+</head>
+
+<body>
+
+	<script>
+		var canvas = document.createElement("canvas");
+		var c = canvas.getContext("2d");
+		canvas.width = 1870 //window.innerWidth-50;
+		canvas.height = 887 //window.innerHeight-50
+		canvas.style.border = "5px white solid";
+		canvas.style.backgroundColor = "#21610B";
+		canvas.style.display = "block";
+		canvas.style.margin = "auto"
+		document.body.appendChild(canvas);
+
+		//SFX
+		var caveSound = new Audio()
+		caveSound.src = "sfx/cave.mp3"
+		var gameOverSound = new Audio()
+		gameOverSound.src = "sfx/game over.mp3"
+		var heart2Sound = new Audio()
+		heart2Sound.src = "sfx/heart2.mp3"
+		var heart1Sound = new Audio()
+		heart1Sound.src = "sfx/heart1.mp3"
+		var hitSound = new Audio()
+		hitSound.src = "sfx/hit.mp3"
+		var secretSound = new Audio()
+		secretSound.src = "sfx/secret.mp3"
+		var winSound = new Audio()
+		winSound.src = "sfx/win.mp3"
+		var pUpSound = new Audio()
+		pUpSound.src = "sfx/powerUp.mp3"
+
+
+
+
+		//SPRITES
+		var obsImg = new Image()
+		obsImg.src = "sprites/obstacle.png"
+		var bobImg = new Image()
+		bobImg.src = "sprites/bob.png"
+		var lifeImg = new Image()
+		lifeImg.src = "sprites/life.png"
+		var life2Img = new Image()
+		life2Img.src = "sprites/life2.png"
+		var wallImg = new Image()
+		wallImg.src = "sprites/wall.png"
+		var wall2Img = new Image()
+		wall2Img.src = "sprites/wall2.png"
+		var wall3Img = new Image()
+		wall3Img.src = "sprites/wall3.png"
+		var wall4Img = new Image()
+		wall4Img.src = "sprites/wall4.png"
+		var wall5Img = new Image()
+		wall5Img.src = "sprites/wall5.png"
+		var fakeWallImg = new Image()
+		fakeWallImg.src = "sprites/fakewall.png"
+		var spike1Img = new Image()
+		spike1Img.src = "sprites/spike1.png"
+		var spike2Img = new Image()
+		spike2Img.src = "sprites/spike2.png"
+		var hintImg = new Image()
+		hintImg.src = "sprites/hint.png"
+		var keySprite = new Image()
+		keySprite.src = "sprites/key.png"
+		var bootsImg = new Image()
+		bootsImg.src = "sprites/boots.png"
+		var arr1 = new Image()
+		arr1.src = "sprites/arrow1.png"
+		var arr2 = new Image()
+		arr2.src = "sprites/arrow2.png"
+		var arr3 = new Image()
+		arr3.src = "sprites/arrow3.png"
+		var arr4 = new Image()
+		arr4.src = "sprites/arrow4.png"
+		var cloud = new Image()
+		cloud.src = "sprites/cloud.png"
+		var crownImg = new Image()
+		crownImg.src = "sprites/crown.png"
+		var crown2Img = new Image()
+		crown2Img.src = "sprites/crown2.png"
+		var secretImg = new Image()
+		secretImg.src = "sprites/bobS.png"
+
+		var direction = {}
+
+		var menu = true
+
+		var room = 0
+
+		var nbLives = 3
+
+		var player = {
+			x: 1650,
+			y: 100,
+			w: 100,
+			h: 100,
+			color: "white",
+			speed: 13
+		}
+
+		var heart = true
+
+		var heartSprite = {
+			x: canvas.width / 2 - 75,
+			y: canvas.height / 2 - 150,
+			w: 150,
+			h: 150,
+		}
+
+		var heart2 = true
+
+		var heart2Sprite = {
+			x: 25,
+			y: canvas.height - 100,
+			w: 75,
+			h: 75
+		}
+
+		var hint = false
+		var hint2 = false
+
+		var key = false
+
+		var lock = true
+
+		var chP1 = false
+		var chP2 = false
+		var chP3 = false
+		var chP4 = false
+
+		var pickUpBoots = false
+		var boots = false
+		var bootsOn = false
+		var bootsSprite = {
+			x: 1050,
+			y: 385,
+			w: 102,
+			h: 84
+		}
+
+		var crown = false
+		var crown1 = true
+
+		var secret1 = true
+		var secret2 = true
+		var secretCount = 0
+
+		var bootsSound = 0
+
+		var win = false
+
+		var spikeHB1 = {
+			x: 500,
+			y: 150,
+			w: 330,
+			h: 67.5,
+		}
+		var spikeHB2 = {
+			x: canvas.width - 830,
+			y: 150,
+			w: 330,
+			h: 67.5,
+		}
+		var spikeHB3 = {
+			x: 500,
+			y: 325,
+			w: 80,
+			h: 67.5
+		}
+		var spikeHB4 = {
+			x: 680,
+			y: 325,
+			w: 1000,
+			h: 67.5,
+		}
+		var spikeHB5 = {
+			x: 500,
+			y: 500,
+			w: canvas.width - 1180,
+			h: 67.5,
+		}
+		var spikeHB6 = {
+			x: canvas.width - 580,
+			y: 500,
+			w: 330,
+			h: 67.5
+		}
+
+		var keyDown = {}
+
+		var fountain = {
+			x: canvas.width,
+			y: 0,
+			r: 600,
+		}
+
+		arr1Sprite = new Wall(1000, canvas.height - 150, 217.5, 112.5, arr1)
+		arr2Sprite = new Wall(canvas.width - 501.25, canvas.height / 2 - 108.75, 112.5, 217.5, arr2)
+		arr3Sprite = new Wall(1000, 50, 217.5, 112.5, arr3)
+		arr4Sprite = new Wall(675, canvas.height / 2 - 108.75, 112.5, 217.5, arr4)
+
+		var crownSprite = new Wall(canvas.width / 2 - 50, canvas.height / 2 - 70, 100, 66.6666, crownImg)
+		var crown2Sprite = new Wall(canvas.width / 2 - 50, canvas.height / 2 - 70, 100, 66.6666, crown2Img)
+
+		var hintSprite = new Object(canvas.width / 2 - 200, canvas.height - 30, 400, 30, "#7d5731")
+
+		var hint2Sprite = new Object(100, canvas.height - 50, 300, 50, "#7d5731")
+
+		var sky = new Object(canvas.width / 2 - 435, 0, 870, 887, "#00bfff")
+
+		var secretSp1 = new Wall(200, 393.5, 100, 100, secretImg)
+		var secretSp2 = new Wall(50, 50, 100, 100, secretImg)
+
+		var doorR0 = new Object(0, canvas.height / 2 - 125, 30, 250, "sienna")
+		var doorR1A = new Object(canvas.width - 30, canvas.height / 2 - 125, 30, 250, "sienna")
+		var doorR1B = new Object(0, canvas.height / 2 - 125, 30, 250, "sienna")
+		var doorR2A = new Object(canvas.width - 30, canvas.height / 2 - 125, 30, 250, "sienna")
+		var doorR2B = new Object(canvas.width / 2 - 125, canvas.height - 30, 250, 30, "sienna")
+		var doorR2C = new Object(0, canvas.height / 2 - 125, 30, 250, "#00bfff")
+		var doorR21A = new Object(canvas.width - 30, canvas.height / 2 - 125, 30, 250, "#00bfff")
+		var doorR3A = new Object(canvas.width / 2 - 93.75, 0, 187.5, 22.5, "sienna")
+		var doorR3B = new Object(canvas.width - 515, canvas.height - 200, 22.5, 187.5, "#bd0f17")
+		var doorR3B2 = new Object(canvas.width - 515, canvas.height - 200, 22.5, 187.5, "sienna")
+		var doorR4A = new Object(0, canvas.height - 300, 30, 250, "sienna")
+		var doorR4B = new Object(canvas.width - 30, 0, 30, 175, "sienna")
+		var doorR5A = new Object(0, 0, 30, 250, "sienna")
+		var doorR5B = new Object(canvas.width - 50, canvas.height / 2 - 250, 50, 500, "#ffff00")
+		var doorR6A = new Object(0, canvas.height / 2 - 250, 50, 500, "#ffff00")
+
+		var obs1 = new Obstacle(1000, 0, 250, 250, obsImg, 10)
+		var obs2 = new Obstacle(500, 637, 250, 250, obsImg, 10)
+
+		var obs3 = new Obstacle2(625, 0, 200, 200, obsImg, 6, 6)
+		var obs4 = new Obstacle2(625, canvas.height - 200, 200, 200, obsImg, 6, 6)
+		var obs5 = new Obstacle2(canvas.width - 545, canvas.height - 200, 200, 200, obsImg, 6, 6)
+		var obs6 = new Obstacle2(canvas.width - 545, 0, 200, 200, obsImg, 6, 6)
+
+		var rock1 = new Object(300, 275, 80, 80, "darkslategray")
+		var rock2 = new Object(1000, 150, 100, 100, "darkslategray")
+		var rock3 = new Object(650, 620, 110, 115, "darkslategray")
+		var rock4 = new Object(800, 400, 70, 70, "darkslategray")
+		var rock5 = new Object(525, 100, 100, 150, "darkslategray")
+		var rock6 = new Object(100, 750, 200, 100, "darkslategray")
+		var rock7 = new Object(1400, 650, 150, 100, "darkslategray")
+
+		var wallR3L = new Wall(0, 0, 500, canvas.height - 100, wallImg)
+		var wallR3R = new Wall(canvas.width - 500, 0, 500, canvas.height, wall2Img)
+		var wallR3LFake = new Wall(0, 0, 500, canvas.height, fakeWallImg)
+		var wallR4B = new Wall(0, 200, 625, 300, wall5Img)
+		var wallR4C = new Wall(0, 0, 625, 500, wall3Img)
+		var wallR4A = new Wall(canvas.width - 345, canvas.height - 688, 345, 688, wall4Img)
+
+		var block = new Obstacle(825, 200, canvas.width - 1370, canvas.height - 400, obsImg, 0)
+
+		function bootsSounds() {
+			if (bootsSound == 1) {
+				pUpSound.pause()
+			}
+		}
+
+		function ambience() {
+			if (!menu && !win) {
+				caveSound.play()
+			} else {
+				caveSound.pause()
+			}
+		}
+
+		function collision(a, b) {
+			if (a.x + a.w > b.x &&
+				a.x < b.x + b.w &&
+				a.y < b.y + b.h &&
+				a.y + a.h > b.y) {
+
+				return (true)
+			}
+
+		}
+
+		function Object(x, y, w, h, color) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.color = color
+			this.draw = function () {
+				c.fillStyle = this.color
+				c.fillRect(this.x, this.y, this.w, this.h)
+			}
+		}
+
+		function Obstacle(x, y, w, h, Image, speed) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.Image = Image
+			this.speed = speed
+			this.draw = function () {
+				c.drawImage(this.Image, this.x, this.y, this.w, this.h)
+				if (this.y < 0 || this.y + this.h > canvas.height) {
+					this.speed = -this.speed
+				}
+				this.y += this.speed
+			}
+		}
+
+		function Obstacle2(x, y, w, h, Image, speedX, speedY) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.Image = Image
+			this.speedX = speedX
+			this.speedY = speedY
+			this.draw = function () {
+				c.drawImage(this.Image, this.x, this.y, this.w, this.h)
+				if (this.y <= 0 && this.x > 630) {
+					this.x -= this.speedX
+				}
+				if (this.x <= 630 && this.y < canvas.height - 200) {
+					this.y += this.speedY
+				}
+				if (this.y >= canvas.height - 200 && this.x < canvas.width - 550) {
+					this.x += this.speedX
+				}
+				if (this.x >= canvas.width - 550 && this.y >= 0) {
+					this.y -= this.speedY
+				}
+
+			}
+		}
+
+		function Wall(x, y, w, h, Image) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.Image = Image
+			this.draw = function () {
+				c.drawImage(this.Image, this.x, this.y, this.w, this.h)
+			}
+		}
+
+		function drawHint() {
+			if (collision(player, hintSprite) && room == 3) {
+				if (!key && lock) {
+					hint = true
+					heart = true
+				}
+				c.drawImage(hintImg, canvas.width / 2 - 619.2, canvas.height / 2 - 353.6, 1238.4, 707.2)
+				c.fillStyle = "white"
+				c.font = "75px Papyrus"
+				c.fillText("Press B", 1000, 650)
+			}
+			if (collision(player, hint2Sprite) && room == 5) {
+				c.fillStyle = "#7d5731"
+				c.fillRect(canvas.width / 2 - 619.2, canvas.height / 2 - 353.6, 1238.4, 707.2)
+				c.fillStyle = "black"
+				c.font = "100px papyrus"
+				c.fillText("Follow the Wind", 600, 350)
+				c.fillText("And you shall walk on it", 450, 550)
+				hint2 = true
+			}
+		}
+
+		function drawMenu() {
+			if (menu) {
+				player.x = 1650
+				player.y = 100
+				player.w = 100
+				player.h = 100
+				room = 0
+				nbLives = 3
+				c.fillStyle = "black"
+				c.fillRect(65, 60, 1750, 750)
+				c.fillStyle = "white"
+				c.font = "200px arial"
+				c.fillText("BOB'S", 600, 300)
+				c.fillText("ADVENTURE", 300, 475)
+				c.font = "100px arial"
+				c.fillText("Press P to play the game", 370, 600)
+				c.font="75px arial"
+				c.fillText("Press G to play Bob's Adventure 2", 360, 700)
+				if(71 in keyDown){
+					self.location="BA2BGAG.html"
+				}
+				if (!heart) {
+					heart = true
+				}
+				if (hint) {
+					hint = false
+				}
+				if (key) {
+					key = false
+				}
+				if (!lock) {
+					lock = true
+				}
+				if (!heart2) {
+					heart2 = true
+				}
+				chP1 = false
+				chP2 = false
+				chP3 = false
+				chP4 = false
+				boots = false
+				bootsOn = false
+				pickUpBoots = false
+				win = false
+			}
+		}
+
+		function drawPlayer() {
+			c.drawImage(bobImg, player.x, player.y, player.w, player.h)
+		}
+
+		function changeRoom() {
+			if (collision(player, doorR0) && room == 0) {
+				room = 1
+				player.x = canvas.width - 175
+				player.y = canvas.height / 2 - 50
+			}
+			if (collision(player, doorR1A) && room == 1) {
+				room = 0
+				player.x = 50
+				player.y = canvas.height / 2 - 50
+			}
+			if (collision(player, doorR1B) && room == 1) {
+				room = 2
+				player.x = canvas.width - 175
+				player.y = canvas.height / 2 - 50
+			}
+			if (collision(player, doorR2A) && room == 2) {
+				room = 1
+				player.x = 50
+				player.y = canvas.height / 2 - 50
+			}
+			if (collision(player, doorR2B) && room == 2) {
+				room = 3
+				player.x = canvas.width / 2 - 37.5
+				player.y = 50
+				player.w = 50
+				player.h = 50
+				player.speed -= 3
+			}
+			if (collision(player, doorR2C) && room == 2) {
+				room = 21
+				player.x = canvas.width - 175
+				player.y = canvas.height / 2 - 50
+
+			}
+			if (collision(player, doorR21A) && room == 21) {
+				room = 2
+				player.x = 50
+				player.y = canvas.height / 2 - 50
+			}
+			if (collision(player, doorR3A) && room == 3) {
+				room = 2
+				player.x = canvas.width / 2 - 50
+				player.y = canvas.height - 150
+				player.w = 100
+				player.h = 100
+				player.speed += 3
+			}
+			if (collision(player, doorR3B) && room == 3 && (key || !lock)) {
+				key = false
+				lock = false
+				room = 4
+				player.x = 50
+				player.y = canvas.height - 225
+				player.w = 100
+				player.h = 100
+				player.speed += 3
+			}
+			if (room == 4 && collision(player, doorR4A)) {
+				room = 3
+				player.x = canvas.width - 600
+				player.y = canvas.height - 127
+				player.w = 50
+				player.h = 50
+				player.speed -= 3
+			}
+			if (room == 4 && collision(player, doorR4B)) {
+				room = 5
+				player.x = 50
+				player.y = 75
+			}
+			if (room == 5 && collision(player, doorR5A)) {
+				room = 4
+				player.x = canvas.width - 175
+				player.y = 37
+			}
+			if (room == 5 && collision(player, doorR5B)) {
+				room = 6
+				player.x = 100
+				player.y = canvas.height / 2 - 50
+			}
+			if (room == 6 && collision(player, doorR6A)) {
+				room = 5
+				player.x = 1670
+				player.y = canvas.height / 2 - 50
+			}
+
+		}
+
+		function checkRoom() {
+			if (room == 0) {
+				drawRoom0()
+			}
+			if (room == 1) {
+				drawRoom1()
+
+			}
+			if (room == 2) {
+				drawRoom2()
+			}
+			if (room == 21) {
+				drawRoom21()
+			}
+			if (room == 3) {
+				drawRoom3()
+			}
+			if (room == 4) {
+				drawRoom4()
+			}
+			if (room == 5) {
+				drawRoom5()
+			}
+			if (room == 6) {
+				drawRoom6()
+			}
+		}
+
+		function gameOver() {
+			if (nbLives <= 0 && menu == false) {
+				c.fillStyle = "black"
+				c.fillRect(65, 60, 1750, 750)
+				c.fillStyle = "white"
+				c.font = "200px arial"
+				c.fillText("GAME OVER", 300, 300)
+				c.font = "100px arial"
+				c.fillText("Press M to go back to the main menu", 110, 500)
+				crown = false
+				crown1 = true
+				secret1 = true
+				secret2 = true
+				secretCount = 0
+			}
+		}
+
+		function lifeUp() {
+			if ((collision(player, heartSprite) && room == 2 && heart)) {
+			
+				nbLives++
+				heart = false
+				heart1Sound.play()
+			}
+			if (collision(player, heart2Sprite) && room == 3 && heart2) {
+				nbLives += 3
+				heart2 = false
+				heart2Sound.play()
+			}
+
+		}
+
+		function drawPUps() {
+			if (key) {
+				c.drawImage(keySprite, canvas.width - 285, 733, 50, 79.5)
+			}
+			if (bootsOn) {
+				c.drawImage(bootsImg, 1475, 730, 102, 84)
+			}
+		}
+
+		function livesHit() {
+			c.fillStyle = "black"
+			c.font = "75px arial"
+			c.fillText("X" + nbLives, canvas.width - 150, 800)
+			c.drawImage(bobImg, canvas.width - 220, 743, 60, 60)
+
+			//HITS
+			if (collision(player, obs1) && room == 1 || collision(player, obs2) && room == 1) {
+				hitSound.play()
+				if (nbLives == 1) {
+					gameOverSound.play()
+				}
+				if (hint) {
+					nbLives--
+					player.x = 50
+					player.y = canvas.height / 2 - 50
+				} else {
+					nbLives--
+					player.x = canvas.width - 150
+					player.y = canvas.height / 2 - 50
+				}
+			}
+			if ((collision(player, spikeHB1) && room == 3) || (collision(player, spikeHB2) && room == 3) || (collision(player, spikeHB3) && room == 3) || (collision(player, spikeHB4) && room == 3) || (collision(player, spikeHB5) && room == 3) || (collision(player, spikeHB6) && room == 3)) {
+				hitSound.play()
+				if (nbLives == 1) {
+					gameOverSound.play()
+				}
+				if (hint) {
+					nbLives--
+					player.x = canvas.width / 2 - 37.5
+					player.y = 650
+				} else {
+					nbLives--
+					player.x = canvas.width / 2 - 37.5
+					player.y = 47.5
+				}
+			}
+
+			if ((collision(player, obs3) || collision(player, obs4) || collision(player, obs5) || collision(player, obs6) || (collision(player, block) && !boots) || collision(player, wallR4B) || collision(player, wallR4A)) && room == 4) {
+				hitSound.play()
+				if (nbLives == 1) {
+					gameOverSound.play()
+				}
+				nbLives--
+				player.x = 50
+				player.y = canvas.height - 225
+			}
+		}
+
+		function winMenu() {
+			if (win) {
+				c.fillStyle = "black"
+				c.fillRect(65, 60, 1750, 750)
+				c.fillStyle = "white"
+				c.font = "200px arial"
+				c.fillText("YOU WIN", 500, 300)
+				c.font = "100px arial"
+				c.fillText("Press M to go back to the main menu", 110, 500)
+				c.font = "75px arial"
+				c.fillText(secretCount + "/2", 940, 700)
+				c.drawImage(secretImg, 850, 634, 75, 75)
+			}
+		}
+
+		function secrets() {
+			if (room == 21 && collision(player, secretSp1) && secret1) {
+				secretCount++
+				secret1 = false
+				secretSound.play()
+			}
+		}
+		//ROOM 0
+		function drawRoom0() {
+			c.fillStyle = "gray"
+			c.beginPath()
+			c.arc(fountain.x, fountain.y, fountain.r, 0, Math.PI * 2, false)
+			c.fill()
+			doorR0.draw()
+			rock1.draw()
+			rock2.draw()
+			rock3.draw()
+			rock4.draw()
+			rock5.draw()
+			rock6.draw()
+			rock7.draw()
+			if (hint && collision(player, rock3) && 66 in keyDown && key == false) {
+				key = true
+				hint = false
+				pUpSound.play()
+			}
+
+
+
+		}
+
+		//ROOM 1
+
+		function drawRoom1() {
+			obs1.draw()
+			obs2.draw()
+			doorR1A.draw()
+			doorR1B.draw()
+		}
+
+		//ROOM 2
+
+		function drawRoom2() {
+			doorR2A.draw()
+			doorR2B.draw()
+			doorR2C.draw()
+			if (heart) {
+				c.drawImage(lifeImg, canvas.width / 2 - 75, canvas.height / 2 - 150, 150, 150)
+			}
+			c.fillStyle = "#7f7f7f"
+			c.fillRect(canvas.width / 2 - 50, canvas.height / 2, 100, 50)
+			c.fillRect(canvas.width / 2 - 75, canvas.height / 2 + 49, 150, 50)
+		}
+
+		//ROOM 2.1
+
+		function drawRoom21() {
+			doorR21A.draw()
+			sky.draw()
+			if (secret1) { secretSp1.draw() }
+			if (player.x > 500 && player.x < 1319 && !bootsOn) {
+				player.speed = 0
+				player.w -= 2
+				player.h -= 2
+				if (player.w == 0) {
+					hitSound.play()
+					if (nbLives == 1) {
+						gameOverSound.play()
+					}
+					nbLives--
+					player.x = canvas.width - 175
+					player.y = canvas.height / 2 - 50
+					player.speed = 13
+					player.w = 100
+					player.h = 100
+				}
+			}
+			c.drawImage(cloud, 1000, 250, 180, 105)
+			c.drawImage(cloud, 750, 700, 180, 105)
+		}
+
+		//ROOM3
+
+		function drawRoom3() {
+
+			doorR3A.draw()
+			wallR3L.draw()
+			hintSprite.draw()
+			c.drawImage(spike1Img, 1285, 325, 330, 67.5)
+			c.drawImage(spike2Img, canvas.width - 580, 500, 330, 67.5)
+			wallR3R.draw()
+			c.drawImage(spike1Img, 500, 150, 330, 67.5)
+			c.drawImage(spike2Img, canvas.width - 830, 150, 330, 67.5)
+			c.drawImage(spike1Img, 250, 325, 330, 67.5)
+			c.drawImage(spike2Img, 955, 325, 330, 67.5)
+			c.drawImage(spike2Img, 680, 325, 330, 67.5)
+			c.drawImage(spike1Img, 488, 500, 330, 67.5)
+			c.drawImage(spike1Img, canvas.width - 1310, 500, 330, 67.5)
+			c.drawImage(spike1Img, canvas.width - 1010, 500, 330, 67.5)
+			if (heart2) {
+				c.drawImage(life2Img, 25, canvas.height - 100, 75, 75)
+			}
+			if (!lock) {
+				doorR3B2.draw()
+			} else {
+				doorR3B.draw()
+			}
+		}
+
+		//ROOM4
+
+		function drawRoom4() {
+			doorR4A.draw()
+			doorR4B.draw()
+			wallR4B.draw()
+			arr1Sprite.draw()
+			arr2Sprite.draw()
+			arr3Sprite.draw()
+			arr4Sprite.draw()
+			if (secret2) { c.drawImage(secretImg, 50, 50, 100, 100) }
+			if (collision(secretSp2, player) && secret2 == true) {
+				secretCount++
+				secret2 = false
+				secretSound.play()
+			}
+			if (!(player.x <= 625 && player.y < 200)) { wallR4C.draw() }
+			wallR4A.draw()
+			obs3.draw()
+			obs4.draw()
+			obs5.draw()
+			obs6.draw()
+			if (!boots) {
+				block.draw()
+			} else if (!pickUpBoots) {
+				c.drawImage(bootsImg, 1050, 385, 102, 84)
+			}
+			if (collision(player, bootsSprite) && !pickUpBoots && !bootsOn) {
+				pickUpBoots = true
+				bootsOn = true
+				pUpSound.play()
+			}
+			if (collision(player, arr3Sprite) && hint2) {
+				chP1 = true
+			}
+			if (collision(player, arr4Sprite) && chP1) {
+				chP1 = false
+				chP2 = true
+			}
+			if (collision(player, arr1Sprite) && chP2) {
+				chP2 = false
+				chP3 = true
+			}
+			if (collision(player, arr2Sprite) && chP3) {
+				chP3 = false
+				chP4 = true
+				boots = true
+
+			}
+
+		}
+
+		//ROOM5
+
+		function drawRoom5() {
+			sky.draw()
+			doorR5A.draw()
+			hint2Sprite.draw()
+			if (player.x > 500 && player.x < 1319 && !bootsOn) {
+				player.speed = 0
+				player.w -= 2
+				player.h -= 2
+				if (player.w == 0) {
+					hitSound.play()
+					if (nbLives == 1) {
+						gameOverSound.play()
+					}
+					nbLives--
+					player.x = 200
+					player.y = 393.5
+					player.speed = 13
+					player.w = 100
+					player.h = 100
+				}
+			}
+			c.drawImage(cloud, 750, 250, 180, 105)
+			c.drawImage(cloud, 1000, 700, 180, 105)
+			doorR5B.draw()
+
+
+		}
+
+		//ROOM6
+
+		function drawRoom6() {
+			doorR6A.draw()
+			c.fillStyle = "#7f7f7f"
+			c.fillRect(canvas.width / 2 - 50, canvas.height / 2, 100, 50)
+			c.fillRect(canvas.width / 2 - 75, canvas.height / 2 + 49, 150, 50)
+			if (crown1) {
+				crownSprite.draw()
+			} else {
+				crown2Sprite.draw()
+			}
+			if (collision(player, crownSprite) && !win) {
+				crown = true
+				win = true
+				crown1 = false
+				winSound.play()
+			}
+		}
+
+		//CONTROLS
+		document.addEventListener("keydown", function (e) {
+			keyDown[e.keyCode] = true
+		})
+
+		document.addEventListener("keyup", function (e) {
+			delete keyDown[e.keyCode]
+		})
+
+		function menuStart() {
+			if (77 in keyDown && (win == true || nbLives <= 0)) {
+				menu = true
+			}
+		}
+
+		function menuClose() {
+			if (80 in keyDown && menu) {
+				menu = false
+			}
+		}
+
+		function clavier() {
+
+			if (37 in keyDown && player.x > 0 && !menu && !nbLives == 0) {
+				if (room == 3 && collision(player, wallR3L) && (direction == "left" || direction == "up" || direction == "down") && player.y < canvas.height - 150) {
+				} else {
+					player.x -= player.speed
+					direction = "left"
+				}
+			}
+
+			if (39 in keyDown && player.x < canvas.width - player.w && !menu && !nbLives == 0) {
+				if (room == 3 && collision(player, wallR3R) && (direction == "right" || direction == "up" || direction == "down")) {
+				}
+
+				else {
+					player.x += player.speed
+					direction = "right"
+				}
+			}
+			if (38 in keyDown && player.y > 0 && !menu && !nbLives == 0) {
+				if (room == 3 && collision(player, wallR3L) && (direction == "left" || direction == "up" || direction == "right") && player.y > canvas.height - 150) {
+				} else {
+					player.y -= player.speed
+					direction = "up"
+				}
+			}
+
+			if (40 in keyDown && player.y < canvas.height - player.h && !menu && !nbLives == 0) {
+				player.y += player.speed
+				direction = "down"
+			}
+
+		}
+
+
+		//GAME
+		function game() {
+			c.clearRect(0, 0, canvas.width, canvas.height)
+			clavier()
+			ambience()
+			menuStart()
+			menuClose()
+			changeRoom()
+			checkRoom()
+			lifeUp()
+			secrets()
+			drawPlayer()
+			if (room == 3) { wallR3LFake.draw() }
+			livesHit()
+			drawPUps()
+			drawHint()
+			bootsSounds()
+			winMenu()
+			gameOver()
+			drawMenu()
+			requestAnimationFrame(game)
+		}
+		game()
+	</script>
+</body>
+
+</html>
