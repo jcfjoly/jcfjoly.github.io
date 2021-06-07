@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="design.css">
+    <title>Pong</title>
+</head>
+
+<body>
+    <div id="settings" class="settings">
+        <!-- Color ouputs in hex #000000 -->
+        <a href="javascript:void(0)" class="closebtn" onclick="apply()">&times;</a>
+        <a id="ballColorTxt">Ball Color</a><input type="color" name="" id="ballColor" value="#ff0000">
+        <a id="padColorTxt">Pad Color</a><input type="color" name="" id="padColor" value="#FFFFFF">
+        <a id="backColorTxt">Background Color</a><input type="color" name="" id="backColor" value="#141414">
+        <a id="ballSpeedTxt">Ball Speed (100%)</a><input type="range" name="" id="ballSpeed" min="1" max="200" value="100">
+        <a id="scaleTxt">Scale (100%)</a><input type="range" name="" id="scale" min="1" max="200" value="100">
+        <a id="pointsTxt">Points (3)</a><input type="range" name="" id="points" min="1" max="20" value="3">
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+
+</html>
