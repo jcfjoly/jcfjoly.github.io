@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoot the monsters</title>
+
+    <style>
+        body {
+            background-color: rgba(3, 3, 41, 0.89);
+
+        }
+
+        canvas {
+            left: calc(50vw - 400px);
+            top: calc(50vh - 400px);
+            position: absolute;
+
+        }
+
+        #instructions {
+            left: 10;
+            color: white;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script src="JS/sounds.js"></script>
+
+    <script src="JS/canvas.js"></script>
+
+    <script src="JS/menu, win, lose.js"></script>
+
+    <script src="JS/player.js"></script>
+    <script src="JS/missiles.js"></script>
+    <script src="JS/enemy.js"></script>
+
+    <script src="JS/health, kills.js"></script>
+
+
+    <div id="instructions">
+        Instructions: <br>
+        Destroy 10 red balls to win. <br>
+        Don't let the red balls hit you or you'll lose a life. <br><br>
+
+        Use WASD or arrow keys to move the player.<br>
+        Click left mouse button to shoot.<br>
+    
+    </div>
+
+    <script src="JS/game.js"></script>
+
+</body>
+
+</html>

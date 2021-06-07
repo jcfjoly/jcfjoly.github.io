@@ -1,0 +1,6 @@
+var winSound = new Audio("Sounds/Win Sound.mp3")
+var titleScreenSound = new Audio("Sounds/Sogno di Volare.mp3")
+var loseSound = new Audio("Sounds/Lose sound.mp3")
+var enemyKillSound = new Audio("Sounds/Boom.mp3")
+var gameSound = new Audio("Sounds/Game.mp3")
+var damageSound = new Audio("Sounds/oof.mp3")
