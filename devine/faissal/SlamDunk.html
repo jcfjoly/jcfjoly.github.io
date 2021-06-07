@@ -1,0 +1,1116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+    
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:rgb(245, 74, 31);
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:rgb(245, 74, 31);
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+    background-image: url(images/fondSD.png);
+    background-size: cover;
+	}
+/*Commencez VOTRE CSS ici*/	
+
+#tensai{
+    position: absolute;
+    background-image: url(images/tensai.png);
+    height: 300px;
+    width: 120px;
+    top: 380px;
+    left: 20px;
+    display: none;
+}
+
+#start{
+    height: 100px;
+    width: 500px;
+    background-color: orangered;
+    position: absolute;
+    left: 250px;
+    top: 300px;
+    font-size: 100px;
+    text-align: center;
+    cursor: pointer;
+    
+}
+
+#bulle{
+    position: absolute;
+    height: 200px;
+    width: 244px;
+    background-image: url(images/bulle2.png);
+    background-size: cover;
+    top: 190px;
+    left: 150px;
+    display: none;
+}
+
+#texteBulle{
+    position: absolute;
+    text-align: center;
+    top: 20%;
+    display: none;
+    height: 30px;
+    width: 200px;
+    left: 25px;
+}
+
+#timer{
+    position: absolute;
+    height: 30px;
+    width: 150px;
+    background-color: orangered;
+    border-radius: 10px;
+    font-size: 30px;
+    text-align: center;
+    top: 20px;
+    left: 10px;
+    display: none;
+}
+
+#ballon1{
+    position: absolute;
+    height: 21px;
+    width: 21px;
+    left: 680px;
+    top: 50px;
+    cursor: pointer;
+    background-image: url(images/ball.png);
+    background-size: cover;
+    display: none;
+}
+
+#ballon2{
+    position: absolute;
+    height: 21px;
+    width: 21px;
+    left: 560px;
+    top: 330px;
+    cursor: pointer;
+    background-image: url(images/ball.png);
+    background-size: cover;
+    display: none;
+    z-index: 1;
+}
+
+#ballon3{
+    position: absolute;
+    height: 21px;
+    width: 21px;
+    top: 679px;
+    cursor: pointer;
+    background-image: url(images/ball.png);
+    background-size: cover;
+    display: none;
+}
+
+#ballon4{
+    position: absolute;
+    height: 21px;
+    width: 21px;
+    left: 330px;
+    top: 440px;
+    cursor: pointer;
+    background-image: url(images/ball.png);
+    background-size: cover;
+    display: none;
+    z-index: 1;
+}
+
+#ballon5{
+    position: absolute;
+    height: 21px;
+    width: 21px;
+    right: 80px;
+    top: 280px;
+    cursor: pointer;
+    background-image: url(images/ball.png);
+    background-size: cover;
+    display: none;
+    z-index: 1;
+}
+
+#clé{
+    position: absolute;
+    top: 110px;
+    left: 200px;
+    background-size: cover;
+    background-image: url(images/key.png);
+    display: none;
+    height: 50px;
+    width: 50px;
+}
+
+#porte{
+    position: absolute;
+    background-color: none;
+    top: 5px;
+    left: 20px;
+    width: 110px;
+    height: 350px;
+    display: none;
+}
+
+#faussePorte{
+    position: absolute;
+    background-color: none;
+    top: 20px;
+    right: 0px;
+    height: 650px;
+    width: 50px;
+    display: none;
+}
+
+#livre{
+    position: absolute;
+    display: none;
+    background-image: url(images/livre.png);
+    height: 30px;
+    width: 40px;
+    background-size:cover;
+    top: 360px;
+    left: 550px;
+    cursor: pointer;
+}
+
+#devineChiffre{
+    position: absolute;
+    display: none;
+    background-color:rgb(245, 74, 31) ;
+    top: 200px;
+    left: 250px;
+    height: 300px;
+    width: 500px;
+    text-align: center;
+    font-size: 25px;
+    border: 2px black solid;
+    border-radius: 5px;
+    z-index: 10;
+}
+
+#flèche{
+    position: absolute;
+    display: none;
+    background-image: url(images/retour.png);
+    top: 480px;
+    left: 830px;
+    height: 180px;
+    width: 180px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+#livreTexte{
+    position: absolute;
+    display: none;
+    height: 700px;
+    width: 1000px;
+    font-size: 40px;
+    left: 170px;
+    top: 115px;
+}
+
+#livreTexte2{
+    position: absolute;
+    display: none;
+    height: 700px;
+    width: 1000px;
+    font-size: 40px;
+    top: 115px;
+    left: 650px;
+}
+
+#football{
+    position: absolute;
+    background-image: url(images/football.png);
+    height: 50px;
+    width: 50px;
+    background-size: cover;
+    top: 200px;
+    left: 30px;
+    display: block;
+    display: none;
+}
+
+#bag{
+    position: absolute;
+    background-image: url(images/bag.png);
+    width: 92px;
+    height: 85px;
+    background-size: cover;
+    top: 250px;
+    right: 50px;
+    display: none;
+}
+
+#casque{
+    position: absolute;
+    background-image: url(images/casque.png);
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    top: 350px;
+    left: 250px;
+    display: none;
+}
+
+#soccer{
+    position: absolute;
+    background-image: url(images/soccer.png);
+    background-size: cover;
+    height: 150px;
+    width: 150px;
+    top: 500px;
+    left: 600px;
+    display: none;
+}
+
+#shoe1{
+    position: absolute;
+    background-image: url(images/shoe1.png);
+    width: 100px;
+    height: 57.6px;
+    background-size: cover;
+    top: 430px;
+    left: 780px;
+    display: none;
+}
+
+#shoe2{
+    position: absolute;
+    background-image: url(images/shoe2.png);
+    height: 170px;
+    width: 170px;
+    background-size: cover;
+    top: 300px;
+    left: 500px;
+    display: none;
+}
+
+#verrou2{
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    height: 650px;
+    width: 50px;
+    display: none;
+    background-color: none;
+    z-index: 2;
+}
+
+#flèche2{
+    position: absolute;
+    display: none;
+    background-image: url(images/retour.png);
+    top: 480px;
+    left: 830px;
+    height: 180px;
+    width: 180px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+#c0{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 340px;
+    left: 515px;
+    cursor: pointer;
+}
+
+#baitc0{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 340px;
+    left: 515px;
+    cursor: pointer;
+}
+
+#baitc5{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 340px;
+    left: 437px;
+    cursor: pointer;
+}
+
+#baitc4{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 287px;
+    left: 437px;
+    cursor: pointer;
+}
+
+#baitc9{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 287px;
+    left: 515px;
+    cursor: pointer;
+}
+
+#baitc8{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 234px;
+    left: 515px;
+    cursor: pointer;
+}
+
+#c3{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 234px;
+    left: 437px;
+    cursor: pointer;
+}
+
+#baitc3{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 234px;
+    left: 437px;
+    cursor: pointer;
+}
+
+#baitc7{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 181px;
+    left: 515px;
+    cursor: pointer;
+}
+
+#c2{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 181px;
+    left: 437px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+#baitc2{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 181px;
+    left: 437px;
+    cursor: pointer;
+}
+
+#baitc6{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 128px;
+    left: 515px;
+    cursor: pointer;
+}
+
+#c1{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 128px;
+    left: 437px;
+    cursor: pointer;
+}
+
+#baitc1{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 30px;
+    width: 55px;
+    top: 128px;
+    left: 437px;
+    cursor: pointer;
+}
+
+#indiceSerrure{
+    position: absolute;
+    display: none;
+    background-color: none;
+    height: 170px;
+    width: 100px;
+    top: 153px;
+    right: 90px;
+}
+
+#recommencer{
+    position: absolute;
+    height: 100px;
+    width: 500px;
+    background-color: orangered;
+    left: 250px;
+    top: 200px;
+    font-size: 80px;
+    text-align: center;
+    cursor: pointer;
+    display: none;
+}
+
+#next{
+    position: absolute;
+    height: 200px;
+    width: 500px;
+    background-color: orangered;
+    left: 250px;
+    top: 350px;
+    font-size: 80px;
+    text-align: center;
+    cursor: pointer;
+    display: none;
+}
+
+
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Faissal Rahimzai 406</b></div>
+        <div id="cadreJeu">
+            <div id="tensai"></div>
+            <div id="start" onclick="début()">Commencer</div>
+            <div id="bulle">
+                <div id="texteBulle">Je suis Sakuragi Hanamichi.
+                     Aide-moi à sortir en trouvant les 5 ballons de basket cachés. Ensuite, la clé apparaitra et tu pourras ouvrir la porte</div>
+            </div>
+            <div id="timer">30 secondes</div>
+            <div id="ballon1" onclick="compteballon1()"></div>
+            <div id="ballon2" onclick="compteballon2()"></div>
+            <div id="ballon3" onclick="compteballon3()"></div>
+            <div id="ballon4" onclick="compteballon4()"></div>
+            <div id="ballon5" onclick="compteballon5()"></div>
+            <div id="clé" onclick="curseurKey()"></div>
+            <div id="porte" onclick="étape2()"></div>
+
+            <div id="bag"></div>
+            <div id="casque"></div>
+            <div id="football"></div>
+            <div id="shoe1"></div>
+            <div id="shoe2"></div>
+            <div id="soccer"></div>
+
+            <div id="faussePorte" onclick="lock()"></div>
+            <div id="boiteChiffre"></div>
+            <div id="livre" onclick="ouvrirLivre()"></div>
+            <div id="flèche" onclick="retourImage()"></div>
+            <div id="livreTexte"></div>
+            <div id="livreTexte2"></div>
+            <div id="devineChiffre">
+                <p id="message"> Trouve le chiffre entre 1 et 100 pour ouvrir le premier verrou. Tu as 8 chances avant que la porte ne reste vérouillée a jamais. </p> 
+                <p id="essais">Essais restants: 8</p>
+                <input type="text" id="chiffre">
+                <p id="trop"></p>
+            </div>
+            <div id="verrou2" onclick="code2()"></div>
+
+            <div id="c0" onclick="deuxiemeChiffre()"></div>
+            <div id="baitc0" onclick="retourLock()"></div>
+            <div id="c1" onclick="premierChiffre()"></div>
+            <div id="baitc1" onclick="retourLock()"></div>
+            <div id="c2" onclick="troisiemeChiffre()"></div>
+            <div id="baitc2" onclick="retourLock()"></div>
+            <div id="c3" onclick="quatriemeChiffre()"></div>
+            <div id="baitc3" onclick="retourLock()"></div>
+            <div id="baitc4" onclick="retourLock()"></div>
+            <div id="baitc5" onclick="retourLock()"></div>
+            <div id="baitc6" onclick="retourLock()"></div>
+            <div id="baitc7" onclick="retourLock()"></div>
+            <div id="baitc8" onclick="retourLock()"></div>
+            <div id="baitc9" onclick="retourLock()"></div>
+            <div id="flèche2" onclick="retourLock()"></div>
+
+            <div id="indiceSerrure" onclick="indice()"></div>
+
+            <div id="recommencer" onclick="restart()">Recommencer</div>
+            <div id="next" onclick="nextLevel()">Prochain niveau</div>
+            
+        </div>
+        
+        
+        
+        </div>
+    </div>
+    
+    <script>
+
+        //Les variables pour changer si les objets sont visibles ou non
+        var fond=document.getElementById("cadreJeu")
+        var sakuragi=document.getElementById("tensai")
+        var commencer=document.getElementById("start")
+        var texte=document.getElementById("texteBulle")
+        var minuteur=document.getElementById("timer")
+        var key=document.getElementById("clé")
+        var door=document.getElementById("porte")
+        var fakeDoor=document.getElementById("faussePorte")
+        var book=document.getElementById("livre")
+        var devine=document.getElementById("devineChiffre")
+        var verrou2=document.getElementById("verrou2")
+        var retourCode=document.getElementById("flèche2")
+        
+       
+
+        //Les variables pour appuyer sur les chiffres du deuxième verrou
+        var bon0=document.getElementById("c0")
+        var faux5=document.getElementById("baitc5")
+        var faux9=document.getElementById("baitc9")
+        var faux4=document.getElementById("baitc4")
+        var faux8=document.getElementById("baitc8")
+        var bon3=document.getElementById("c3")
+        var bon1=document.getElementById("c1")
+        var bon2=document.getElementById("c2")
+        var faux6=document.getElementById("baitc6")
+        var faux7=document.getElementById("baitc7")
+        var faux0=document.getElementById("baitc0")
+        var faux1=document.getElementById("baitc1")
+        var faux2=document.getElementById("baitc2")
+        var faux3=document.getElementById("baitc3")
+
+            //Indice pour le verrou
+            var indiceVerrou=document.getElementById("indiceSerrure")
+
+        //Le livre ouvert
+        var retour=document.getElementById("flèche")
+        var texteLivre=document.getElementById("livreTexte")
+        var texteLivre2=document.getElementById("livreTexte2")
+
+            //Les objets qui cacherons les ballons
+                var bag=document.getElementById("bag")
+                var casque=document.getElementById("casque")
+                var football=document.getElementById("football")
+                var shoe1=document.getElementById("shoe1")
+                var shoe2=document.getElementById("shoe2")
+                var soccer=document.getElementById("soccer")
+
+
+                //Les ballons
+                var ballon1=document.getElementById("ballon1")
+                var ballon2=document.getElementById("ballon2")
+                var ballon3=document.getElementById("ballon3")
+                var ballon4=document.getElementById("ballon4")
+                var ballon5=document.getElementById("ballon5")
+
+        //La variable qui comptera le nombre de ballon trouvés
+        var ballons=0
+
+        //La variable qui servira de minuteur
+        var temps=20
+
+        //Toutes les variables qui appartiennent au DLC
+        var pv=8
+        var bonChiffre=Math.ceil(Math.random()*100)
+            console.log(bonChiffre)
+        var essai=document.getElementById("essais")
+        var trop=document.getElementById("trop")
+        var message=document.getElementById("message")
+
+        //Les effets sonores
+        var locked=new Audio()
+            locked.src="sons/doorLocked.mp3"
+        var raté=new Audio()
+            raté.src="sons/lose.mp3"
+        var cfy=new Audio()
+            cfy.src="sons/bgMusic.mp3"
+            cfy.loop="true"
+        
+	//Page de début avant que la partie commence
+    function début(){
+        //Hanamichi apparaît et explique ce que le joueur a à faire. Le joueur a 5 seconde pour lire les instructions avant que ça commence
+        fond.style.backgroundImage="url(images/lockerBG.jpg)"
+        sakuragi.style.display="block"
+        bulle.style.display="block"
+        texte.style.display="block"
+        timer.style.display="block"
+        commencer.style.display="none"
+        ballon1.style.display="block"
+        ballon2.style.display="block"
+        ballon3.style.display="block"
+        ballon4.style.display="block"
+        ballon5.style.display="block"
+        football.style.display="block"
+        soccer.style.display="block"
+        shoe2.style.display="block"
+        shoe1.style.display="block"
+        casque.style.display="block"
+        bag.style.display="block"
+        texte.innerHTML="Je suis Sakuragi Hanamichi. Aide-moi à sortir en trouvant les 5 ballons  de basket cachés. Ensuite, la clé apparaitra et tu pourras ouvrir la porte."
+        document.getElementById("next").style.display="none"
+        document.getElementById("recommencer").style.display="none"
+        cfy.play()
+        temps=30
+        ballons=0
+        setInterval(commencerDécompte,1000)
+        setTimeout(commencerRecherche,10000)
+    }
+	
+    function commencerRecherche(){
+        //La bulle de texte disparait, les ballons apparaissent avec les autres objets
+        bulle.style.display="none"
+        texte.style.display="none"
+        sakuragi.style.display="none"
+
+
+        
+    }
+
+    function commencerDécompte(){
+        //Le décompte commence
+        if(temps>0){
+            temps=temps-1
+            minuteur.innerHTML=temps + " secondes"
+        }
+        if(temps<1){
+            temps=0
+            minuteur.innerHTML="temps écoulé"
+            perdu()
+
+        }
+    }
+
+    function compteballon1(){
+        //Le premier ballon est trouvé
+        ballons=ballons+1
+        ballon1.style.display="none"
+
+        if(ballons==5){
+            
+            temps=2000000000000000000000000000000000000000000000000
+            key.style.display="block"
+            minuteur.style.display="none"
+            
+        }
+    }
+
+    function compteballon2(){
+        //Le deuxième ballon est trouvé
+        ballons=ballons+1
+        ballon2.style.display="none"
+
+        if(ballons==5){
+            
+            temps=2000000000000000000000000000000000000000000000000
+            key.style.display="block"
+            minuteur.style.display="none"
+            
+        }
+    }
+
+    function compteballon3(){
+        //Le troisième ballon est trouvé
+        ballons=ballons+1
+        ballon3.style.display="none"
+
+        if(ballons==5){
+            
+            temps=2000000000000000000000000000000000000000000000000
+            key.style.display="block"
+            minuteur.style.display="none"
+            
+        }
+    }
+
+    function compteballon4(){
+        //Le quatrième ballon est trouvé
+        ballons=ballons+1
+        ballon4.style.display="none"
+
+        if(ballons==5){
+            
+            temps=2000000000000000000000000000000000000000000000000
+            key.style.display="block"
+            minuteur.style.display="none"
+            
+        }
+    }
+
+    function compteballon5(){
+        //Le cinquième ballon est trouvé
+        ballons=ballons+1
+        ballon5.style.display="none"
+
+        if(ballons==5){
+            
+            temps=2000000000000000000000000000000000000000000000000
+            key.style.display="block"
+            minuteur.style.display="none"
+            
+        }
+    }
+
+    function curseurKey(){
+        document.body.style.cursor="url(images/key.png),auto"
+        key.style.display="none"
+        door.style.display="block"
+        
+    }
+
+    //LA DEUXIÈME PARTIE COMMENCE ICI!!!!!!!
+
+    function étape2(){
+        //Les objets disparaissent et le décor change
+        cfy.pause()
+        minuteur.style.display="none"
+        sakuragi.style.display="block"
+        document.body.style.cursor="auto"
+        fond.style.backgroundImage="url(images/roomBG.jpg)"
+        bulle.style.display="block"
+        texte.style.display="block"
+        fakeDoor.style.display="block"
+        book.style.display="block"
+        football.style.display="none"
+        soccer.style.display="none"
+        shoe1.style.display="none"
+        shoe2.style.display="none"
+        bag.style.display="none"
+        casque.style.display="none"
+
+        //Sakuragi se remet à parler
+        texte.innerHTML="Qu'est-ce que c'est que cet endroit? Peu importe, ouvrons la porte et quittons cet endroit au plus vite"
+
+    }
+
+    function lock(){
+        fakeDoor.style.display="none"
+        texte.innerHTML="Cette porte est aussi vérouillée. Elle semble avoir deux verrous différents."
+        setTimeout(commencerDLC,2000)
+        
+    }
+    
+    function commencerDLC(){
+        bulle.style.display="none"
+        texte.style.display="none"
+        devine.style.display="block"
+        indiceVerrou.style.cursor="pointer"
+        indiceVerrou.style.display="block"
+         
+    }
+
+    function indice(){
+        bulle.style.display="block"
+        texte.style.display="block"
+        texte.innerHTML="Regarde les maillots dans la pièce"
+        setTimeout(finIndice,1000)
+    }
+
+    function finIndice(){
+        texte.innerHTML="Le premier verrou est ouvert. Il faut trouver la combinaison pour ouvrir le second verrou. Il se réinitialise chaque fois qu'il est refermé"
+    }
+
+    function retourLock(){
+        bulle.style.display="block"
+        texte.style.display="block"
+        fond.style.backgroundImage="url(images/roomBG.jpg)"
+        sakuragi.style.display="block"
+        retour.style.display="none"
+        book.style.display="block"
+        texteLivre.style.display="none"
+        texteLivre2.style.display="none"
+        retourCode.style.display="none"
+        locked.play()
+    }
+
+    //Le DLC commence
+
+    document.addEventListener("keyup", function(e){
+        if(e.keyCode==13){
+            var chiffre=document.getElementById("chiffre").value
+            document.getElementById("chiffre").value=""
+            devine.style.zIndex="10"
+
+            
+
+           
+
+            if(chiffre==bonChiffre){
+                devine.style.display="none"
+                verrou2.style.display="block"
+                bulle.style.display="block"
+                texte.style.display="block"
+                texte.innerHTML="Le premier verrou est ouvert. Il faut trouver la combinaison pour ouvrir le second verrou. Il se réinitialise chaque fois qu'il est refermé"
+                pv=1
+                setTimeout(finDevine,1500)
+            }
+            else{
+                pv=pv-1
+                message.innerHTML="Trouve le chiffre entre 1 et 100 pour ouvrir le premier verrou, sinon la porte restera ferméé à tout jamais"
+                essai.innerHTML=" Tentatives restantes = "+pv
+                raté.play()
+                if(pv<=0){
+                perdu()
+            }
+
+            }
+
+            if(chiffre<bonChiffre){
+         
+         trop.innerHTML="Ton nombre est trop petit"
+         }
+         if(chiffre>bonChiffre){
+         
+         trop.innerHTML="Ton nombre est trop grand"
+         }
+        }
+    }
+    )
+
+    function finDevine(){
+        bulle.style.display="none"
+        texte.style.display="none"
+    }
+
+    function code2(){ 
+        //Le code est 1023(Le maillot de sakuragi plus celui accroché dans le décor). La serrure à code apparait  
+        bulle.style.display="none"
+        texte.style.display="none"
+        sakuragi.style.display="none"
+        book.style.display="none"
+        fond.style.backgroundImage="url(images/serrureCode.jpg)"
+        retourCode.style.display="block"
+        bon0.style.display="none"
+        faux5.style.display="block"
+        faux4.style.display="block"
+        faux9.style.display="block"
+        faux8.style.display="block"
+        bon3.style.display="none"
+        bon1.style.display="block"
+        bon2.style.display="none"
+        faux7.style.display="block"
+        faux6.style.display="block"
+        faux0.style.display="block"
+        faux1.style.display="none"
+        faux2.style.display="block"
+        faux3.style.display="block"
+        
+    }
+
+    function premierChiffre(){
+        //Quand le 1 est cliqué
+        bon1.style.display="none"
+        faux1.style.display="block"
+        faux0.style.display="none"
+        bon0.style.display="block"
+        
+    }
+
+    function deuxiemeChiffre(){
+        //Quand le 0 est cliqué
+        bon0.style.display="none"
+        faux0.style.display="block"
+        faux2.style.display="block"
+        bon2.style.display="block"
+    }
+
+    function troisiemeChiffre(){
+        //Quand le 2 est cliqué
+        bon2.style.display="none"
+        faux2.style.display="block"
+        faux3.style.display="none"
+        bon3.style.display="block"
+    }
+
+    function quatriemeChiffre(){
+        //Quand le 3 est cliqué
+        bon3.style.display="none"
+        faux0.style.display="none"
+        faux1.style.display="none"
+        faux2.style.display="none"
+        faux4.style.display="none"
+        faux5.style.display="none"
+        faux6.style.display="none"
+        faux7.style.display="none"
+        faux8.style.display="none"
+        faux9.style.display="none"
+        retourCode.style.display="none"
+        fond.style.backgroundImage="url(images/roomBG.jpg)"
+        sakuragi.style.display="block"
+        book.style.display="block"
+        bulle.style.display="block"
+        texte.style.display="block"
+        texte.innerHTML="La porte est finalement ouverte"
+        verrou2.style.display="none"
+
+        setTimeout(nextLevel,2000)
+
+    }
+
+    function ouvrirLivre(){
+        book.style.display="none"
+        sakuragi.style.display="none"
+        fond.style.backgroundImage="url(images/livreOuvert.png)"
+        retour.style.display="block"
+        bulle.style.display="none"
+        texte.style.display="none"
+        texteLivre.style.display="block"
+        texteLivre.innerHTML="rouge <br/> <br/> <br/> violet <br/> <br/> <br/> jaune"
+        texteLivre2.style.display="block"
+        texteLivre2.innerHTML="bleu <br/> <br/> <br/> mauve <br/> <br/> <br/> vert"
+        fakeDoor.style.display="none"
+        book.style.zIndex="3"
+        texteLivre.style.zIndex="2"
+        texteLivre2.style.zIndex="2"
+        retour.style.zIndex="4"
+    }
+
+    function retourImage(){
+        bulle.style.display="block"
+        texte.style.display="block"
+        fond.style.backgroundImage="url(images/roomBG.jpg)"
+        sakuragi.style.display="block"
+        retour.style.display="none"
+        book.style.display="block"
+        texteLivre.style.display="none"
+        texteLivre2.style.display="none"
+        fakeDoor.style.display="block"
+        texteLivre.style.zIndex="2"
+
+        //Le deuxième verrou
+        retourCode.style.display="none"
+        bon0.style.display="none"
+        faux5.style.display="none"
+        faux9.style.display="none"
+        faux4.style.display="none"
+        faux8.style.display="none"
+        bon3.style.display="none"
+        bon1.style.display="none"
+        bon2.style.display="none"
+        faux6.style.display="none"
+        faux7.style.display="none"
+        faux0.style.display="none"
+        faux1.style.display="none"
+        faux2.style.display="none"
+        faux3.style.display="none"
+
+    }
+
+    function perdu(){
+        fond.style.backgroundImage="url(images/fondSD.png)"
+        sakuragi.style.display="none"
+        devine.style.display="none"
+        book.style.display="none"
+        texte.style.display="none"
+        minuteur.style.display="none"
+        key.style.display="none"
+        door.style.display="none"
+        fakeDoor.style.display="none"
+        verrou2.style.display="none"
+        retourCode.style.display="none"
+        indiceVerrou.style.display="none"
+        football.style.display="none"
+        bag.style.display="none"
+        casque.style.display="none"
+        shoe1.style.display="none"
+        shoe2.style.display="none"
+        soccer.style.display="none"
+        ballon1.style.display="none"
+        ballon2.style.display="none"
+        ballon3.style.display="none"
+        ballon4.style.display="none"
+        ballon5.style.display="none"
+        essai.style.display="none"
+        trop.style.display="none"
+        message.style.display="none"
+        cfy.pause()
+
+        document.getElementById("next").style.display="block"
+        document.getElementById("recommencer").style.display="block"
+    }
+
+    function restart(){
+        window.location.href="SlamDunk.html"
+    }
+
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+		}
+
+    </script>
+</body>
+</html>
