@@ -1,0 +1,405 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	/*background-color:lightblue;*/
+	background-image: url("images/mk_clubhouseCleMoins.png");
+	background-size:cover;
+    background-repeat: no-repeat;
+	}
+/*Commencez VOTRE CSS ici*/	
+#porte{
+	width: 140px;
+	height: 245px;
+	position:absolute;
+	top: 235px;
+	left: 855px;
+	display:initial;
+}
+#coffre{
+	width: 75px;
+	height: 45px;
+	position:absolute;
+	top: 400px;
+	left: 350px;
+}
+#cle{
+	width: 45px;
+	height: 45px;
+	position:absolute;
+	top: 330px;
+	left: 100px;
+	border-radius: 15px;
+	text-align: center;
+}
+#lumiere{
+	width: 45px;
+	height: 50px;
+	position:absolute;
+	top: 330px;
+	left: 355px;
+	border-radius: 15px;
+	text-align: center;
+}
+#noir{
+	width:100%;
+	height:100%;
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	background-image: url("images/mk_noir.png");
+	background-position:center;
+	pointer-events: none;
+}
+#ecran{
+	width: 125px;
+	height: 130px;
+	position:absolute;
+	top: 295px;
+	left: 695px;
+	border-radius: 15px;
+	text-align: center;
+}
+#code{
+	width: 840px;
+	height: 160px;
+	position:absolute;
+	top: 270px;
+	left: 80px;
+	border-radius: 15px;
+	text-align: center;
+	pointer-events: none;
+}
+#couleur1{
+	width: 160px;
+	height: 160px;
+	position:absolute;
+}
+#couleur2{
+	width: 160px;
+	height: 160px;
+	position:absolute;
+	left: 170px;
+}
+#couleur3{
+	width: 160px;
+	height: 160px;
+	position:absolute;
+	left: 340px;
+}
+#couleur4{
+	width: 160px;
+	height: 160px;
+	position:absolute;
+	left: 510px;
+}
+#couleur5{
+	width: 160px;
+	height: 160px;
+	position:absolute;
+	left: 680px;
+}
+#grandEcran{
+	width: 400px;
+	height: 385px;
+	position:absolute;
+	top: 160px;
+	left: 295px;
+	border-radius: 15px;
+	text-align: center;
+	pointer-events: none;
+}
+#rouge{
+	width: 190px;
+	height: 180px;
+	position:absolute;
+}
+
+#jaune{
+	width: 194px;
+	height: 180px;
+	position:absolute;
+	left: 198px;
+}
+#bleu{
+	width: 190px;
+	height: 189px;
+	position:absolute;
+	top :188px;
+}
+#vert{
+	width: 194px;
+	height: 189px;
+	position:absolute;
+	top: 188px;
+	left: 198px;
+}
+#xEcran{
+	width: 80px;
+	height: 80px;
+	position:absolute;
+	top: -51px;
+	left: 365px;
+}
+#xCode{
+	width: 65px;
+	height: 65px;
+	position:absolute;
+	top: -108px;
+	left: 846px;
+}
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Liliane Vincelette 406</b></div>
+        <div id="cadreJeu">
+			<div id="porte" onclick="partieFinie()"></div>
+			<div id="coffre" onclick="isCleTrouve()"></div>
+			<div id="cle" onclick="isLumiereAllume()"></div>
+			<div id="lumiere" onclick="allumerLumiere()"></div>
+			<div id="ecran" onclick="ouvrirEcran()"></div>
+			<div id="grandEcran">
+				<div id="rouge" onclick="choixRep(rouge)"></div>
+				<div id="jaune" onclick="choixRep(jaune)"></div>
+				<div id="bleu" onclick="choixRep(bleu)"></div>
+				<div id="vert" onclick="choixRep(vert)"></div>
+				<div id="xEcran" onclick="fermerEcran()"></div>
+			</div>
+			<div id="noir"></div>
+			<div id="code">
+				<div id="couleur1"></div>
+				<div id="couleur2"></div>
+				<div id="couleur3"></div>
+				<div id="couleur4"></div>
+				<div id="couleur5"></div>
+				<div id="xCode" onclick="fermerCode()"></div>
+			</div>
+	
+    </div>
+    
+    <script>
+		const rouge = 0;
+		const jaune = 1;
+		const bleu = 2;
+		const vert = 3;
+
+		var lumiereAllume = false;
+		var cle = false;
+		var couleur1;
+		var couleur2;
+		var couleur3;
+		var couleur4;
+		var couleur5;
+		var backgroundNoir = document.getElementById("noir");
+		var backgroundCadre = document.getElementById("cadreJeu");
+		var moveBackground = false;
+		var referenceRect = backgroundCadre.getBoundingClientRect();
+		var code;
+		var reponse = [];
+		var fermetureEcran;
+		var porteDeverrouille = false;
+		var plouf = new Audio("sons/mk_plouf.wav");
+		var ouvertureCoffre = new Audio("sons/mk_ouvertureCoffre.wav");
+		var ouvertureLumiere = new Audio("sons/mk_ouvertureLumiere.wav");
+		var ouverturePorte = new Audio("sons/mk_ouverturePorte.wav");
+		var boutton = new Audio("sons/mk_bip.wav");
+
+
+	//controler flashLight/écran noir
+	function moveLight(e) {
+		if (moveBackground){
+			rect = e.srcElement.getBoundingClientRect()
+			
+				backgroundNoir.style.backgroundPositionX =  (1000 + e.offsetX + rect.left - referenceRect.left) + "px";
+				backgroundNoir.style.backgroundPositionY = (700 + e.offsetY + rect.top - referenceRect.top) + "px";
+		}
+	}
+
+	window.addEventListener("mousemove", moveLight);
+
+	backgroundCadre.onmouseover = function () {
+		console.log('backgroundNoir.onmouseover');
+		moveBackground = true;
+    }
+	backgroundCadre.onmouseout = function () {
+		console.log('backgroundNoir.onmouseout');
+		moveBackground = false;
+    }
+	
+	//allumer lumière
+	function allumerLumiere(){
+		console.log("lumiere allume");
+		lumiereAllume = true;
+		ouvertureLumiere.play();
+		document.getElementById("noir").style.display="none";
+		document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_clubhouseCle.png)";
+		window.removeEventListener("mousemove", moveLight);
+		backgroundCadre.onmouseover = null;
+		backgroundCadre.onmouseout = null;
+	}
+
+	//trouver clé
+	function isLumiereAllume(){
+		if(lumiereAllume == false){
+			console.log("lumiere pas allume");
+			return;
+		}
+		cleTrouve();
+	}
+	function cleTrouve(){
+		console.log("cleTrouve")
+		cle = true;
+		plouf.play();
+		document.getElementById("cadreJeu").style.cursor= "url(images/mk_cle.png), pointer";
+		document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_clubhouse.png";
+	}
+
+	//affichage coffre coffre
+	function isCleTrouve(){
+		if(cle == false){
+			console.log("cle pas trouve");
+			return;
+		}
+		ouvrirCoffre();
+	}
+	function ouvrirCoffre(){
+		document.getElementById("cadreJeu").style.cursor= "default";
+		genererCode();
+		afficherCode();
+		fermetureEcran = setTimeout(fermerCode, 10000);
+		ouvertureCoffre.play();
+	}
+	
+	
+	//incorporer code
+	function genererCode(){
+		couleur1 = Math.floor(Math.random()*4);
+		couleur2 = Math.floor(Math.random()*4);
+		couleur3 = Math.floor(Math.random()*4);
+		couleur4 = Math.floor(Math.random()*4);
+		couleur5 = Math.floor(Math.random()*4);
+		console.log("chiffre ->"+ couleur1);
+		console.log("chiffre ->"+ couleur2);
+		console.log("chiffre ->"+ couleur3);
+		console.log("chiffre ->"+ couleur4);
+		console.log("chiffre ->"+ couleur5);
+		code = [couleur1 , couleur2 , couleur3 , couleur4 , couleur5]
+		console.log(code);
+	}
+	function afficherCode(){
+		document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_code.png)";
+		document.getElementById("couleur1").style.backgroundImage= "url(images/mk_" + couleur1 + ".png)";
+		document.getElementById("couleur2").style.backgroundImage= "url(images/mk_" + couleur2 + ".png)";
+		document.getElementById("couleur3").style.backgroundImage= "url(images/mk_" + couleur3 + ".png)";
+		document.getElementById("couleur4").style.backgroundImage= "url(images/mk_" + couleur4 + ".png)";
+		document.getElementById("couleur5").style.backgroundImage= "url(images/mk_" + couleur5 + ".png)";
+		document.getElementById("xCode").style.pointerEvents= "auto";
+	}
+	function fermerCode(){
+		document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_clubhouse.png)";
+		document.getElementById("couleur1").style.backgroundImage= "";
+		document.getElementById("couleur2").style.backgroundImage= "";
+		document.getElementById("couleur3").style.backgroundImage= "";
+		document.getElementById("couleur4").style.backgroundImage= "";
+		document.getElementById("couleur5").style.backgroundImage= "";
+		document.getElementById("xCode").style.pointerEvents= "none";
+		clearTimeout(fermetureEcran);
+
+	}
+
+	//affichage ecran
+	function ouvrirEcran(){
+		document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_reponse.png)";
+		document.getElementById("grandEcran").style.pointerEvents= "auto";
+	}
+	function fermerEcran(){
+		if(porteDeverrouille == true){
+			console.log("porte true");
+			document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_porteOuverte.png)";
+			return;
+		}
+		document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_clubhouse.png)";
+		document.getElementById("grandEcran").style.pointerEvents= "none";
+	}
+
+	//utiliser code
+	function choixRep(option){
+		reponse.push(option);
+		boutton.play();
+		if(reponse.length == 6){
+			reponse.shift();
+			console.log("kk")
+		}
+		if(JSON.stringify(code)==JSON.stringify(reponse)){
+			console.log("reponse => " + reponse);
+			document.getElementById("cadreJeu").style.backgroundImage= "url(images/mk_reponseDeverrouille.png)";
+			porteDeverrouille = true;
+		}
+		console.log(reponse);
+	}
+
+	function partieFinie(){
+		if(porteDeverrouille == true){
+			console.log("ouvert")
+			nextLevel()
+		}
+
+	}
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+		}
+    </script>
+</body>
+</html>
