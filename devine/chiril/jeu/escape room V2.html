@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>escape room</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+    
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:rgb(236, 196, 186);
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:270px;
+	height: 25px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:rgb(236, 196, 186);
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1000px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px rgba(78, 78, 78, 0.644) solid;
+	border-radius:10px;
+    background-image: url(bckgmain.png);
+    background-size: 100%;
+	
+	}
+
+    #arrow1:hover{
+
+transform: scale(.9); /* (90% zoom)*/
+
+}
+
+
+	
+/*Commencez VOTRE CSS ici*/	
+body{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 42px;
+	background: #f7f7f7;
+    background-image: url(bckgback.png);
+    }
+*{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+    
+    span{
+        margin: 0 15px;
+	line-height: .7;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .45);
+	animation: span 3s ease-in infinite alternate;
+    }
+    .main{
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+       position: absolute;
+       left: 159px;
+       top: 45px;
+       color:rgba(236, 182, 181, 0.699);
+    }
+    .letter{
+        display: inline-flex;
+        height: 30px;
+        width: 27px;
+        /* border: 2.5px solid #FF1EAD; */
+        border: 2.35px solid rgb(243, 223, 223);
+        border-radius: 14px;
+        box-shadow:
+            0 0 2px rgba(216, 194, 194, 0.75),
+            inset 0 0 2px rgba(216, 208, 208, 0.45);
+    
+        animation: letter 3s ease-in-out infinite alternate;
+    }
+    @keyframes span {
+        0%,30%{ margin: 0 15px; }
+        70%,100%{ margin: 0 5px; }
+    }
+    @keyframes letter {
+        0%,30%{ width: 27px; }
+        70%,100%{ width: 30vw; }
+    }
+#start:hover{
+
+    transform: scale(.9); /* (90% zoom)*/
+    cursor: pointer;
+
+}
+#SoundOn:hover{
+
+transform: scale(.9); /* (90% zoom)*/
+
+}
+
+#SoundOff:hover{
+
+transform: scale(.9); /* (90% zoom)*/
+
+}
+
+
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception : Niculita Chiril 402</b></div>
+        <div id="cadreJeu">
+            <div class="main">
+                <span>E</span>
+                <span>S</span>
+                <span>C</span>
+                <span>A</span>
+                <span>P</span>
+                <span>E</span>
+                <span> </span>
+                <span>R</span>
+                <span class="letter"></span>
+                <span>M</span>
+                
+                
+            </div>
+       
+        
+        </div>
+    
+    
+
+    <img src="start.png" alt="arrow" usemap="#workmap"   style="position: absolute;
+    
+
+    left: 389px;
+    top: 225px;
+    z-index: 5;
+    height: 400px;
+    width: 400px;
+    opacity: 0.52;
+    transition: transform .2s; /* Animation */
+    -webkit-filter: drop-shadow(5px 7px 4.5px rgb(25, 2, 37));
+    filter:         drop-shadow(23px 7px 3pxrgb(32, 3, 49));" id="start" onclick="Start() ">
+
+
+    
+    <img src="arrow1.png" alt="arrow" usemap="#workmap"   style="position: absolute;
+
+    left: 892px;
+    top: 555px;
+    z-index: 6;
+    display: none;
+    height: 111px;
+    width: 145px;
+    opacity: 0.32;
+    transition: transform .2s; /* Animation */
+    -webkit-filter: drop-shadow(5px 7px 4.5px rgb(25, 2, 37));
+    filter:         drop-shadow(23px 7px 3pxrgb(32, 3, 49));" id="arrow1"  onclick="continue1() "> <!-- ARROW icone en bas-->
+     
+     <img src="arrow1.png" alt="arrow" usemap="#workmap"   style="position: absolute;
+
+     left: 892px;
+     top: 555px;
+     z-index: 7;
+     display: none;
+     height: 111px;
+     width: 145px;
+     opacity: 0.32;
+     transition: transform .2s; /* Animation */
+     -webkit-filter: drop-shadow(5px 7px 4.5px rgb(25, 2, 37));
+     filter:         drop-shadow(23px 7px 3pxrgb(32, 3, 49));" id="arrow2"  onclick="continue2() "> <!-- ARROW icone en bas-->
+
+
+<img src="soundon.png" alt="" usemap="#workmap"  style="position: absolute;
+right: 1000px;
+top: 185px;
+width: 103px;
+height: 131px;
+z-index: 4;
+opacity: .75;
+transition: transform .15s; /* Animation */
+-webkit-filter: drop-shadow(5px 7px 4.5px rgb(25, 2, 37));
+filter:         drop-shadow(23px 7px 3pxrgb(32, 3, 49));" id="SoundOn" onclick="SoundOn() "> <!-- SOUNDON icone-->
+
+<img src="soundoff.png" alt="" usemap="#workmap"  style="position: absolute;
+
+  right: 1000px;
+  top: 481px;
+  width: 103px;
+  height: 131px;
+  z-index: 4;
+  opacity: .6;
+  transition: transform .15s; /* Animation */
+  -webkit-filter: drop-shadow(5px 7px 4.5px rgb(25, 2, 37));
+  filter:         drop-shadow(23px 7px 3pxrgb(32, 3, 49));" id="SoundOff" onclick="SoundOff()">  <!-- SOUNDOFF icone-->
+
+
+    
+    <script>
+	
+    var music=new Audio();
+
+    music.src="music.mp3"
+
+    var startmus=new Audio();
+
+    startmus.src="wow.mp3"
+    
+	function Start(){
+        
+        document.getElementById("start").style.opacity = "0";
+        document.getElementById("start").style.left = "949px";
+        document.getElementById("start").style.top = "318px";
+        document.getElementById("cadreJeu").style.backgroundImage="url(barrr.png)";
+        document.getElementById("arrow1").style.display = "inline";
+        startmus. play()
+        startmus. loop=false
+        startmus.volume=0.15
+        startmus
+
+    }
+
+    function continue1(){
+        document.getElementById("cadreJeu").style.backgroundImage="url(barinside.png)";
+        document.getElementById("arrow1").style.opacity="0";
+        document.getElementById("arrow2").style.display = "inline";
+
+    }
+    
+    function continue2(){
+        document.getElementById("cadreJeu").style.backgroundImage="url(cheers.png)";
+        
+
+    }
+
+    function SoundOn() { 
+
+music. play()
+music. loop=true
+music.volume=0.15
+}
+
+function SoundOff() { 
+
+music. pause()
+
+}
+
+
+	
+	
+	function nextLevel(){
+		//cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+		window.location="test.html"
+    }
+   
+    </script>
+</body>
+</html>
