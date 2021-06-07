@@ -1,0 +1,2094 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Jeu 2D</title>
+<style>
+body{
+	background-color: lightGainsboro;
+}	
+
+
+	#monCanvasInstruction1{
+        border: 2px black solid;
+        /*background-color:rgb(255, 169, 137);*/		
+		margin:auto;      
+        display:block;
+    }
+	
+
+	#instruction2{
+        height: 75px;
+        width: 150px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 75px;
+        top: 200px;
+        display:none;
+    }
+
+	#magasin2{
+        height: 75px;
+        width: 150px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 75px;
+        top: 400px;
+        display:none;
+    }
+
+	#map{
+        height: 75px;
+        width: 150px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 75px;
+        top: 600px;
+        display:block;
+    }
+	#map2{
+        height: 700px;
+        width: 600px;
+        background-color: white;
+        border: 2.5px solid black;
+		background:url(imageMap.png);
+		background-repeat:no-repeat;
+		background-size:cover;
+        text-align: center;
+        position: absolute;
+        left: 300px;
+        top: 10px;
+        display:none;
+    }
+
+	#coin{
+        height: 75px;
+        width: 150px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        right: 75px;
+        top: 300px;
+        display:block;
+    }
+
+	#instruction3{
+        height: 400px;
+        width: 600px;
+        background-color: white;
+        border: 2.5px solid black;
+		background:url(imageInstructionG.png);
+		background-repeat:no-repeat;
+		background-size:cover;
+        text-align: center;
+        position: absolute;
+        left: 300px;
+        top: 200px;
+        display:none;
+    }
+
+	#magasin7{
+        height: 100px;
+        width: 300px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 350px;
+        top: 250px;
+        display:none;
+    }
+
+	#magasin8{
+        height: 100px;
+        width: 300px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 350px;
+        top: 450px;
+        display:none;
+    }
+
+	#magasin3{
+        height: 400px;
+        width: 400px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 300px;
+        top: 200px;
+        display:none;
+    }
+
+	
+	#magasin4{
+        height: 75px;
+        width: 150px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        right: 75px;
+        top: 390px;
+        display:block;
+    }
+	#tempsPotion{
+        height: 50px;
+        width: 75px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        right: 145px;
+        bottom: 200px;
+        display:block;
+    }
+
+</style>	
+</head>
+
+<body>
+
+	<button id = "instruction2" onClick="instruction2()"><h2>Instruction</h2><h6>(click to use, reclick to not)</h6></button>
+	<button id = "magasin2" onClick="magasin2()"><h2>Magasin</h2><h6>(click to use, reclick to not)</h6></button>
+	<button id = "map" onClick="map()"><h2>Étape à suivre</h2><h6>(click to use, reclick to not)</h6></button>
+	<div id = "coin"><h2> Coin(s): 0 </h2></div>
+	<div id = "instruction3"></div>
+	<div id = "magasin3"></div>
+	<div id = "map2"></div>
+	<button id = "magasin4" onClick="magasin4()"><h2>Potion: 0</h2><h5>(click here to use)</h5></button>
+	<button id = "magasin7" onClick="magasin7()"><h2>Potion invincible (5 coins) pour 10s </h2></button>
+	<div id = "magasin8"><h2>À suivre...</h2></div>
+	<div id = "tempsPotion"><h2> -- </h2></div>
+
+<canvas id="monCanvasInstruction1"></canvas>
+
+<script>
+ 
+var canvas = document.getElementById("monCanvasInstruction1");
+var ctx = canvas.getContext("2d");
+/*canvas.width = window.innerWidth-50;
+canvas.height = window.innerHeight-50*/
+canvas.width = 900
+canvas.height = 700
+canvas.style.border = "10px white solid";
+canvas.style.backgroundColor= "black";
+canvas.style.display = "block";
+canvas.style.margin ="auto"
+//document.body.appendChild(canvas);
+
+//variables et objets du jeu
+var coin = document.getElementById("coin")
+var nbrCoin = 0
+var cout = 5
+var instruction2D = document.getElementById("instruction2")
+var magasin2D =document.getElementById("magasin2")
+
+var joueur={
+	x:60,
+	y:360,
+	w:30,
+	h:30,
+	color:"white",
+	speed:10,
+	speedUp:12,
+	gravity:8,
+    jump:false,
+    xVecteur:0,
+    yVecteur:0,
+	}
+
+	var specialP={
+	x:450,
+	y:200,
+	w:50,
+	h:15,
+	color:"Gainsboro",
+	speed:10
+	}
+
+ 	var point={
+	x:500,
+	y:250,
+	w:50,
+	h:50,
+	color:"blue"
+    }
+
+	var specialP2={
+	x:300,
+	y:150,
+	w:50,
+	h:15,
+	color:"Gainsboro",
+	speed:10
+	}
+	
+ 	var point2={
+	x:350,
+	y:200,
+	w:50,
+	h:50,
+	color:"blue"
+    }
+
+	var balle2={
+		x:490,
+        y:197,
+        r:25,
+		dx:0,
+		dy:0,
+		color:"DarkSeaGreen"
+    }
+
+	var balle={
+		x:25,
+        y:25,
+        r:25,
+		s:0,
+		color:"DarkSeaGreen"
+    }
+
+	var magasin5={
+	x:50,
+	y:150,
+	w:300,
+	h:200,
+	color:"pink"
+    }
+
+	var magasin6={
+	x:500,
+	y:150,
+	w:300,
+	h:200,
+	color:"pink"
+    }
+
+	var winPartie={
+	x:462.5,
+	y:575,
+	w:100,
+	h:100,
+	color:"pink"
+    }
+
+	var winTexte={
+	x:200,
+	y:150,
+	w:500,
+	h:400,
+	color:"pink"
+    }
+
+	var menu=true
+	var instruction=false
+	var magasin=false
+	var partie=false
+	var partie1=false
+	var partie2=false
+	var partie3=false
+	var collision19=false
+	var potion=false
+	var win=false
+
+	var keyDown={}
+//image
+
+	var imageInstructionG = new Image()
+	imageInstructionG.src = "imageInstructionG.png"
+
+	var imageInstruction = new Image()
+	imageInstruction.src = "imageInstruction.png"
+
+	var imageStart = new Image()
+	imageStart.src = "imageStart.png"
+
+	var imageMagasin = new Image()
+	imageMagasin.src = "imageMagasin.png"
+
+	var imageMagasin5 = new Image()
+	imageMagasin5.src = "imageMagasin5.png"
+
+	var imageMagasin6 = new Image()
+	imageMagasin6.src = "imageMagasin6.png"
+
+	var imageCibleH = new Image()
+	imageCibleH.src = "imageCibleH.png"
+
+	var imageCibleB = new Image()
+	imageCibleB.src = "imageCibleB.png"
+
+	var imageWin = new Image()
+	imageWin.src = "imageWin.png"
+
+	var imageWinPartie = new Image()
+	imageWinPartie.src = "imageWinPartie.png"
+
+//son
+
+	var sonMenu = new Audio();
+	var sonPartie1 = new Audio();
+	var sonPartie2 = new Audio();
+	var sonPartie3 = new Audio();
+    var sonWin = new Audio();
+    var sonCoin = new Audio();
+	//var sonMort = new Audio();
+
+	
+	sonMenu.src="sonMenu.mp3";
+	sonPartie1.src="sonPartie1.mp3";
+    sonPartie2.src="sonPartie2.mp3";	
+	sonPartie3.src="sonPartie3.mp3";
+	sonWin.src="sonWin.mp3";
+
+    sonCoin.src="sonCoin.mp3";
+//source: 
+//https://youtu.be/-eZAaXYpD40 
+//https://youtu.be/DeXoACwOT1o
+	//sonMort.src="sonMurD.wav";
+
+	
+
+//fonctions
+
+
+function sonCommencer(){
+
+	sonMenu.play()
+    sonMenu.loop = true
+    sonWin.pause();
+    sonWin.currentTime = 0;
+}
+
+function drawWinPartie(){
+
+	if(win==false){
+	ctx.fillStyle=winPartie.color
+    ctx.drawImage(imageWinPartie,winPartie.x, winPartie.y, winPartie.w, winPartie.h)
+
+		if (collision(joueur,winPartie)){
+			win=true
+			nbrCoin=nbrCoin+10
+			coin.innerHTML="Coin(s): "+ nbrCoin;	
+			coin.style.fontSize = "x-large";
+		}
+
+	}else{
+		ctx.drawImage(imageWin,winTexte.x, winTexte.y, winTexte.w, winTexte.h)
+	}
+	
+}
+	
+function drawJoueur(){
+	ctx.fillStyle=joueur.color
+    ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+	
+	if(joueur.x<0){
+		joueur.x=0
+		joueur.xVecteur=0
+	}
+
+	if(joueur.y<0){
+		joueur.y=0
+		joueur.yVecteur=0
+	}
+
+	if(joueur.x+joueur.w>=900){
+		joueur.x=900-joueur.w
+		joueur.xVecteur=0
+		}
+
+	if(potion==true||win==true){
+		if(joueur.y+joueur.h>=700){
+			joueur.y=700-joueur.h
+			joueur.yVecteur=0
+			joueur.jump=false
+		}
+	}
+
+	if(partie2==true){
+	
+		if(joueur.x+joueur.w>900){
+			joueur.x=870
+			joueur.xVecteur=0
+		}
+	
+	}
+
+	if(partie3==true){
+
+		if(potion==false){
+			if(joueur.y>=900){
+				joueur.y=0
+				joueur.x=700
+			}
+		}
+	}		
+}
+
+function drawBalle(){
+	ctx.fillStyle=balle.color
+    ctx.beginPath();
+    ctx.arc(balle.x,balle.y,balle.r,0,Math.PI*2,false);
+    ctx.fill();
+
+	if(collision(joueur,murSol15)){
+		balle.s=3
+	}
+
+		balle.y+=balle.s;
+		if(collisionBalle(balle,murSol9)){
+			balle.x+=balle.s
+			balle.y-=balle.s
+			balle.s=5
+		}
+		if(collisionBalle(balle,murSol10)){
+			balle.x-=balle.s
+			balle.y-=balle.s
+			balle.s=5.3
+		}
+		if(collisionBalle(balle,murSol11)){
+			balle.x+=balle.s
+			balle.y-=balle.s
+
+		}
+		if(collisionBalle(balle,murSol12)){
+			balle.x-=balle.s
+			balle.y-=balle.s
+		}
+		if(collisionBalle(balle,murSol13)){
+			balle.x+=balle.s
+			balle.y-=balle.s
+		}
+		if(balle.y+balle.r>900){
+			balle.y=25
+			balle.x=25
+			balle.s=0
+		}
+		if(potion==false){
+			if(collisionBalle(balle,joueur)){
+			balle.y=25
+			balle.x=25
+			balle.s=0
+			joueur.x=100
+			joueur.y=0
+			joueur.xVecteur=0
+			joueur.yVecteur=0
+		}
+	}		
+}
+
+	function drawBalle2(){
+
+		ctx.beginPath();
+		ctx.arc(balle2.x,balle2.y,balle2.r,0,Math.PI*2,false);
+		ctx.fill();
+
+
+		balle2.y+=balle2.dy;
+		balle2.x+=balle2.dx;
+
+		if (potion==false){
+
+			if(collisionBalle(balle2,joueur)){
+				balle2.y=197
+				balle2.x=490
+				balle2.dx=0
+				balle2.dy=0
+				joueur.x=600
+				joueur.y=100
+				totalTemps=31
+				collision19=false
+			}
+		}
+		if(collision(joueur,murSol19)){
+			balle2.dx=4
+			balle2.dy=4
+			}
+		if(collisionBalle(balle2,murCoupe4)){
+
+			balle2.dx=-balle2.dx
+
+		}
+		if(collisionBalle(balle2,murCoupe5)){
+			balle2.dx=-balle2.dx
+		}
+		if(collisionBalle(balle2,murSol18)&&collisionBalle(balle2,murSol19)){
+			balle2.dy=-balle2.dy
+			if(balle2.y<murSol18.y+murSol18.h){
+				balle2.y=murSol.y+murSol18.h+balle2.r
+			}
+
+		}else if(collisionBalle(balle2,murSol18)){
+			balle2.dy=-balle2.dy
+			if(balle2.y<murSol18.y+murSol18.h){
+				balle2.y=murSol.y+murSol18.h+balle2.r
+			}
+		}
+
+		else if(collisionBalle(balle2,murSol19)){
+			balle2.dy=-balle2.dy
+			if(balle2.y<murSol19.y+murSol19.h){
+				balle2.y=murSol.y+murSol19.h+balle2.r
+			}
+		}
+
+		if(collisionBalle(balle2,murSol20)){
+			balle2.dy=-balle2.dy
+		}		
+	}
+
+function collisionBalle(a,b){
+	 if(a.x+a.r>b.x&&
+	   a.x-a.r<b.x+b.w&&
+	   a.y-a.r<b.y+b.h&&
+	   a.y+a.r>b.y){
+
+		return(true)
+	}
+}
+
+function magasin4(){	
+	if(nbrPotion==0){
+
+	}else{
+
+		nbrPotion--
+		totalTempsPotion=11
+		magasin4D.innerHTML="Potion: "+ nbrPotion;	
+		magasin4D.style.fontSize = "x-large";	
+		potion=true	
+	}
+}
+
+var totalTempsPotion=11
+var rebourPotion = setInterval(potionF,1000)
+var tempsPotionD = document.getElementById("tempsPotion")
+
+function potionF(){
+
+	if(potion==true){
+		totalTempsPotion = totalTempsPotion-1
+		tempsPotionD.innerHTML=" "+ totalTempsPotion + " ";	
+		tempsPotionD.style.fontSize = "x-large";	
+
+		if (totalTempsPotion<=0) {
+				potion=false
+				tempsPotionD.innerHTML=" -- ";	
+				tempsPotionD.style.fontSize = "x-large";
+				totalTempsPotion=11	
+		}	
+	}	
+}
+
+
+var totalTemps=30
+var rebour = setInterval(temps,1000)
+
+function temps(){ 
+	if(collision19==true){
+		totalTemps = totalTemps-1
+	
+		if (totalTemps < 1) {
+			balle2.y=197
+			balle2.x=490
+			balle2.dx=0
+			balle2.dy=0
+			portail13.x=462.5
+			portail13.y=575
+			clearInterval(rebour) 
+		}	
+	}
+}
+
+function drawTemps(){
+
+	console.log(totalTemps)
+	ctx.fillStyle = "black";
+    ctx.font = "50px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(totalTemps+" s",700,(murCoupe4.h+murCoupe4.y)/2);
+
+}
+
+function drawSpecialP(){
+
+	ctx.fillStyle=specialP.color
+    ctx.fillRect(specialP.x, specialP.y, specialP.w, specialP.h)
+
+	if(collisiond(specialP,point)){
+        specialP.x--
+    }
+	if(collisiong(specialP,point)){
+        specialP.x++
+	}
+	if(collisionb(specialP,point)){
+        specialP.y++
+	}
+	if(collisionh(specialP,point)){
+        specialP.y--
+	}
+	if(collision(joueur,specialP)){
+		joueur.y=specialP.y-joueur.h
+		joueur.jump = false;
+		joueur.yVecteur = 0;
+		
+	}
+}
+
+function drawPoint(){
+	ctx.fillStyle=point.color
+    ctx.fillRect(point.x, point.y, point.w, point.h)
+}	
+
+function drawSpecialP2(){
+	ctx.fillStyle=specialP2.color
+    ctx.fillRect(specialP2.x, specialP2.y, specialP2.w, specialP2.h)
+
+	if(collisiond(specialP2,point2)){
+        specialP2.x--
+    }
+	if(collisiong(specialP2,point2)){
+        specialP2.x++
+	}
+	if(collisionb(specialP2,point2)){
+        specialP2.y++
+	}
+	if(collisionh(specialP2,point2)){
+        specialP2.y--
+	}
+	
+	if(collision(joueur,specialP2)){
+			joueur.y=specialP2.y-joueur.h
+			joueur.jump = false;
+			joueur.yVecteur = 0;
+	}	
+}
+
+function drawPoint2(){
+	ctx.fillStyle=point.color
+    ctx.fillRect(point2.x, point2.y, point2.w, point2.h)
+}	
+
+function collisionh(a,b){
+	if(a.x+a.w>b.x){
+		return(true)
+	}
+}
+
+function collisionb(a,b){	
+	if(a.x<b.x+b.w){
+		return(true)
+	}
+}
+
+function collisiond(a,b){
+	if(a.y<b.y+b.h){
+		return(true)
+	}
+}
+	
+function collisiong(a,b){
+	if(a.y+a.h>b.y){
+
+		return(true)
+	}
+}
+
+//MENU
+function drawMenu(){
+
+	ctx.fillStyle=menu1.color
+    ctx.drawImage(imageInstruction,menu1.x, menu1.y, menu1.w, menu1.h)
+
+	ctx.fillStyle=menu2.color
+    ctx.drawImage(imageStart,menu2.x, menu2.y, menu2.w, menu2.h)
+
+	ctx.fillStyle=menu3.color
+    ctx.drawImage(imageMagasin,menu3.x, menu3.y, menu3.w, menu3.h)
+
+
+	if(collision(joueur,menu1)){
+		menu=false
+		instruction=true
+	}
+	if(collision(joueur,menu2)){
+		menu=false
+		partie=true
+		magasin2D.style.display="block"
+		instruction2D.style.display="block"
+		joueur.xVecteur=0
+		joueur.yVecteur=0
+	}
+	if(collision(joueur,menu3)){
+		menu=false
+		magasin=true
+	}
+}
+	function menuF(x,y,color,w,h){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	
+	
+	this.w=200
+	this.h=175
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+	}
+	
+}	
+
+var menu1=new menuF(50,175,"pink")
+var menu2=new menuF(350,175,"pink")
+var menu3=new menuF(650,175,"pink")
+
+
+
+//instruction
+
+function drawInstruction(){
+	ctx.drawImage(imageInstructionG, 150, 25, 600 , 400)
+}
+
+var instruction3D = document.getElementById("instruction3")
+
+function instruction2(){
+	if(instruction3D.style.display=="block"){
+		instruction3D.style.display="none"
+	}else{
+		instruction3D.style.display="block"
+	}
+	
+}
+
+//magasin
+
+var magasin4D = document.getElementById("magasin4")
+var nbrPotion = 0
+var magasin3D = document.getElementById("magasin3")
+var magasin7D = document.getElementById("magasin7")
+var magasin8D = document.getElementById("magasin8")
+
+
+function magasin7(){
+
+	if(nbrCoin<cout){
+
+	}else{
+		nbrCoin=nbrCoin-cout
+		nbrPotion++
+		magasin4D.innerHTML="Potion: "+ nbrPotion;	
+		magasin4D.style.fontSize = "x-large";
+		coin.innerHTML="Coin(s): "+ nbrCoin;	
+		coin.style.fontSize = "x-large";
+	}
+}
+
+function drawMagasin5(){
+
+	ctx.fillStyle=magasin5.color
+    ctx.drawImage(imageMagasin5,magasin5.x, magasin5.y, magasin5.w, magasin5.h)
+	if(collision(joueur,magasin5)){	
+
+		joueur.y=magasin5.y+magasin5.h+15
+
+		if(nbrCoin<cout){
+
+		}else{
+			nbrCoin=nbrCoin-cout
+			nbrPotion++
+			magasin4D.innerHTML="Potion: "+ nbrPotion;	
+			magasin4D.style.fontSize = "x-large";
+			coin.innerHTML="Coin(s): "+ nbrCoin;	
+			coin.style.fontSize = "x-large";
+		}
+	}
+}
+
+function drawMagasin6(){
+	ctx.fillStyle=magasin6.color
+	ctx.drawImage(imageMagasin6,magasin6.x, magasin6.y, magasin6.w, magasin6.h)
+}
+
+function magasin2(){
+	if(magasin3D.style.display=="block"){
+
+		magasin3D.style.display="none"
+		magasin7D.style.display="none"
+		magasin8D.style.display="none"
+
+	}else{
+
+		magasin3D.style.display="block"
+		magasin7D.style.display="block"
+		magasin8D.style.display="block"
+
+	}	
+}
+
+//map
+
+var map2D = document.getElementById("map2")
+
+function map(){
+	if(map2D.style.display=="block"){
+		map2D.style.display="none"
+	}else{
+		map2D.style.display="block"
+	}	
+}
+
+//cible
+function drawCible(){
+
+if(partie1==true){
+
+    ctx.drawImage(imageCibleB,cible1.x, cible1.y, cible1.w, cible1.h)
+	ctx.drawImage(imageCibleH,cible2.x, cible2.y, cible2.w, cible2.h)
+
+	if(collision(joueur,cible1)){
+		partie1 = false
+		partie2 = true
+		joueur.x=cible1.x-joueur.w
+		joueur.xVecteur =- joueur.xVecteur;
+    }
+
+	if(collision(joueur,cible2)){
+		partie1 = false
+		partie3 = true
+		joueur.x=cible2.x-joueur.w
+		joueur.xVecteur =- joueur.xVecteur;
+    }
+}
+   
+	if(partie2==true){
+
+		ctx.drawImage(imageCibleB,cible1same.x, cible1same.y, cible1same.w, cible1same.h)
+
+		if(collision(joueur,cible1same)){
+			partie1 = true
+			partie2 = false
+			joueur.x=cible1.x-joueur.w
+			joueur.xVecteur =- joueur.xVecteur;
+    	}
+	}
+
+	if(partie3==true){
+
+		ctx.drawImage(imageCibleH,cible2same.x, cible2same.y, cible2same.w, cible2same.h)
+
+		if(collision(joueur,cible2same)){
+			partie1 = true
+			partie3 = false
+			joueur.x=cible2.x-joueur.w
+			joueur.xVecteur =- joueur.xVecteur;
+    	}
+	}
+
+}
+//Obstacles
+	function drawObstacles(){
+		if(partie1==true){
+			obstacleCouleur1.draw()
+			obstacleRectangle1.draw()
+			obstacleRectangle2.draw()
+			obstacleRectangle3.draw()
+			obstacleRectangle4.draw()
+			obstacleInverse1.draw()
+			if (potion==false){
+				if(collision(joueur,obstacleRectangle1)||collision(joueur,obstacleRectangle2)||collision(joueur,obstacleRectangle3)||collision(joueur,obstacleRectangle4)){
+					joueur.x=60
+					joueur.y=200
+					joueur.xVecteur=0
+				}
+				if(collision(joueur,obstacleCouleur1)&&joueur.color!==obstacleCouleur1.color){
+					joueur.x=60
+					joueur.y=200
+					joueur.xVecteur=0
+					}
+				if(collision(joueur,obstacleInverse1)){
+					if(obstacleInverse1.color==joueur.color){
+
+					}else{
+						joueur.xVecteur-=joueur.xVecteur-0.3
+					}
+				}
+			}
+		}
+
+	if(partie2==true){
+
+		obstacleRectBouge1.draw()
+		obstacleRectBouge2.draw()
+		obstacleRectBouge3.draw()
+		obstacleRectBouge4.draw()
+		obstacleRectBouge5.draw()
+		obstacleRectBouge6.draw()
+		obstacleInverse3.draw()
+
+		
+		if(obstacleRectBouge1.x>murCoupe4.x-obstacleRectBouge1.w||obstacleRectBouge1.x<murSol4.x){
+			obstacleRectBouge1.speed=-obstacleRectBouge1.speed
+		}	
+			obstacleRectBouge1.x+=obstacleRectBouge1.speed
+
+		if (potion==false){	
+
+			if(collision(joueur,obstacleRectBouge1)){
+				joueur.x=325
+				joueur.y=645
+				joueur.xVecteur=0
+				joueur.yVecteur=0
+			}
+		}
+		if(obstacleRectBouge2.x>murSol6.x-obstacleRectBouge2.w+murSol6.w||obstacleRectBouge2.x<murSol6.x){
+			obstacleRectBouge2.speed=-obstacleRectBouge2.speed
+		}	
+			obstacleRectBouge2.x+=obstacleRectBouge2.speed
+
+		if (potion==false){
+
+			if(collision(joueur,obstacleRectBouge2)){
+				joueur.x=325
+				joueur.y=645
+				joueur.xVecteur=0
+				joueur.yVecteur=0
+			}
+		}
+
+		if(obstacleRectBouge3.x>murSol6.x-obstacleRectBouge3.w+murSol6.w||obstacleRectBouge3.x<murSol6.x){
+			obstacleRectBouge3.speed=-obstacleRectBouge3.speed
+		}	
+			obstacleRectBouge3.x+=obstacleRectBouge3.speed
+
+		if (potion==false){
+
+			if(collision(joueur,obstacleRectBouge3)){
+				joueur.x=325
+				joueur.y=645
+				joueur.xVecteur=0
+				joueur.yVecteur=0
+			}
+		}
+
+		if(obstacleRectBouge4.x>murCoupe4.x-obstacleRectBouge4.w||obstacleRectBouge4.x<murSol17.x){
+			obstacleRectBouge4.speed=-obstacleRectBouge4.speed
+		}	
+			obstacleRectBouge4.x+=obstacleRectBouge4.speed
+
+		if (potion==false){
+
+			if(collision(joueur,obstacleRectBouge4)){
+				joueur.x=325
+				joueur.y=645
+				joueur.xVecteur=0
+				joueur.yVecteur=0
+			}
+		}
+
+		if(obstacleRectBouge5.x>murCoupe4.x-obstacleRectBouge4.w||obstacleRectBouge5.x<murSol17.x){
+			obstacleRectBouge5.speed=-obstacleRectBouge5.speed
+		}	
+			obstacleRectBouge5.x+=obstacleRectBouge5.speed
+
+		if (potion==false){
+
+			if(collision(joueur,obstacleRectBouge5)){
+					joueur.x=325
+					joueur.y=645
+					joueur.xVecteur=0
+					joueur.yVecteur=0
+			}	
+			if(collision(joueur,obstacleInverse3)){
+				joueur.yVecteur=0.1
+				joueur.jump=true
+				joueur.yVecteur=0
+			}	
+		}
+
+		if(obstacleRectBouge6.x>murCoupe4.x-obstacleRectBouge6.w||obstacleRectBouge6.x<murSol4.x){
+				obstacleRectBouge6.speed=-obstacleRectBouge6.speed
+			}	
+				obstacleRectBouge6.x+=obstacleRectBouge6.speed
+
+		if (potion==false){	
+
+			if(collision(joueur,obstacleRectBouge6)){
+				joueur.x=325
+				joueur.y=645
+				joueur.xVecteur=0
+				joueur.yVecteur=0
+			}
+		}
+	}
+	if(partie3==true){
+
+		obstacleInverse2.draw()
+		obstacleRectangleCote1.draw()
+		obstacleRectangleCote2.draw()
+
+		if (potion==false){
+			if(collision(joueur,obstacleInverse2)){
+				joueur.yVecteur=0.1
+				joueur.jump=true
+				joueur.yVecteur=0
+			}	
+			if(collision(joueur,obstacleRectangleCote1)||collision(joueur,obstacleRectangleCote2)){
+				joueur.x=portail10.x+(portail10.w/2)
+				joueur.y=233
+				joueur.yVecteur=0
+			}
+		}
+	}
+}
+
+function obstacleCouleur(x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		
+	}
+}
+
+var obstacleCouleur1=new obstacleCouleur(240,435,30,250,"orange");
+
+function obstacleInverse(x,y,w,h,color,opacity){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.opacity=opacity
+	ctx.globalAlpha=this.opacity
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		
+	}
+	
+}
+
+var obstacleInverse1=new obstacleInverse(550,110,200,100,"orange",1);
+var obstacleInverse2=new obstacleInverse(725,233,200,375,"green",1);
+var obstacleInverse3=new obstacleInverse(457.5,165,500,542.5,"green",1);
+
+function obstacleRectangleSalle2(x,y,w,h,color,speed){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.color="DarkSeaGreen"
+	this.w=20
+	this.h=40
+	this.speed=5
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		
+			if(this.y<murSol1.y+murSol1.h||this.y+this.h>murSol2.y){
+			this.speed=-this.speed
+			}	
+		this.y+=this.speed
+	}
+}
+
+var obstacleRectangle1=new obstacleRectangleSalle2(150,300);
+var obstacleRectangle2=new obstacleRectangleSalle2(250,300);
+
+function obstacleRectangleSalle1(x,y,w,h,color,speed){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.color="DarkSeaGreen"
+	this.w=20
+	this.h=40
+	this.speed=2
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		
+			if(this.y<0||this.y+this.h>murSol1.y){
+			this.speed=-this.speed
+			}	
+		this.y+=this.speed
+	}
+}
+
+var obstacleRectangle3=new obstacleRectangleSalle1(600,100);
+var obstacleRectangle4=new obstacleRectangleSalle1(700,100);
+
+function obstacleRectangleCote(x,y,w,h,color,speed){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.color="DarkSeaGreen"
+	this.w=40
+	this.h=20
+	this.speed=1
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		
+			if(this.x>900-this.w||this.x<725){
+			this.speed=-this.speed
+			}	
+		this.x+=this.speed
+	}
+}
+
+var obstacleRectangleCote1= new obstacleRectangleCote(725,350)
+var obstacleRectangleCote2= new obstacleRectangleCote(800,500)
+
+function obstacleRectBouge(x,y,w,h,color,speed){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.color="DarkSeaGreen"
+	this.speed=2
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		
+	}
+}
+
+var obstacleRectBouge1= new obstacleRectBouge(87.5,560,20,40)
+var obstacleRectBouge2= new obstacleRectBouge(0,405,20,40)
+var obstacleRectBouge3= new obstacleRectBouge(300,455,20,20)
+var obstacleRectBouge4= new obstacleRectBouge(300,300,20,20)
+var obstacleRectBouge5= new obstacleRectBouge(87.5,250,20,40)
+var obstacleRectBouge6= new obstacleRectBouge(87.5,610,20,20)
+
+
+//Mur, Sol
+	function drawMur(){
+		if(menu==true||magasin==true||instruction==true){
+
+			murSol21.draw()
+
+			if(collision(joueur,murSol21)){
+				joueur.y=murSol21.y-(joueur.h)
+				joueur.jump = false;
+				joueur.yVecteur = 0;
+			}
+
+		}
+	
+		if(partie1==true){
+
+			murSol1.draw()
+			murSol2.draw()
+			murSol3.draw()
+
+			murCoupe1.draw()
+			murCoupe2.draw()
+			murCoupe3.draw()
+
+			if(collision(joueur,murSol1)){
+				joueur.y=murSol1.y-(joueur.h)
+				joueur.jump = false;
+				joueur.yVecteur = 0;
+			}
+	
+			if(collision(joueur,murSol2)){
+				joueur.y=murSol2.y-(joueur.h)
+				joueur.jump = false;
+				joueur.yVecteur = 0;
+			}
+
+			if(collision(joueur,murSol3)){
+				joueur.y=murSol3.y-(joueur.h)
+				joueur.jump = false;
+				joueur.yVecteur = 0;
+			}
+
+			if(collision(joueur,murCoupe1)){
+				joueur.x=murCoupe1.x-(joueur.w)
+				joueur.xVecteur = 0;
+			}
+
+			if(collision(joueur,murCoupe2)){
+				joueur.x=25
+				joueur.xVecteur = 0;
+			}
+			if(collision(joueur,murCoupe3)){
+				joueur.x=murCoupe3.x-joueur.w
+				joueur.xVecteur = 0;
+			}
+		}
+
+		if(partie2==true){
+
+			murSol4.draw()
+			murSol5.draw()
+			murSol6.draw()
+			murSol17.draw()
+			murSol18.draw()
+			murSol19.draw()
+			murSol20.draw()
+
+			murAide1.draw()
+			murAide2.draw()
+			murAide3.draw()
+
+			murCoupe4.draw()
+			murCoupe5.draw()
+
+			if(collision(joueur,murSol4)){
+
+				if(joueur.yVecteur==(-21.735000000000003)){
+					joueur.y=murSol4.y+murSol4.h
+					joueur.yVecteur = 0;
+				}else {				
+				joueur.y=murSol4.y-joueur.h
+				joueur.jump = false
+				joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murSol5)){
+				joueur.y=murSol5.y-joueur.h
+				joueur.jump = false;
+				joueur.yVecteur = 0;
+			}
+
+			if(collision(joueur,murSol6)){
+				if(joueur.y>=murSol6.y){
+					joueur.y=murSol6.y+murSol6.h
+					joueur.yVecteur = 0;					
+				}else {				
+					joueur.y=murSol6.y-joueur.h
+					joueur.jump = false
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murSol17)){
+				if(joueur.y>=murSol17.y){
+					joueur.y=murSol17.y+murSol17.h
+					joueur.yVecteur = 0;
+				}else {				
+					joueur.y=murSol17.y-joueur.h
+					joueur.jump = false
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murSol18)){
+				if(joueur.y>=murSol18.y){
+					joueur.y=murSol18.y+murSol18.h
+					joueur.yVecteur = 0;
+				}else {				
+					joueur.y=murSol18.y-joueur.h
+					joueur.jump = false
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murSol19)){
+				collision19=true
+			}
+			if(collision(joueur,murSol20)){
+				joueur.y=murSol20.y-joueur.h
+				joueur.jump = false;
+				joueur.yVecteur = 0;
+			}
+
+			if(collision(joueur,murAide1)){
+				if(joueur.y>=murAide1.y){
+					joueur.y=murAide1.y+murAide1.h
+					joueur.yVecteur = 0;
+				}else {				
+					joueur.y=murAide1.y-joueur.h
+					joueur.jump = false
+					joueur.yVecteur = 0;
+				}
+			}	
+
+			if(collision(joueur,murAide2)){
+				if(joueur.y>=murAide2.y){
+					joueur.y=murAide2.y+murAide2.h
+					joueur.yVecteur = 0;
+				}else {				
+					joueur.y=murAide2.y-joueur.h
+					joueur.jump = false
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murAide3)){
+				if(joueur.y>=murAide3.y){
+					joueur.y=murAide3.y+murAide3.h
+					joueur.yVecteur = 0;
+				}else {				
+					joueur.y=murAide3.y-joueur.h
+					joueur.jump = false
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murCoupe4)){
+				if(joueur.x<=murCoupe4.x){
+					joueur.x=murCoupe4.x-(joueur.w)
+					joueur.xVecteur = 0;
+				}
+				else{
+					joueur.x=murCoupe4.x+(murCoupe4.w)
+					joueur.xVecteur = 0;
+				}
+					
+			}
+
+			if(collision(joueur,murCoupe5)){
+				joueur.x=murCoupe5.x-joueur.w
+				joueur.xVecteur = 0;
+			}
+		}
+
+		if(partie3==true){
+
+			murSol7.draw()
+			murSol8.draw()
+			murSol9.draw()
+			murSol10.draw()
+			murSol11.draw()
+			murSol12.draw()
+			murSol13.draw()
+			murSol14.draw()
+			murSol15.draw()
+			murSol16.draw()
+
+			murCoupe6.draw()
+			murCoupe7.draw()
+
+			if(collision(joueur,murSol7)){
+				joueur.y=murSol7.y-(joueur.h)
+				joueur.jump = false;
+				joueur.yVecteur = 0;
+			}
+			if(collision(joueur,murSol8)){
+
+				if(joueur.y+joueur.h>=murSol8.y+murSol8.h){//==-25.650000000000002){
+
+					joueur.y=murSol8.y+murSol8.h
+					joueur.yVecteur = 0;
+
+				}else{
+					joueur.y=murSol8.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				}				
+			}
+
+			if(collision(joueur,murSol9)){
+				
+				if(joueur.y+joueur.h>=murSol9.y+murSol9.h){				
+					joueur.y=murSol9.y+murSol9.h
+					joueur.yVecteur = 0;
+				}else{
+					joueur.y=murSol9.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				}
+			}
+			if(collision(joueur,murSol10)){
+				if(joueur.y+joueur.h>=murSol10.y+murSol10.h){
+					joueur.y=murSol10.y+murSol10.h
+					joueur.yVecteur = 0;
+				}else{
+					joueur.y=murSol10.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				}
+			}
+			if(collision(joueur,murSol11)){
+				if(joueur.y+joueur.h>=murSol11.y+murSol11.h){
+					joueur.y=murSol11.y+murSol11.h
+					joueur.yVecteur = 0;
+				}else{
+					joueur.y=murSol11.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				}
+			}
+			if(collision(joueur,murSol12)){
+				if(joueur.y+joueur.h>=murSol12.y+murSol12.h){
+					joueur.y=murSol12.y+murSol12.h
+					joueur.yVecteur = 0;
+				}else{
+					joueur.y=murSol12.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murSol13)){
+				if(joueur.y+joueur.h>=murSol13.y+murSol13.h){
+					joueur.y=murSol13.y+murSol13.h
+					joueur.yVecteur = 0;
+				}else{
+					joueur.y=murSol13.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murSol14)){
+				if(joueur.y+joueur.h>=murSol14.y+murSol14.h){
+					joueur.y=murSol14.y+murSol14.h
+					joueur.yVecteur = 0;
+				}else{
+					joueur.y=murSol14.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murSol16)){
+				
+					joueur.y=murSol16.y-(joueur.h)
+					joueur.jump = false;
+					joueur.yVecteur = 0;
+				
+			}
+
+			if(collision(joueur,murCoupe6)){
+
+				if(joueur.x<=murCoupe6.x){
+					joueur.x=murCoupe6.x-joueur.w
+					joueur.xVecteur = 0;
+				}else{
+				
+					joueur.x=murCoupe6.x+murCoupe6.w
+					joueur.xVecteur = 0;
+				}
+			}
+
+			if(collision(joueur,murCoupe7)){
+
+				if(joueur.x<=murCoupe7.x){
+					joueur.x=murCoupe7.x-joueur.w
+					joueur.xVecteur = 0;
+				}else{
+					joueur.x=murCoupe7.x+murCoupe7.w
+					joueur.xVecteur = 0;
+				}
+			}
+		}
+	}
+
+	function mur(x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+	}	
+}
+
+var murSol21=new mur(0,500,900,25,"Gainsboro");
+
+var murSol1=new mur(0,208,900,25,"Gainsboro");
+var murSol2=new mur(0,416,900,25,"Gainsboro");
+var murSol3=new mur(0,675,900,25,"Gainsboro");
+
+var murSol4=new mur(87.5,600,350,10,"Gainsboro");
+var murSol5=new mur(0,675,437.5,25,"Gainsboro");
+var murSol6=new mur(0,445,350,10,"Gainsboro");
+var murSol17=new mur(87.5,290,350,10,"Gainsboro")
+var murSol18=new mur(438,140,350,25,"Gainsboro")
+var murSol19=new mur(788,140,112,25,"blue")
+var murSol20=new mur(437.5,675,500,25,"Gainsboro");
+
+var murAide1=new mur (407.5,515,30,15,"Gainsboro")
+var murAide2=new mur (0,360,30,15,"Gainsboro")
+var murAide3=new mur (407.5,200,30,15,"Gainsboro")
+
+var murSol7=new mur(700,208,200,25,"Gainsboro");
+var murSol8=new mur(50,100,200,25,"Gainsboro");
+var murSol9=new mur(0,180,175,25,"Gainsboro");
+var murSol10=new mur(50,260,200,25,"Gainsboro");
+var murSol11=new mur(0,340,175,25,"Gainsboro");
+var murSol12=new mur(50,420,200,25,"Gainsboro");
+var murSol13=new mur(0,650,100,25,"Gainsboro");
+var murSol14=new mur(150,650,100,25,"Gainsboro");
+var murSol15=new mur(0,100,50,25,"blue");
+var murSol16=new mur(700,675,200,25,"Gainsboro");
+
+var murCoupe1=new mur(437.5,0,25,700,"Gainsboro");
+var murCoupe2=new mur(0,0,25,700,"Gainsboro");
+var murCoupe3=new mur(875.5,0,25,700,"Gainsboro");
+
+var murCoupe4=new mur(437.5,150,25,550,"Gainsboro");
+var murCoupe5=new mur(875.5,0,25,700,"Gainsboro");
+
+var murCoupe6=new mur (225,125,25,800,"Gainsboro")
+var murCoupe7=new mur (700,233,25,367,"Gainsboro")			
+
+function collisionDroite(a,b){
+	if(a.x+a.w>b.x&&
+		a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+}
+function collisionGauche(a,b){
+	if(
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+}
+function collisionHaut(){
+	if(a.x+a.w>b.x){
+
+		return(true)}
+}
+//TECH
+
+	function drawTech(){
+		if(partie1==true){
+
+			coin1.draw()
+			coin2.draw()
+			coin3.draw()
+			coin4.draw()
+			coin5.draw()
+	
+			boutonO1.draw()
+
+			if(collisionCoin(coin1,joueur)){}
+			if(collisionCoin(coin2,joueur)){}
+			if(collisionCoin(coin3,joueur)){}
+			if(collisionCoin(coin4,joueur)){}
+			if(collisionCoin(coin5,joueur)){}
+
+			if(collision(joueur,boutonO1)){
+				joueur.y=boutonO1.y+boutonO1.h
+				joueur.yVecteur = 0;
+
+				if(ctx.globalAlpha==0.8){
+					ctx.globalAlpha=1
+				}else{
+					ctx.globalAlpha=0.8
+				}
+			}
+		}
+
+		if(partie2==true){
+
+			coin6.draw()
+			coin7.draw()
+			coin8.draw()
+			coin9.draw()
+			coin10.draw()
+
+			boutonO2.draw()
+
+			if(collisionCoin(coin6,joueur)){}
+			if(collisionCoin(coin7,joueur)){}
+			if(collisionCoin(coin8,joueur)){}
+			if(collisionCoin(coin9,joueur)){}
+			if(collisionCoin(coin10,joueur)){}
+
+			if(collision(joueur,boutonO2)){
+				joueur.y=boutonO2.y+boutonO2.h
+				joueur.yVecteur = 0;
+
+				if(ctx.globalAlpha==0.8){
+					ctx.globalAlpha=1
+				}else{
+					ctx.globalAlpha=0.8
+				}
+			}
+
+		}
+		if(partie3==true){
+			coin11.draw()
+			coin12.draw()
+			coin13.draw()
+			coin14.draw()
+			coin15.draw()
+
+			boutonC1.draw()
+			boutonC2.draw()
+
+			if(collisionCoin(coin11,joueur)){}
+			if(collisionCoin(coin12,joueur)){}
+			if(collisionCoin(coin13,joueur)){}
+			if(collisionCoin(coin14,joueur)){}
+			if(collisionCoin(coin15,joueur)){}
+
+			if(collision(joueur,boutonC1)){
+				joueur.color=boutonC1.color
+			}
+			if(collision(joueur,boutonC2)){
+				joueur.color="orange"
+			}
+		}
+		
+	}
+
+	function coinF(x,y,r,color){
+	this.x=x
+	this.y=y
+	this.r=r
+	this.color=color
+	this.r=10
+	this.color="white"
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.beginPath();
+        ctx.arc(this.x,this.y,this.r,0,Math.PI*2,false);
+        ctx.fill();
+	}
+
+}
+
+var coin1 = new coinF(210,300)
+var coin2 = new coinF(750,250)
+var coin3 = new coinF(100,300)
+var coin4 = new coinF(660,125)
+var coin5 = new coinF(200,525)
+var coin6 = new coinF(25,475)
+var coin7 = new coinF(25,425)
+var coin8 = new coinF(200,200)
+var coin9 = new coinF(350,50)
+var coin10 = new coinF(700,400)
+var coin11 = new coinF(165,500)
+var coin12 = new coinF(150,25)
+var coin13 = new coinF(525,310)
+var coin14 = new coinF(750,75)
+var coin15 = new coinF(800,450)
+
+function collisionCoin(a,b){
+	if(a.x+a.r>b.x&&
+	   a.x-a.r<b.x+b.w&&
+	   a.y-a.r<b.y+b.h&&
+	   a.y+a.r>b.y){
+
+		nbrCoin++
+		coin.innerHTML="Coin(s): "+ nbrCoin;	
+		coin.style.fontSize = "x-large";
+		a.x=1000
+		a.y=1000
+		sonCoin.play()
+		return(true)}
+
+
+}
+	function boutonC(x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+	}
+
+}
+
+var boutonC1 = new boutonC(184,300,25,25,"yellow")
+var boutonC2 = new boutonC(733,625,25,25,"red")
+
+function boutonO(x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.w=25
+	this.h=25
+	this.color = "gray"
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+	}
+
+}
+
+var boutonO1 = new boutonO(650,230)
+var boutonO2 = new boutonO(650,0)
+
+//PORTAIL
+	function drawPortail(){
+		if(instruction==true||magasin==true){
+			portail15.draw()
+			
+			if(collision(joueur,portail15)){
+				menu=true
+				instruction=false
+				magasin=false
+			}
+		}
+		if(win==true){
+			portail16.draw()
+			ctx.globalAlpha=1
+			if(collision(joueur,portail16)){
+				menu=true
+				win=false
+				joueur.x=60
+				joueur.y=360
+			}
+		}
+		if(partie1==true){
+			portail1.draw()
+			portail2.draw()
+			portail3.draw()
+			portail4.draw()
+			portail5.draw()
+			portail6.draw()
+			portail7.draw()
+			portail8.draw()
+			portail14.draw()
+
+			if(collision(joueur,portail1)){
+				joueur.x=portail2.x+joueur.w
+				joueur.y=portail2.y
+			}
+			if(collision(joueur,portail2)){
+				joueur.x=portail1.x-joueur.w
+				joueur.y=portail1.y
+			}
+			if(collision(joueur,portail3)){
+				joueur.x=portail4.x-joueur.w
+				joueur.y=portail4.y
+			}
+			if(collision(joueur,portail4)){
+				joueur.x=portail3.x+joueur.w
+				joueur.y=portail3.y
+			}
+			if(collision(joueur,portail5)){
+				joueur.x=portail6.x+joueur.w
+				joueur.y=portail6.y
+				joueur.xVecteur =- joueur.xVecteur;
+			}
+			if(collision(joueur,portail6)){
+				joueur.x=portail5.x+joueur.w
+				joueur.y=portail5.y
+				joueur.xVecteur =- joueur.xVecteur;
+			}
+			if(collision(joueur,portail7)){
+				joueur.x=portail8.x-joueur.w
+				joueur.y=portail8.y
+			}
+			if(collision(joueur,portail8)){
+				joueur.x=portail7.x+portail7.w
+				joueur.y=portail7.y
+			}
+		}
+		if(partie2==true){
+			
+			portail13.draw()
+		
+			if(collision(joueur,portail13)){
+				joueur.x=portail14.x+(portail14.w/2)
+				joueur.y=portail14.y+portail14.h
+				partie2=false
+				partie1=true
+			}
+
+
+		}
+		if(partie3==true){
+			portail9.draw()
+			portail10.draw()
+			portail11.draw()
+			portail12.draw()
+
+			if(collision(joueur,portail9)){
+				joueur.x=portail10.x+(portail10.w/2)
+				joueur.y=portail10.y+joueur.h
+			}
+			
+			if(collision(joueur,portail12)){
+				joueur.x=portail11.x+(portail11.w/2)
+				joueur.y=portail11.y+joueur.h
+			}			
+		}
+	}
+
+function portail(x,y,color,w,h){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.w=25
+	this.h=100
+
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+	}
+
+
+}
+var portail15 = new portail(875,400,"pink")
+
+var portail1 = new portail(412.5,100,"yellow")
+var portail2 = new portail(462.5,300,"yellow")
+var portail3 = new portail(25,100,"pink")
+var portail4 = new portail(412.5,300,"pink")
+var portail5 = new portail(25,300,"lightblue")
+var portail6 = new portail(462.5,100,"lightblue")
+var portail7 = new portail(25,560,"green")
+var portail8 = new portail(850,300,"green")
+
+
+var portail13 = new portail(1000,1000,"red")
+
+var portail9 = new portail(200,550,"white")
+var portail12 = new portail(675,600,"pink")
+
+
+
+function portailCote(x,y,color,opacity,w,h,){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.w=100
+	this.h=25
+	this.opacity=opacity
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+	}
+}
+	var portail16 = new portailCote(800,675,"red")
+
+	var portail14 = new portailCote(625,440,"red")
+
+
+	var portail10 = new portailCote(750,233,"white")
+	var portail11 = new portailCote(750,0,"pink")
+	
+	
+//cible
+function cible(x,y,color,w,h){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.w=50
+	this.h=50
+	this.draw=function(){
+		ctx.fillStyle=this.color
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+	}
+
+}
+var cible1 =new cible(387.5,615,"yellow");
+var cible2 =new cible(825,150,"yellow");
+var cible1same =new cible(387.5,615,"yellow");
+var cible2same =new cible(825,150,"yellow");
+
+	
+function collision(a,b){
+
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+
+}
+	function collisionObstacle(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+	}
+
+//événements clavier
+
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+    //console.log(keyDown)
+})
+
+document.addEventListener("keyup", function(e){
+    delete keyDown[e.keyCode]
+    //console.log(keyDown)
+})
+
+
+function clavier(){
+
+
+	if(37 in keyDown&&joueur.x>0){
+		direction="gauche"
+		joueur.xVecteur -= 0.5;
+		}
+		
+	if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+		direction="droite"
+		joueur.xVecteur += 0.5;	
+		}
+
+	if(38 in keyDown && joueur.y>0 && joueur.jump==false){
+		direction="haut"    
+		joueur.yVecteur -= 30;
+		joueur.jump=true;	
+        }
+        
+    joueur.yVecteur += 1.5;// gravity
+    joueur.x += joueur.xVecteur;
+  	joueur.y += joueur.yVecteur;
+  	joueur.xVecteur *= 0.9;// friction
+	joueur.yVecteur *= 0.9;// friction
+}
+
+	//console.log("aa"+joueur.jump)
+  // https://levelup.gitconnected.com/creating-a-simple-2d-game-with-html5-javascript-889aa06035ef
+ 
+
+	
+	
+	
+
+//boucle principale du jeu
+
+function game(){	
+	
+	if(menu==true||instruction==true||magasin==true){
+		sonCommencer()
+	}
+	if(menu==true){
+	ctx.clearRect(0,0,canvas.width,canvas.height)
+	drawMenu()
+	}
+	if(instruction==true){
+		ctx.clearRect(0,0,canvas.width,canvas.height)
+		drawInstruction()
+	}
+	if(magasin==true){
+		ctx.clearRect(0,0,canvas.width,canvas.height)
+		drawMagasin5()
+		drawMagasin6()
+	}
+
+	if(partie==true){
+		joueur.x=60
+		joueur.y=200
+		partie=false
+		partie1=true
+	}
+	if(partie1==true){
+		ctx.clearRect(0,0,canvas.width,canvas.height)
+		drawObstacles()		
+		drawCible()
+		drawTech()
+		drawWinPartie()
+		sonPartie1.play()
+    	sonPartie1.loop = true
+    	sonMenu.pause();
+    	sonMenu.currentTime = 0;
+		sonPartie2.pause();
+    	sonPartie2.currentTime = 0;
+		sonPartie3.pause();
+    	sonPartie3.currentTime = 0;
+	}
+
+	if (partie2==true){
+		ctx.clearRect(0,0,canvas.width,canvas.height)
+		drawCible()
+		drawObstacles()
+		drawBalle2()
+		drawTech()
+		sonPartie2.play()
+    	sonPartie2.loop = true
+		sonPartie1.pause();
+    	sonPartie1.currentTime = 0;
+		if(collision19==true){
+		drawTemps()
+		}	
+	}
+
+	if(partie3==true){
+		ctx.clearRect(0,0,canvas.width,canvas.height)
+		drawCible()
+		drawSpecialP()
+		drawPoint()
+		drawSpecialP2()
+		drawPoint2()
+		drawBalle()
+		drawObstacles()
+		drawTech()
+		sonPartie3.play()
+    	sonPartie3.loop = true
+		sonPartie1.pause();
+    	sonPartie1.currentTime = 0;
+	}
+
+	if(win==true){
+		ctx.clearRect(0,0,canvas.width,canvas.height)
+		partie1=false
+		drawWinPartie()
+		sonWin.play()
+    	sonWin.loop = true
+    	sonPartie1.pause();
+    	sonPartie1.currentTime = 0;
+	}
+	drawMur()
+	drawJoueur()
+	requestAnimationFrame(game)
+	drawPortail()
+	clavier()
+	
+}
+
+game()
+
+
+</script>
+</body>
+</html>
