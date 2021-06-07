@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)file:///Z:/Eleves/2162758/INFORMATIQUE/sec5/pongV.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Document sans nom</title>
+<style>
+	#monCanvas{
+            border:40px saddlebrown solid;
+            background-color:black;
+            margin: auto;
+            display: block;
+			background-image:url(images/background-billard.jpg);
+        }
+</style></head>
+
+
+<body>
+	<canvas id="monCanvas" width="1265" height="812"></canvas>
+<script>
+	var canvas=document.getElementById("monCanvas")
+    var c=canvas.getContext("2d")
+
+    canvas.width=window.innerWidth-100
+    canvas.height=window.innerHeight-100
+
+	var couleur="burlywood"
+
+	var point1=new Audio()
+		point1.src="sons/Point1.m4a"
+	var point2=new Audio()
+		point2.src="sons/Point 2.wav"
+	var point3=new Audio()
+		point3.src="sons/point 3.wav"
+	var bien1=new Audio()
+		bien1.src="sons/Beau coup.wav"
+	var bien2=new Audio()
+		bien2.src="sons/Pas_mal.wav"
+	var bien3=new Audio()
+		bien3.src="sons/Bien joue.wav"
+	var victoire=new Audio()
+		victoire.src="sons/Defaite.mp3"
+	var defaite=new Audio()
+		defaite.src="sons/Victoire.wav"
+
+
+
+	//decoration
+	function deco(){
+		c.fillStyle="black"
+		c.beginPath()
+		c.arc(0,0,50,0,Math.PI*2,false)
+		c.fill()
+		c.beginPath()
+		c.arc(canvas.width/2,0,50,0,Math.PI*2,false)
+		c.fill()
+		c.beginPath()
+		c.arc(canvas.width,0,50,0,Math.PI*2,false)
+		c.fill()
+		c.beginPath()
+		c.arc(canvas.width,canvas.height,50,0,Math.PI*2,false)
+		c.fill()
+		c.beginPath()
+		c.arc(canvas.width/2,canvas.height,50,0,Math.PI*2,false)
+		c.fill()
+		c.beginPath()
+		c.arc(0,canvas.height,50,0,Math.PI*2,false)
+		c.fill()
+		c.beginPath()
+		c.arc(canvas.width/2,canvas.height/2,10,0,Math.PI*2,false)
+		c.fill()
+	}
+	
+	var balle={
+		x:canvas.width/2,
+		y:canvas.height/2,
+		r:30,
+		dx:5,
+		dy:0,
+		v:5
+	}
+	
+	function drawBalle(){
+		c.fillStyle="cornsilk"
+		c.beginPath()
+		c.arc(balle.x,balle.y,balle.r,0,Math.PI*2,false)
+		c.fill()
+
+		//collision canvas
+		if(balle.x-balle.r<0){
+			balle.dx*=-1
+			pointageAi+=1
+			var rep=Math.ceil(Math.random()*3)
+			if(rep==1){point1.play()
+				console.log("son")}
+			if(rep==2){point2.play()
+				console.log("son")}
+			if(rep==3){point3.play() 
+			console.log("son")}
+			
+			service()
+		}
+		if(balle.x+balle.r>canvas.width){
+			balle.dx*=-1
+			pointageP+=1
+			var rep=Math.ceil(Math.random()*3)
+			if(rep==1){bien1.play()}
+			if(rep==2){bien2.play()}
+			if(rep==3){bien3.play()}
+			service()
+		}
+		balle.x+=balle.dx
+		if(balle.y-balle.r<0||balle.y+balle.r>canvas.height){
+			balle.dy*=-1
+		}
+
+		//colision playerPad
+		if(balle.x-balle.r<playerPad.x+playerPad.w&&balle.y<playerPad.y+playerPad.h&&balle.y>playerPad.y) {
+			balle.dy=(balle.y-(playerPad.y+playerPad.h/2))/16
+			balle.dx=Math.sqrt(balle.v**2-balle.dy**2)
+			console.log("dx "+balle.dx)
+			console.log("dy "+balle.dy)
+		}
+
+		//collision aiPad
+		if(balle.x+balle.r>aiPad.x&&balle.y<aiPad.y+aiPad.h&&balle.y>aiPad.y){
+			balle.dy=(balle.y-(aiPad.y+aiPad.h/2))/16
+			balle.dx=-Math.sqrt(balle.v**2-balle.dy**2)
+			console.log("dx "+balle.dx)
+			console.log("dy "+balle.dy)
+			cible=Math.round(Math.random()*40)-20
+		}
+
+		balle.y+=balle.dy
+	}
+	
+	var playerPad={
+		x:5,
+		y:canvas.height/2-75,
+		w:30,
+		h:150,
+	}
+	canvas.addEventListener("mousemove", souris)
+	function souris(e){
+		if(e.offsetY<canvas.height-playerPad.h){
+            playerPad.y=e.offsetY
+        }else{
+            playerPad.y=canvas.height-playerPad.h
+        }
+	}
+	function drawPlayerPad(){
+		c.fillStyle=couleur
+		c.beginPath()
+		c.fillRect(playerPad.x,playerPad.y,playerPad.w,playerPad.h)
+	}
+
+	var aiPad={
+		x:canvas.width-35,
+		y:canvas.height/2-75,
+		w:30,
+		h:150,
+		v:2.5
+	}
+	//ajoute du hasard
+	var cible=Math.round(Math.random()*100)-50
+	function drawAiPad(){
+		c.beginPath()
+		c.fillRect(aiPad.x,aiPad.y,aiPad.w,aiPad.h)
+		if(balle.y+cible<aiPad.y+aiPad.h/2){
+			aiPad.y-=aiPad.v
+		}
+		if(balle.y+cible>aiPad.y+aiPad.h/2){
+			aiPad.y+=aiPad.v
+		}
+	}
+	var Menu=true
+	function menu(){
+		c.font="75px georgia"
+		c.textAlign="center"
+		c.fillText("Une partie?", canvas.width/2, canvas.height/2-20)
+		
+		canvas.addEventListener("click",function(){Menu=false})
+	}
+
+	var pointageP=0
+	var pointageAi=0
+	function points(){
+		c.fillStyle="black"
+		c.font="100px geogia"
+		c.textAlign="center"
+		c.fillText(pointageP,canvas.width/4,70)
+		c.fillText(pointageAi,canvas.width/4*3,70)
+	}
+	var manche=5
+	function service(){
+		if(pointageP==3||pointageAi==3){
+			gameOver=true
+		}
+			
+		manche+=2
+		aiPad={
+		x:canvas.width-35,
+		y:canvas.height/2-75,
+		w:30,
+		h:150,
+		v:2.5
+		}
+		playerPad={
+		x:5,
+		y:canvas.height/2-75,
+		w:30,
+		h:150,
+		}
+		cible=Math.round(Math.random()*100)-50
+		balle={
+		x:canvas.width/2,
+		y:canvas.height/2,
+		r:30,
+		dx:5,
+		dy:0,
+		v:manche
+		}
+		
+	}
+
+	var gameOver=false
+	function victoryScreen(){
+		if(pointageAi==3){
+			c.font="75px georgia"
+		c.textAlign="center"
+		c.fillText("Une autre chance?", canvas.width/2, canvas.height/2-20)
+		defaite.play()
+		
+		canvas.addEventListener("click",function(){
+			gameOver=false
+			restart()
+			})
+		}
+		if(pointageP==3){
+			c.font="75px georgia"
+		c.textAlign="center"
+		c.fillText("Jouons en une autre!", canvas.width/2, canvas.height/2-20)
+		victoire.play()
+		
+		canvas.addEventListener("click",function(){
+			gameOver=false
+			restart()
+			})
+		}
+	}
+
+		function restart(){
+			pointageAi=0
+			pointageP=0
+			service()
+			balle.v=5
+			manche=5
+		}
+	
+	function jeu(){
+		c.clearRect(0,0,canvas.width,canvas.height)
+		deco()
+
+		if(Menu==true){
+			menu()
+		}else{
+			if(gameOver==false){
+				drawPlayerPad()
+				drawAiPad()
+				drawBalle()
+				points()
+			}else{
+				victoryScreen()
+			}
+		}
+		requestAnimationFrame(jeu)
+	}
+	jeu()
+
+</script>
+
+
+</body></html>
