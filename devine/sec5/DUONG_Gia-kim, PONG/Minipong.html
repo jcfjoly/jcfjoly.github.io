@@ -1,0 +1,339 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonald Drump</title>
+
+    <style>
+        body {
+            overflow: hidden;
+            background-image: url("usa.jpg");
+        }
+
+
+        #monCanvas {
+            border: 2px black solid;
+            background-color: rgb(0, 7, 92);
+            margin: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <!--Body: Composantes pour getElementbyId et Canvas-->
+    <canvas id="monCanvas"></canvas>
+    <img id="trump" width="1" height="1" src="DonaldTrump.png">
+
+    <audio id="audio1">
+        <source src="Bing1.mp3">
+    </audio>
+    <audio id="audio2">
+        <source src="Bing2.mp3">
+    </audio>
+    <audio id="audio3">
+        <source src="Bong1.mp3">
+    </audio>
+    <audio id="audio4">
+        <source src="YMCA.mp3">
+    </audio>
+    <audio id="audio5">
+        <source src="Baba booey.mp3">
+    </audio>
+
+
+    <script>
+
+        //Variables (Valeurs, canvas, audio, etc.)
+        var canvas = document.getElementById("monCanvas")
+        var c = canvas.getContext("2d")
+        var score1 = 0
+        var score2 = 0
+        var showScore = false
+        var menu = true
+        var gameOver = false
+
+        var bing1 = document.getElementById("audio1")
+        var bing2 = document.getElementById("audio2")
+        var bing3 = document.getElementById("audio3")
+        var ymca = document.getElementById("audio4")
+        var bababooey = document.getElementById("audio5")
+
+        //Dimensions du canvas et des objects
+        canvas.width = 1200
+        canvas.height = 750
+
+        var balle = {
+            x: 400,
+            y: 45,
+            r: 20,
+            dx: 15,
+            dy: 6,
+
+        }
+
+        var pad1 = {
+            x: 80,
+            y: 550,
+            w: 15,
+            h: 160,
+        }
+
+        var pad2 = {
+            x: 1100,
+            y: 350,
+            w: 15,
+            h: 160,
+        }
+
+        var ligne = {
+            x: 600,
+            y: 0,
+            w: 1,
+            h: 750,
+        }
+
+
+
+
+        //Menu du début
+        function showMenu() {
+            c.font = "45px Arial"
+            c.textAlign = "center"
+            c.fillText("Débuter partie", canvas.width / 2, canvas.height * 0.5)
+            c.fillStyle = "white"
+
+            canvas.addEventListener("click", function () {
+                menu = false
+            })
+
+        }
+
+
+
+        //Balle et logique de collision sur un mur
+        function drawBalle() {
+            c.fillStyle = "red"
+            c.beginPath()
+            c.arc(balle.x, balle.y, balle.r, 0, Math.PI * 2, false)
+            c.fill()
+
+            var trumpBall = document.getElementById("trump")
+            c.drawImage(trumpBall, balle.x - 60, balle.y - 45, 125, 75)
+
+
+            if (balle.x < balle.r || balle.x > canvas.width - balle.r) {
+                balle.dx = -balle.dx
+                bing2.play()
+            }
+
+            if (balle.y < balle.r || balle.y > canvas.height - balle.r) {
+                balle.dy = -balle.dy
+                bing2.play()
+            }
+
+            balle.x += balle.dx
+            balle.y += balle.dy
+
+        }
+
+
+
+        //Pad 1 (joueur)
+        function drawPad1() {
+            c.fillStyle = "white"
+            c.fillRect(pad1.x, pad1.y, pad1.w, pad1.h)
+        }
+
+        //Pad 2 (ordinateur)
+        function drawPad2() {
+            c.fillStyle = "white"
+            c.fillRect(pad2.x, pad2.y, pad2.w, pad2.h)
+
+        }
+
+
+
+        //Ligne du milieu
+        function drawLigne() {
+            c.fillStyle = "white"
+            c.fillRect(ligne.x, ligne.y, ligne.w, ligne.h)
+        }
+
+
+
+        //Fonction qui fait que le pad 1 suit le y de la souris du joueur
+        function mouvement() {
+            canvas.addEventListener("mousemove", function souris(par) {
+                if (par.offsetY < canvas.width - pad1.h) {
+                    pad1.y = par.offsetY
+                } else {
+                    par.y = canvas.width - par.y
+                }
+            })
+        }
+
+
+
+        //Comportement de l'ordinateur
+        function ordinateur() {
+            if (balle.y > pad2.y + pad2.h) {
+                pad2.y += 5.5
+            }
+            if (balle.y < pad2.y) {
+                pad2.y -= 5.5
+            }
+        }
+
+
+
+        //Logique de collision sur les pads
+        function collision() {
+            if (pad1.x + pad1.w >= balle.x - balle.r &&
+                pad1.y <= balle.y + balle.r &&
+                pad1.y + pad1.h >= balle.y - balle.r) {
+
+                balle.dx = - balle.dx
+                balle.dx += 0.5
+                bing1.play()
+
+            }
+            else if (pad2.x <= balle.x + balle.r &&
+                pad2.y <= balle.y + balle.r &&
+                pad2.y + pad2.h >= balle.y - balle.r) {
+
+                balle.dx = -balle.dx
+                balle.dx -= 0.5
+                bing3.play()
+
+            }
+        }
+
+
+
+        //Fonction qui remet la balle au milieu
+        function balleReset() {
+            balle.x = 600
+            balle.y = 375
+            balle.dx = 0
+            balle.dy = 0
+        }
+
+
+
+        //Fonction quand un point est marqué
+        function but() {
+            if (balle.x - balle.r < 0) {
+                balleReset()
+                bababooey.volume = 0.2
+                bababooey.play()
+                setTimeout(function () {
+                    score2++
+                    balle.dx = 15
+                    balle.dy = 6
+
+                }, 1500)
+            }
+            if (balle.x + balle.r > 1200) {
+                balleReset()
+                bababooey.volume = 0.2
+                bababooey.play()
+                setTimeout(function () {
+                    score1++
+                    balle.dx = -15
+                    balle.dy = -6
+
+                }, 1500)
+
+            }
+        }
+
+
+
+        //Pointage 1 (joueur)
+        function pointage1() {
+            c.font = "25px Arial"
+            c.textAlign = "left"
+            c.fillText(score1, 475, 100)
+            if (score1 == 5) {
+                gameOver = true
+            }
+
+        }
+
+        //Pointage 2 (ordinateur)
+        function pointage2() {
+            c.font = "25px Arial"
+            c.textAlign = "left"
+            c.fillText(score2, 700, 100)
+            if (score2 == 5) {
+                gameOver = true
+            }
+
+
+        }
+
+
+
+        //Fonction qui fait finir une partie
+        function fin() {
+
+            if (score1 == 5) {
+                c.font = "45px Arial"
+                c.textAlign = "center"
+                c.fillText("Vous avez gagné", canvas.width / 2, canvas.height * 0.5)
+                ymca.volume = 0.2
+                ymca.play()
+            } else if (score2 == 5) {
+                c.font = "45px Arial"
+                c.textAlign = "center"
+                c.fillText("Ordinateur a gagné", canvas.width / 2, canvas.height * 0.5)
+                ymca.volume = 0.2
+                ymca.play()
+            }
+        }
+
+
+        //Fonction qui recommence la partie
+        function restart() {
+            canvas.addEventListener("click", function () {
+                location.reload()
+            })
+        }
+
+
+
+        //Fonctionalités du jeu
+        function jeu() {
+            if (menu == true) {
+                showMenu()
+            } else if (gameOver == false) {
+                c.clearRect(0, 0, canvas.width, canvas.height)
+                drawBalle()
+                drawPad1()
+                drawPad2()
+                drawLigne()
+                mouvement()
+                ordinateur()
+                collision()
+                but()
+                pointage1()
+                pointage2()
+
+            }
+            if (gameOver == true) {
+                fin()
+                balleReset()
+                restart()
+            }
+            requestAnimationFrame(jeu)
+        }
+        jeu()
+
+    </script>
+</body>
+
+</html>
