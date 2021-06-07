@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+	<script src="draw.js"></script>
+    <script src="collision.js"></script>
+    <script src="create.js"></script>
+
+	<script src="keyboard.js"></script>
+	<script src="image.js"></script>
+	<script src="temps.js"></script>
+	
+    <style>
+
+canvas{
+	border:2px black solid;
+	background-color:lightblue;
+	margin:auto;
+	display:block;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <canvas id="monCanvas"></canvas>
+
+    <script>
+
+    var canvas=document.getElementById("monCanvas")
+    var c=canvas.getContext("2d")
+    canvas.width=1200
+    canvas.height=750
+
+//point, vie
+	var pointJeu = 0
+	var vieTotalAdversaire=50
+	var vieTotalJoueur=20
+	var nuitImg=1
+	var prochainH=0
+	var vieJeu4=10
+	var bossImg=0
+	var tempsJeu6=180
+	var chiffreReponse=0
+	var instructionChiffre=1
+
+//temps		
+	var totalTempsMin = 0
+	var totalTempsMinDi = 0
+	var totalTempsH = 5
+
+//keyBoard
+	var keyDown={}
+	var keyUp={}
+
+//joueur etat
+	var mode1 = false
+	var mode2 = false
+	var mode3 = false
+	var mode3Gravity = true
+
+//vrai faux
+	var inventairePlus = false
+	var pause = false
+	var commencer=false
+	var attenteMunitions=true
+	var milieuSpeed=false
+	var joueurJeu3=false
+	var collisionJeu3=false
+	var joueurXInverse=false
+	var revientJeu3=false
+	var cancel=false
+	var space=false
+	var neige=false
+	var animation=false
+	var inverse=true
+    var clefObtenir=false
+	var verifier=false
+	var histoireJeu6Temps=false
+	var chiffre1=false
+	var chiffre2=false
+	var chiffre3=false
+	var chiffre4=false
+	var chiffre5=false
+	var chiffre6=false
+	var chiffre7=false
+	var chiffre8=false
+	var chiffre9=false
+	var finJeu2vf=false
+	var appuie=false
+	var ville4vf=false
+	var animation=false
+	var stopPersonnage=false
+	//??
+	var space=false
+
+//v f intro
+	var intro=true
+	var jeu1Intro=false
+	var jeu2Intro=false
+	var jeu3Intro=false
+	var jeu4Intro=false
+	var jeu5Intro=false
+	var jeu6Intro=false
+	var finIntroBon=false
+	var finIntroMauvais=false
+	var finBon=false
+	var finMauvais=false
+
+//jeu
+	var menu = false
+	var instructionMenuVF=false
+	var jeu1 = false//chambre fini
+	var jeu2 = false//course 
+	var jeu3 = false//Annie?	
+	var jeu4 = false//emprisonner fini
+	var jeu5 = false//boss fini-1
+	var jeu6 = false//dark room fini
+
+//keyBoard
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+	//delete keyPress[e.keyCode]
+	delete keyUp[e.keyCode]
+    //console.log(keyDown)
+})
+
+document.addEventListener("keyup", function(e){
+	//keyUp[e.keyCode]=true
+	delete keyDown[e.keyCode]
+	//delete keyPress[e.keyCode]
+})
+
+//game
+function game(){
+
+//temps
+	tempsMinDiImg.src="images/chiffre"+totalTempsMinDi+"Img.jpg"
+	tempsHeureImg.src="images/chiffre"+totalTempsH+"Img.jpg"
+	tempsMinImg.src="images/chiffre"+totalTempsMin+"Img.jpg"
+	heure.temps="0 "+totalTempsH+" : "+totalTempsMinDi+" "+totalTempsMin
+//instruction livre
+instructionLivreImg.src="images/instruction"+instructionChiffre+"Img.png"
+//intro		
+	if(intro==true){ 
+	}
+
+//sonMenu	
+	if(menu==true||instructionMenuVF==true){
+		sonMenu.play()
+		sonMenu.loop = true 
+	}
+//menu
+	if(menu==true){
+		mode1=true
+	}
+
+//jeu1	
+	if(jeu1==true){
+		sonJeu1.play()
+		sonJeu1.loop = true
+		sonMenu.volume = 0; //.pause();
+		sonMenu.currentTime = 0;
+		mode1=false
+		mode2=true  	  
+	}
+
+//jeu2
+    if(jeu2==true){
+
+		joueur.w=58,
+	joueur.h=122,
+		mode2=false
+		mode1=true
+
+		sonJeu2.play()
+		sonJeu2.loop = true
+		sonJeu1.volume = 0; //.pause();
+		sonJeu1.currentTime = 0;
+		sonMenu.volume = 0; //.pause();
+		sonMenu.currentTime = 0;
+
+		joueur.w=50
+		joueur.h=100
+		joueur.y=630
+		personnage.w=50
+		personnage.h=100
+
+		if(ville4vf==true){
+			stopPersonnage=true		
+		}
+		if(ville4vf==true){
+
+		}else{
+		personnage.x=joueur.x+100
+		personnage.y=630
+		}
+
+		if(finJeu2vf==true){
+			messageProfil.x = 200
+			messageProfil.y = 375 - (messageProfil.h / 2)
+			messageProfil.h = 175
+			messageProfil.w = 175
+
+			c.fillStyle = "blue";
+			message.x = 450
+			message.y = 375
+			message.text = "Annie? Tu es passée où?"
+
+			animation=true
+
+			if(joueur.x<=5){
+				jeu3Intro=true
+				joueur.x=875
+				joueur.x=700
+				personnage.x=875
+				personnage.y=700
+				jeu2=false
+			}else{
+				joueur.x-=5
+			}
+		}
+	}
+
+//jeu3	
+	if(jeu3==true){
+		sonJeu3.play()
+		sonJeu3.loop = true
+		sonJeu2.volume = 0; //.pause();
+		sonJeu2.currentTime = 0;
+		joueur.w=100,
+		joueur.h=160 
+		mode1=false
+		mode2=true
+		message.y=375
+		message.x=150
+		messageProfil.y=330
+		messageProfil.x=25
+		messageProfil.h=90
+		messageProfil.w=90
+		instruction.x=525
+		personnage.speed=1.5
+
+		if(nuitImg==8){
+
+			if(totalTempsH==5&&totalTempsMinDi==0&&totalTempsMin>=3){
+				//totalTempsH==5&&totalTempsMinDi==0&&totalTempsMin==3
+				personnageFacil.y-=personnageFacil.speed
+				joueur.speed=2
+				if(personnageFacil.y<=440-personnage.h){
+					personnageFacil.y=-100000
+					message.text="??Pourquoi tu pars encore??"
+				}
+				var tempsPersonnageJeu3 = setTimeout(newTempsPersonnageJeu3,1000)
+		   
+			}else{
+				personnageFacil.y=450
+				joueur.speed=0
+			} 	
+		}
+
+		if(nuitImg==9){
+			jeu3=false
+            jeu4Intro=true
+            nuit1Img.src=blackImg
+			space=true
+			cancel=false
+			joueur.speed=5
+			totalTempsH=3
+		}
+	}
+
+//jeu4	
+	if(jeu4==true){	
+		sonJeu4.play()
+		sonJeu4.volume = 1;
+		sonJeu4.loop = true
+		sonJeu3.volume = 0; //.pause();
+		sonJeu3.currentTime = 0;
+
+		instruction.x=1130
+		c.clearRect(0,0,canvas.width,canvas.height)
+		joueur.w=50
+		joueur.h=50
+		mode3=true
+
+		if(vieJeu4<=0){
+			console.log("jsp")
+			jeu4=false
+			jeu4Intro=true
+			joueur.x=325
+			joueur.y=625
+			pousser()
+			totalTempsH=3
+			cancel=true
+			space=true
+			vieJeu4=10
+			sonJeu4.volume = 0; //.pause();
+			sonJeu4.currentTime = 0;
+		}
+		if(totalTempsH==4&&totalTempsMinDi==0&&totalTempsMin==3){
+			cancel=true
+			jeu4=false
+			jeu4Intro=true
+			joueur.x=325
+			joueur.y=625
+			pousser()
+			totalTempsH=3
+			cancel=true
+			sonJeu4.volume = 0; //.pause();
+			sonJeu4.currentTime = 0;
+		}
+	}
+
+//jeu5	
+	if(jeu5==true){
+		
+		sonJeu5.play()
+		sonJeu5.loop = true
+		sonJeu5.volume = 1;
+		sonJeu4.volume = 0; //.pause();
+		sonJeu4.currentTime = 0;
+		
+		mode3=false
+		mode1=true
+
+		joueur.w=42
+		joueur.h=61
+
+		if(jeu5==true&&vieTotalAdversaire<=10){
+			mode1=true
+			plaque.w=75
+			milieu.x-=milieu.speed
+			bouge.Xspeed=milieu.speed*2
+			bouge.Yspeed=milieu.speed
+			if(milieu.x<=0||milieu.x+milieu.w>=1100){
+				milieu.speed=-milieu.speed
+			}
+			if(bouge.x<=0){
+				bouge.x=0
+			}	
+			if(bouge.x+bouge.w>=1100){
+				bouge.x=1100-bouge.w
+			}
+			if(plaque.x<=0){
+				plaque.x=0
+			}	
+			if(plaque.x+plaque.w>=1100){
+				plaque.x=1100-plaque.w
+			}
+		}	
+		if(vieTotalJoueur<=0){
+			/*c.clearRect(0,0,canvas.width,canvas.height)
+			jeu5=false
+			jeu5Intro=true
+			vieTotalJoueur=10
+			vieTotalAdversaire=50
+			barreVieJoueur.h=150
+			barreVieAdversaire.h=250
+			totalTempsH=3
+			bouge.x=200
+			bouge.y=250
+			milieu.x=600
+			milieu.y=375	*/
+			jeu6Intro=true
+			jeu5=false
+			mode1=false
+			mode2=true	
+		}
+		if(vieTotalAdversaire<=0){
+			jeu6Intro=true
+			jeu5=false
+			mode1=false
+			mode2=true
+		}
+	}
+
+//jeu6	
+	if(jeu6==true){
+		sonJeu6.play()
+		sonJeu6.loop = true
+		sonJeu5.volume = 0; //.pause();
+		sonJeu5.currentTime = 0;
+		joueur.speed=5
+		mode2=true
+		mode1=false
+		joueur.w=20
+		joueur.h=20
+		
+		if(histoireJeu6Temps==true){
+			var histoireJeu6=setTimeout(newHistoire,3000)			
+		}
+		if(tempsJeu6<=0){
+			jeu6=false
+			finIntroMauvais=true
+		}
+	}
+if(finIntroBon==true){
+	sonFinIntroBon.play()
+	sonFinIntroBon.loop = true
+	sonJeu6.volume = 0; //.pause();
+	sonJeu6.currentTime = 0;
+}
+if(finIntroMauvais==true){
+	sonFinIntroMauvais.play()
+	sonFinIntroMauvais.loop = true
+	sonJeu6.volume = 0; //.pause();
+	sonJeu6.currentTime = 0;
+}
+	if(finBon==true||finMauvais==true){
+joueur.speed=1
+	}
+//photo	
+if (joueur.reverse==false){
+	//imageJoueur.scale(-1, 1);
+	if(jeu2==true){
+		imageJoueur.src = "images/joueurJeu2DImg.png"
+		personnageImg.src="images/personnageDImg.png"
+	}
+	if(jeu5==true){
+		imageJoueur.src = "images/joueurShootDImg.png"
+	}
+	if(jeu1==true||jeu3==true||jeu4==true||jeu6==true||menu==true||instructionMenuVF==true){
+	imageJoueur.src = "images/joueurDImg.png"}
+}
+if (joueur.reverse==true){
+	if(jeu2==true){
+		imageJoueur.src = "images/joueurJeu2GImg.png"
+		personnageImg.src="images/personnageGImg.png"
+	}
+	if(jeu5==true){
+		imageJoueur.src = "images/joueurShootGImg.png"
+	}
+		if(jeu1==true||jeu3==true||jeu4==true||jeu6==true||menu==true||instructionMenuVF==true){
+	imageJoueur.src = "images/joueurGImg.png"}
+
+}
+if(jeu1==true){
+personnageImg.src="images/personnageImg.png"
+}
+
+if(jeu3==true){
+	personnageJeu3Img.src="images/personnageJeu3Img.png"
+}
+if(mode3==true){
+		joueur.y+=joueur.ySpeed
+}
+
+//function
+	c.clearRect(0,0,canvas.width,canvas.height)
+	draw()
+	drawJoueur()
+    requestAnimationFrame(game)
+	clavier()
+	checkCollision()
+} 
+
+pousser()
+game() 
+
+    </script>
+
+</body>
+</html>
