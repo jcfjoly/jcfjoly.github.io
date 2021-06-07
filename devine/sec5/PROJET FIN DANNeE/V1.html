@@ -1,0 +1,638 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Jeu clavier</title>
+	<style>
+		body {
+			background-color: lightgray;
+		}
+	</style>
+</head>
+
+<body>
+
+	<script src="canvas.js"></script>
+	<script src="level1.js"></script>
+	<script src="level2.js"></script>
+	<script src="level3.js"></script>
+	<script src="level4.js"></script>
+
+	<script>
+
+		var music = new Audio("music.mp3")
+		music.volume = 0.3
+		music.loop = true
+
+		// État du jeu
+		var joueur = {
+			x: canvas.width / 2,
+			y: 50,
+			w: 25,
+			h: 25,
+			speed: 7
+		}
+
+		var vie = {
+			x: 0,
+			y: 5,
+			w: 500,
+			h: 25,
+			color: "Lime",
+		}
+
+		var key = {
+			x: 500,
+			y: 500,
+			w: 25,
+			h: 25,
+		}
+
+		var boss = {
+			x: 300,
+			y: canvas.height / 2 - 150,
+			w: 200,
+			h: 300,
+			vie: 150,
+		}
+
+		var lvl = 1
+		var keyDown = {}
+		var direction
+		var menu = true
+		var death = false
+		var sacMissiles = []
+		var Ennemis = []
+		var direction = 1
+		var hasKey = false
+
+
+
+		// Images du jeu
+		var bullet = new Image()
+		bullet.src = "Fireball.png"
+
+		var brick = new Image()
+		brick.src = "brick.png"
+
+		var cadena = new Image()
+		cadena.src = "porte.png"
+
+		var keyImg = new Image()
+		keyImg.src = "key.png"
+
+		var bossImg = new Image()
+		bossImg.src = "Boss.PNG"
+
+		var playerImg = new Image()
+		playerImg.src = "player.PNG"
+
+		var deathBallImg = new Image()
+		deathBallImg.src = "deathball.PNG"
+
+		var lavehImage = new Image()
+		lavehImage.src = "lavetest.png"
+
+		var laveh
+		lavehImage.onload = function () {
+			laveh = ctx.createPattern(lavehImage, "repeat")
+		}
+
+
+		// Fonctions d'affichage
+		function draw() {
+			for (i = 0; i < sacMissiles.length; i++) {
+				sacMissiles[i].draw()
+			}
+		}
+
+
+		function drawJoueur() {
+			ctx.drawImage(playerImg, joueur.x, joueur.y, joueur.w, joueur.h)
+
+
+		}
+
+		//essayer de tricher pour voir
+		function drawVie() {
+			if (vie.w <= 0|| vie.w>500) { death = true }
+			ctx.fillStyle = vie.color
+			ctx.fillRect(vie.x, vie.y, vie.w, vie.h)
+
+		}
+
+
+
+		function collision(a, b) {
+			if (a.x + a.w > b.x &&
+				a.x < b.x + b.w &&
+				a.y < b.y + b.h &&
+				a.y + a.h > b.y) {
+
+				return (true)
+			}
+		}
+
+		// Fonction constructeur
+
+		function Missiles(x, y, w, h, dx, dy) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.dx = dx
+			this.dy = dy
+
+			this.draw = function () {
+				ctx.drawImage(bullet, this.x += this.dx, this.y += this.dy, this.w, this.h)
+			}
+		}
+
+
+
+		function Mur(x, y, w, h, color) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+
+
+			this.draw = function () {
+				ctx.drawImage(brick, this.x, this.y, this.w, this.h)
+				if (this.y < 0 || this.y + this.h > canvas.height) {
+				}
+			}
+		}
+
+		// Murs du jeu
+		var mur1 = new Mur(0, 0, 400, canvas.height)
+		var mur2 = new Mur(780, 0, 400, canvas.height)
+		var mur3 = new Mur(400, 300, 150, 25)
+		var mur4 = new Mur(630, 300, 150, 25)
+		var mur5 = new Mur(0, 0, 400, 400)
+		var mur6 = new Mur(780, 0, 400, canvas.height)
+		var mur7 = new Mur(0, 580, 400, 400)
+		var mur8 = new Mur(380, 0, 400, 150)
+		var mur9 = new Mur(0, 0, canvas.width, 200)
+		var mur10 = new Mur(0, canvas.height - 200, canvas.width, 200)
+
+
+		function Ennemi(x, y, w, h, color, vie) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.color = color
+			this.vie = vie
+			this.draw = function () {
+				ctx.fillStyle = this.color
+				ctx.fillRect(this.x, this.y, this.w, this.h)
+			}
+			Ennemis.push(this)
+		}
+
+		var ennemi1 = new Ennemi(550, 300, 80, 25, "red", 10)
+
+		function Porte(x, y, w, h) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+
+			this.draw = function () {
+				ctx.drawImage(cadena, this.x, this.y, this.w, this.h)
+				if (this.y < 0 || this.y + this.h > canvas.height) {
+
+				}
+			}
+		}
+
+		var porte1 = new Porte(0, 400, 50, 180)
+
+		function Lave(x, y, w, h) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+
+			this.draw = function () {
+				ctx.fillStyle = laveh
+				ctx.fillRect(this.x, this.y, this.w, this.h)
+				if (this.y < 0 || this.y + this.h > canvas.height) {
+
+				}
+			}
+		}
+
+		var lavah1 = new Lave(0, 250, 900, 20)
+		var lavah2 = new Lave(900, 150, 100, 120)
+		var lavah3 = new Lave(100, 350, 1050, 100)
+		var lavah4 = new Lave(100, 350, 200, 400)
+		var lavah5 = new Lave(100, 570, 900, 200)
+		var lavah6 = new Lave(0, 200, canvas.width, 50)
+		var lavah7 = new Lave(0, canvas.height - 250, canvas.width, 50)
+
+
+
+
+		function Poison(x, y, w, h, color) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.color = color
+			this.draw = function () {
+				ctx.fillStyle = this.color
+				ctx.fillRect(this.x, this.y, this.w, this.h)
+
+			}
+		}
+
+		var poison1 = new Poison(400, 500, 300, 150, "purple")
+		var poison2 = new Poison(600, 500, 150, 150, "purple")
+		var poison3 = new Poison(boss.x, boss.y, boss.w, boss.h, "transparent")
+
+		function Portail(x, y, w, h, color) {
+			this.x = x
+			this.y = y
+			this.w = w
+			this.h = h
+			this.color = color
+			this.draw = function () {
+				ctx.fillStyle = this.color
+				ctx.fillRect(this.x, this.y, this.w, this.h)
+
+			}
+		}
+
+		var portail1 = new Portail(400, 864, 380, 10, "brown")
+		var portail2 = new Portail(400, 0, 380, 10, "brown")
+		var portail3 = new Portail(0, 300, 10, 280, "brown")
+		var portail4 = new Portail(1120, 300, 10, 280, "brown")
+		var portail5 = new Portail(400, 864, 380, 10, "brown")
+		var portail6 = new Portail(0, 100, 380, 10, "brown")
+
+		canvas.addEventListener("click", souris)
+
+		function souris(e) {
+			var dx = 0
+			var dy = 0
+
+			if (direction == 1) {
+				dx = 15
+			}
+			if (direction == 2) {
+				dx = -15
+			}
+			if (direction == 4) {
+				dy = 15
+			}
+			if (direction == 3) {
+				dy = -15
+			}
+
+			sacMissiles.push(new Missiles(joueur.x + 10, joueur.y + 10, 10, 10, dx, dy, 15))
+			music.play()
+
+		}
+
+		function checkCollision() {
+			if ((collision(joueur, poison1) ||
+				collision(joueur, poison2)) && lvl == 1) {
+				vie.color = "purple"
+				vie.w -= 1
+				joueur.speed = 1
+
+			} else {
+				vie.color = "lime"
+				joueur.speed = 7
+			}
+
+			if (lvl == 1 || lvl == 3) {
+				for (var i = 0; i < sacMissiles.length; i++) {
+					for (var j = 0; j < Ennemis.length; j++) {
+						if (collision(sacMissiles[i], Ennemis[j])) {
+							sacMissiles.splice(i, 1)
+							Ennemis[j].vie--
+							i--
+							if (Ennemis[j].vie == 0) {
+								Ennemis.splice(j, 1)
+							}
+						}
+					}
+				}
+			}
+
+			if (lvl == 1) {
+				if (collision(joueur, portail1)) {
+					lvl = 2
+					joueur.x = 500
+					joueur.y = 50
+				}
+
+
+			} else if (lvl == 2) {
+				if (collision(joueur, portail2)) {
+					lvl = 1
+					joueur.x = 500
+					joueur.y = 800
+				}
+
+
+
+
+				if (collision(joueur, portail5)) {
+					lvl = 4
+					joueur.x = 190
+					joueur.y = 150
+				}
+
+				if (collision(joueur, porte1) && hasKey == true) {
+					Ennemis = []
+					lvl = 3
+					joueur.x = canvas.width - 50
+					joueur.y = 500
+					Ennemis.push(boss)
+				}
+
+			} else if (lvl == 3) {
+				if (collision(joueur, poison3)) {
+					vie.w -= 1
+					joueur.speed = 1
+					vie.color = "purple"
+				} else {
+					joueur.speed = 7
+					vie.color = "lime"
+				}
+
+
+
+			} else if (lvl == 4) {
+				if (collision(joueur, portail6)) {
+					lvl = 2
+					joueur.x = 500
+					joueur.y = 800
+				}
+
+
+				if (collision(joueur, key) && hasKey == false) {
+					hasKey = true
+
+				}
+			}
+
+
+		}
+
+		function collisionCercle(cX, cY, cR, rX, rY, rW, rH) {
+
+			//Default values   
+			let testX = cX;
+			let testY = cY;
+			//if outside rectangle bounderies change values  
+			if (cX < rX) testX = rX;
+			else if (cX > rX + rW) testX = rX + rW;
+			if (cY < rY) testY = rY;
+			else if (cY > rY + rH) testY = rY + rH;
+			let distX = cX - testX;
+			let distY = cY - testY;
+			if (Math.sqrt(distX ** 2 + distY ** 2) <= cR) { return true; } else { return false; }
+
+
+
+		}
+
+		function clavier() {
+			//console.log(e)
+
+			if (65 in keyDown && joueur.x > 0) {
+				direction = 2
+				joueur.x -= joueur.speed
+			}
+			if (68 in keyDown && joueur.x < canvas.width - joueur.w) {
+				direction = 1
+				joueur.x += joueur.speed
+			}
+			if (87 in keyDown && joueur.y > 0) {
+				direction = 3
+				joueur.y -= joueur.speed
+			}
+			if (83 in keyDown && joueur.y < canvas.height - joueur.h) {
+				direction = 4
+				joueur.y += joueur.speed
+			}
+			if (lvl == 1) {
+				for (var i = 0; i < Ennemis.length; i++) {
+					jmefaischier(joueur, Ennemis[i])
+				}
+			}
+		}
+
+		function jmefaischier(j, c) {
+			if (collision(j, c)) {
+
+				vie.w -= 5
+				if (65 in keyDown || 68 in keyDown) {
+
+					if (j.x < c.x + c.w / 5) {
+						j.x -= j.speed
+					} else {
+						j.x += j.speed
+					}
+				}
+				if (87 in keyDown || 83 in keyDown) {
+					if (j.y < c.y + c.h / 5) {
+						j.y -= j.speed;
+					} else {
+						j.y += j.speed;
+					}
+				}
+			}
+
+		}
+
+		function AAAAAA(j, c) {
+			if (collision(j, c)) {
+
+				vie.w -= 5
+				if (65 in keyDown || 68 in keyDown) {
+
+					if (j.x < c.x + c.w / 5) {
+						j.x -= j.speed
+					} else {
+						j.x += j.speed
+					}
+				}
+				if (87 in keyDown || 83 in keyDown) {
+					if (j.y < c.y + c.h / 5) {
+						j.y -= j.speed;
+					} else {
+						j.y += j.speed;
+					}
+				}
+			}
+
+		}
+
+
+
+
+
+		document.addEventListener("keydown", function (e) {
+			keyDown[e.keyCode] = true
+
+		})
+
+		document.addEventListener("keyup", function (e) {
+			delete keyDown[e.keyCode]
+
+		})
+
+		function wall(j, c) {
+			if (collision(j, c)) {
+				if (65 in keyDown || 68 in keyDown) {
+					if (j.x < c.x + c.w / 5) {
+						j.x -= j.speed
+					} else {
+						j.x += j.speed
+					}
+				}
+				if (87 in keyDown || 83 in keyDown) {
+					if (j.y < c.y + c.h / 5) {
+						j.y -= j.speed;
+					} else {
+						j.y += j.speed;
+					}
+				}
+			}
+		}
+
+
+
+		function showMenu() {
+
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			ctx.strokeRect(canvas.width / 2 - 275, canvas.height / 2 - 200, 550, 400)
+			ctx.fillStyle = "Lime"
+			ctx.fillRect(canvas.width / 2 - 275, canvas.height / 2 - 200, 550, 400)
+			ctx.lineWidth = 10
+			ctx.fillStyle = "black"
+			ctx.font = "30px Arial"
+			ctx.textAlign = "center"
+			ctx.fillText("Bienvenue dans mon jeu", canvas.width / 2, canvas.height / 2 - 120)
+			ctx.fillText("votre but, vous échappez du donjon", canvas.width / 2, canvas.height / 2 - 80)
+			ctx.fillText("des ennemis seront sur votre chemin", canvas.width / 2, canvas.height / 2 - 40)
+			ctx.fillText("les controls sont:w a s d", canvas.width / 2, canvas.height / 2)
+			ctx.fillText("clicker pour tirer", canvas.width / 2, canvas.height / 2 + 40)
+			ctx.fillText("dès que vous utilisez la clé,", canvas.width / 2, canvas.height / 2 + 80)
+			ctx.fillText("vous ne pouvez pas revenir en arrière", canvas.width / 2, canvas.height / 2 + 120)
+			ctx.fillText("tuer le boss pour gagner", canvas.width / 2, canvas.height / 2 + 160)
+
+
+		}
+
+		canvas.addEventListener("click", function () {
+			menu = false
+			if (death == true || boss.vie == 0) {
+				location.reload()
+			}
+		})
+
+
+
+
+
+		/*function newGame(){
+		if(menu==true){
+			vie.w=500
+					joueur.x = canvas.width/2
+					joueur.y = 50
+		}
+	}*/
+
+	//Écran de fin, de victoir, et menu 
+		function showDeath() {
+
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			ctx.strokeRect(canvas.width / 2 - 200, canvas.height / 2 - 100, 400, 200)
+			ctx.fillStyle = "Lime"
+			ctx.fillRect(canvas.width / 2 - 200, canvas.height / 2 - 100, 400, 200)
+			ctx.lineWidth = 10
+			ctx.fillStyle = "black"
+			ctx.font = "30px Arial"
+			ctx.textAlign = "center"
+			ctx.fillText("vous êtes mort", canvas.width / 2, canvas.height / 2 - 40)
+			ctx.fillText("", canvas.width / 2, canvas.height / 2)
+			ctx.fillText("clicker pour recommencer", canvas.width / 2, canvas.height / 2 + 40)
+		}
+
+		function showWin() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			ctx.strokeRect(canvas.width / 2 - 200, canvas.height / 2 - 100, 400, 200)
+			ctx.fillStyle = "Lime"
+			ctx.fillRect(canvas.width / 2 - 200, canvas.height / 2 - 100, 400, 200)
+			ctx.lineWidth = 10
+			ctx.fillStyle = "black"
+			ctx.font = "30px Arial"
+			ctx.textAlign = "center"
+			ctx.fillText("vous avez gagné", canvas.width / 2, canvas.height / 2 - 40)
+			ctx.fillText("clicker pour recommencer", canvas.width / 2, canvas.height / 2)
+		}
+
+
+
+
+		//function game 
+		function game() {
+			if (menu == true) {
+				showMenu()
+			}
+			else if (death == true) {
+				showDeath()
+
+			} else if (boss.vie == 0) {
+				showWin()
+
+			} else {
+				ctx.clearRect(0, 0, canvas.width, canvas.height)
+				clavier()
+				drawLevel1()
+				drawLevel2()
+				drawLevel3()
+				drawLevel4()
+				checkCollision()
+				draw()
+				drawVie()
+				drawJoueur()
+				if (lvl == 2) {
+					if (collisionCercle(balle.x, balle.y, balle.r, joueur.x, joueur.y, joueur.w, joueur.h) ||
+						collisionCercle(balle2.x, balle2.y, balle2.r, joueur.x, joueur.y, joueur.w, joueur.h) ||
+						collisionCercle(balle3.x, balle3.y, balle3.r, joueur.x, joueur.y, joueur.w, joueur.h)) {
+						vie.w -= 7
+					}
+				} else if (lvl == 3) {
+					if (
+						collisionCercle(bossBalle.x, bossBalle.y, bossBalle.r, joueur.x, joueur.y, joueur.w, joueur.h) ||
+						collisionCercle(bossBalle2.x, bossBalle2.y, bossBalle2.r, joueur.x, joueur.y, joueur.w, joueur.h) ||
+						collisionCercle(bossBalle3.x, bossBalle3.y, bossBalle3.r, joueur.x, joueur.y, joueur.w, joueur.h) ||
+						collisionCercle(bossBalle4.x, bossBalle4.y, bossBalle4.r, joueur.x, joueur.y, joueur.w, joueur.h) ||
+						collisionCercle(bossBalle5.x, bossBalle5.y, bossBalle5.r, joueur.x, joueur.y, joueur.w, joueur.h)) {
+						vie.w -= 7
+					}
+				}
+
+
+			}
+			requestAnimationFrame(game)
+		}
+		game()
+
+
+
+	</script>
+
+
+</body>
+
+</html>
