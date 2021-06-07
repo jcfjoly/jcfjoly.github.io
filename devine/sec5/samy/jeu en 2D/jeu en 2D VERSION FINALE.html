@@ -1,0 +1,919 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>À la recherche du diamant!</title>
+<style>
+body{
+	background-color: rgb(107, 41, 194);
+}	
+</style>	
+</head>
+
+<body>
+
+<script>
+
+	
+// Creation d'un canvas en Javascript au lieu de HTML 
+const PRECISION = 1
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth-50;
+canvas.height = window.innerHeight-50
+canvas.style.border = "1px white solid";
+canvas.style.backgroundColor= "black";
+canvas.style.display = "block";
+canvas.style.margin ="auto"
+canvas.style.marginTop ="25px"
+document.body.appendChild(canvas);
+
+
+
+//variables et objets du jeu
+var acceuil=true
+var gameOver=false 
+var Win=false
+
+var piquant= new Image()
+piquant.src="images/slime.png"
+
+var shoot= new Image()
+shoot.src="images/arc.png"
+
+var tir= new Image()
+tir.src="images/fleches.PNG"
+
+var steve= new Image()
+steve.src="images/player.jpg"
+
+var walls= new Image()
+walls.src="images/texturemurs.jpg"
+
+var life= new Image()
+life.src="images/coeursminecraft.png"
+
+var goal= new Image()
+goal.src="images/Diamond.png"
+
+var bigcactus= new Image()
+bigcactus.src="images/texturecactus.jpg"
+
+var sand= new Image()
+sand.src="images/texturesable.jpg"
+
+var teleportation= new Image()
+teleportation.src="images/textureportail.png"
+
+var vitesse= new Image()
+vitesse.src="images/texturespeedboost.png"
+
+var projectil= new Image()
+projectil.src="images/textureobstacles.jpg"
+
+var hit= new Image()
+hit.src="images/coeurdegat.png"
+
+var backgroundmusic=new Audio()
+backgroundmusic.src="sons/background-music.mp3"
+
+var beggining=new Audio()
+beggining.src="sons/oppening.mp3"
+
+var victoire=new Audio()
+victoire.src="sons/win.mp3"
+
+var defaite=new Audio()
+defaite.src="sons/lose.mp3"
+
+var degat=new Audio()
+degat.src="sons/damage.mp3"
+
+var speed=new Audio()
+speed.src="sons/xp.mp3"
+
+var menusound=new Audio()
+menusound.src="sons/among.mp3"
+
+var teleport=new Audio()
+teleport.src="sons/teleportation.mp3"
+
+var sandwalk=new Audio()
+sandwalk.src="sons/sable.m4a"
+
+
+
+var joueur={
+	x:0,
+	y:60,
+	w:30,
+	h:30,
+	speed:10,
+	vie:4
+}
+
+var keyDown={}
+
+var mur1=new Mur (0,150,canvas.width/2+200,10,"white")
+var mur2=new Mur (canvas.width-200,150,200,10,"white")
+var mur3=new Mur (canvas.width-200,0,10,mur2.y,"white")
+var mur4=new Mur (0,mur1.y*2+mur1.h,canvas.width/2-300,10,"white")
+var mur5=new Mur (mur4.w,mur1.y+mur1.h+20,10,mur2.y-10,"white")
+var mur6=new Mur (mur4.w,mur1.y*2+mur1.h,canvas.width-mur4.w-mur2.w,10,"white")
+var mur7=new Mur (200,mur1.y*3+mur1.h*2,canvas.width-200,10,"white")
+
+var mur8=new Mur (mur7.x,canvas.height-(canvas.height-mur7.y-mur7.h)/2,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur9=new Mur (mur8.x+mur8.w+100,mur7.y+mur7.h,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur10=new Mur (mur9.x+mur9.w+100,canvas.height-(canvas.height-mur7.y-mur7.h)/2,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur11=new Mur (mur10.x+mur10.w+100,mur7.y+mur7.h,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur12=new Mur (mur11.x+mur11.w+100,canvas.height-(canvas.height-mur7.y-mur7.h)/2,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur13=new Mur (mur12.x+mur12.w+100,mur7.y+mur7.h,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur14=new Mur (mur13.x+mur13.w+100,canvas.height-(canvas.height-mur7.y-mur7.h)/2,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur15=new Mur (mur14.x+mur14.w+100,mur7.y+mur7.h,10,(canvas.height-(mur7.y+10))/2,"white")
+var mur16=new Mur (mur15.x+mur15.w+100,canvas.height-(canvas.height-mur7.y-mur7.h)/2,10,(canvas.height-(mur7.y+10))/2,"white")
+
+var mur17=new Mur (0,canvas.height-1,canvas.width,1,"white")
+var mur18=new Mur (canvas.width-200,0,200,1,"white")
+var mur19=new Mur (canvas.width-1,0,1,mur2.y,"white")
+
+var cible={
+	x:canvas.width-(canvas.width-mur16.x-mur16.w)/2-15,
+	y:canvas.height-(canvas.height-mur7.y-mur7.h)/2-15,
+	w:30,
+	h:30,
+	color:"black",
+}
+
+var big={
+	x:mur4.w+mur5.w+10,
+	y:mur4.y-35,
+	w:25,
+	h:25,
+	color:"orange",
+}
+
+var portail1= new Portail (0,mur1.y+mur1.h,10,mur1.y,"black")
+var portail2= new Portail (canvas.width-10,0,10,mur1.y,"black")
+var portail3= new Portail (mur3.x+mur3.w,0,10,mur1.y,"black")
+
+var speedboost={
+	x:mur3.x+mur2.w/2,
+	y:mur2.y/2,
+	r:15,
+	color:"black",
+}
+
+var obstacle1=new Obstacle (100,50,25,25,1,"black")
+var obstacle2=new Obstacle (mur1.w+10,50,25,25,1,"black")
+var obstacle3=new Obstacle (mur1.w+10,105,25,25,1.2,"black")
+var obstacle4=new Obstacle (mur1.w+10,160,25,25,1.5,"black")
+var obstacle5=new Obstacle (mur1.w+10,210,25,25,1.8,"black")
+var obstacle6=new Obstacle (mur1.w+10,265,25,25,2,"black")
+
+var Sable1=new Sable (250,0,300,35,"BlueViolet")
+var Sable2=new Sable (250,mur1.y-35,300,35,"BlueViolet")
+var Sable3=new Sable (mur3.x,mur2.y+mur2.h+10,40,40,"BlueViolet")
+var Sable4=new Sable (mur3.x,mur4.y-50,40,40,"BlueViolet")
+var Sable5=new Sable (canvas.width-50,mur2.y+mur2.h+10,40,40,"BlueViolet")
+var Sable6=new Sable (canvas.width-50,mur4.y-50,40,40,"BlueViolet")
+
+var minus={
+	x:Sable1.x+Sable1.w+10,
+	y:Sable1.h-25,
+	w:25,
+	h:25,
+	color:"blue", 
+}
+
+var piqueh1=new Piques (mur9.x-20,mur9.y,20,20,"lime")
+var piqueh2=new Piques (mur9.x-20,piqueh1.y+piqueh1.h+20,20,20,"lime")
+var piqueh3=new Piques (mur9.x-20,mur9.y+mur9.h-20,20,20,"lime")
+var piqueh4=new Piques (mur11.x-20,mur9.y,20,20,"lime")
+var piqueh5=new Piques (mur11.x-20,piqueh1.y+piqueh1.h+20,20,20,"lime")
+var piqueh6=new Piques (mur11.x-20,mur9.y+mur9.h-20,20,20,"lime")
+var piqueh7=new Piques (mur13.x-20,mur9.y,20,20,"lime")
+var piqueh8=new Piques (mur13.x-20,piqueh1.y+piqueh1.h+20,20,20,"lime")
+var piqueh9=new Piques (mur13.x-20,mur9.y+mur9.h-20,20,20,"lime")
+var piqueh10=new Piques (mur15.x-20,mur9.y,20,20,"lime")
+var piqueh11=new Piques (mur15.x-20,piqueh1.y+piqueh1.h+20,20,20,"lime")
+var piqueh12=new Piques (mur15.x-20,mur9.y+mur9.h-20,20,20,"lime")
+
+var piqueb1=new Piques (mur8.x+mur8.w,mur8.y,20,20,"lime")
+var piqueb2=new Piques (mur8.x+mur8.w,piqueb1.y+piqueb1.h+20,20,20,"lime")
+var piqueb3=new Piques (mur8.x+mur8.w,mur8.y+mur8.h-20,20,20,"lime")
+var piqueb4=new Piques (mur10.x+mur8.w,mur8.y,20,20,"lime")
+var piqueb5=new Piques (mur10.x+mur8.w,piqueb1.y+piqueb1.h+20,20,20,"lime")
+var piqueb6=new Piques (mur10.x+mur8.w,mur8.y+mur8.h-20,20,20,"lime")
+var piqueb7=new Piques (mur12.x+mur8.w,mur8.y,20,20,"lime")
+var piqueb8=new Piques (mur12.x+mur8.w,piqueb1.y+piqueb1.h+20,20,20,"lime")
+var piqueb9=new Piques (mur12.x+mur8.w,mur8.y+mur8.h-20,20,20,"lime")
+var piqueb10=new Piques (mur14.x+mur8.w,mur8.y,20,20,"lime")
+var piqueb11=new Piques (mur14.x+mur8.w,piqueb1.y+piqueb1.h+20,20,20,"lime")
+var piqueb12=new Piques (mur14.x+mur8.w,mur8.y+mur8.h-20,20,20,"lime")
+var piqueb13=new Piques (mur16.x+mur8.w,mur8.y,20,20,"lime")
+var piqueb14=new Piques (mur16.x+mur8.w,piqueb1.y+piqueb1.h+20,20,20,"lime")
+var piqueb15=new Piques (mur16.x+mur8.w,mur8.y+mur8.h-20,20,20,"lime")
+
+var vie3=new Vie (mur3.x-45,0,45,45)
+var vie2=new Vie (vie3.x-45,0,45,45)
+var vie1=new Vie (vie2.x-45,0,45,45)
+var vie0=new Vie (vie1.x-45,0,45,45)
+
+var cactus1=new Cactus (portail1.x+portail1.w+25,mur1.y+mur1.h+5,35,35,"darkgrey")
+var cactus2=new Cactus (portail1.x+portail1.w+100,mur4.y-40,35,35,"darkgrey")
+var cactus3=new Cactus (mur5.x-60,mur1.y+mur1.h+5,35,35,"darkgrey")
+var cactus4=new Cactus (mur5.x-145,mur4.y-110,35,35,"darkgrey")
+var cactus5=new Cactus (mur5.x-80,mur4.y-70,35,35,"darkgrey")
+var cactus6=new Cactus (portail1.x+portail1.w+40,mur1.y+mur1.h+85,35,35,"darkgrey")
+
+var fleche1=new Flèches (40,mur4.y+mur4.h+15,40,20,1,"black")
+var fleche2=new Flèches (40,fleche1.y+fleche1.h+35,40,20,1.5,"black")
+var fleche3=new Flèches (40,fleche2.y+fleche2.h+35,40,20,2,"black")
+var fleche4=new Flèches (90,mur4.y+mur4.h+15,40,20,2,"black")
+var fleche5=new Flèches (240,fleche1.y+fleche1.h+35,40,20,1.5,"black")
+var fleche6=new Flèches (90,fleche2.y+fleche2.h+35,40,20,1,"black")
+
+var arc1=new Arc (0,fleche1.y-5,40,40,"black")
+var arc2=new Arc (0,fleche2.y-5,40,40,"black")
+var arc3=new Arc (0,fleche3.y-5,40,40,"black")
+
+//fonctions
+
+function AfficheMenu(){
+	ctx.lineWidth="25px"
+    ctx.fillStyle="white"
+	ctx.font="45px Times "
+	ctx.textAlign="center"
+	ctx.fillText("Attrapez ce diamant!", canvas.width/2, canvas.height/2)
+
+    ctx.fillStyle="white"
+	ctx.font="25px Times"
+	ctx.textAlign="left"
+	ctx.fillText("Le sable prend du temps à être traversé...", 100, 100)
+
+    ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="right"
+    ctx.fillText("Un livre enchanté: Accélération|| ", canvas.width-100, 100)
+
+	ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="right"
+    ctx.fillText("Parfois les plus petits ont la clef", canvas.width-100, 150)
+
+    ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="right"
+    ctx.fillText("4 cœur gris et c'est finit!", canvas.width-100, 200)
+    
+    ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="left"
+	ctx.fillText("La lave fait mal!!", 100, 150)
+
+	ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="left"
+	ctx.fillText("Les épines font aussi mal que le slime", 100, 200)
+
+	ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="left"
+	ctx.fillText("cliquez pour commencer", canvas.width/2-115, canvas.height/2+35)
+
+	ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="right"
+	ctx.fillText("Si vous comptez rester sur ce menu longtemps", canvas.width-50, canvas.height-100)
+
+	ctx.fillStyle="white"
+	ctx.font="25px Times "
+	ctx.textAlign="right"
+	ctx.fillText("appuyez sur la partie mauve →", canvas.width-50, canvas.height-75)
+
+	beggining.play()
+
+	canvas.addEventListener("click",function(){
+		beggining.pause()
+		menusound.play()
+        acceuil=false})
+}
+
+function Obstacle (x,y,w,h,speed,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.speed=speed
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(projectil,this.x,this.y,this.w,this.h)
+
+		if(obstacle1.y<0||obstacle1.y+obstacle1.h>mur1.y){
+			obstacle1.speed=-obstacle1.speed
+		}
+
+		obstacle1.y+=obstacle1.speed
+
+		if(obstacle2.x<mur1.w||obstacle2.x+obstacle2.w>mur3.x){
+			obstacle2.speed=-obstacle2.speed	
+		}
+		if(obstacle3.x<mur1.w||obstacle3.x+obstacle3.w>mur3.x){
+			obstacle3.speed=-obstacle2.speed
+		}
+		if(obstacle4.x<mur1.w||obstacle4.x+obstacle4.w>mur3.x){
+			obstacle4.speed=-obstacle2.speed
+		}
+		if(obstacle5.x<mur1.w||obstacle5.x+obstacle5.w>mur3.x){
+			obstacle5.speed=-obstacle2.speed
+		}
+		if(obstacle6.x<mur1.w||obstacle6.x+obstacle6.w>mur3.x){
+			obstacle6.speed=-obstacle2.speed
+		}
+		obstacle2.x+=obstacle2.speed
+		obstacle3.x+=obstacle3.speed
+		obstacle4.x+=obstacle4.speed
+		obstacle5.x+=obstacle5.speed
+		obstacle6.x+=obstacle6.speed
+	}
+}
+
+function Cactus (x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(bigcactus,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Flèches (x,y,w,h,speed,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.speed=speed
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(tir,this.x,this.y,this.w,this.h)
+		
+		fleche1.x+=fleche1.speed
+		fleche2.x+=fleche2.speed
+		fleche3.x+=fleche3.speed
+		fleche4.x+=fleche4.speed
+		fleche5.x+=fleche5.speed
+		fleche6.x+=fleche6.speed
+
+		if(fleche1.x+fleche1.w>canvas.width){
+			fleche1.x=0
+		}
+		if(fleche2.x+fleche2.w>canvas.width){
+			fleche2.x=0
+		}
+		if(fleche3.x+fleche3.w>canvas.width){
+			fleche3.x=0
+		}
+		if(fleche4.x+fleche4.w>canvas.width){
+			fleche4.x=0
+		}
+		if(fleche5.x+fleche5.w>canvas.width){
+			fleche5.x=0
+		}
+		if(fleche6.x+fleche6.w>canvas.width){
+			fleche6.x=0
+		}
+	}
+}
+
+function Sable (x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(sand,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Arc (x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(shoot,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Piques (x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(piquant,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Portail (x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h,)
+		ctx.drawImage(teleportation,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Vie (x,y,w,h){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.draw=function(){
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(life,this.x,this.y,this.w,this.h)
+	
+			if (joueur.vie==3){
+				ctx.fillRect(vie3.x,vie3.y,vie3.w,vie3.h)
+				ctx.drawImage(hit,vie3.x,vie3.y,vie3.w,vie3.h)
+			}
+			if (joueur.vie==2){
+				ctx.fillRect(vie3.x,vie3.y,vie3.w,vie3.h)
+				ctx.drawImage(hit,vie3.x,vie3.y,vie3.w,vie3.h)
+
+				ctx.fillRect(vie2.x,vie2.y,vie2.w,vie2.h)
+				ctx.drawImage(hit,vie2.x,vie2.y,vie2.w,vie2.h)
+			}if (joueur.vie==1){
+				ctx.fillRect(vie3.x,vie3.y,vie3.w,vie3.h)
+				ctx.drawImage(hit,vie3.x,vie3.y,vie3.w,vie3.h)
+				
+				ctx.fillRect(vie2.x,vie2.y,vie2.w,vie2.h)
+				ctx.drawImage(hit,vie2.x,vie2.y,vie2.w,vie2.h)
+
+				ctx.fillRect(vie1.x,vie1.y,vie1.w,vie1.h)
+				ctx.drawImage(hit,vie1.x,vie1.y,vie1.w,vie1.h)
+			}	
+	}
+}
+
+function Mur (x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x,this.y,this.w,this.h)
+		ctx.drawImage(walls,this.x,this.y,this.w,this.h)
+	}
+}
+
+function drawCible(){
+	ctx.fillStyle=cible.color
+	ctx.fillRect(cible.x, cible.y, cible.w, cible.h)
+	ctx.drawImage(goal,cible.x, cible.y, cible.w, cible.h)
+
+	ctx.fillStyle=minus.color
+	ctx.fillRect(minus.x, minus.y, minus.w, minus.h)
+
+	ctx.fillStyle=big.color
+	ctx.fillRect(big.x, big.y, big.w, big.h)
+
+	ctx.beginPath()
+	ctx.fillStyle=speedboost.color
+	ctx.arc(speedboost.x,speedboost.y,speedboost.r,0,Math.PI*2,false)
+	ctx.fill()
+	ctx.drawImage(vitesse,speedboost.x-speedboost.r, speedboost.y-speedboost.r, speedboost.r*2, speedboost.r*2)
+
+		if (collision(joueur,cible)){
+			joueur.y=60
+			joueur.x=0
+			joueur.w++
+			joueur.h++
+			joueur.speed=9
+			joueur.w=30
+			joueur.h=30
+			joueur.vie=4
+			gameOver=true
+		}
+		if (collision(joueur,minus)){
+			joueur.w=10
+			joueur.h=10
+		}
+		if (collision(joueur,big)){
+			joueur.w=30
+			joueur.h=30
+		}
+		if (collision(joueur,speedboost)&&joueur.speed<11){
+			speed.play()
+			joueur.speed+=0.03
+		}
+}
+
+function chekCollison(){
+	if (collision(joueur,Sable1)||
+		collision(joueur,Sable2)||
+		collision(joueur,Sable3)||
+		collision(joueur,Sable4)||
+		collision(joueur,Sable5)||
+		collision(joueur,Sable6)){
+			sandwalk.play()
+			joueur.speed=2.5
+		}else{
+			sandwalk.pause()
+		}
+	if (collision(joueur,portail1)){
+			teleport.play()
+			joueur.y=speedboost.y
+			joueur.x=portail2.x-joueur.w
+		}
+	if (collision(joueur,portail3)){
+			teleport.play()
+			joueur.y=mur1.y*1.5+mur1.h/2
+			joueur.x=portail1.x+portail1.w+50
+		}
+	if (collision(joueur,obstacle1)||
+		collision(joueur,obstacle2)||
+		collision(joueur,obstacle3)||
+		collision(joueur,obstacle4)||
+		collision(joueur,obstacle5)||
+		collision(joueur,obstacle6)||
+		collision(joueur,cactus1)||
+		collision(joueur,cactus2)||
+		collision(joueur,cactus3)||
+		collision(joueur,cactus4)||
+		collision(joueur,cactus5)||
+		collision(joueur,cactus6)||
+		collision(joueur,piqueh1)||
+		collision(joueur,piqueh2)||
+		collision(joueur,piqueh3)||
+		collision(joueur,piqueh4)||
+		collision(joueur,piqueh5)||
+		collision(joueur,piqueh6)||
+		collision(joueur,piqueh7)||
+		collision(joueur,piqueh8)||
+		collision(joueur,piqueh9)||
+		collision(joueur,piqueh10)||
+		collision(joueur,piqueh12)||
+		collision(joueur,piqueb1)||
+		collision(joueur,piqueb2)||
+		collision(joueur,piqueb3)||
+		collision(joueur,piqueb4)||
+		collision(joueur,piqueb5)||
+		collision(joueur,piqueb6)||
+		collision(joueur,piqueb7)||
+		collision(joueur,piqueb8)||
+		collision(joueur,piqueb9)||
+		collision(joueur,piqueb10)||
+		collision(joueur,piqueb11)||
+		collision(joueur,piqueb12)||
+		collision(joueur,piqueb13)||
+		collision(joueur,piqueb14)||
+		collision(joueur,piqueb15)||
+		collision(joueur,fleche1)||
+		collision(joueur,fleche2)||
+		collision(joueur,fleche3)||
+		collision(joueur,fleche4)||
+		collision(joueur,fleche5)||
+		collision(joueur,fleche6)||
+		collision(joueur,arc1)||
+		collision(joueur,arc2)||
+		collision(joueur,arc3)){
+			degat.play()
+			joueur.x=0
+			joueur.y=60
+			joueur.speed=10
+			joueur.w=30
+			joueur.h=30
+			joueur.vie=joueur.vie-1
+			if (joueur.vie==0){
+				gameOver=true
+			}
+		}
+}
+
+function draw(){
+	Sable1.draw()
+	Sable2.draw()
+	Sable3.draw()
+	Sable4.draw()
+	Sable5.draw()
+	Sable6.draw()
+	obstacle1.draw()
+	obstacle2.draw()
+	obstacle3.draw()
+	obstacle4.draw()
+	obstacle5.draw()
+	obstacle6.draw()
+	mur1.draw()	
+	mur2.draw()
+	mur3.draw()
+	mur4.draw()
+	mur5.draw()
+	mur6.draw()
+	mur7.draw()
+	mur8.draw()
+	mur9.draw()
+	mur10.draw()
+	mur11.draw()
+	mur12.draw()
+	mur13.draw()
+	mur14.draw()
+	mur15.draw()
+	mur16.draw()
+	mur17.draw()
+	mur18.draw()
+	mur19.draw()
+	portail1.draw()
+	portail2.draw()
+	portail3.draw()
+	vie0.draw()
+	vie1.draw()
+	vie2.draw()
+	vie3.draw()
+	piqueh1.draw()
+	piqueh2.draw()
+	piqueh3.draw()
+	piqueh4.draw()
+	piqueh5.draw()
+	piqueh6.draw()
+	piqueh7.draw()
+	piqueh8.draw()
+	piqueh9.draw()
+	piqueh10.draw()
+	piqueh11.draw()
+	piqueh12.draw()
+	piqueb1.draw()
+	piqueb2.draw()
+	piqueb3.draw()
+	piqueb4.draw()
+	piqueb5.draw()
+	piqueb6.draw()
+	piqueb7.draw()
+	piqueb8.draw()
+	piqueb9.draw()
+	piqueb10.draw()
+	piqueb11.draw()
+	piqueb12.draw()
+	piqueb13.draw()
+	piqueb14.draw()
+	piqueb15.draw()
+	cactus1.draw()
+	cactus2.draw()
+	cactus3.draw()
+	cactus4.draw()
+	cactus5.draw()
+	cactus6.draw()
+	fleche1.draw()
+	fleche2.draw()
+	fleche3.draw()
+	fleche4.draw()
+	fleche5.draw()
+	fleche6.draw()
+	arc1.draw()
+	arc2.draw()
+	arc3.draw()
+}
+
+function fin(){
+	backgroundmusic.pause()
+	
+	if(joueur.vie>0){
+		victoire.play()
+
+		ctx.fillStyle="white"
+		ctx.font="50px Times "
+		ctx.textAlign="right"
+		ctx.fillText("VOUS AVEZ GAGNÉ!", canvas.width/2+250, canvas.height/2)
+
+		ctx.fillStyle="white"
+		ctx.font="25px Times "
+		ctx.textAlign="left"
+		ctx.fillText("cliquez pour recommencer", canvas.width/2-125, canvas.height/2+35)
+	}else{
+		defaite.play()
+
+		ctx.fillStyle="white"
+		ctx.font="50px Times "
+		ctx.textAlign="right"
+		ctx.fillText("VOUS ÊTES MORT!", canvas.width/2+235, canvas.height/2)
+
+		ctx.fillStyle="white"
+		ctx.font="25px Times "
+		ctx.textAlign="left"
+		ctx.fillText("cliquez pour recommencer", canvas.width/2-125, canvas.height/2+35)
+	}
+	
+	canvas.addEventListener("click",function(){
+		gameOver=false
+		joueur.vie=4 
+		victoire.pause()
+		defaite.pause()
+        })
+}
+
+function drawJoueur(){
+	ctx.fillStyle=joueur.color
+	ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+	ctx.drawImage(steve, joueur.x, joueur.y, joueur.w, joueur.h)
+}
+
+//gestion des collision
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y||
+	   a.x+a.w>b.x-b.r&&
+	   a.x<b.x+b.r&&
+	   a.y<b.y+b.r&&
+	   a.y+a.h>b.y-b.r){
+		
+		return(true)}
+}
+
+//événements clavier
+
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+    //console.log(keyDown)
+})
+
+document.addEventListener("keyup", function (e) {
+	delete keyDown[e.keyCode]
+	//console.log(keyDown)
+})
+
+function clavier() {
+			//console.log(e)
+	for (let i = 0; i < PRECISION; i++) {
+
+		const future = { x: joueur.x, y: joueur.y, w: joueur.w, h: joueur.h }
+		if (37 in keyDown && joueur.x > 0) {
+			future.x -= joueur.speed / PRECISION
+		}
+		if (39 in keyDown && joueur.x < canvas.width - joueur.w) {
+			future.x += joueur.speed / PRECISION
+		}
+		if (38 in keyDown && joueur.y > 0) {
+			future.y -= joueur.speed / PRECISION
+		}
+		if (40 in keyDown && joueur.y < canvas.height - joueur.h) {
+			future.y += joueur.speed / PRECISION
+		}
+		const collidingX1 = collision({ ...future, y: joueur.y }, mur1)
+		const collidingY1 = collision({ ...future, x: joueur.x }, mur1)
+
+		const collidingX2 = collision({ ...future, y: joueur.y }, mur2)
+		const collidingY2 = collision({ ...future, x: joueur.x }, mur2)
+
+		const collidingX3 = collision({ ...future, y: joueur.y }, mur3)
+		const collidingY3 = collision({ ...future, x: joueur.x }, mur3)
+
+		const collidingX4 = collision({ ...future, y: joueur.y }, mur4)
+		const collidingY4 = collision({ ...future, x: joueur.x }, mur4)
+
+		const collidingX5 = collision({ ...future, y: joueur.y }, mur5)
+		const collidingY5 = collision({ ...future, x: joueur.x }, mur5)
+
+		const collidingX6 = collision({ ...future, y: joueur.y }, mur6)
+		const collidingY6 = collision({ ...future, x: joueur.x }, mur6)
+
+		const collidingX7 = collision({ ...future, y: joueur.y }, mur7)
+		const collidingY7 = collision({ ...future, x: joueur.x }, mur7)
+
+		const collidingX8 = collision({ ...future, y: joueur.y }, mur8)
+		const collidingY8 = collision({ ...future, x: joueur.x }, mur8)
+
+		const collidingX9 = collision({ ...future, y: joueur.y }, mur9)
+		const collidingY9 = collision({ ...future, x: joueur.x }, mur9)
+
+		const collidingX10 = collision({ ...future, y: joueur.y }, mur10)
+		const collidingY10 = collision({ ...future, x: joueur.x }, mur10)
+
+		const collidingX11 = collision({ ...future, y: joueur.y }, mur11)
+		const collidingY11 = collision({ ...future, x: joueur.x }, mur11)
+
+		const collidingX12 = collision({ ...future, y: joueur.y }, mur12)
+		const collidingY12 = collision({ ...future, x: joueur.x }, mur12)
+
+		const collidingX13 = collision({ ...future, y: joueur.y }, mur13)
+		const collidingY13 = collision({ ...future, x: joueur.x }, mur13)
+
+		const collidingX14 = collision({ ...future, y: joueur.y }, mur14)
+		const collidingY14 = collision({ ...future, x: joueur.x }, mur14)
+
+		const collidingX15 = collision({ ...future, y: joueur.y }, mur15)
+		const collidingY15 = collision({ ...future, x: joueur.x }, mur15)
+
+		const collidingX16 = collision({ ...future, y: joueur.y }, mur16)
+		const collidingY16 = collision({ ...future, x: joueur.x }, mur16)
+
+		const collidingX17 = collision({ ...future, y: joueur.y }, mur17)
+		const collidingY17 = collision({ ...future, x: joueur.x }, mur17)
+
+		const collidingX18 = collision({ ...future, y: joueur.y }, mur18)
+		const collidingY18 = collision({ ...future, x: joueur.x }, mur18)
+
+		const collidingX19 = collision({ ...future, y: joueur.y }, mur19)
+		const collidingY19 = collision({ ...future, x: joueur.x }, mur19)
+
+		if (!collidingY1&&
+			!collidingY2&&
+			!collidingY3&&
+			!collidingY4&&
+			!collidingY5&&
+			!collidingY6&&
+			!collidingY7&&
+			!collidingY8&&
+			!collidingY9&&
+			!collidingY10&&
+			!collidingY11&&
+			!collidingY12&&
+			!collidingY13&&
+			!collidingY14&&
+			!collidingY15&&
+			!collidingY16&&
+			!collidingY17&&
+			!collidingY18&&
+			!collidingY19) {
+			joueur.y = future.y
+		}
+		if (!collidingX1&&
+			!collidingX2&&
+			!collidingX3&&
+			!collidingX4&&
+			!collidingX5&&
+			!collidingX6&&
+			!collidingX7&&
+			!collidingX8&&
+			!collidingX9&&
+			!collidingX10&&
+			!collidingX11&&
+			!collidingX12&&
+			!collidingX13&&
+			!collidingX14&&
+			!collidingX15&&
+			!collidingX16&&
+			!collidingX17&&
+			!collidingX18&&
+			!collidingX19) {
+			joueur.x = future.x
+		}
+
+	}
+}
+
+//boucle principale du jeu
+
+function game(){
+	if (acceuil==true){
+		AfficheMenu()
+	}else{
+			console.log(joueur.speed)
+			ctx.clearRect(0,0,canvas.width,canvas.height)
+				chekCollison()	
+			if (gameOver==false){
+				backgroundmusic.play()
+				drawCible()
+				clavier()
+				draw()
+				drawJoueur()	
+	
+			}else{
+				fin()
+			}
+		
+		}
+			requestAnimationFrame(game)
+}	
+	
+
+game()
+
+</script>
+</body>
+</html>
