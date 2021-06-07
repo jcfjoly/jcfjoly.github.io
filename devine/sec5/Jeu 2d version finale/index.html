@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Platformer</title>
+
+    <script src="sounds.js"></script>
+    <script src="player.js"></script>
+    <script src="obstacles.js"></script>
+    <script src=inputs.js></script>
+    <script src="levels.js"></script>
+    <script src="menus.js"></script>
+    <style>
+        #title{
+            color: aliceblue;
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%,0);
+            font-size: 90px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        #play{
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%,0);
+            background-color: azure;
+            top: 50%;
+            width: 40%;
+            height: 20%;
+
+            text-align: center;
+            color: rgb(22, 61, 56);
+            text-shadow: black;
+            font-size: 70px;
+            padding-top: 40px;
+            border: 10px grey groove;
+        }
+        #play:hover{
+            border: 12px cyan groove;
+        }
+    </style>
+</head>
+<body>
+    <canvas style="background-color: black; position:fixed; top:0px;left: 50%; transform: translate(-50%,0);"></canvas>
+    <h1 id="title">ONE SCREEN PLATFORMER</h1>
+    <div id="play" onclick="startGame()">PLAY</div>
+    <script src="index.js"></script>
+</body>
+</html>
