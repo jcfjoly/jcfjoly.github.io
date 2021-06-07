@@ -1,0 +1,617 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Cool 2D Game</title>
+<style>
+	body{
+		background-color: rgba(0, 255, 128, 0.356);
+	}
+
+	#instructionsPage{
+		position:absolute;
+		width: 99%;
+		height: 99%;
+		visibility: visible;
+	}
+
+	#victoryPage{
+		position:absolute;
+		width: 99%;
+		height: 99%;
+		visibility: hidden;
+	}
+
+	#gameOverPage{
+		position:absolute;
+		width: 99%;
+		height: 99%;
+		visibility: hidden;
+	}
+
+</style>	
+</head>
+
+<body>
+<img src="Images/instructionsPage.png" alt="Page d'instructions" id="instructionsPage">
+<img src="Images/victoryPage.png" alt="Victoire!" id="victoryPage">
+<img src="Images/gameOverPage.png" alt="Game Over!" id="gameOverPage">
+
+<script>
+//Code de création du Canvas en Javascript
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth-50;
+canvas.height = window.innerHeight-50;
+canvas.style.border = "10px white solid";
+canvas.style.backgroundColor = "black";
+canvas.style.display = "block";
+canvas.style.display = "auto";
+canvas.style.margin = "auto";
+document.body.appendChild(canvas);
+
+//Variables
+var keyDown={}
+var liveZ=5
+
+//Sons
+var bumpSFX=new Audio();
+	bumpSFX.src="Sons/bumpSFX.mp3";
+
+var nextLevel1=new Audio();
+	nextLevel1.src="Sons/nextLevel1.mp3";
+
+var nextLevel2=new Audio();
+	nextLevel2.src="Sons/nextLevel2.mp3";
+
+var nextLevel3=new Audio();
+	nextLevel3.src="Sons/nextLevel3.mp3";
+
+var gameoverSFX=new Audio();
+	gameoverSFX.src="Sons/gameOverSFX.mp3";
+
+var victoireSFX=new Audio();
+	victoireSFX.src="Sons/victoireSFX.mp3"
+
+//Main Bodies
+var playerBody={
+	x:50,
+	y:50,
+	w:30,
+	h:30,
+	color:"white",
+	speed:6
+	}
+
+var targetBody={
+	x:1000,
+	y:50,
+	w:30,
+	h:30,
+	color:"yellow"
+	}
+
+//Main Obstacles Bodies
+var obstacle1= new Obstacle(0,200,900,10,"red",0)
+var obstacle2= new Obstacle(300,0,10,140,"red",0)
+var obstacle3= new Obstacle(600,50,10,150,"red",0)
+var obstacle4= new Obstacle(900,0,10,210,"yellow",0)
+
+var obstacle5= new Obstacle(1600,0,10,600,"blue",0)
+var obstacle6= new Obstacle(1600,200,200,10,"blue",0)
+var obstacle7= new Obstacle(1680,400,200,10,"blue",0)
+var obstacle8= new Obstacle(1600,600,300,10,"yellow",0)
+var obstacle9= new Obstacle(1800,0,10,150,"blue",0)
+var obstacle10= new Obstacle(1800,200,10,150,"blue",0)
+
+var obstacle11= new Obstacle(0,600,1400,10,"green",0)
+var obstacle12= new Obstacle(1400,600,10,500,"green",0)
+var obstacle13= new Obstacle(1000,600,10,110,"green",0)
+var obstacle14= new Obstacle(1000,canvas.height-110,10,110,"green",0)
+var obstacle15= new Obstacle(700,600,10,160,"green",0)
+var obstacle16= new Obstacle(700,canvas.height-50,10,50,"green",0)
+var obstacle17= new Obstacle(450,600,10,60,"green",0)
+var obstacle18= new Obstacle(450,canvas.height-170,10,170,"green",0)
+var obstacle19= new Obstacle(300,600,10,120,"green",0)
+var obstacle20= new Obstacle(300,canvas.height-120,10,120,"green",0)
+
+//Last level Structures
+var LLSbackground1= new Obstacle(500,210,400,390,"blue",0)
+var LLSbackground2= new Obstacle(900,210,700,390,"blue",0)
+
+var LLSmobs1= new Obstacle(600,300,50,10,"blue",10)
+var LLSmobs2= new Obstacle(750,400,50,10,"blue",10)
+var LLSmobs3= new Obstacle(900,500,50,10,"blue",10)
+var LLSmobs4= new Obstacle(1050,550,50,10,"blue",10)
+var LLSmobs5= new Obstacle(1200,300,50,10,"blue",10)
+var LLSmobs6= new Obstacle(1350,400,50,10,"blue",10)
+
+var wallS1= new Obstacle(0,520,440,10,"purple",0)
+var wallS2= new Obstacle(60,440,440,10,"purple",0)
+var wallS3= new Obstacle(0,360,440,10,"purple",0)
+var wallS4= new Obstacle(60,280,440,10,"purple",0)
+var wallS5= new Obstacle(500,280,10,320,"purple",0)
+var wallS6= new Obstacle(0,210,1500,10,"purple",0)
+
+var wallS7= new Obstacle(500,590,1100,10,"purple",0)
+var wallS8= new Obstacle(1590,0,10,600,"purple",0)
+var wallS9= new Obstacle(1500,0,10,220,"purple",0)
+
+var mObs10= new Obstacle(400,455,50,10,"pink",9)
+var mObs11= new Obstacle(70,300,50,10,"pink",9)
+var mObs12= new Obstacle(250,285,50,10,"pink",9)
+
+//Powers
+var power1= new Obstacle(320,30,30,30,"pink",0)
+var power2= new Obstacle(1825,100,30,30,"pink",0)
+var power3= new Obstacle(650,630,30,30,"pink",0)
+
+//Last 2 portals
+var portal2end = new Obstacle(0,600,10,500,"yellow",0)
+var happyNewYear = new Obstacle(1500,0,100,10,"yellow",0)
+
+//Moving Obstacles Bodies
+var mObs1= new Obstacle(280,2,10,50,"blue",3)
+var mObs2= new Obstacle(580,0,10,50,"blue",5)
+
+var mObs3= new Obstacle(1750,0,50,10,"red",5)
+var mObs4= new Obstacle(1800,0,50,10,"red",5)
+var mObs5= new Obstacle(1630,250,50,10,"red",5)
+
+var mObs6= new Obstacle(940,610,50,10,"turquoise",5)
+var mObs7= new Obstacle(640,610,50,10,"turquoise",7)
+var mObs8= new Obstacle(390,610,50,10,"turquoise",9)
+var mObs9= new Obstacle(240,canvas.height-10,50,10,"turquoise",9)
+
+//User Interface
+var scoreBoard= new Obstacle(canvas.width-460,canvas.height-275,460,275,"grey",0)
+var boardStroke= new Obstacle(canvas.width-460,canvas.height-275,460,10,"white",0)
+var boardStroke2= new Obstacle(canvas.width-460,canvas.height-275,10,275,"white",0)
+
+//Functions
+function Obstacle(x,y,w,h,color,speed){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.speed=speed
+	this.draw=function(){
+		ctx.fillStyle=this.color
+		ctx.fillRect(this.x, this.y, this.w, this.h)
+		if(this.y<0||this.y+this.h>canvas.height){
+			this.speed=-this.speed
+		}
+		this.y+=this.speed
+	}
+}
+
+function draw(){
+	obstacle1.draw()
+	obstacle2.draw()
+	obstacle3.draw()
+	obstacle4.draw()
+
+	obstacle5.draw()
+	obstacle6.draw()
+	obstacle7.draw()
+	obstacle8.draw()
+	obstacle9.draw()
+	obstacle10.draw()
+
+	obstacle11.draw()
+	obstacle12.draw()
+	obstacle13.draw()
+	obstacle14.draw()
+	obstacle15.draw()
+	obstacle16.draw()
+	obstacle17.draw()
+	obstacle18.draw()
+	obstacle19.draw()
+	obstacle20.draw()
+
+	portal2end.draw()
+	happyNewYear.draw()
+
+	scoreBoard.draw()
+	boardStroke.draw()
+	boardStroke2.draw()
+
+	mObs1.draw()
+	mObs2.draw()
+
+	mObs3.draw()
+	mObs4.draw()
+	mObs5.draw()
+
+	mObs6.draw()
+	mObs7.draw()
+	mObs8.draw()
+	mObs9.draw()
+
+	LLSbackground1.draw()
+	LLSbackground2.draw()
+
+	wallS1.draw()
+	wallS2.draw()
+	wallS3.draw()
+	wallS4.draw()
+	wallS5.draw()
+	wallS6.draw()
+	wallS7.draw()
+	wallS8.draw()
+	wallS9.draw()
+
+	mObs10.draw()
+	mObs11.draw()
+	mObs12.draw()
+
+	LLSmobs1.draw()
+	LLSmobs2.draw()
+	LLSmobs3.draw()
+	LLSmobs4.draw()
+	LLSmobs5.draw()
+	LLSmobs6.draw()
+
+	power1.draw()
+	power2.draw()
+	power3.draw()
+	}
+
+function checkCollision(){
+	if(collision(playerBody,obstacle1)||
+	collision(playerBody,obstacle2)||
+	collision(playerBody,obstacle3)||
+	collision(playerBody,mObs1)||
+	collision(playerBody,mObs2)
+	){
+		playerBody.x=100
+		playerBody.y=50
+		bumpSFX.play()
+		liveZ -= 1;
+		}
+
+	if(collision(playerBody,obstacle5)||
+	collision(playerBody,obstacle6)||
+	collision(playerBody,obstacle7)||
+	collision(playerBody,mObs3)||
+	collision(playerBody,mObs4)||
+	collision(playerBody,mObs5)||
+	collision(playerBody,obstacle9)||
+	collision(playerBody,obstacle10)
+	){
+		playerBody.x=1700
+		playerBody.y=50
+		bumpSFX.play()
+		liveZ -= 1;
+	}
+
+	if(collision(mObs1,obstacle1)
+	){
+		mObs1.speed=-mObs1.speed
+		}
+
+	if(collision(mObs2,obstacle1)
+	){
+		mObs2.speed=-mObs2.speed
+		}
+
+	if(collision(mObs3,obstacle6)
+	){
+		mObs3.speed=-mObs3.speed
+	}
+
+	if(collision(mObs4,obstacle7)||
+	collision(mObs4,obstacle6)
+	){
+		mObs4.speed=-mObs4.speed
+	}
+
+	if (collision(mObs5,obstacle6)||
+	collision(mObs5,obstacle8)
+	){
+		mObs5.speed=-mObs5.speed
+	}
+
+	if (collision(mObs6,obstacle11)
+	){
+		mObs6.speed=-mObs6.speed
+	}
+
+	if (collision(mObs7,obstacle11)
+	){
+		mObs7.speed=-mObs7.speed
+	}
+
+	if (collision(mObs8,obstacle11)
+	){
+		mObs8.speed=-mObs8.speed
+	}
+
+	if (collision(mObs9,obstacle11)
+	){
+		mObs9.speed=-mObs9.speed
+	}
+
+	if(collision(mObs10,wallS3)||
+	collision(mObs10,obstacle11)
+	){
+		mObs10.speed=-mObs10.speed
+	}
+
+	if (collision(mObs11,wallS4)||
+	collision(mObs11,wallS1)
+	){
+		mObs11.speed=-mObs11.speed
+	}
+
+	if(collision(mObs12,obstacle1)||
+	collision(mObs12,wallS1)
+	){
+		mObs12.speed=-mObs12.speed
+	}
+
+	if(collision(playerBody,obstacle4)
+	){
+		playerBody.x=1700
+		nextLevel1.play()
+		liveZ += 1
+		}
+
+	if(collision(playerBody,obstacle11)||
+	collision(playerBody,obstacle12)||
+	collision(playerBody,obstacle13)||
+	collision(playerBody,obstacle14)||
+	collision(playerBody,obstacle15)||
+	collision(playerBody,obstacle16)||
+	collision(playerBody,obstacle17)||
+	collision(playerBody,obstacle18)||
+	collision(playerBody,mObs6)||
+	collision(playerBody,mObs7)||
+	collision(playerBody,mObs8)||
+	collision(playerBody,obstacle19)||
+	collision(playerBody,obstacle20)
+	){
+		playerBody.x=1300
+		playerBody.y=700
+		bumpSFX.play()
+		liveZ -= 1;
+	}
+
+	if(collision(playerBody,obstacle8)
+	){
+		playerBody.x=1300
+		playerBody.y=700
+		nextLevel2.play()
+		liveZ += 2;
+	}
+
+	if(collision(playerBody,wallS1)||
+	collision(playerBody,wallS2)||
+	collision(playerBody,wallS3)||
+	collision(playerBody,wallS4)||
+	collision(playerBody,wallS5)||
+	collision(playerBody,wallS6)||
+	collision(playerBody,mObs10)||
+	collision(playerBody,mObs11)||
+	collision(playerBody,mObs12)||
+	collision(playerBody,LLSmobs1)||
+	collision(playerBody,LLSmobs2)||
+	collision(playerBody,LLSmobs3)||
+	collision(playerBody,LLSmobs4)||
+	collision(playerBody,LLSmobs5)||
+	collision(playerBody,LLSmobs6)||
+	collision(playerBody,wallS7)||
+	collision(playerBody,wallS8)||
+	collision(playerBody,wallS9)
+	){
+		playerBody.x=10
+		playerBody.y=540
+		bumpSFX.play()
+		liveZ -= 1;
+	}
+	if(collision(playerBody,portal2end)
+	){
+		playerBody.x=10
+		playerBody.y=540
+		nextLevel3.play()
+		liveZ += 5;
+	}
+
+	if(collision(playerBody,LLSbackground1)
+	){
+		playerBody.speed=5
+		LLSbackground1.x=canvas.width
+	}
+
+	if (collision(playerBody,LLSbackground2)
+	){
+		playerBody.speed=15
+		LLSbackground1.x=500
+		LLSbackground2.x=canvas.width
+	}
+
+	if(collision(LLSmobs1,wallS6)
+	){
+		LLSmobs1.speed=-LLSmobs1.speed
+	}
+
+	if(collision(LLSmobs1,wallS7)
+	){
+		LLSmobs1.speed=-LLSmobs1.speed
+	}
+
+	if(collision(LLSmobs2,wallS6)
+	){
+		LLSmobs2.speed=-LLSmobs2.speed
+	}
+
+	if(collision(LLSmobs2,wallS7)
+	){
+		LLSmobs2.speed=-LLSmobs2.speed
+	}
+
+	if(collision(LLSmobs3,wallS6)
+	){
+		LLSmobs3.speed=-LLSmobs3.speed
+	}
+
+	if(collision(LLSmobs3,wallS7)
+	){
+		LLSmobs3.speed=-LLSmobs3.speed
+	}
+
+	if(collision(LLSmobs4,wallS6)
+	){
+		LLSmobs4.speed=-LLSmobs4.speed
+	}
+
+	if(collision(LLSmobs4,wallS7)
+	){
+		LLSmobs4.speed=-LLSmobs4.speed
+	}
+
+	if(collision(LLSmobs5,wallS6)
+	){
+		LLSmobs5.speed=-LLSmobs5.speed
+	}
+
+	if(collision(LLSmobs5,wallS7)
+	){
+		LLSmobs5.speed=-LLSmobs5.speed
+	}
+
+	if(collision(LLSmobs6,wallS6)
+	){
+		LLSmobs6.speed=-LLSmobs6.speed
+	}
+
+	if(collision(LLSmobs6,wallS7)
+	){
+		LLSmobs6.speed=-LLSmobs6.speed
+	}
+
+	if(collision(playerBody,power1)
+	){
+		mObs2.speed=mObs2.speed*0.5
+		power1.color="red"
+	}else{
+		power1.color="pink"
+	}
+
+	if(collision(playerBody,power2)
+	){
+		mObs4.speed=0
+		power2.color="red"
+	}else{
+		power2.color="pink"
+	}
+
+	if(collision(playerBody,power3)
+	){
+		power3.color="red"
+		portal2end.x=542
+	}else{
+		power3.color="pink"
+	}
+
+	if(collision(playerBody,happyNewYear)
+	){
+		playerBody.x=9999999999
+		victoryPage.style.visibility="visible"
+		victoireSFX.play()
+	}
+}
+
+function vieAffichage(){
+		ctx.fillStyle="black"
+		ctx.font="45px Fira"
+		ctx.textAlign="left"
+		ctx.fillText("Vies restantes : " + liveZ, 1500, 760)
+	}
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)}
+	}
+
+function drawPlayerBody(){
+	ctx.fillStyle=playerBody.color
+	ctx.fillRect(playerBody.x, playerBody.y, playerBody.w, playerBody.h)
+	}
+
+function drawTargetBody(){
+	ctx.fillStyle=targetBody.color
+	ctx.fillRect(targetBody.x, targetBody.y, targetBody.w, targetBody.h)
+
+		if(collision(playerBody,targetBody)){
+			targetBody=false
+		}else{
+			targetBody=true
+			}
+		}	
+
+function gameOver(){
+	if (liveZ<=0){
+		gameOverPage.style.visibility="visible"
+		gameoverSFX.play()
+	}
+}
+
+//Keyboard Controls
+	document.addEventListener("keydown", function(e){
+		keyDown[e.keyCode]=true
+		console.log(keyDown)
+	})
+
+	document.addEventListener("keyup", function(e){
+		delete keyDown[e.keyCode]
+		console.log(keyDown)
+	})
+
+function keyControls(){
+
+	if(37 in keyDown &&playerBody.x>0){
+		playerBody.x-=playerBody.speed
+		console.log(liveZ)
+		}
+	if(39 in keyDown &&playerBody.x<canvas.width-playerBody.w){
+		playerBody.x+=playerBody.speed
+		console.log(liveZ)
+		}
+	if(38 in keyDown &&playerBody.y>0){
+		playerBody.y-=playerBody.speed
+		console.log(liveZ)
+		}
+	if(40 in keyDown &&playerBody.y<canvas.height-playerBody.h){
+		playerBody.y+=playerBody.speed
+		console.log(liveZ)
+		}
+	if(13 in keyDown){
+		instructionsPage.style.visibility="hidden"
+		}
+	}
+
+
+function game(){
+	ctx.clearRect(0,0,canvas.width,canvas.height)
+	drawPlayerBody()
+	drawTargetBody()
+	checkCollision()
+	keyControls()
+	draw()
+	gameOver()
+	vieAffichage()
+	requestAnimationFrame(game)
+	}
+
+game()
+
+</script>
+
+</body>
+</html>

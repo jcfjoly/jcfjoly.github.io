@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+    <title>Invadeurs de l'Espace</title>
+    <style>
+        #monCanvas {
+        border:3px white solid;
+        background-color:black;
+        margin:auto;
+        display:none;
+        }
+
+        #playButtonEZ{
+            position:absolute;
+            width:200px;
+            height:60px;
+            margin-left: 40%;
+            display:block;
+        }
+
+        #playButtonMED{
+            position:absolute;
+            width:200px;
+            height:60px;
+            margin-left: 40%;
+            margin-top: 5%;
+            display:block;
+        }
+
+        #playButtonOOF{
+            position:absolute;
+            width:200px;
+            height:60px;
+            margin-left: 40%;
+            margin-top: 10%;
+            display:block;
+        }
+
+        #restart1{
+            position:absolute;
+            width:200px;
+            height:60px;
+            margin-left: 40%;
+            display:none;
+        }
+
+    </style>
+
+    <body>
+        <canvas id='monCanvas'></canvas>
+
+        <input type="button" id='playButtonEZ' value='Play EZ' onclick=spaceInvaders1()>
+        <input type="button" id='playButtonMED' value='Play MED' onclick=spaceInvaders2()>
+        <input type="button" id='playButtonOOF' value='Play HARD' onclick=spaceInvaders3()>
+
+        <input type="button" id='restart1' value='Restart' onclick=reloadPage()>
+    </body>
+
+    <script src="ezMode1.js"></script>
+    <script src="medMode2.js"></script>
+    <script src="oofMode3.js"></script>
+
+</html>
