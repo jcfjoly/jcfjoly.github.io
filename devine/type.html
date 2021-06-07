@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    body{
+        background-color:aquamarine;
+    }
+    #mots1{
+        position: absolute;
+        top: 0px; 
+        left: 250px;
+        width: 100px;
+        height: 20px;
+        background-color: yellow;
+        border: black 2px solid; 
+
+    }
+    #mots2{
+        position: absolute;
+        top: 0px; 
+        left: 500px;
+        width: 100px;
+        height: 20px;
+        background-color: yellow;
+        border: black 2px solid; 
+
+    }
+    #mots3{
+        position: absolute;
+        top: 0px; 
+        left: 750px;
+        width: 100px;
+        height: 20px;
+        background-color: yellow;
+        border: black 2px solid; 
+
+    }
+    #mots4{
+        position: absolute;
+        top: 0px; 
+        left: 1000px;
+        width: 100px;
+        height: 20px;
+        background-color: yellow;
+        border: black 2px solid; 
+
+    }
+    </style>
+</head>
+
+<body>
+
+<div id="mots1"></div>
+<div id="mots2"></div>
+<div id="mots3"></div>
+<div id="mots4"></div>
+<input type="text" id="verifier">
+<div id="motsJoueur"></div>
+<div id="fail"></div>
+
+
+<script>
+    var fall1=0
+    var fall2=0
+    var fall3=0
+    var fall4=0
+    var verifier=document.getElementById("verifier")
+    var fail=document.getElementById("fail")
+    var failnum=0
+    var count1=0
+    var count2=0
+    var count3=0
+    var count4=0
+    var liste1=["abricot", "mangue", "durian", "papaya", "citron"]
+    var liste2=["argent", "nickel", "platine", "titane", "aluminium"]
+    var liste3=["canada", "japon", "allemagne", "france", "angleterre"]
+    var liste4=["apple", "razer", "logitech", "acer", "hyperx"]
+    fail.innerHTML=failnum+ " failed"
+
+    function drag1(){
+        fall1=fall1+1
+        var list1=document.getElementById("mots1")
+        mots1.style.top=fall1+"px"
+        mots1.innerHTML=liste1[count1]
+        if(fall1==600){
+            fall1=1
+            count1=count1+1
+            failnum++
+            fail.innerHTML=failnum+ " failed"
+        }
+    }
+    setInterval (drag1,25)
+
+    function drag2(){
+        fall2=fall2+1
+        var list2=document.getElementById("mots2")
+        mots2.style.top=fall2+"px"
+        mots2.innerHTML=liste2[count2]
+        if(fall2==600){
+            fall2=1
+            count2=count2+1
+            failnum++
+            fail.innerHTML=failnum+ " failed"
+        }
+    }
+    setInterval (drag2,15)
+
+    function drag3(){
+        fall3=fall3+1
+        var list3=document.getElementById("mots3")
+        mots3.style.top=fall3+"px"
+        mots3.innerHTML=liste3[count3]
+        if(fall3==600){
+            fall3=1
+            count3=count3+1
+            failnum++
+            fail.innerHTML=failnum+ " failed"
+        }
+    }
+    setInterval (drag3,30)
+
+    function drag4(){
+        fall4=fall4+1
+        var list4=document.getElementById("mots4")
+        mots4.style.top=fall4+"px"
+        mots4.innerHTML=liste4[count4]
+        if(fall4==600){
+            fall4=1
+            count4=count4+1
+            failnum++
+            fail.innerHTML=failnum+ " failed"
+        }
+    }
+    setInterval (drag4,25)
+
+
+    addEventListener("keydown", verify)
+
+    function verify(e){
+
+
+
+        if(e.keyCode==13){
+        verifier=document.getElementById("verifier").value
+        document.getElementById("verifier").value=""
+        console.log(verifier)
+        
+        for(i=0;i<liste1.length;i++){
+            if(verifier==liste1[count1])
+                count1++
+                fall1=0
+
+            }
+        for(i=0;i<liste2.length;i++){
+            if(verifier==liste2[count2])
+                count2++
+                fall2=0
+            }
+        for(i=0;i<liste3.length;i++){
+            if(verifier==liste3[count3])
+                count3++
+                fall3=0
+            }
+        for(i=0;i<liste4.length;i++){
+            if(verifier==liste4[count4])
+                count4++
+                fall4=0
+            }
+        
+        }
+
+    }
+
+    
+
+
+</script>
+
+    
+</body>
+</html>
