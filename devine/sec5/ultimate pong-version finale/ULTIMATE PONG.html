@@ -1,0 +1,884 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ULTIMATE PONG</title>
+
+    <style>
+
+        #monCanvas{
+            border: 2px black solid;
+            background-image:linear-gradient(to right , rgb(241, 98, 98), rgb(124, 142, 245));
+            margin:auto;
+            display:none;
+            }
+
+        #titlescreen{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom ,  rgb(245, 115, 115), rgb(88, 156, 245));
+            margin:auto;
+            width:100%;
+	        height:100%;
+            display:block;
+            text-align: center;
+            text-size-adjust: 50;
+            color: firebrick;
+            font-size: 200px;
+            }
+
+        #advancesettings{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom ,  rgb(245, 115, 115), rgb(88, 156, 245));
+            margin:auto;
+            width:100%;
+	        height:100%;
+            display:none;
+            text-align: center;
+            font-size: 25px;
+            }
+
+        #ordi{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom ,  rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:50px;
+            display:inline-block;
+            }
+        
+        #ami{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom ,  rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:20px;
+            display:inline-block;
+            }
+
+        #facile{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:20px;
+            display: none;
+            }  
+
+        #diff{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:20px;
+            display:none;
+            }
+
+        #inf{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:20px;
+            display:none;
+            }
+
+        #re{
+            margin-left:50px;
+            display:none;
+            }
+
+        #modifier{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-top: 20px;
+            display:inline-block;
+            }
+
+        #modifier2{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-top: 20px;
+            display:inline-block;
+            }
+
+        #modifier3{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-top: 20px;
+            display:inline-block;
+            }
+
+        #modifier4{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-top: 20px;
+            display:none;
+            }
+
+        #commencer{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:20px;
+            margin-top: 50px;
+            display:inline-block;
+            }
+
+        #quickstart{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:20px;
+            display:none;
+            }
+
+        #extraoptions{
+            border: 2px black solid;
+            background-image:linear-gradient(to bottom , rgb(112, 206, 250), rgb(40, 132, 252));
+            margin-left:20px;
+            display:none;
+            }
+        </style>
+
+</head>
+<body>
+    <!--recharge la page pour pouvoir modifier les parametres-->
+    <input type="button" value= "Change settings" onClick='window.location.reload(false)' id="re">
+
+    <!--div du debut, premiers choix generals, choix du mode-->    
+    <div id="titlescreen">
+        ULTIMATE<br> 
+        PONG<br> 
+        <canvas id="ordi"></canvas>
+        <canvas id="ami"></canvas>
+        <canvas id="facile"></canvas>
+        <canvas id="diff"></canvas>
+        <canvas id="inf"></canvas>
+        <canvas id="quickstart"></canvas>
+        <canvas id="extraoptions"></canvas>
+    </div>
+
+    <!--choix de trucs poussés, pour le fun-->    
+    <div id="advancesettings">
+        ULTIMATE<br>
+        SETTINGS<br>
+        <!--accélération-->
+        <div id="modifier">
+             acceleration of the ball at each bounce:<br> 
+            <input type="radio" id="rd" >
+            <label for="rd">random (de x0.6 à x1.6)</label><br>   
+            x acceleration:<input type="range" id="accélération" min="1" max="2" value="1.065" step="0.005"
+            oninput="document.getElementById('ax').innerHTML = this.value" >
+            <label id="ax"></label><br>
+            (default=1.065)<br>
+            y acceleration:<input type="range" id="accélération2" min="1" max="2" value="1.04" step="0.005"
+            oninput="document.getElementById('ay').innerHTML = this.value" >
+            <label id="ay"></label><br>
+            (default=1.04)<br>
+            (if your acceleration is too slow, beating the AI will take longer)
+        </div><br>
+
+        <!--pad-->
+        <div id="modifier2">
+            Height of the pad:<br>
+            <input type="radio" id="pad10" name="grandeur"><label for="pad10">10px</label> <input type="radio" id="pad200" name="grandeur"><label for="pad200">200px</label><br>
+            <input type="radio" id="pad300" name="grandeur"><label for="pad300">300px</label> <input type="radio" id="pad400" name="grandeur"><label for="pad400">400px</label><br>
+            (default=100px)
+        </div><br>
+
+        <!--balle-->
+        <div id="modifier3">
+            Radius of the ball:<br>
+            <input type="radio" id="r10" name="Radius"><label for="r10">10px</label> <input type="radio" id="r50" name="Radius"><label for="r50">50px</label><br>
+            <input type="radio" id="r100" name="Radius"><label for="r100">100px</label> <input type="radio" id="r200" name="Radius"><label for="r200">200px</label><br>
+            (default=20px)<br>
+            (Be careful! At high speed, a bigger ball could break your pad and score anyway!)
+        </div><br>
+
+        <!--nb buts-->
+        <div id="modifier4">
+            Amount of goals to win:<br>
+            <input type="radio" id="1but" name="goals"><label for="1but">1 goal</label> <input type="radio" id="3but" name="goals"><label for="3but">3 goals</label><br>
+            <input type="radio" id="7but" name="goals"><label for="7but">7but</label> <input type="radio" id="10but" name="goals"><label for="10but">10 goals</label><br>
+            (default=5 goals)<br>
+        </div><br>
+
+        <!--boutton qui applique les modifications-->
+        <canvas id="commencer"></canvas>
+    </div>   
+    
+    <!--canvas du jeu-->
+    <canvas id="monCanvas"></canvas>
+
+<script>
+    /*tous les bruitages*/
+    var winsound=new Audio()
+    winsound.src="win.mp3"
+    var losesound=new Audio()
+    losesound.src="lose.mp3"
+    var goalsound=new Audio()
+    goalsound.src="goal.mp3"
+    var bondsound=new Audio()
+    bondsound.src="bond.mp3"
+    var padsound=new Audio()
+    padsound.src="bondpad.mp3"
+    var limitsound=new Audio()
+    limitsound.src="speedlimit.mp3"
+    var clicksound=new Audio()
+    clicksound.src="click.mp3"
+    var startsound=new Audio()
+    startsound.src="commencer.mp3"
+    var countdownsound=new Audio()
+    countdownsound.src="countdown.mp3"
+
+    /*définir les canvas*/
+    var canvas=document.getElementById("monCanvas")
+    var c=canvas.getContext("2d")
+
+    var canvas2=document.getElementById("ordi")
+    var c2=canvas2.getContext("2d")
+
+    var canvas3=document.getElementById("ami")
+    var c3=canvas3.getContext("2d")
+
+    var canvas4=document.getElementById("facile")
+    var c4=canvas4.getContext("2d")
+
+    var canvas5=document.getElementById("diff")
+    var c5=canvas5.getContext("2d")
+
+    var canvas6=document.getElementById("inf")
+    var c6=canvas6.getContext("2d")
+
+    var canvas7=document.getElementById("commencer")
+    var c7=canvas7.getContext("2d")
+
+    var canvas8=document.getElementById("quickstart")
+    var c8=canvas8.getContext("2d")
+
+    var canvas9=document.getElementById("extraoptions")
+    var c9=canvas9.getContext("2d")
+
+    canvas.width=window.innerWidth-50
+    canvas.height=window.innerHeight-50
+
+    canvas2.width=300
+    canvas2.height=100
+
+    canvas3.width=300
+    canvas3.height=100
+
+    canvas4.width=300
+    canvas4.height=100
+
+    canvas5.width=300
+    canvas5.height=100
+
+    canvas6.width=300
+    canvas6.height=100
+
+    canvas7.width=300
+    canvas7.height=100
+
+    canvas8.width=300
+    canvas8.height=100
+
+    canvas9.width=300
+    canvas9.height=100
+
+    /*info sur la balle*/
+    var balle={
+        x:canvas.width/2,
+        y:canvas.height/2,
+        r:20,
+        dx:5.5,
+        dy:4,
+    }
+
+    /*info sur les pads*/
+    var pad={
+       x:20,
+       y:100,
+       w:20,
+       h:100, 
+    }
+
+    var pad2={
+       x:canvas.width-40,
+       y:100,
+       w:20,
+       h:100, 
+       dy:200,
+       v:5,
+    }
+
+    /*les scores*/
+	var score=0
+	
+	var score2=0
+
+    /*seulement en infini*/
+    var hscore=0
+	
+    /*active la fin*/
+	var gameover=false
+	
+    /*enleve menu*/
+	var menu=true
+
+    /*contre un ordi impossible à battre*/
+    var impossible=false
+
+    /*joues contre un copain*/
+    var players=false
+
+    /*dit qui vient de marquer*/
+    var gagnant=false
+
+   /*set up pour le 3,2,1,go*/ 
+    var start=true
+	var start2=true
+    var start3=true
+    var start4=true
+
+    /*montre regle au debut*/
+    var rule=true
+
+    /*determine acceleration de la balle a chaque bond sur un pad*/
+    var accelerationx=1.065
+    var accelerationy=1.04
+
+    /*indique si la limite de vitesse est atteinte*/
+    var limit=false
+
+    /*indique le nb de buts à marquer pour gagner*/
+    var nbgoals=5
+
+    /*maintient la vitesse à la limite pour éviter des bugs*/
+    function speedlimit(){
+        if(balle.dx<-56){
+            balle.dx=-56
+            }
+        if(balle.dx>56){
+            balle.dx=56
+            }
+        if(balle.dx==56 || balle.dx==-56){
+            c.font="35px Arial"
+            c.textAlign="center"
+            c.fillStyle="orange"
+            c.fillText("speed limit reached!",canvas.width/2,30)
+            if(limit==false){
+                limitsound.play()
+                limit=true
+                }
+            }
+    }
+
+    /*determine quel nb de buts a été selectinné*/
+    function nbbut(){
+        if(document.getElementById('1but').checked){
+            nbgoals=1
+                }else if(document.getElementById('3but').checked){
+                nbgoals=3
+                    }else if(document.getElementById('7but').checked){
+                    nbgoals=7
+                        }else if(document.getElementById('10but').checked){
+                        nbgoals=10    
+        }
+  
+    }
+
+    /*determine quel rayon a été selectionné pour la balle*/
+    function rball(){
+        if(document.getElementById('r10').checked){
+            balle.r=10
+                }else if(document.getElementById('r50').checked){
+                balle.r=50
+                    }else if(document.getElementById('r100').checked){
+                    balle.r=100
+                        }else if(document.getElementById('r200').checked){
+                        balle.r=200    
+        }
+  
+    }
+
+    /*détermine quelle hauteur a été sélectinnée pour le pad et place le pad2 au bon endroit*/
+    function gpad(){
+        if(document.getElementById('pad10').checked){
+        pad.h=10
+            }else if(document.getElementById('pad200').checked){
+            pad.h=200
+                }else if(document.getElementById('pad300').checked){
+                pad.h=300
+                    }else if(document.getElementById('pad400').checked){
+                    pad.h=400    
+        }
+        if(players==true){
+            pad2.h=pad.h
+            pad2.y=canvas.height-(pad.h+100)
+        }
+    }
+
+    /*détermine une accélération aléatoire(de 0.6 à 1.6) à chaquon bond sur un pad si sélectionné*/
+    function aleatoire(){
+        if(document.getElementById('rd').checked){
+            accelerationx=(Math.random()*1)+0.6
+            accelerationy=(Math.random()*1)+0.6
+        }    
+    }
+
+    /*détermine l accélération en x choisi, si rien nest sélectionné= 1.04*/
+    function accx(){
+        accelerationx=document.getElementById('ax').innerHTML
+        if(accelerationx<1){
+            accelerationx=1.065
+        }
+    }
+    /*détermine l accélération en y choisi, si rien nest sélectionné= 1.04*/
+    function accy(){
+        accelerationy=document.getElementById('ay').innerHTML
+        if(accelerationy<1){
+            accelerationy=1.04
+        }
+    }
+
+    /*trace une ligne pointillée*/
+    function drawLine(){
+        c.beginPath()
+        c.setLineDash([30,20])
+        c.moveTo(canvas.width/2,0)
+        c.lineTo(canvas.width/2,canvas.height)
+        c.stroke()
+    }
+
+    /*dessine la balle et dit quand un point a été marqué et dit qui a marqué*/
+    function drawBalle(){
+        if(balle.dx>0){
+            c.fillStyle="red" 
+            }else{
+                c.fillStyle="blue" 
+            }
+		c.lineWidth="5"
+        c.beginPath()
+        c.setLineDash([0,0])
+        c.arc(balle.x,balle.y,balle.r,0,Math.PI*2,false)
+        c.fill()
+        c.stroke()
+
+        if(balle.y<balle.r || balle.y> canvas.height-balle.r){
+            bondsound.play()
+            balle.dy=-balle.dy
+        }
+		if(balle.x+balle.r>canvas.width){
+            gagnant=true
+            if(impossible==false){
+			    score++
+                gameover=true
+                goalsound.play()
+			    }else{
+                    balle.dy=-balle.dy 
+                }
+			}
+        if(balle.x<balle.r){
+            gameover=true
+            gagnant=false
+            if(impossible==false){
+			    score2++
+                goalsound.play()
+			    }else{
+                    losesound.play()
+                }
+			}
+
+        balle.x+=balle.dx
+        balle.y+=balle.dy
+    } 
+
+    /*trace le pad rouge*/
+    function drawPad(){
+        c.fillStyle="#8B0000"
+        c.fillRect(pad.x,pad.y,pad.w,pad.h)
+    }
+
+    /*trace le pad bleu, mouvements différent selon le mode*/
+    function drawPad2(){
+        c.fillStyle="#00008B"
+        c.fillRect(pad2.x,pad2.y,pad2.w,pad2.h)
+
+        if(balle.y>pad2.y+pad2.h/2 && impossible==false && players==false){
+			pad2.y=pad2.y+pad2.v
+			}
+        if(balle.y<pad2.y+pad2.h/2 && impossible==false && players==false){
+            pad2.y=pad2.y-pad2.v
+        }
+        if(impossible==true){
+            pad2.y=balle.y-pad2.h/2
+        }
+
+    }
+
+    /*fait rebondir la balle sur les pads, si impossible alors ajoute un point à chaque fois*/
+    function collision(){
+        if(balle.x-balle.r<=pad.x+pad.w && balle.y-balle.r<pad.y+pad.h && balle.y+balle.r>pad.y){
+            balle.dx=-balle.dx*accelerationx
+			balle.dy=balle.dy*accelerationy
+            padsound.play()
+            if(impossible==true){
+			    score++
+			    }	
+            }
+        if(balle.y+balle.r>pad2.y && balle.x+balle.r>=pad2.x && balle.y-balle.r<pad2.y+pad2.h){
+            balle.dx=-balle.dx*accelerationx
+			balle.dy=balle.dy*accelerationy
+            padsound.play()
+            }
+    }
+
+    /*affiche le pointage, en impossible affiche aussi le meilleur score, grossit les pointages quand un point est marqué*/
+	function pointage(){
+        if(gameover==false || impossible==true){
+            c.fillStyle="#8B0000"
+		    c.font="35px Arial"
+		    c.textAlign="left"
+            c.fillText("score : "+score, 50, 30)
+			    }else{
+                    c.fillStyle="#8B0000"
+		            c.font="70px Arial"
+		            c.textAlign="center"
+                    c.fillText("score : "+score, canvas.width/2-400, canvas.height/2+100)
+			    }
+        if(impossible==false){
+            if(gameover==false){
+            c.fillStyle="#00008B"
+			c.font="35px Arial"
+		    c.textAlign="right"
+		    c.fillText("score : "+score2, canvas.width-50, 30)
+                }else{
+                    c.fillStyle="#00008B"
+                    c.font="70px Arial"
+		            c.textAlign="center"
+                    c.fillText("score : "+score2, canvas.width/2+400, canvas.height/2+100)
+			    }
+			        }else{
+                        c.fillStyle="#8B0000"
+			            c.font="25px Arial"
+		                c.textAlign="left"
+		                c.fillText("high score : "+hscore, 50, 60)
+			    }
+		
+	}
+		
+    /*affiche message de but et de fin*/ 
+	function fin(){
+		c.font="75px Arial"
+		c.textAlign="center"
+		balle.y=canvas.height/2
+        balle.x=canvas.width/2
+        if(impossible==false && score==nbgoals){
+            winsound.play()
+            c.fillStyle="#8B0000"
+			c.fillText("RED TEAM WIN!!!",canvas.width/2,canvas.height/2)
+            c.font="25px Arial"
+            c.fillText("click to restart",canvas.width/2,canvas.height/2+100)
+			}
+        if(impossible==false && score2==nbgoals){
+            winsound.play()
+            c.fillStyle="#00008B"
+			c.fillText("BLUE TEAM WIN!!!",canvas.width/2,canvas.height/2)
+            c.font="25px Arial"
+            c.fillText("click to restart",canvas.width/2,canvas.height/2+100)
+            }
+        if(impossible==false && score<nbgoals && score2<nbgoals){
+            if(gagnant==false){
+                c.fillStyle="#00008B"
+			}else{
+                c.fillStyle="#8B0000"
+			}
+			c.fillText("GOAL!!!",canvas.width/2,canvas.height/2)
+            c.font="25px Arial"
+            c.fillText("click to continue",canvas.width/2,canvas.height/2+100)
+			}else if(impossible==true){
+                c.fillStyle="#8B0000"
+                c.fillText("GAME OVER",canvas.width/2,canvas.height/2)
+                c.font="25px Arial"
+                c.fillText("click to restart",canvas.width/2,canvas.height/2+100)
+			    }
+        /*modifit le high score*/
+        if(score>hscore){
+			hscore=score
+			}
+
+		/*recommence la partie, commence le countdown*/
+	    canvas.addEventListener("click",function(){
+			if(gameover==true){
+                gameover=false
+                start=false
+                countdownsound.play()
+			    }
+            })	
+		}
+
+    /*countdown*/
+    function delai(){
+        c.font="45px Arial"
+		c.textAlign="center"  
+        c.fillStyle="black"
+		c.fillText("3",canvas.width/2,canvas.height/2)
+        setTimeout(delai2,1000)
+	}
+
+    function delai2(){
+        start=true
+        start2=false
+        c.font="65px Arial"
+		c.textAlign="center"  
+        c.fillStyle="#8B0000"
+		c.fillText("2",canvas.width/2,canvas.height/2)
+        setTimeout(delai3,1000)
+	}    
+           
+    function delai3(){
+        start2=true
+        start3=false
+        c.font="75px Arial"
+		c.textAlign="center"  
+        c.fillStyle="#FFD700"
+		c.fillText("1",canvas.width/2,canvas.height/2)
+        setTimeout(delai4,1000)
+	}  
+
+    function delai4(){
+        start3=true
+        start4=false
+        c.font="85px Arial"
+		c.textAlign="center"  
+        c.fillStyle="#006400"
+		c.fillText("GO!",canvas.width/2,canvas.height/2)
+        setTimeout(delai5,1000)
+	}  
+
+    /*la partie continue ou elle recommence*/
+    function delai5(){
+        start4=true
+            if(players==true){
+			    pad.y=100
+                pad2.y=canvas.height-(pad.h+100)
+			}
+            if(impossible==true){
+			    score=0
+			}
+		    if(impossible==false && score==5 || impossible==false && score2==5){
+			    score=0
+                score2=0
+			}
+            
+            if(gagnant==false){
+			    balle.dy=4
+                balle.dx=5.5
+			    }else{
+                    balle.dy=-4
+                    balle.dx=-5.5
+			}
+	} 
+
+    /*affiche les reglements de la partie au début de celle ci*/
+    function regle(){
+        c.font="45px Arial"
+		c.textAlign="center"  
+        c.fillStyle="black"
+        if(impossible==false){
+			c.fillText("FIRST TO SCORE "+nbgoals+" TIME(S) WIN!!!",canvas.width/2,canvas.height/2)
+            if(players==false){
+                c.font="25px Arial"
+			    c.fillText("use your mouse to control the red pad",canvas.width/2,canvas.height/2+100)
+			}else{
+                c.font="25px Arial"
+                c.fillText("red/left use the keys w and s",canvas.width/2,canvas.height/2+100)
+                c.fillText("blue/right use the keys i and k",canvas.width/2,canvas.height/2+150)
+			}
+			}else{
+                c.fillText("DO THE MOST BOUNCES BEFORE DYING!!!",canvas.width/2,canvas.height/2)
+                c.font="25px Arial"
+			    c.fillText("use your mouse to control the red pad",canvas.width/2,canvas.height/2+100)
+			}
+		
+        setTimeout(ready,3000)
+    }
+
+    /*enleve les regles*/
+    function ready(){
+        rule=false
+    }
+
+    /*affiche le menu, les boutons, different trucs se passent selon le bouton pesé*/   		
+	function showMenu(){
+		c2.font="40px Arial"
+		c2.textAlign="center"
+		c2.fillText("Against AI",canvas2.width/2,canvas2.height/2)
+        canvas2.addEventListener("click",function(){
+            clicksound.play()
+            document.getElementById("ordi").style.display="none"
+            document.getElementById("ami").style.display="none"
+            document.getElementById("facile").style.display="inline-block"
+            document.getElementById("diff").style.display="inline-block"
+            document.getElementById("inf").style.display="inline-block"
+            document.getElementById("re").style.display="block"
+        })
+
+        c4.font="40px Arial"
+		c4.textAlign="center"
+		c4.fillText("Easy",canvas2.width/2,canvas2.height/2)
+        canvas4.addEventListener("click",function(){
+            clicksound.play()
+            document.getElementById("facile").style.display="none"
+            document.getElementById("diff").style.display="none"
+            document.getElementById("inf").style.display="none"
+            document.getElementById("quickstart").style.display="inline-block"
+            document.getElementById("extraoptions").style.display="inline-block"
+            document.getElementById("modifier4").style.display="inline-block"
+        })
+
+        c5.font="40px Arial"
+		c5.textAlign="center"
+		c5.fillText("Difficult",canvas2.width/2,canvas2.height/2)
+        canvas5.addEventListener("click",function(){
+            clicksound.play()
+            pad2.v=10
+            document.getElementById("facile").style.display="none"
+            document.getElementById("diff").style.display="none"
+            document.getElementById("inf").style.display="none"
+            document.getElementById("quickstart").style.display="inline-block"
+            document.getElementById("extraoptions").style.display="inline-block"
+            document.getElementById("modifier4").style.display="inline-block"
+        })
+
+        c6.font="40px Arial"
+		c6.textAlign="center"
+		c6.fillText("Infinite",canvas2.width/2,canvas2.height/2)
+        canvas6.addEventListener("click",function(){
+            clicksound.play()
+            impossible=true
+            document.getElementById("facile").style.display="none"
+            document.getElementById("diff").style.display="none"
+            document.getElementById("inf").style.display="none"
+            document.getElementById("quickstart").style.display="inline-block"
+            document.getElementById("extraoptions").style.display="inline-block"
+        })
+
+
+        c3.font="40px Arial"
+		c3.textAlign="center"
+		c3.fillText("Against a friend",canvas2.width/2,canvas2.height/2)
+        canvas3.addEventListener("click",function(){
+            clicksound.play()
+            players=true
+            document.getElementById("ordi").style.display="none"
+            document.getElementById("ami").style.display="none"
+            document.getElementById("re").style.display="block"
+            document.getElementById("quickstart").style.display="inline-block"
+            document.getElementById("extraoptions").style.display="inline-block"
+            document.getElementById("modifier4").style.display="inline-block"
+        })
+
+        c7.font="40px Arial"
+		c7.textAlign="center"
+		c7.fillText("Start",canvas2.width/2,canvas2.height/2)
+        canvas7.addEventListener("click",function(){
+            startsound.play()
+            accx()
+            accy()
+            gpad()
+            rball()
+            nbbut()
+            menu=false
+            document.getElementById("advancesettings").style.display="none"
+			document.getElementById("monCanvas").style.display="block"
+        })
+
+        c8.font="40px Arial"
+		c8.textAlign="center"
+		c8.fillText("Quick Start",canvas2.width/2,canvas2.height/2)
+        canvas8.addEventListener("click",function(){
+            startsound.play()
+            gpad()
+            menu=false
+            document.getElementById("titlescreen").style.display="none"
+			document.getElementById("monCanvas").style.display="block"
+        })
+
+        c9.font="40px Arial"
+		c9.textAlign="center"
+		c9.fillText("advance settings",canvas2.width/2,canvas2.height/2)
+        canvas9.addEventListener("click",function(){
+            clicksound.play()
+            document.getElementById("titlescreen").style.display="none"
+			document.getElementById("advancesettings").style.display="block"
+        })
+		
+    }	
+
+    /*pour jouer sur le clavier contre un amigo, les pads montent ou descentent selon les touches appuyées*/   	
+    window.addEventListener("keydown", clavier)
+
+    function clavier(){
+        if(event.key === "s" && players==true && pad.y<canvas.height-pad.h && balle.dx<0){
+			pad.y=pad.y+15
+            }
+        if(event.key === "w" && players==true && pad.y>0 && balle.dx<0){
+			pad.y=pad.y-15
+            }
+
+        if(event.key === "k" && players==true && pad2.y<canvas.height-pad2.h && balle.dx>0){
+			pad2.y=pad2.y+15
+            }
+        if(event.key === "i" && players==true && pad2.y>0 && balle.dx>0){
+			pad2.y=pad2.y-15
+            }
+    }
+   
+    /*pour jouer seul avec la sourie, le pad va ou la souri est*/
+    canvas.addEventListener("mousemove", souris)
+
+    function souris(e){
+        if(players==true){}
+        else if(e.offsetY<canvas.height-pad.h){
+            pad.y=e.offsetY
+                }else{
+                    pad.y=canvas.height-pad.h
+                }
+    }
+
+    /*appelle les fonctions en continu*/
+    function game(){
+	    if(menu==true){
+		  showMenu()
+		  }else{
+            document.getElementById("monCanvas").style.visibility="visible"          
+            c.clearRect(0,0,canvas.width,canvas.height)
+            collision()
+	        pointage()
+     
+	        if(gameover==false && start==true && start2==true && start3==true && start4==true && rule==false){
+                drawBalle()
+                drawPad()
+                drawPad2()
+                drawLine()
+                aleatoire()
+                speedlimit()
+	            }
+            if(rule==true){
+		        regle()
+	            }
+            if(start==false){
+		        delai()
+	            }
+            if(start2==false){
+		        delai2()
+	            }
+            if(start3==false){
+		        delai3()
+	            }
+            if(start4==false){
+		        delai4()
+	            }
+            if(gameover==true){
+		        fin()
+	            }
+	
+		}
+    requestAnimationFrame(game)
+    }
+
+    game()
+
+</script>
+</body>
+</html>
