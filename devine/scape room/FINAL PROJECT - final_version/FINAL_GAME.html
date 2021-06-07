@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Modèle de départ - Jeu d'Évasion</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Permanent+Marker"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+      #cadreTotal {
+        width: 1250px;
+        height: 700px;
+        position: relative;
+        margin: auto;
+      }
+      #level {
+        width: 95px;
+        height: 70px;
+        position: absolute;
+        top: 35px;
+        left: 0px;
+        border: 2px black solid;
+        border-radius: 10px;
+        background-color: yellow;
+        text-align: center;
+        font-size: 20px;
+        padding-top: 10px;
+        font-family: 'Permanent Marker', cursive;
+      }
+      #auteur {
+        width: 300px;
+        height: 16px;
+        position: absolute;
+        padding-bottom: 5px;
+        padding-left: 20px;
+        top: 2px;
+        left: 120px;
+        border: 2px black solid;
+        border-radius: 10px;
+        background-color: yellow;
+        font-family: 'Permanent Marker', cursive;
+        font-size: 14px;
+      }
+      #chest {
+        width: 250px;
+        height: 130px;
+        left: 750px;
+        top: 450px;
+        position: absolute;
+        background-image: url(chest.jpg);
+        display: flex;
+      }
+      #door {
+        width: 270px;
+        height: 200px;
+        left: 210px;
+        top: 255px;
+        position: absolute;
+        background-image: url(door.jpg);
+        background-size: cover;
+        background-position: center;
+        display: flex;
+      }
+      #cadreJeu {
+        width: 1000px;
+        height: 700px;
+        position: absolute;
+        top: 35px;
+        left: 120px;
+        border: 5px black solid;
+        border-radius: 10px;
+        background-image: url(home.jpg);
+        background-size: cover;
+        background-position: center;
+        font-size: x-large;
+        color: white;
+      }
+      #sword {
+        width: 270px;
+        height: 150px;
+        left: 700px;
+        top: 570px;
+        position: absolute;
+        display: none;
+        background-image: url(sword.jpg);
+        background-size: cover;
+        background-position: center;
+      }
+      #buttons {
+        display: none;
+        min-width: 1000px;
+        background-image: url(doorbackground.jpg);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-color: black;
+        border-width: 500px;
+      }
+      #guess_number_chest {
+        display: none;
+        width: 1000px;
+        height: 700px;
+        background-image: url(chest.jpg);
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        top: 35px;
+        left: 120px;
+        border: 5px black solid;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-width: 1000px;
+        font-size: x-large;
+        color: white;
+      }
+      #rock_paper_scissor_door {
+        text-align: left;
+        font-size: x-large;
+        color: white;
+        display: none;
+        width: 1000px;
+        height: 700px;
+        background-image: url(doorbackground.jpg);
+        background-size: cover;
+        background-position: center;
+        position: absolute;
+        top: 35px;
+        left: 120px;
+        border: 5px black solid;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-width: 1000px;
+      }
+      #game_over {
+        display: none;
+        background-color: white;
+        position: fixed;
+        height: 100vh;
+        width: 100vw;
+        align-items: center;
+        justify-content: center;
+      }
+      #duel_interface {
+        width: 1000px;
+        height: 700px;
+        position: absolute;
+        top: 35px;
+        left: 120px;
+        border: 5px black solid;
+        border-radius: 10px;
+        display: none;
+        background-image: url(combat.jpg);
+        background-size: cover;
+        align-items: center;
+        justify-content: center;
+      }
+      #playerchoice1 {
+        width: 180px;
+        height: 200px;
+        left: 40px;
+        top: 480px;
+        position: absolute;
+        display: flex;
+        background-image: url(stance1.jpg);
+        background-size: cover;
+        background-position: center;
+      }
+      #playerchoice2 {
+        width: 180px;
+        height: 200px;
+        left: 275px;
+        top: 480px;
+        position: absolute;
+        display: flex;
+        background-image: url(stance2.jpg);
+        background-size: cover;
+        background-position: center;
+      }
+      #playerchoice3 {
+        width: 180px;
+        height: 200px;
+        left: 450px;
+        top: 480px;
+        position: absolute;
+        display: flex;
+        background-image: url(stance3.jpg);
+        background-size: cover;
+        background-position: center;
+      }
+      #playerchoice4 {
+        width: 180px;
+        height: 200px;
+        left: 675px;
+        top: 480px;
+        position: absolute;
+        display: flex;
+        background-image: url(stance4.jpg);
+        background-size: cover;
+        background-position: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="level">
+      Niveau <br />
+      1 / 15
+    </div>
+
+    <div id="auteur" onClick="nextLevel()">
+      <b>Conception : You Ran Wang 405</b>
+    </div>
+
+    <div id="cadreJeu">
+      <div id="chest" onclick="swordpickup_challenge()"></div>
+      <div id="door" onclick="doorcheck()"></div>
+      <div id="sword"></div>
+    </div>
+
+    <div id="rock_paper_scissor_door">
+      <br />
+      <p id="feedback"></p>
+      <p id="buttons_door"></p>
+      <input type="button" value="assasinate" onclick="swordcheck()" /><br />
+      <input type="button" value="back" onclick="gobackdoor()" /><br />
+    </div>
+
+    <div id="guess_number_chest">
+      TRY THE LOCK (guess the number) <br />
+      <div id="healthbar"></div>
+      <p id="health left"></p>
+      <br />
+      <p id="message guess"></p>
+      <input type="text" id="Guess" /><br />
+      <input type="button" value="try lock" onclick="check()" /><br />
+      <input type="button" value="back" onclick="gobackchest()" /><br />
+    </div>
+
+    <div id="duel_interface">
+      <div id="playerchoice1" onclick="wrong_answer1()"></div>
+      <div id="playerchoice2" onclick="wrong_answer2()"></div>
+      <div id="playerchoice3" onclick="game_end()"></div>
+      <div id="playerchoice4" onclick="wrong_answer3()"></div>
+    </div>
+
+    <div id="game_over">
+      <h1>GAME OVER (you kinda suck lol)</h1>
+    </div>
+
+    <script>
+      var LOOT = new Audio();
+      LOOT.src = 'loot.wav';
+
+      var DOORSOUND = new Audio();
+      DOORSOUND.src = 'door.wav';
+
+      var KILL = new Audio();
+      KILL.src = 'kill.wav';
+
+      var DEATH = new Audio();
+      DEATH.src = 'death.wav';
+
+      var SWORD = false;
+
+      var SWORD_DISPLAY = document.getElementById('sword');
+
+      var DOOR = document.getElementById('door');
+
+      var CHEST = document.getElementById('chest');
+
+      var GUESS_NUMBER_CHEST = document.getElementById('guess_number_chest');
+
+      var SWORD_CHECK_INTERFACE = document.getElementById(
+        'rock_paper_scissor_door',
+      );
+
+      var BACKGROUND = document.getElementById('cadreJeu');
+
+      var BUTTONS_DOOR = document.getElementById('buttons_door');
+
+      var STANCE1 = document.getElementById('playerchoice1');
+
+      var STANCE2 = document.getElementById('playerchoice2');
+
+      var STANCE3 = document.getElementById('playerchoice3');
+
+      var STANCE4 = document.getElementById('playerchoice4');
+
+      var DUEL_INTERFACE = document.getElementById('duel_interface');
+
+      function game_end() {
+        STANCE1.style.display = 'none';
+        STANCE2.style.display = 'none';
+        STANCE3.style.display = 'none';
+        STANCE4.style.display = 'none';
+        DUEL_INTERFACE.style.backgroundImage = 'url(kill.jpg)';
+        KILL.play();
+        setTimeout(() => {
+          DOORSOUND.play();
+          DUEL_INTERFACE.style.backgroundImage = 'url(escape.jpg)';
+          console.log('bruh');
+        }, 5500);
+      }
+
+      function wrong_answer1() {
+        STANCE1.style.display = 'none';
+        console.log('bruh wtf');
+      }
+
+      function wrong_answer2() {
+        STANCE2.style.display = 'none';
+        console.log('bruh wtf');
+      }
+
+      function wrong_answer3() {
+        STANCE4.style.display = 'none';
+        console.log('bruh wtf');
+      }
+
+      function swordpickup_challenge() {
+        GUESS_NUMBER_CHEST.style.display = 'flex';
+
+        var limit = 100;
+
+        var answer = 0;
+
+        answer = Math.ceil(Math.random() * limit);
+        console.log(answer);
+        window.check = check;
+
+        document.addEventListener('keydown', function (e) {
+          if (e.keyCode == 13) {
+            check();
+            document.getElementById('Guess').value = '';
+          }
+        });
+
+        function check() {
+          var varguess = document.getElementById('Guess').value;
+
+          if (varguess == answer) {
+            const success = document.getElementById('succes');
+            const message_guess = document.getElementById('message guess');
+            message_guess.textContent =
+              'SUCCESS YOU GOT YOUR SWORDS, NOW GO ESCAPE';
+            setTimeout(() => {
+              gobackchest();
+              SWORD_DISPLAY.style.display = 'flex';
+              SWORD = true;
+              console.log(SWORD);
+              LOOT.play();
+            }, 2000);
+          } else if (varguess < answer) {
+            const message_guess = document.getElementById('message guess');
+            message_guess.textContent = 'too low';
+            document.getElementById('Guess').value = '';
+          } else if (varguess > answer) {
+            const message_guess = document.getElementById('message guess');
+            message_guess.textContent = 'too high';
+            document.getElementById('Guess').value = '';
+          }
+          console.log(varguess);
+        }
+      }
+
+      function swordcheck() {
+        if (SWORD == true) {
+          console.log('monke it works');
+          SWORD_CHECK_INTERFACE.style.display = 'none';
+          SWORD_DISPLAY.style.display = 'none';
+          BACKGROUND.style.backgroundImage = 'url(assasination.jpg)';
+          KILL.play();
+          setTimeout(() => {
+            BACKGROUND.style.backgroundImage = 'url(combat.jpg)';
+            console.log('this is weird');
+            DUEL_INTERFACE.style.display = 'flex';
+          }, 5400);
+        } else {
+          const feedback = document.getElementById('feedback');
+          feedback.textContent =
+            'You cannot assasinate someone without a weapon!! go back';
+        }
+      }
+
+      function doorcheck() {
+        DOORSOUND.play();
+        DOOR.style.display = 'none';
+        CHEST.style.display = 'none';
+        SWORD_CHECK_INTERFACE.style.display = 'flex';
+        BACKGROUND.style.backgroundImage = 'url(doorbackground.jpg)';
+        BUTTONS_DOOR.style.display = 'flex';
+      }
+
+      function gobackdoor() {
+        DOOR.style.display = 'flex';
+        CHEST.style.display = 'flex';
+        SWORD_CHECK_INTERFACE.style.display = 'none';
+        BACKGROUND.style.backgroundImage = 'url(home.jpg)';
+        BUTTONS_DOOR.style.display = 'none';
+      }
+
+      function gobackchest() {
+        GUESS_NUMBER_CHEST.style.display = 'none';
+        DOOR.style.display = 'flex';
+        CHEST.style.display = 'flex';
+        BACKGROUND.style.backgroundImage = 'url(home.jpg)';
+      }
+
+      function nextLevel() {
+        //cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+        window.location = 'test.html';
+      }
+    </script>
+  </body>
+</html>
