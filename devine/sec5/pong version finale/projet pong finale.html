@@ -1,0 +1,504 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Pong</title>
+    <style>
+        #monCanvas {
+            margin: auto;
+            background-image: linear-gradient(purple, red);
+            display: block;
+            border: 2px black solid;
+
+        }
+    </style>
+
+</head>
+
+<body>
+    <canvas id="monCanvas"></canvas>
+
+    <script>
+        var canvas = document.getElementById("monCanvas")
+        var c = canvas.getContext("2d")
+
+        canvas.width = 800
+        canvas.height = 800
+
+        ball = {
+            x: 350,
+            y: 350,
+            dx: -7,
+            dy: 4,
+            r: 14,
+            color: "",
+        }
+        //souris
+
+        pad1 = {
+            x: 2,
+            y: 370,
+            w: 20,
+            h: 100,
+        }
+        //flèches
+        pad2 = {
+            x: 778,
+            y: 370,
+            w: 20,
+            h: 100,
+        }
+
+        //ligne du milieu
+        pad3 = {
+            x: canvas.width / 2 - 1,
+            y: 0,
+            w: 1,
+            h: canvas.height,
+
+        }
+        //scores
+        var score1 = 0
+        var score2 = 0
+        //difficultés
+        easy = {
+            x: canvas.width / 2 - 80,
+            y: 400,
+            w: 150,
+            h: 50,
+        }
+        medium = {
+            x: canvas.width / 2 - 80,
+            y: 500,
+            w: 150,
+            h: 50,
+        }
+        hard = {
+            x: canvas.width / 2 - 80,
+            y: 600,
+            w: 150,
+            h: 50,
+        }
+        //variable pour retourner au menu
+        var back = {
+            x: canvas.width / 2 - 80,
+            y: 650,
+            w: 150,
+            h: 50,
+        }
+        //variable pour continuer à la même difficulté
+        var again = {
+            x: canvas.width / 2 - 80,
+            y: 740,
+            w: 150,
+            h: 50,
+        }
+        //variable de la vitesse
+        var speed = 0
+
+        //variables pour augmenter ou ralentir la vitesse
+        var fast = {
+            x: 50,
+            y: 100,
+            w: 50,
+            h: 50,
+        }
+        var slow = {
+            x: 150,
+            y: 100,
+            w: 50,
+            h: 50,
+        }
+
+        //couleurs
+        var couleur = ""
+        var green = {
+            x: 350,
+            y: 100,
+            w: 100,
+            h: 50,
+        }
+        var pink = {
+            x: 500,
+            y: 100,
+            w: 100,
+            h: 50,
+        }
+        var blue = {
+            x: 650,
+            y: 100,
+            w: 100,
+            h: 50,
+        }
+
+
+        //variable pour montrer la page de menu
+        var menu = true
+        //variable pour montrer la page de fin
+        var gameOver = false
+
+        //sons
+        var button = new Audio()
+        button.src = "bouton.wav"
+        var mouseWin = new Audio()
+        mouseWin.src = "mouseWin.wav"
+        var keyboardWin = new Audio()
+        keyboardWin.src = "keyboardWin.wav"
+        var bumpPad = new Audio()
+        bumpPad.src = "bumpPad.mp3"
+        var bumpSide = new Audio()
+        bumpSide.src = "bump.wav"
+
+        //ball
+        function drawBall() {
+            c.beginPath()
+            c.fillStyle = ball.color
+
+            c.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2, false)
+            c.fill()
+
+            if (ball.x > canvas.width - ball.r) {
+                bumpSide.play()
+                ball.dx = -ball.dx
+                score1++
+
+            }
+            else if (ball.x < ball.r) {
+                bumpSide.play()
+                ball.dx = -ball.dx
+                score2++
+
+            }
+
+            if (ball.y > canvas.height - ball.r || ball.y < ball.r) {
+                bumpSide.play()
+                ball.dy = -ball.dy
+
+            }
+            ball.x += ball.dx
+            ball.y += ball.dy
+        }
+
+        //pad de la souris
+        function drawPad1() {
+            c.fillstyle = ball.color
+            c.fillRect(pad1.x, pad1.y, pad1.w, pad1.h)
+        }
+
+        //pad des flèches
+        function drawPad2() {
+            c.beginPath()
+            c.fillstyle = ball.color
+            c.fillRect(pad2.x, pad2.y, pad2.w, pad2.h)
+            c.fill()
+        }
+
+        //ligne du milieu
+        function drawPad3() {
+            c.beginPath()
+            c.fillStyle = "black"
+            c.fillRect(pad3.x, pad3.y, pad3.w, pad3.h)
+            c.fill()
+        }
+
+        //mouvement du pad1
+        canvas.addEventListener("mousemove", souris)
+        function souris(e) {
+            if (e.offsetY < canvas.height - pad1.h) {
+                pad1.y = e.offsetY
+            }
+        }
+
+        //mouvement du pad2
+        document.addEventListener("keydown", arrowkeys)
+        function arrowkeys(e) {
+            if (e.keyCode == '40') {
+                pad2.y += 20
+            }
+            if (e.keyCode == '38') {
+                pad2.y -= 20
+            }
+            if (pad2.y < 0) {
+                pad2.y = 0
+            }
+            if (pad2.y + pad2.h > 800) {
+                pad2.y = 800 - pad2.h
+            }
+        }
+
+        //collision avec les pads
+        function collision() {
+            if (ball.x - ball.r <= pad1.w && ball.y + ball.r > pad1.y && ball.y - ball.r < pad1.y + pad1.h) {
+                ball.dx = -ball.dx
+                console.log(1)
+                bumpPad.play()
+            }
+            if (ball.x - ball.r >= pad2.x - pad2.w && ball.y + ball.r > pad2.y && ball.y - ball.r < pad2.y + pad2.h) {
+                ball.dx = -ball.dx
+                console.log(2)
+                bumpPad.play()
+            }
+        }
+
+        //scores
+        function pointage() {
+            c.font = "25px Arial"
+            c.textAlign = "left"
+            c.fillStyle = "ff66ff"
+            c.fillText("Score : " + score1, 30, 30)
+            c.font = "25px Arial"
+            c.textAlign = "right"
+            c.fillStyle = "ff66ff"
+            c.fillText("Score : " + score2, 750, 30)
+
+            if (score1 == 10) {
+                c.fillText("Game Over player 2, 2 bad 4 you!", canvas.width / 2 + 180, canvas.height / 2)
+                mouseWin.play()
+                gameOver = true
+                ball.y = 50
+
+
+            }
+
+            if (score2 == 10) {
+                c.fillText("Game Over player 1!", canvas.width / 2 + 110, canvas.height / 2 + 20)
+                c.fillText("How did you not win on mouse?!", canvas.width / 2 + 180, canvas.height / 2 + 70)
+                keyboardWin.play()
+                gameOver = true
+                ball.y = 50
+
+
+            }
+        }
+
+        //page de menu
+        function start() {
+
+            c.lineWidth = 8
+            c.strokeRect(canvas.width / 2 - 250, canvas.height / 2 - 130, 500, 440)
+            c.fillStyle = "lightgreen"
+            c.fillRect(canvas.width / 2 - 250, canvas.height / 2 - 130, 500, 440)
+            c.font = "50px Arial"
+            c.fillStyle = "black"
+            c.fillText("Start!", canvas.width / 2 - 5, canvas.height / 2 - 50)
+            c.textAlign = "center"
+
+            //difficultés
+            c.lineWidth = 8
+            c.strokeRect(hard.x, hard.y, hard.w, hard.h)
+            c.fillStyle = "lightblue"
+            c.fillRect(hard.x, hard.y, hard.w, hard.h)
+            c.font = "25px Arial"
+            c.fillStyle = "black"
+            c.fillText("PRO O_O", canvas.width / 2 - 5, 635)
+            c.textAlign = "center"
+
+            c.lineWidth = 8
+            c.strokeRect(easy.x, easy.y, easy.w, easy.h)
+            c.fillStyle = "lightblue"
+            c.fillRect(easy.x, easy.y, easy.w, easy.h)
+            c.font = "25px Arial"
+            c.fillStyle = "black"
+            c.fillText("NOOB :(", canvas.width / 2, 435)
+            c.textAlign = "center"
+
+            c.lineWidth = 8
+            c.strokeRect(medium.x, medium.y, medium.w, medium.h)
+            c.fillStyle = "lightblue"
+            c.fillRect(medium.x, medium.y, medium.w, medium.h)
+            c.font = "25px Arial"
+            c.fillStyle = "black"
+            c.fillText("AMATEUR :)", canvas.width / 2 - 5, 535)
+            c.textAlign = "center"
+
+            //vitesses
+            c.lineWidth = 8
+            c.strokeRect(fast.x, fast.y, fast.w, fast.h)
+            c.fillStyle = "lightblue"
+            c.fillRect(fast.x, fast.y, fast.w, fast.h)
+            c.font = "45px Arial"
+            c.fillStyle = "black"
+            c.fillText("+", 75, 140)
+            c.textAlign = "center"
+
+            c.lineWidth = 8
+            c.strokeRect(slow.x, slow.y, slow.w, slow.h)
+            c.fillStyle = "lightblue"
+            c.fillRect(slow.x, slow.y, slow.w, slow.h)
+            c.font = "45px Arial"
+            c.fillStyle = "black"
+            c.fillText("-", 175, 137)
+            c.textAlign = "center"
+
+            //couleurs
+            c.lineWidth = 8
+            c.strokeRect(blue.x, blue.y, blue.w, blue.h)
+            c.fillStyle = "#66ffff"
+            c.fillRect(blue.x, blue.y, blue.w, blue.h)
+
+            c.lineWidth = 8
+            c.strokeRect(pink.x, pink.y, pink.w, pink.h)
+            c.fillStyle = "#ffb3ff"
+            c.fillRect(pink.x, pink.y, pink.w, pink.h)
+
+            c.lineWidth = 8
+            c.strokeRect(green.x, green.y, green.w, green.h)
+            c.fillStyle = "#66ffcc"
+            c.fillRect(green.x, green.y, green.w, green.h)
+
+        }
+
+        //vitesse de la balle
+        function vitesse() {
+            c.clearRect(0, 0, 400, 90)
+            c.font = "25px Arial"
+            c.fillStyle = "black"
+            c.fillText("Speed: " + speed, 125, 63)
+            c.textAlign = "center"
+
+        }
+
+        //couleur des pads et de la balle
+        function color() {
+            c.clearRect(425, 0, 400, 90)
+            c.font = "25px Arial"
+            c.fillStyle = "black"
+            c.fillText("Color: " + couleur, 550, 63)
+            c.textAlign = "center"
+        }
+
+        //boutons de difficultés, pour le retour au menu,pour continuer à la même difficulté, pour changer de couleurs et pour augmenter la vitesse
+        canvas.addEventListener("click", press)
+        function press(e) {
+            button.play()
+            //difficulté
+            if (e.offsetX > easy.x && e.offsetX < easy.x + easy.w && e.offsetY > easy.y && e.offsetY < easy.y + easy.h) {
+                menu = false
+                gameOver = false
+                pad1.h = 400
+                pad2.h = 400
+            }
+
+            if (e.offsetX > medium.x && e.offsetX < medium.x + medium.w && e.offsetY > medium.y && e.offsetY < medium.y + medium.h) {
+                menu = false
+                gameOver = false
+                pad1.h = 100
+                pad2.h = 100
+            }
+
+            if (e.offsetX > hard.x && e.offsetX < hard.x + hard.w && e.offsetY > hard.y && e.offsetY < hard.y + hard.h) {
+                menu = false
+                gameOver = false
+                pad1.h = 50
+                pad2.h = 50
+            }
+
+            //retour au menu
+            if (e.offsetX > back.x && e.offsetX < back.x + back.w && e.offsetY > back.y && e.offsetY < back.y + back.h) {
+                score1 = 0
+                score2 = 0
+                menu = true
+            }
+
+            //les scores repartent à 0
+            if (e.offsetX > again.x && e.offsetX < again.x + again.w && e.offsetY > again.y && e.offsetY < again.y + again.h) {
+                score1 = 0
+                score2 = 0
+                gameOver = false
+                menu = false
+            }
+
+            //vitesse
+            if (e.offsetX > fast.x && e.offsetX < fast.x + fast.w && e.offsetY > fast.y && e.offsetY < fast.y + fast.h) {
+                speed++
+                ball.dx = speed
+            }
+
+            if (e.offsetX > slow.x && e.offsetX < slow.x + slow.w && e.offsetY > slow.y && e.offsetY < slow.y + slow.h) {
+                speed--
+                ball.dx = speed
+            }
+
+            //couleur de la balle et des pads
+            if (e.offsetX > green.x && e.offsetX < green.x + green.w && e.offsetY > green.y && e.offsetY < green.y + green.h) {
+                couleur = "green"
+                ball.color = "66ffcc"
+            }
+
+            if (e.offsetX > pink.x && e.offsetX < pink.x + pink.w && e.offsetY > pink.y && e.offsetY < pink.y + pink.h) {
+                couleur = "pink"
+                ball.color = "ffb3ff"
+            }
+
+            if (e.offsetX > blue.x && e.offsetX < blue.x + blue.w && e.offsetY > blue.y && e.offsetY < blue.y + blue.h) {
+                couleur = "blue"
+                ball.color = "66ffff"
+            }
+        }
+
+        //page de fin de match
+        function end() {
+            c.linewidth = 8
+            c.strokeRect(canvas.width / 2 - 250, canvas.height / 2 - 130, 500, 300)
+            c.fillStyle = "#800060"
+            c.fillRect(canvas.width / 2 - 250, canvas.height / 2 - 130, 500, 300)
+            c.font = "45px Arial"
+            c.fillStyle = "black"
+            c.textAlign = "center"
+
+            c.lineWidth = 8
+            c.strokeRect(back.x, back.y, back.w, back.h)
+            c.fillStyle = "lightblue"
+            c.fillRect(back.x, back.y, back.w, back.h)
+            c.font = "25px Arial"
+            c.fillStyle = "black"
+            c.fillText("Menu?", canvas.width / 2 - 5, 680)
+            c.textAlign = "center"
+
+            c.lineWidth = 8
+            c.strokeRect(again.x, again.y, again.w, again.h)
+            c.fillStyle = "lightblue"
+            c.fillRect(again.x, again.y, again.w, again.h)
+            c.font = "25px Arial"
+            c.fillStyle = "black"
+            c.fillText("Again?", canvas.width / 2 - 5, 770)
+            c.textAlign = "center"
+
+            ball.x = 300
+
+        }
+
+        //jeu
+        function game() {
+
+            if (menu == true) {
+                start()
+                vitesse()
+                color()
+            }
+            else {
+                c.clearRect(0, 0, canvas.width, canvas.height)
+
+                if (gameOver == false) {
+                    drawBall()
+                    drawPad1()
+                    drawPad2()
+                    drawPad3()
+
+                }
+                else {
+                    end()
+                }
+                collision()
+                pointage()
+
+            }
+            requestAnimationFrame(game)
+        }
+        game()
+    </script>
+
+</body>
+
+</html>
