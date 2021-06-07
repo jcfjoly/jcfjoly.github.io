@@ -1,0 +1,671 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Shooting Minecraft</title>
+<style>
+canvas{
+	border:2px black solid;
+	background-color:black;
+	margin:auto;
+	display:block;
+}
+#rejouer{
+	display:none;
+	position:absolute;
+	top:550px;
+	left:47%;
+	}
+#LeBody{
+	background-image:url(images/background.jpg);
+	background-size:cover;
+	}
+</style>
+</head>
+
+<body ID="LeBody">
+<div id=rejouer>
+	<input type="button" value="Rejouer!" onClick="rejouer()"></div>
+
+<canvas id="monCanvas"></canvas>
+<script>
+var timer=0
+var acceuil=true 
+var gameOver=false
+
+var victoire=new Audio()
+victoire.src="sons/win.mp3"
+
+var froid=new Audio()
+froid.src="sons/coldd.mp3"
+
+var chaleur=new Audio()
+chaleur.src="sons/chaudd.mp3"
+
+var hitslime=new Audio()
+hitslime.src="sons/arrowhit.mp3"
+
+var degat=new Audio()
+degat.src="sons/damage.mp3"
+
+var pluscoeur=new Audio()
+pluscoeur.src="sons/xp.mp3"
+
+var beggining=new Audio()
+beggining.src="sons/oppening.mp3"
+
+var cibless= new Image()
+cibless.src="images/slime.png"
+
+var fire= new Image()
+fire.src="images/textureobstacles.jpg"
+
+var steve= new Image()
+steve.src="images/player.jpg"
+
+var soins= new Image()
+soins.src="images/hill.png"
+
+var tir= new Image()
+tir.src="images/fleches.PNG"
+
+var hit= new Image()
+hit.src="images/coeurdegat.png"
+
+var kill= new Image()
+kill.src="images/poison.png"
+
+var glace= new Image()
+glace.src="images/iceblock.jpg"
+
+var life= new Image()
+life.src="images/coeursminecraft.png"
+
+var bloCK=[]
+
+var speedBlock=1500
+
+var score=0
+
+var joueur={
+	x:30,
+	y:500,
+	w:30,
+	h:30,
+	speed:5,
+	color:"black",
+	vie:3,
+}
+
+var cible={
+	x:500,
+	y:200,
+	w:100,
+	h:100,
+	color:"blue",
+	vie:20
+}
+var canvas=document.getElementById("monCanvas")
+var c=canvas.getContext("2d")
+canvas.width=400
+canvas.height=600
+
+var sacMissiles=[]
+
+var sacPoison=[]
+
+var sacFreeze=[]
+
+var sacFeu=[]
+
+var sacGuerir=[]
+var vie3=new Vie (canvas.width-45,0,45,45,life)
+var vie2=new Vie (vie3.x-45,0,45,45,life)
+var vie1=new Vie (vie2.x-45,0,45,45,life)
+
+function AfficheMenu(){
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="45px Times "
+	c.textAlign="center"
+	c.fillText("Obtenez le meilleur", canvas.width/2, canvas.height/2)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="45px Times "
+	c.textAlign="center"
+	c.fillText("score!", canvas.width/2, canvas.height/2+50)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="15px Times "
+	c.textAlign="center"
+	c.fillText("(en 30 secondes)", canvas.width/2, canvas.height/2+80)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="left"
+	c.fillText("Les potions sont permises,", canvas.width/2-195, canvas.height/2-275)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="left"
+	c.fillText("mais ne soyez pas gourmand", canvas.width/2-195, canvas.height/2-250)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="right"
+	c.fillText("Peut-on arrêter/accélérer le temps?", canvas.width, canvas.height/2-200)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="left"
+	c.fillText("Comment jouer?🐭", 0, canvas.height/2-100)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="left"
+	c.fillText("Bonne question 😉", 0, canvas.height/2-75)
+
+
+	canvas.addEventListener("click",function(){
+		beggining.pause
+        acceuil=false})
+		
+}
+
+function draw2(){
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="left"
+	c.fillText("Score:"+score, 0, 50)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="left"
+	c.fillText("Temps:"+timer, 0, 25)
+
+	c.fillStyle="black"
+	c.fillRect(joueur.x,joueur.y,joueur.w, joueur.h )
+	c.drawImage(steve, joueur.x, joueur.y, joueur.w, joueur.h)
+
+	for(i=0;i<sacMissiles.length;i++){
+		sacMissiles[i].draw()
+	}
+}
+
+function Block(x,y,w,h,color,speed,vie){
+	this.x=x,
+	this.y=y,
+	this.w=w,
+	this.h=h,
+	this.color=color,
+	this.speed=speed,
+	this.vie=vie,
+	this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x, this.y+=this.speed, this.w, this.h)
+		c.drawImage(cibless,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Gele(x,y,w,h,color,speed,vie){
+	this.x=x,
+	this.y=y,
+	this.w=w,
+	this.h=h,
+	this.color=color,
+	this.speed=speed,
+	this.vie=vie,
+	this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x, this.y+=this.speed, this.w, this.h)
+		c.drawImage(glace,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Feu(x,y,w,h,color,speed,vie){
+	this.x=x,
+	this.y=y,
+	this.w=w,
+	this.h=h,
+	this.color=color,
+	this.speed=speed,
+	this.vie=vie,
+	this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x, this.y+=this.speed, this.w, this.h)
+		c.drawImage(fire,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Die(x,y,w,h,color,speed,vie){
+	this.x=x,
+	this.y=y,
+	this.w=w,
+	this.h=h,
+	this.color=color,
+	this.speed=speed,
+	this.vie=vie,
+	this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x,this.y+=this.speed,this.w,this.h)
+		c.drawImage(kill,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Guerir(x,y,w,h,color,speed,vie){
+	this.x=x,
+	this.y=y,
+	this.w=w,
+	this.h=h,
+	this.color=color,
+	this.speed=speed,
+	this.vie=vie,
+	this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x,this.y+=this.speed,this.w,this.h)
+		c.drawImage(soins,this.x,this.y,this.w,this.h)
+	}
+}
+
+function addBlock(){
+	var posX=Math.random()*370
+	bloCK.push(new Block(posX,0,30,30,cibless,Math.random()*4+1,20))
+	//console.log(bloCK)
+	if (timer>10){
+		speedBlock=1000
+	}else{
+	if (timer>20){
+		speedBlock=500
+	}}
+}
+
+var intervalBlock=setInterval(addBlock,speedBlock)
+
+function addGuerir(){
+	var posX=Math.random()*370
+	sacGuerir.push(new Guerir(posX,0,30,30,soins,4,20))
+}
+
+var intervalGuerir=setInterval(addGuerir,15000)
+
+function addPoison(){
+	var posX=Math.random()*370
+	sacPoison.push(new Die(posX,0,30,30,kill,2,20))
+	//console.log("blue")
+}
+var intervalPoison=setInterval(addPoison,5000)
+
+function addFreeze(){
+	var posX=Math.random()*370
+	sacFreeze.push(new Gele(posX,0,30,30,glace,7,20))
+}
+
+var intervalFreeze=setInterval(addFreeze,7000)
+
+function addFire(){
+	var posX=Math.random()*370
+	sacFeu.push(new Feu(posX,0,30,30,fire,7,20))
+}
+
+var intervalFire=setInterval(addFire,7000)
+
+function Missile (x,y,w,h,color,speed){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.speed=speed
+	this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x,this.y-=this.speed,this.w, this.h )
+		c.drawImage(tir,this.x,this.y,this.w,this.h)
+	}
+}
+
+function Vie (x,y,w,h,color){
+	this.x=x
+	this.y=y
+	this.w=w
+	this.h=h
+	this.color=color
+	this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x,this.y,this.w,this.h)
+		c.drawImage(life,this.x,this.y,this.w,this.h)
+		
+			if (joueur.vie==2){
+				c.fillRect(vie1.x,vie1.y,vie1.w,vie1.h)
+				c.drawImage(hit,vie1.x,vie1.y,vie1.w,vie1.h)
+			}
+			if (joueur.vie==1){
+				c.fillRect(vie2.x,vie2.y,vie2.w,vie2.h)
+				c.drawImage(hit,vie2.x,vie2.y,vie2.w,vie2.h)
+
+				c.fillRect(vie1.x,vie1.y,vie1.w,vie1.h)
+				c.drawImage(hit,vie1.x,vie1.y,vie1.w,vie1.h)
+			}	
+			if (joueur.vie==0){
+				gameOver=true
+				sacMissiles.splice(0,sacMissiles.length)
+				sacPoison.splice(0,sacPoison.length)
+				sacFreeze.splice(0,sacFreeze.length)
+				sacGuerir.splice(0,sacGuerir.length)
+				bloCK.splice(0,bloCK.length)
+				sacFeu.splice(0,sacFeu.length)
+			}
+	}
+}
+
+canvas.addEventListener("click", souris1)
+
+function souris1(e){
+	posX=e.offsetX
+	sacMissiles.push(new Missile(joueur.x+joueur.w/2-5,joueur.y-40,10,40,tir,5))
+	//console.log(sacMissiles)
+
+}
+
+canvas.addEventListener("mousemove", souris2)
+
+function souris2(e){
+	if (e.offsetX<canvas.width-joueur.w/2){
+		joueur.x=e.offsetX-joueur.w/2
+
+		if(e.offsetX<joueur.w/2){
+			joueur.x=0
+		}
+	}
+        else{
+		    joueur.x=canvas.width-joueur.w
+	    }
+}
+function drawOther(){
+	vie1.draw()
+	vie2.draw()
+	vie3.draw()
+}
+
+function checkcollision1(){
+for(i=0;i<sacMissiles.length;i++)
+
+	for(j=0;j<bloCK.length;j++){
+		if(collision (sacMissiles[i],bloCK[j])){
+			//console.log("boom")
+			bloCK[j].vie--
+			score++
+			bloCK.splice(j,1)
+			sacMissiles.splice(i,1)
+			hitslime.play()
+		}
+	}
+}
+
+function checkcollision4(){
+for(i=0;i<sacMissiles.length;i++)
+
+	for(q=0;q<sacGuerir.length;q++){
+		if(collision (sacMissiles[i],sacGuerir[q])){
+			sacGuerir[q].vie--
+			sacGuerir.splice(q,1)
+			sacMissiles.splice(i,1)
+			pluscoeur.play()
+			if (joueur.vie<3){
+				joueur.vie++
+				
+			}
+		}
+	}
+}
+
+function checkcollision2(){
+	for(i=0;i<sacMissiles.length;i++)
+
+	for(k=0;k<sacPoison.length;k++){
+		if(collision (sacMissiles[i],sacPoison[k])){
+			//console.log("boom")
+			sacPoison[k].vie--
+			joueur.vie=joueur.vie-1
+			sacPoison.splice(k,1)
+			sacMissiles.splice(i,1)
+			degat.play()
+		}
+	}
+}
+
+function checkcollision3(){
+	for(i=0;i<sacMissiles.length;i++)
+
+	for(m=0;m<sacFreeze.length;m++){
+		if(collision (sacMissiles[i],sacFreeze[m])){
+			//console.log("boom")
+			sacFreeze[m].vie--
+			timer=timer-3
+			sacFreeze.splice(m,1)
+			sacMissiles.splice(i,1)
+			froid.play()
+			
+		}
+	}
+}
+
+function checkcollision5(){
+	for(i=0;i<sacMissiles.length;i++)
+
+	for(z=0;z<sacFeu.length;z++){
+		if(collision (sacMissiles[i],sacFeu[z])){
+			console.log("boom")
+			sacFeu[z].vie--
+			timer=timer+3
+			sacFeu.splice(z,1)
+			sacMissiles.splice(i,1)
+			chaleur.play()
+			
+		}
+	}
+}
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+		
+		//console.log("Hit!")
+		return(true)
+		}
+}
+
+function fin(){
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="45px Times "
+	c.textAlign="center"
+	c.fillText("Terminé!", canvas.width/2, canvas.height/2)
+
+	c.lineWidth="25px"
+    c.fillStyle="white"
+	c.font="25px Times "
+	c.textAlign="left"
+	c.fillText("Score:"+score, 0, 50)
+	
+	if (timer>30){
+		c.lineWidth="25px"
+   		c.fillStyle="white"
+		c.font="25px Times "
+		c.textAlign="center"
+		c.fillText("Temps écoulé",canvas.width/2, 200)
+
+		sacMissiles.splice(0,sacMissiles.length)
+		sacPoison.splice(0,sacPoison.length)
+		sacFreeze.splice(0,sacFreeze.length)
+		sacGuerir.splice(0,sacGuerir.length)
+		bloCK.splice(0,bloCK.length)
+		sacFeu.splice(0,sacFeu.length)
+
+	}
+	if (joueur.vie<1){
+		timer=5
+		c.lineWidth="25px"
+   		c.fillStyle="white"
+		c.font="25px Times "
+		c.textAlign="center"
+		c.fillText("Vous êtes mort!", canvas.width/2, 200)
+
+		sacMissiles.splice(0,sacMissiles.length)
+		sacPoison.splice(0,sacPoison.length)
+		sacFreeze.splice(0,sacFreeze.length)
+		sacGuerir.splice(0,sacGuerir.length)
+		bloCK.splice(0,bloCK.length)
+		sacFeu.splice(0,sacFeu.length)
+	}
+
+	
+	
+	document.getElementById("rejouer").style.display="block";	
+	victoire.play()
+	//canvas.addEventListener("click",function(){
+	//	gameOver=false
+	//	joueur.vie=3
+	//	score=0
+	//	timer=0
+      //  })
+}
+
+setInterval(temps,1000)
+
+function temps(){
+	if (acceuil==false){
+		timer++
+		if (timer>30){
+			gameOver=true
+		}
+
+}
+}
+
+
+function draw1(){
+	for(i=0;i<bloCK.length;i++){
+		
+		bloCK[i].draw()
+
+		if(bloCK[i].y>=canvas.height){
+			bloCK.splice(i,1)
+			degat.play()
+			joueur.vie=joueur.vie-1
+			//console.log("To low")
+		}
+	}
+}
+
+function draw3(){
+	for(k=0;k<sacPoison.length;k++){
+		
+		sacPoison[k].draw()
+
+		if(sacPoison[k].y>=canvas.height){
+			sacPoison.splice(k,1)
+		}
+	}
+}
+
+function draw4(){
+	for(m=0;m<sacFreeze.length;m++){
+		
+		sacFreeze[m].draw()
+
+		if(sacFreeze[m].y>=canvas.height){
+			sacFreeze.splice(m,1)
+		}
+	}
+}
+
+function draw6(){
+	for(z=0;z<sacFeu.length;z++){
+		
+		sacFeu[z].draw()
+
+		if(sacFeu[z].y>=canvas.height){
+			sacFeu.splice(z,1)
+		}
+	}
+}
+
+function draw5(){
+	for(q=0;q<sacGuerir.length;q++){
+		
+		sacGuerir[q].draw()
+
+		if(sacGuerir[q].y>=canvas.height){
+			sacGuerir.splice(q,1)
+		}
+	}
+}
+
+function loosing(){
+	if (Block.y<joueur.y){
+		joueur.vie=joueur.vie-1
+	}
+}
+
+
+function game(){
+//console.log(gameOver)
+	if (acceuil==true){
+		document.getElementById("rejouer").style.display="none";
+		sacMissiles.splice(0,sacMissiles.length)
+		sacPoison.splice(0,sacPoison.length)
+		sacFreeze.splice(0,sacFreeze.length)
+		sacGuerir.splice(0,sacGuerir.length)
+		bloCK.splice(0,bloCK.length)
+
+		AfficheMenu()
+	}else{
+			c.clearRect(0,0,400,600)
+			document.getElementById("rejouer").style.display="none";
+			if (gameOver==false){
+				console.log(speedBlock)
+				document.getElementById("rejouer").style.display="none";
+				checkcollision1()
+				checkcollision2()
+				checkcollision3()
+				checkcollision4()
+				checkcollision5()
+				draw1()
+				draw2()
+				draw3()
+				draw4()
+				draw5()
+				draw6()
+				loosing()
+				drawOther()
+			}else{
+				fin()
+				beggining.pause()
+			}
+		
+	}
+	requestAnimationFrame(game)
+}
+game()
+function rejouer() {
+		
+		document.location.reload()
+		
+		
+		}
+</script>
+</body>
+</html>
