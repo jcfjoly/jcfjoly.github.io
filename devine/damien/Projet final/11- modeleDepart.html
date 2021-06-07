@@ -1,0 +1,773 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modèle de départ - Jeu d'Évasion</title>
+<link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+<style>
+/* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+#cadreTotal{
+	width:1250px;
+	height:700px;
+	position:relative;
+	margin:auto;
+	}
+#level{
+	width:95px;
+	height:70px;
+	position:absolute;
+	top:35px;
+	left:0px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	text-align:center;
+	font-size:20px;
+	padding-top:10px;
+	font-family: 'Permanent Marker', cursive;
+	}
+#auteur{
+	width:300px;
+	height:16px;
+	position:absolute;
+	padding-bottom:5px;
+	padding-left:20px;
+	top:2px;
+	left:120px;
+	border:2px black solid;
+	border-radius:10px;
+	background-color:yellow;
+	font-family: 'Permanent Marker', cursive;
+	font-size:14px;
+	}
+#cadreJeu{
+	width:1200px;
+	height:700px;
+	position:absolute;
+	top:35px;
+	left:120px;
+	border:5px black solid;
+	border-radius:10px;
+	background-image: url(backround.jpg);
+	background-size: 100% 100%;
+	}
+
+#flame1{
+	margin-top: 180px;
+	margin-left: 820px;
+	width: 50px;
+	height: 50px;
+	background-image: url(flame.gif);
+	position: absolute;
+}
+
+#flame2{
+	margin-top: 168px; 
+	margin-left: 1048px;
+	width: 50px;
+	height: 50px;
+	background-image: url(flame.gif);
+	position: absolute;
+}
+
+#flame3{
+	margin-top: 398px; 
+	margin-left: 462px;
+	width: 50px;
+	height: 50px;
+	background-image: url(flame.gif);
+	position: absolute;
+	display: none;
+}
+
+#barresort{
+	height: 70px;
+	width: 230px;
+	position: absolute;
+	background-color: rgba(64, 40, 23, 0.75);
+	margin-top: 610px;
+	margin-left: 950px;
+	border-radius: 30px;
+
+}
+
+#coffreclosed{
+	width: 100px;
+	height: 74px;
+	background-image: url(coffreclosed.png);
+	position: absolute;
+	margin-top: 600px;
+	margin-left: 30px;
+	opacity: 0;
+}
+
+#coffreopened{
+	width: 100px;
+	height: 97px;
+	background-image: url(coffreopen.png);
+	position: absolute;
+	margin-top: 580px;
+	margin-left: 30px;
+	display: none;
+}
+
+#lettreferme{
+	width: 40px;
+	height: 33px;
+	position: absolute;
+	margin-top: 590px;
+	margin-left: 60px;
+	background-image: url(lettreferme.png);
+	animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    display: none;
+	
+}
+
+#lettreferme:hover{
+	cursor: pointer;
+
+}
+
+#lettreouverte{
+	width: 40px;
+	height: 41px;
+	position: absolute;
+	margin-top: 580px;
+	margin-left: 60px;
+	background-image: url(lettreouverte.png);
+	animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    display: none;
+
+
+
+}
+
+#lettreouverte:hover{
+	cursor: pointer;
+
+
+}
+
+@keyframes floating {
+    0% { transform: translate(0,  0px); }
+    50%  { transform: translate(0, 15px); }
+    100%   { transform: translate(0, -0px); }    
+}
+
+#parchemin{
+	background-image: url(parchemin.png);
+	width: 437px;
+	height: 570px;
+	position: absolute;
+	margin-top: 80px;
+	margin-left: 380px;
+	display: none;
+}
+
+#question{
+	font-size: 30px;
+	font-family: "Lucida Handwriting", serif;
+	text-shadow: 4px 4px 3px rgba(0,0,0,0.2);
+	background-color: rgba(0, 0, 0, 0);
+	margin-left: 50px;
+	margin-top: 150px;
+	position: absolute;
+}
+
+#reponse{
+	border-radius: 20px;
+	border: 2px solid;
+	background-color: rgba(0, 0, 0, 0);
+	padding: 5px;
+	margin-top: 300px;
+	margin-left: 120px;
+
+
+}
+
+#parchemin2{
+	background-image: url(parchemin.png);
+	width: 437px;
+	height: 570px;
+	position: absolute;
+	margin-top: 80px;
+	margin-left: 380px;
+	display: none;
+
+}
+
+h1{
+	font-size: 20px;
+	font-family: "Lucida Handwriting", serif;
+	text-shadow: 4px 4px 3px rgba(0,0,0,0.2);
+	background-color: rgba(0, 0, 0, 0);
+	position: absolute;
+	margin-left: 50px;
+	margin-top: 130px;
+
+}
+
+h2{
+	font-size: 14px;
+	font-family: "Lucida Handwriting", serif;
+	text-shadow: 4px 4px 3px rgba(0,0,0,0.2);
+	background-color: rgba(0, 0, 0, 0);
+	position: absolute;
+	margin-left: 50px;
+	margin-top: 350px;
+
+
+}
+
+#xrouge{
+	width: 20px;
+	height: 21px;
+	position: absolute;
+	background-image: url(xrouge.png);
+	margin-left: 350px;
+	margin-top: 70px;
+
+}
+
+#xrouge:hover{
+	cursor: pointer;
+
+
+}
+
+#torche{
+	width: 60px;
+	height: 90px;
+	background-image: url(torche.png);
+	position: absolute;
+	margin-top: 510px;
+	margin-left: 1120px;
+	object-fit: cover;
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	display: none;
+	opacity: 0;
+}
+
+#flammetorche{
+	width: 50px;
+	height: 50px;
+	background-image: url(flame.gif);
+	position: absolute;
+	margin-left: 24px;
+	display: none;
+}
+
+#wingardium{
+	height: 70px;
+	width: 77px;
+	position: absolute;
+	background-image: url(windgardium.png);
+	
+}
+
+#wingardium:hover{
+	cursor: pointer;
+	
+
+}
+
+#lumos{
+	height: 70px;
+	width: 69px;
+	position: absolute;
+	margin-left: 77px;
+	background-image: url(lumos.png);
+
+}
+
+#lumos:hover{
+	cursor: pointer;
+
+
+}
+
+#alohomora{
+	height: 60px;
+	width: 69px;
+	position: absolute;
+	margin-left: 151px;
+	margin-top: 5px;
+	background-image: url(alohomora.png);
+
+}
+
+#alohomora:hover{
+	cursor: pointer;
+	
+
+}
+
+#explainSorts{
+	height: 60px;
+	width: 260px;
+	position: absolute;
+	background-color: rgba(64, 40, 23, 0.75);
+	margin-top: 610px;
+	margin-left: 630px;
+	border-radius: 30px;
+	display: none;
+}
+
+#explainWin{
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 15px;
+	color: sandybrown;
+	padding-left: 20px;
+	display: none;
+	padding-top: 13px;
+}
+
+#explainLum{
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 16px;
+	color: sandybrown;
+	padding-left: 25px;
+	display: none;
+
+}
+
+#explainAlo{
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 16px;
+	color: sandybrown;
+	padding-left: 25px;
+	display: none;
+	padding-top: 12px;
+}
+
+#bravo{
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 16px;
+	color: sandybrown;
+	padding-left: 25px;
+	display: none;
+
+
+}
+
+#arrow{
+	position: absolute;
+	background-image: url(arrow.gif);
+	width: 90px;
+	height: 70px;
+	margin-top: 330px;
+	margin-left: 490px;
+
+}
+
+#porte{
+	width: 60px;
+	height: 130px;
+	background-color: rgba(100, 100, 100, 0.6);
+	margin-top: 420px;
+	margin-left: 510px;
+	opacity: 0;
+	position: absolute;
+}
+
+#porte:hover{
+	cursor: pointer;
+
+
+}
+
+#imgplay{
+        background-color: transparent;
+        max-height: 60px;
+
+
+}
+
+#play{
+        background-color: Transparent;
+        background-repeat:no-repeat;
+        border: none;
+        cursor:pointer;
+        overflow: hidden;
+        outline:none;
+        background-position: 400px 0px;
+        position:absolute;
+
+    }
+
+#imgpause{
+        background-color: transparent;
+        max-height: 60px;
+}
+
+#pause{
+        background-color: Transparent;
+        background-repeat:no-repeat;
+        border: none;
+        cursor:pointer;
+        overflow: hidden;
+        outline:none;
+        background-position: 400px 0px;
+        position:absolute;
+        max-height: 60px;
+        max-width: 60px;
+        margin-top: 60px;
+}
+
+
+
+</style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br/> 1 / 12</div>
+        <div id="auteur"> <b>Conception : Damien Côté 408</b></div>
+        <div id="cadreJeu">
+		<div id="porte" onClick="nextLevel()"></div>
+        <div id="flame1"></div>
+        <div id="flame2"></div>
+		<div id="flame3"></div>
+		<div id="arrow"></div>
+		<div id="coffreclosed" onclick="coffrereveal()"></div>
+		<div id="coffreopened"></div>
+		<div id="lettreferme" onclick="ouvrirlettre()"></div>
+		<div id="parchemin">
+			<div id="question"><b>Qui est le grand méchant </br>dans la saga Harry Potter?</b></div>
+			<div><input type="text" id="reponse"></div>
+		</div>
+		<div id="parchemin2">
+			<div id="texte"><h1>Bonne réponse!</br></br>Maintenant, une énigme pour la suite.</br></br>"Lorsque ma flamme s'agitera, je m'ouvrirai"</h1></br></br><h2>PS: Il reste peut être encore un objet </br> caché, utilise Lumos! ;)</h2> </div>
+			<div id="xrouge" onclick="fermerlettre()"></div>
+		</div>
+		
+		<div id="torche" onclick="torchereveal()" onclick="allumerTorche()">
+			<div id="flammetorche"></div>
+		
+		</div>
+		
+		<div id="lettreouverte" onclick="reouvrirlettre()"></div>
+        <div id="barresort">
+			<div id="wingardium" onclick="wingardium()" onmouseover="explainWin()" onmouseout="explainOff()"></div>
+			<div id="lumos" onclick="lumos()" onmouseover="explainLum()" onmouseout="explainOff()"></div>
+			<div id="alohomora" onclick="alohomora()" onmouseover="explainAlo()" onmouseout="explainOff()"></div>
+			
+		</div>
+
+		<div id="explainSorts">
+			<div id="explainWin">Wingardium Leviosa: il permet de transporter n'importe quel objet.</div>
+			<div id="explainLum">Lumos: produit beaucoup de lumière. Essayez-le sur des endroits sombres!</div>
+			<div id="explainAlo">Alohomora: permet de déverouiller des serrures.</div>
+			<div id="bravo">Bravo! Tu peux maintenant cliquer sur la porte pour passer au niveau suivant!</div>
+        </div>
+		<button id="play" onclick="songOn()"> <img src="https://cdn2.iconfinder.com/data/icons/metro-uinvert-dock/256/Volume_1.png" id="imgplay"> </button>
+
+        <button id="pause" onclick="songOff()"><img src="https://static.thenounproject.com/png/582220-200.png" id="imgpause"> </button>
+    </div>
+    
+    <script>
+
+	//Son	
+
+	var musique=new Audio();
+            musique.src="Musique.mp3"	
+
+	var coffreSound=new Audio();
+		coffreSound.src="coffre.mp3";
+
+	
+
+	var feuSound=new Audio();	
+		feuSound.src="feu.mp3";	
+
+	var deniedSound= new Audio();
+		deniedSound.src="denied.mp3"
+		deniedSound.volume=0.5
+
+	var goodsound=new  Audio();
+            goodsound.src="BotW SFX - item 1.mp3"
+            goodsound.volume=0.5	
+
+
+	function songOn(){
+
+		musique. play()
+		musique. loop=true
+		musique. volume=1
+	}
+
+	function songOff(){
+
+		musique. pause()
+
+	}	
+
+	//Variables: lum=lumos, win= wingardium, alo=alohomora, 1=true, 0=false avec leurs explications
+
+	var cadreJeu=document.getElementById("cadreJeu")
+	var parchemin=document.getElementById("parchemin")
+	var parchemin2=document.getElementById("parchemin2")
+	
+
+	var win=0
+	var lum=0
+	var alo=0
+	
+	parchemin.style.cursor="default"
+	parchemin2.style.cursor="default"
+
+	function wingardium(){
+		win=1
+		lum=0
+		alo=0
+		cadreJeu.style.cursor="url('baguettewin.png'), pointer"
+		
+	}
+
+	function lumos(){
+		win=0
+		lum=1
+		alo=0
+		cadreJeu.style.cursor="url('baguettelum.png'), pointer"
+	}
+
+	function alohomora(){
+		win=0
+		lum=0
+		alo=1
+		cadreJeu.style.cursor="url('baguettealo.png'), pointer"
+	}
+
+	function explainWin(){
+		document.getElementById("explainSorts").style.display="block"
+		document.getElementById("explainWin").style.display="block"
+		document.getElementById("explainAlo").style.display="none"
+		document.getElementById("explainLum").style.display="none"
+	}
+
+	function explainLum(){
+		document.getElementById("explainSorts").style.display="block"
+		document.getElementById("explainLum").style.display="block"
+		document.getElementById("explainAlo").style.display="none"
+		document.getElementById("explainWin").style.display="none"
+
+	}
+
+	function explainAlo(){
+		document.getElementById("explainSorts").style.display="block"
+		document.getElementById("explainAlo").style.display="block"
+		document.getElementById("explainLum").style.display="none"
+		document.getElementById("explainWin").style.display="none"
+
+	}
+
+	function explainOff(){
+		document.getElementById("explainSorts").style.display="none"
+	}
+
+
+	//Fonctions pour révéler différents objets
+
+
+	var questionGagnee=0
+	var dispoTorche=0
+	function coffrereveal(){
+
+		if (lum==1){
+			document.getElementById("coffreclosed").style.opacity="50"
+
+		}
+
+		if (alo==1){
+			document.getElementById("coffreclosed").style.display="none"
+			document.getElementById("coffreopened").style.display="block"
+			document.getElementById("lettreferme").style.display="block"
+			coffreSound.play()
+		}
+	}
+
+	function ouvrirlettre(){
+		
+		if (alo==1){ 
+			document.getElementById("lettreouverte").style.display="block"
+			document.getElementById("lettreferme").style.display="none"
+			document.getElementById("parchemin").style.display="block"
+		}
+		
+	
+	}
+
+	function fermerlettre(){
+			document.getElementById("parchemin2").style.display="none"
+
+
+	}
+
+	function reouvrirlettre(){
+		
+		if(questionGagnee==1){
+			document.getElementById("parchemin2").style.display="block"
+		}
+		
+
+
+	}
+
+	//Question de connaissance
+
+	document.addEventListener("keydown", function(e){
+            if(e.keyCode==13){
+			verif()
+			
+			}
+    })
+
+	function torchereveal(){
+			if(lum==1){
+				document.getElementById("torche").style.opacity="50"
+				dispoTorche=1
+			}
+
+
+	}
+
+	function verif(){
+		var reponse=document.getElementById("reponse").value
+
+				if (reponse=="Voldemort" || reponse=="voldemort"){
+					document.getElementById("parchemin").style.display="none"
+					document.getElementById("parchemin2").style.display="block"
+					questionGagnee=1
+					document.getElementById("torche").style.display="block"
+					goodsound.play()
+				}else{
+					deniedSound.play()
+
+				}	
+	}	
+
+	//Fonctions pour déplacer la torche la torche et l'allumer/éteindre
+	
+	var torcheOn=0
+	var niveauReussi=0
+
+	var dragItem = document.querySelector("#torche");
+    var container = document.querySelector("#cadreJeu");
+
+    var active = false;
+    var currentX;
+    var currentY;
+    var initialX;
+    var initialY;
+    var xOffset = 0;
+    var yOffset = 0;
+
+    container.addEventListener("touchstart", dragStart, false);
+    container.addEventListener("touchend", dragEnd, false);
+    container.addEventListener("touchmove", drag, false);
+
+    container.addEventListener("mousedown", dragStart, false);
+    container.addEventListener("mouseup", dragEnd, false);
+    container.addEventListener("mousemove", drag, false);
+
+    
+
+	function dragStart(e) {
+      if (win==1 && dispoTorche==1){
+
+		if (e.type === "touchstart") {
+        	initialX = e.touches[0].clientX - xOffset;
+        	initialY = e.touches[0].clientY - yOffset;
+     	 } else {
+        	initialX = e.clientX - xOffset;
+       	 	initialY = e.clientY - yOffset;
+     	 }
+
+      	if (e.target === dragItem) {
+        	active = true;
+      	}
+      }
+	}	
+    function dragEnd(e) {
+      initialX = currentX;
+      initialY = currentY;
+
+      active = false;
+    }
+
+    function drag(e) {
+      	if (active) {
+			document.getElementById("torche").style.backgroundColor="rgba (250, 110, 255, 0,4)"
+        	e.preventDefault();
+      
+        	if (e.type === "touchmove") {
+          currentX = e.touches[0].clientX - initialX;
+          currentY = e.touches[0].clientY - initialY;
+        	} else {
+          currentX = e.clientX - initialX;
+          currentY = e.clientY - initialY;
+        	}
+
+        	xOffset = currentX;
+        	yOffset = currentY;
+
+        	setTranslate(currentX, currentY, dragItem);
+      
+			if(currentX<-310 && currentX>-340 && currentY<-300 && currentY>-340){
+				torcheOn=1
+				document.getElementById("flammetorche").style.display="block"
+				feuSound.play()
+			}
+	
+			if(currentX<-82 && currentX>-110 && currentY<-325 && currentY>-360){
+				torcheOn=1
+				document.getElementById("flammetorche").style.display="block"
+				feuSound.play()
+			}
+
+			if(currentX<-675 && currentX>-695 && currentY<-100 && currentY>-120 && torcheOn==1){
+				niveauReussi=1
+				document.getElementById("flammetorche").style.display="none"
+				document.getElementById("flame3").style.display="block"
+				feuSound.play()
+				document.getElementById("bravo").style.display="block"
+				document.getElementById("explainSorts").style.display="block"
+				document.getElementById("explainAlo").style.display="none"
+				document.getElementById("explainWin").style.display="none"
+				document.getElementById("explainLum").style.display="none"
+			}
+		}
+    
+
+	}
+	
+	
+
+    function setTranslate(xPos, yPos, el) {
+      el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+		console.log(currentX)
+		console.log(currentY)
+		
+	}
+
+	//Pour finir le jeu
+
+
+	function nextLevel(){
+		if(niveauReussi==1){
+			window.location="test.html"
+		}
+		
+		}
+    </script>
+</body>
+</html>
