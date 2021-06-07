@@ -1,0 +1,529 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Jeu clavier</title>
+
+<style>
+
+
+
+    #debuterBouton{
+
+        position:absolute;
+
+        width:100%;
+
+        height:20%;
+
+        visibility: visible;
+
+    }
+
+
+
+    #meganeMarkeule{
+
+        position:absolute;
+
+        width:100%;
+
+        height:100%;
+
+        visibility:hidden;
+
+    }
+
+    #b1{
+        position:absolute;
+        left:20;
+        top:100;
+        width:100;
+        height:50;
+    }
+
+    #b2{
+        position:absolute;
+        left:20;
+        top:500;
+        width:100;
+        height:50;
+    }
+
+    #b3{
+        position:absolute;
+        left:20;
+        margin-top:600;
+        width:100;
+        height:50;
+    }
+
+
+
+</style>
+
+</head>
+
+
+
+<body>
+
+    <input type="button" value="Atteignez le carré rouge afin d'augmenter votre pointage et Atteignez le carré jaune pour obtenir un boost de vitesse Appuyez pour START et Obtenez 5 points pour gagner" id="debuterBouton" onclick="fermerPage()">
+
+    <img src="Images/megane.png" id="meganeMarkeule">
+
+    <input type='button' value='bouton 1' id='b1'>
+    <input type='button' value='bouton 2'id='b2'>
+    <input type='button' value='bouton 3'id='b3'>
+
+
+<script>
+
+// creation d'un canvas en javascript au lieu de html
+
+var canvas = document.createElement("canvas");
+
+var ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth-50;
+
+canvas.height = window.innerHeight-50
+
+canvas.style.border = "10px green solid";
+
+canvas.style.backgroundColor= "black";
+
+canvas.style.display = "block";
+
+canvas.style.margin ="auto"
+
+document.body.appendChild(canvas);
+
+
+
+//variables et objets du jeu
+
+var joueur={
+
+    x:0,
+
+    y:0,
+
+    w:15,
+
+    h:15,
+
+    color:"white",
+
+    speed:5
+
+    }
+
+
+
+var cible={
+
+    x:400,
+
+    y:400,
+
+    w:50,
+
+    h:50,
+
+    color:"red"
+
+    }
+
+
+
+var cible2={
+
+    x:Math.random()*(canvas.width-50),
+
+    y:Math.random()*(canvas.height-50),
+
+    w:50,
+
+    h:50,
+
+    color:"orange"
+
+    }
+
+
+
+var keyDown={}
+
+
+
+var score=0
+
+
+
+var collisionSon=new Audio();
+
+collisionSon.src="Sons/collisionSon.mp3"
+
+
+
+var obstacle2=new Obstacle(90,90,90,90,"purple",Math.random()*10,Math.random()*10)
+
+var obstacle4=new Obstacle(90,90,90,90,"orange",Math.random()*10,Math.random()*10)
+
+var obstacle5=new Obstacle(90,90,90,90,"grey",Math.random()*10,Math.random()*10)
+
+var obstacle6=new Obstacle(90,90,90,90,"blue",Math.random()*10,Math.random()*10)
+
+var obstacle7=new Obstacle(90,90,90,90,"purple",Math.random()*10,Math.random()*10)
+
+var obstacle8=new Obstacle(90,90,90,90,"green",Math.random()*10,Math.random()*10)
+
+var obstacle9=new Obstacle(90,90,90,90,"white",Math.random()*10,Math.random()*10)
+
+var obstacle10=new Obstacle(90,90,90,90,"grey",Math.random()*10,Math.random()*10)
+
+
+
+//fonctions
+
+
+
+function winPTS(){
+
+    if (score>=5){
+
+        meganeMarkeule.style.visibility="visible"
+
+    }
+
+}
+
+
+
+function Obstacle (x,y,w,h,color,speedX,speedY){
+
+    this.x=x
+
+    this.y=y
+
+    this.w=w
+
+    this.h=h
+
+    this.color=color
+
+    this.speedX=speedX
+    this.speedY=speedY
+
+    this.draw=function(){
+
+        ctx.fillStyle=this.color
+
+        ctx.fillRect(this.x,this.y,this.w,this.h)
+
+        if(this.y<0||this.y+this.h>canvas.height){
+
+            
+            this.speedY=-this.speedY
+
+        }
+        if(this.x<0||this.x+this.w>canvas.width){
+            this.speedX=-this.speedX
+        }
+
+        this.x+=this.speedX
+
+        this.y+=this.speedY     
+
+    }
+
+}
+
+
+
+function checkCollision(){
+
+     if(collision(joueur,obstacle2)||
+
+        collision(joueur,obstacle4)||
+
+        collision(joueur,obstacle5)||
+
+        collision(joueur,obstacle6)||
+
+        collision(joueur,obstacle7)||
+
+        collision(joueur,obstacle8)||
+
+        collision(joueur,obstacle9)||
+
+        collision(joueur,obstacle10)){
+
+            joueur.x=0
+
+            joueur.y=0
+
+            collisionSon.play()
+
+        }
+
+
+
+    if(collision(joueur,cible2)
+
+    ){
+
+        joueur.speed=10
+
+    }
+
+}
+
+
+
+function fermerPage(){
+
+    debuterBouton.style.visibility="hidden"
+
+}
+
+
+
+function draw(){
+
+
+
+    obstacle2.draw()
+
+
+
+    obstacle4.draw()
+
+    obstacle5.draw()
+
+    obstacle6.draw()
+
+    obstacle7.draw()
+
+    obstacle8.draw()
+
+    obstacle9.draw()
+
+    obstacle10.draw()
+
+}
+
+
+
+function drawJoueur(){
+
+    ctx.fillStyle=joueur.color
+
+    ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+
+    }
+
+ 
+
+ function pointage(){
+
+        ctx.font="25px Arial"
+
+        ctx.textAlign="left"
+
+        ctx.fillText("pointage : " + score, 30, 30)  
+
+ }
+
+
+
+function drawCible(){
+
+    ctx.fillStyle=cible.color
+
+    ctx.fillRect(cible.x, cible.y, cible.w, cible.h)
+
+
+
+    ctx.fillStyle=cible2.color
+
+    ctx.fillRect(cible2.x, cible2.y, cible2.w, cible2.h)
+
+
+
+    ctx.fill()
+
+
+
+        if (collision(joueur,cible)){
+
+            cible.color="yellow"
+
+            joueur.y=canvas.height-100
+
+            joueur.x=canvas.width-100
+
+            joueur.w++
+
+            joueur.h++
+
+            score++
+
+        }
+
+        else{
+
+            cible.color="red"
+
+        }
+
+   
+
+        if (collision(joueur,cible2)){
+
+            cible2.color="green"
+
+        }
+
+        else{
+
+            cible2.color="orange"
+
+        }    
+
+       
+
+    }
+
+
+
+//gestion des collision
+
+
+
+function collision(a,b){
+
+    if(a.x+a.w>b.x&&
+
+       a.x<b.x+b.w&&
+
+       a.y<b.y+b.h&&
+
+       a.y+a.h>b.y||
+
+       a.x+a.w>b.x-b.r&&
+
+       a.x<b.x+b.r&&
+
+       a.y<b.y+b.r&&
+
+       a.y+a.h>b.y-b.r){
+
+       
+
+        return(true)}
+
+    }
+
+
+
+//événements clavier
+
+
+
+addEventListener("keydown", function(e){
+
+    keyDown[e.keyCode]=true
+
+    console.log(joueur.speed)
+
+})
+
+
+
+function clavier(e){
+
+    //console.log(e.keyCode)
+
+   
+
+    if(37 in keyDown &&joueur.x>0){
+
+        joueur.x-=joueur.speed
+
+        console.log(score)
+
+        }
+
+    if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+
+        joueur.x+=joueur.speed
+
+        }
+
+    if(38 in keyDown &&joueur.y>0){
+
+        joueur.y-=joueur.speed
+
+        }
+
+    if(40 in keyDown &&joueur.y+joueur.h<canvas.height-1){
+
+        joueur.y+=joueur.speed
+
+        }  
+
+   
+
+    }
+
+   
+
+    addEventListener("keyup", function(e){
+
+    delete keyDown[e.keyCode]
+
+    console.log(keyDown)
+
+})
+
+
+
+//boucle principale du jeu
+
+function game(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+
+    drawJoueur()
+
+    drawCible()
+
+    winPTS()
+
+    clavier()
+
+    draw()
+
+    pointage()
+
+    checkCollision()
+
+    requestAnimationFrame(game)
+
+    }  
+
+game()
+
+
+
+</script>
+
+</body>
+
+</html>
