@@ -1,0 +1,440 @@
+﻿
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Escape Room</title>
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
+    <style>
+        /* Cadre global NE PAS MODIFER, exepté couleur et images d'arrière-plan. */
+        #cadreTotal {
+            width: 1250px;
+            height: 700px;
+            position: relative;
+            margin: auto;
+        }
+
+        #level {
+            width: 95px;
+            height: 70px;
+            position: absolute;
+            top: 35px;
+            left: 0px;
+            border: 2px black solid;
+            border-radius: 10px;
+            background-color: yellow;
+            text-align: center;
+            font-size: 20px;
+            padding-top: 10px;
+            font-family: 'Permanent Marker', cursive;
+        }
+
+        #auteur {
+            width: 300px;
+            height: 16px;
+            position: absolute;
+            padding-bottom: 5px;
+            padding-left: 20px;
+            top: 2px;
+            left: 120px;
+            border: 2px black solid;
+            border-radius: 10px;
+            background-color: yellow;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+        #cadreJeu {
+            width: 1000px;
+            height: 700px;
+            position: absolute;
+            top: 35px;
+            left: 120px;
+            border: 5px black solid;
+            border-radius: 10px;
+        }
+
+        #cell img {
+            width: 1000px;
+            height: 700px;
+            position: relative;
+        }
+
+        #door img {
+            width: 170px;
+            position: absolute;
+            top: 280px;
+            left: 415px;
+        }
+
+        #code img {
+            position: absolute;
+            width: 50px;
+            top: 400px;
+            left: 600px;
+        }
+
+        #color img {
+            position: absolute;
+            width: 50px;
+            top: 425px;
+            left: 350px;
+        }
+
+        #number img {
+            position: absolute;
+            width: 50px;
+            top: 375px;
+            left: 350px;
+        }
+
+        #number :hover {
+            cursor: pointer;
+        }
+
+        #numberFrame {
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            top: 75px;
+            left: 250px;
+            border: 5px black solid;
+            border-radius: 10px;
+            background-color: paleturquoise;
+        }
+
+        #colorFrame {
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            top: 75px;
+            left: 250px;
+            border: 5px black solid;
+            border-radius: 10px;
+            background-color: paleturquoise;
+        }
+
+        #color :hover{
+            cursor:pointer;
+        }
+
+        #button1 {
+            width: 75px;
+            height: 25px;
+            top: 0px;
+            left: 0px;
+            border: 2px black solid;
+            border-radius: 10px;
+            background-color: aliceblue;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+        #digit3 {
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            top: 60px;
+            left: 100px;
+            border: 2px black solid;
+            border-radius: 10px;
+            background-color: aliceblue;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+        #text {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+
+        #digit4 {
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            top: 60px;
+            left: 300px;
+            border: 2px black solid;
+            border-radius: 10px;
+            background-color: aliceblue;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+        #button2 {
+            width: 75px;
+            height: 25px;
+            position: absolute;
+            top: 460px;
+            left: 400px;
+            border: 2px black solid;
+            border-radius: 10px;
+            background-color: aliceblue;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+        #button3 {
+            width: 75px;
+            height: 25px;
+            position: absolute;
+            top: 460px;
+            left: 400px;
+            border: 2px black solid;
+            border-radius: 10px;
+            background-color: aliceblue;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+        #codeFrame {
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            top: 75px;
+            left: 250px;
+            border: 5px black solid;
+            border-radius: 10px;
+            background-color: paleturquoise;
+        }
+
+        #code :hover {
+            cursor: pointer;
+        }
+
+        #codeValidation {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+        #clue {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 14px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <div id="cadreTotal">
+        <div id="level"> Niveau <br /> 1 / 12</div>
+        <div id="auteur" onClick="nextLevel()"> <b>Conception :  Noemie Charron 410</b></div>
+        <div id="cadreJeu">
+
+            <div id="cell">
+                <img src="https://i.imgur.com/QlPiudz.png" />
+            </div>
+
+            <div id="door">
+                <img src="https://i.imgur.com/EBbF3Rr.png" />
+            </div>
+
+            <div id="code" onclick="minigame3()">
+                <img src="https://i.imgur.com/CYv9fzl.png" />
+            </div>
+
+            <div id="color" onclick="minigame2()">
+                <img src="https://i.imgur.com/yGanNfc.png" />
+            </div>
+
+            <div id="number" onclick="minigame1()">
+                <img src="https://i.imgur.com/F1s4ALa.png" />
+            </div>
+
+            <div id="numberFrame">
+                <p id="text">This will be your first set of digits</p>
+                <br />
+                <p id="text">Guess the 2 digit number</p>
+                <input type="text" id="number1" />
+                <br />
+                <p id="clue">Clues:</p>
+                <br />
+                <input type="button" value="Validate" onclick="guessNumber()" id="button1"/>
+                <input type="button" value="Go Back" onclick="menu()" id="button2" />
+
+            </div>
+
+            <div id="colorFrame">
+
+                <div id="digit3"></div>
+                <div id="digit4"></div>
+
+                <p id="text">This will be your second set of digits</p>
+                <br />
+                <p id="text">Write one of the numbers in the boxes in the text box, if the box turns green the number in it is the correcte one</p>
+                <input type="text" id="digitUser" onfocus="this.value=''" value="" />
+                <input type="button" value="Go Back" onclick="menu()" id="button2" />
+
+
+            </div>
+
+            <div id="codeFrame">
+
+                <p id="text">Add to sets of digits together and insert your new 2 digit code</p>
+                <br />
+                <p id="text">Example: 11+22 = 33</p>
+                <input type="text" id="codeUser" />
+                <input type="button" value="Enter" onclick="escapeCode()" id="button1" />
+
+                <p id="codeValidation"></p>
+                <input type="button" value="Go back" onclick="menu()" id="button2" />
+                <input type="button" value="Next Level" onclick="nextLevel()" id="button3" />
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        setTimeout (start, 0)
+
+        
+
+        function start() {
+        document.getElementById("numberFrame").style.display = "none"
+        document.getElementById("colorFrame").style.display = "none"
+        document.getElementById("codeFrame").style.display = "none"
+        
+        
+        console.log(FirstDigits)
+
+        }
+
+// Guess the number minigame 
+        function minigame1() {
+        document.getElementById("numberFrame").style.display = ""
+
+        
+        }
+
+        var FirstDigits = Math.floor(Math.random() * 8) + 11;
+            
+
+       function guessNumber() {
+            var clue = document.getElementById ("clue")
+            var number1 = document.getElementById("number1").value
+
+            if (number1 < FirstDigits)
+                clue.innerHTML = "Too Small"          
+            if (number1 > FirstDigits)
+                clue.innerHTML = "Too Big"        
+            if (number1 == FirstDigits)
+                clue.innerHTML = "Correct"        
+
+        
+
+		}
+
+//color minigame 
+
+        function minigame2(){
+        document.getElementById("colorFrame").style.display = ""  
+		}
+
+
+        var digit3 = document.getElementById("digit3")
+            var digit4 = document.getElementById("digit4")
+
+            var list3 = ["0","1","2","3","4","1","1","1","1","1"]
+            var count3 = 0
+            var list4 = ["5","6","7","8","9","9","9","9","9","9"]
+            var count4 = 0
+
+            var height = 0
+
+            document.addEventListener("keydown", lists)
+
+        setInterval(Falling,1000)
+
+        function Falling(){
+            height = height + 100
+            digit3.style.top = height + "px"
+            digit4.style.top = height + "px"
+            
+
+            
+            digit3.innerHTML = list3[count3]
+            digit4.innerHTML = list4[count4]
+
+            if (height > 300){
+                height = 0                                 
+            }       
+
+        }
+
+        function lists(e) {
+
+            if (e.keyCode == 13) {
+                digitUser = document.getElementById("digitUser").value
+
+
+
+                if (digitUser == list3[1]) {
+                    document.getElementById("digit3").style.backgroundColor = "green";
+                    count3 = 5
+
+                                 
+                } else {
+                    height = 0
+                    count3 ++
+        }
+
+                if (digitUser == list4[4]) {
+                    document.getElementById("digit4").style.backgroundColor = "green";
+                    count4 = 5
+                    
+                } else {
+                    height = 0
+                    count4 ++
+        }
+            }
+            
+        }
+
+//minigame 3
+
+        var escapeC = FirstDigits + 19
+
+        function minigame3(){
+      document.getElementById("codeFrame").style.display = "" 
+        document.getElementById("button3").style.display = "none"
+
+        console.log (escapeC)
+		}
+
+        function escapeCode() {
+
+        var code = document.getElementById("codeUser").value
+        
+        var codeValidation = document.getElementById ("codeValidation")
+
+                if (code == escapeC) {
+                         codeValidation.innerHTML = "You have escaped!"
+                          document.getElementById("button2").style.display = "none"
+                          document.getElementById("button3").style.display = ""
+                    
+			   } else {
+                    codeValidation.innerHTML = "Learn how to count!"
+             }
+        }
+                
+               
+                
+              
+ // extra
+        
+        function menu(){
+        document.getElementById("numberFrame").style.display = "none" 
+        document.getElementById("colorFrame").style.display = "none"
+        document.getElementById("codeFrame").style.display = "none"
+		}
+
+        function nextLevel(){
+        //cette fonction sera exécutée à la fin de votre tableau pour passer au tableau suivant
+        window.location="test.html"
+        }
+    </script>
+</body>
