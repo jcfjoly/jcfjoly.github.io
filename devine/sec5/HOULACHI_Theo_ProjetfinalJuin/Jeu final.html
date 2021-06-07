@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Projet info 2</title>
+
+<style>
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<script>
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d");
+var c=canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+canvas.style.border = "10px white solid";
+canvas.style.backgroundColor= "black";
+canvas.style.display = "block";
+canvas.style.margin ="auto"
+document.body.appendChild(canvas);
+
+
+var joueur={
+	x:100,
+	y:200,
+	w:30,
+	h:30,
+	color:"blue",
+	speed:10
+	}
+	
+	var cible={
+    x:1500,
+    y:250,
+    w:100,
+    h:100,
+    color:"red",
+    health:19
+}
+
+var enemy1={
+	x:1600,
+	y:200,
+	w:75,
+	h:75,
+	color:"purple",
+	speed:6
+}
+
+var enemy3={
+	x:1600,
+	y:400,
+	w:75,
+	h:75,
+	color:"purple",
+	speed:7
+}
+
+var enemy2={
+	x:1600,
+	y:550,
+	w:75,
+	h:75,
+	color:"purple",
+	speed:8
+}
+
+var enemy4={
+	x:1600,
+	y:620,
+	w:75,
+	h:75,
+	color:"purple",
+	speed:9
+}
+
+var enemy5={
+	x:1600,
+	y:800,
+	w:75,
+	h:75,
+	color:"purple",
+	speed:10
+}
+	
+
+
+var sacMissiles=[]
+	
+var keyDown={}
+
+function collision(a,b){
+	if(a.x+a.w>b.x&&
+	   a.x<b.x+b.w&&
+	   a.y<b.y+b.h&&
+	   a.y+a.h>b.y){
+
+		return(true)
+	}
+}
+
+function missiles(){
+	for(i=0;i<sacMissiles.length;i++){
+        sacMissiles[i].draw()
+    }
+	}
+	
+document.addEventListener("keydown", function(e){
+    keyDown[e.keyCode]=true
+})
+
+document.addEventListener("keyup", function(e){
+    delete keyDown[e.keyCode]
+})
+
+function collision(a,b){
+	if(a.x+a.w>b.x &&
+	   a.x<b.x+b.w &&
+	  a.y<b.y+b.h &&
+	  a.y+a.h>b.y){
+		return(true)
+	}	
+}
+
+
+function pointage(){
+var points= "Vie du carré rouge: " + (cible.health+1)
+ctx.font="20px Arial"
+ctx.fillStyle="#F0F8FF"
+ctx.fillText(points, 10, 30)
+}
+
+
+function clavier(){
+	
+	if(37 in keyDown &&joueur.x>0){
+		joueur.x-=joueur.speed
+		}
+	if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+		joueur.x+=joueur.speed
+		}
+	if(38 in keyDown &&joueur.y>0){
+		joueur.y-=joueur.speed
+		}
+	if(40 in keyDown &&joueur.y<canvas.height-joueur.h){
+		joueur.y+=joueur.speed
+		}	
+	
+	}
+
+function draw(){
+	drawJoueur()
+	drawEnemy1()
+	drawEnemy2()
+	drawEnemy3()
+	drawEnemy4()
+	drawEnemy5()
+	drawCible()
+}
+
+function drawCible(){
+	ctx.fillStyle=cible.color
+    ctx.fillRect(cible.x, cible.y, cible.w, cible.h)
+	for(i=0;i<sacMissiles.length;i++)
+	if(collision(sacMissiles[i],cible)){
+		cible.y=Math.random()*canvas.height-50
+		sacMissiles.splice()
+		cible.health=cible.health-1
+        hit.play()
+	}
+	if(cible.health<0){cible.color="black"}
+}
+
+function drawEnemy1(){
+	ctx.fillStyle=enemy1.color
+    ctx.fillRect(enemy1.x, enemy1.y, enemy1.w, enemy1.h)
+	enemy1.x=enemy1.x-enemy1.speed
+	if(enemy1.x<0){enemy1.x=2000
+	enemy1.y=Math.random()*canvas.height
+	enemy1.speed=Math.random()*10+5
+	}
+}
+
+function drawEnemy5(){
+	ctx.fillStyle=enemy5.color
+    ctx.fillRect(enemy5.x, enemy5.y, enemy5.w, enemy5.h)
+	enemy5.x=enemy5.x-enemy5.speed
+	if(enemy5.x<0){enemy5.x=2000
+	enemy5.y=Math.random()*canvas.height
+	enemy5.speed=Math.random()*10+5
+	}
+}
+
+function drawEnemy2(){
+	ctx.fillStyle=enemy2.color
+    ctx.fillRect(enemy2.x, enemy2.y, enemy2.w, enemy2.h)
+	enemy2.x=enemy2.x-enemy2.speed
+	if(enemy2.x<0){enemy2.x=2000
+	enemy2.y=Math.random()*canvas.height
+	enemy2.speed=Math.random()*10+5
+	}
+}
+
+function drawEnemy3(){
+	ctx.fillStyle=enemy3.color
+    ctx.fillRect(enemy3.x, enemy3.y, enemy3.w, enemy3.h)
+	enemy3.x=enemy3.x-enemy3.speed
+	if(enemy3.x<0){enemy3.x=2000
+	enemy3.y=Math.random()*canvas.height
+	enemy3.speed=Math.random()*10+5
+	}
+}
+
+function drawEnemy4(){
+	ctx.fillStyle=enemy4.color
+    ctx.fillRect(enemy4.x, enemy4.y, enemy4.w, enemy4.h)
+	enemy4.x=enemy4.x-enemy4.speed
+	if(enemy4.x<0){enemy4.x=2000
+	enemy4.y=Math.random()*canvas.height
+	enemy4.speed=Math.random()*10+5
+	}
+}
+
+function collide(){
+	if(collision(joueur,enemy1)){
+	joueur.x=-20000
+	alert("Vous avez perdu. Il restait " + (cible.health+1) + " points de vie à la cible")
+}
+if(collision(joueur,enemy2)){
+	joueur.x=-20000
+	alert("Vous avez perdu. Il restait " + (cible.health+1) + " points de vie à la cible")
+}
+if(collision(joueur,enemy3)){
+	joueur.x=-20000
+	alert("Vous avez perdu. Il restait " + (cible.health+1) + " points de vie à la cible")
+}
+if(collision(joueur,enemy4)){
+	joueur.x=-20000
+	alert("Vous avez perdu. Il restait " + (cible.health+1) + " points de vie à la cible")
+}
+if(collision(joueur,enemy5)){
+	joueur.x=-20000
+	alert("Vous avez perdu. Il restait " + (cible.health+1) + " points de vie à la cible")
+}
+}
+
+function fin(){
+	if(collision(joueur,enemy1[i]))
+	{console.log("hit")}
+}
+
+function drawJoueur(){
+	ctx.fillStyle=joueur.color
+    ctx.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+
+	}
+	
+	function Missiles(x,y,w,h,color,speed){
+    this.x=x
+    this.y=y
+    this.w=w
+    this.h=h
+    this.color=color
+    this.speed=speed
+    this.draw=function(){
+    c.fillStyle=this.color
+    c.fillRect(this.x+=this.speed,this.y,this.w,this.h)
+}
+}
+
+var laser=new Audio()
+laser.src="pew.mp3"
+
+var hit=new Audio()
+hit.src="hit.mp3"
+
+canvas.addEventListener("click", souris)
+
+function souris(e){
+laser.play()
+sacMissiles.push(new Missiles(joueur.x,joueur.y+15,10,5,"blue",10))
+}
+
+function game(){
+	ctx.clearRect(0,0,canvas.width,canvas.height)
+	draw()
+	missiles()
+	clavier()
+	collide()
+	pointage()
+	requestAnimationFrame(game)
+	if(cible.health<0){alert("Vous avez gagné!")}
+}
+game()
+
+</script>
+</body>
+</html>
