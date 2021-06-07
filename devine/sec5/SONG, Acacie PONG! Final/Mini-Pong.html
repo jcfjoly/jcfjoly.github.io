@@ -1,0 +1,1087 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-pong!!! >_< </title>
+</head>
+
+<style>
+
+    #sonCommence{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:200px;
+        display:block;
+    }
+	#son1{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:200px;
+        display:none;
+    }
+	#son2{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:200px;
+        display:none;
+    }
+
+    #son3{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:200px;
+        display:none;
+    }
+    #son4{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:200px;
+        display:none;
+    }
+    #son4{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:200px;
+        display:none;
+    }
+
+    #son5{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:200px;
+        display:none;
+    }
+
+    #menuClick{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left:300px;
+        top: 275px;   
+        display:block;
+    }
+
+    #menuNom{
+        height: 200 px;
+        width: 25 px;
+        text-align: center;
+        position: absolute;
+        left:300px;
+        top: 200px;
+        display:block;
+    }
+
+/*2epage*/
+    #instructions{
+    height: 600 px;
+    width: 400 px;
+    background-color: white;
+    border: 2.5px solid black;
+    text-align: left;
+    position: absolute;
+    left:450px;
+    top: 150px;
+    display:none;
+}
+    #choixE{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 300px;
+        top: 150px;
+        display:none;
+    }
+    #choixC{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 300px;
+        top: 200px;
+        display:none;
+    }
+    #choixR{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 300px;
+        top: 250px;
+        display:none;
+    }
+	
+    #choixJ{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 300px;
+        top: 300px;
+        display:none;
+    }
+
+    #choixM{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left:300px;
+        bottom: 200px;
+        display:none;
+    }
+
+/*choix Menu Options*/
+/*vitesse*/
+    #textV{
+        display:none;
+        position: absolute;
+        left:100px;
+        top: 250px;
+        color:rgb(73, 128, 111);
+    }
+
+    #vit{
+        display:none;  
+        position: absolute;
+        left:300px;
+        top: 250px;
+    }
+
+    #vitesse{
+        display:none;
+        position: absolute;
+        left:200px;
+        top: 250px;
+        color:rgb(73, 128, 111);
+    }
+
+/*taille*/
+    #textT{
+        display:none;
+        position: absolute;
+        left:100px;
+        top: 200px;
+        color:rgb(73, 128, 111);
+    }
+
+    #taille{
+        display:none;
+        position: absolute;
+        left:300px;
+        top: 200px;
+    }
+
+    #size{
+        display:none;
+        position: absolute;
+        left:200px;
+        top: 200px;
+        color:rgb(73, 128, 111);
+    }
+
+/*couleur Pad et PadEnemy*/
+    #couleurJ{
+        display:none;
+        position: absolute;
+        left:300px;
+        top: 300px;
+    }
+
+    #cCouleurJ{
+        display:none;
+        position: absolute;
+        left:125px;
+        top: 300px;
+        color:rgb(73, 128, 111);
+    }
+
+    #couleurE{
+        display:none;
+        position: absolute;
+        left:300px;
+        top: 350px;
+    }
+
+    #cCouleurE{
+        display:none;
+        position: absolute;
+        left:125px;
+        top: 350px;
+        color:rgb(73, 128, 111);
+    }
+
+/*jeu*/
+
+    #monCanvas{
+        border: 2px black solid;
+        background-color:rgb(255, 169, 137);
+        margin:auto;
+        display:block;
+    }
+
+    #revient{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:250px;
+        display:none;
+    }
+
+    #anotherR{
+        height: 200 px;
+        width: 25 px;
+        background-color: white;
+        border: 2.5px solid black;
+        text-align: center;
+        position: absolute;
+        left: 500px;
+        bottom:400px;
+        display:none;
+    }
+
+
+</style>
+<body>
+
+    <div id = "menuNom"><h1>PONG</h1></div>
+    <div id = "instructions"><h2>Instructions:</h2>
+        <div id = "player1"><h4>Player 1: utiliser <-- et --></h4></div>
+        <div id = "player2"><h4>Player 2: utiliser a et d</h4></div>   
+    </div>
+   
+
+    <button id="choixE" onClick="choixE()">Entrainement</button>
+    <button id="choixC" onClick="choixC()">Carrée</button>
+    <button id="choixR" onClick="choixR()">Spécial</button>
+    <button id="choixJ" onClick="choixJ()">Deux joueurs</button>
+    <button id="choixM" onClick="choixM()">Menu Options</button>
+    <button id="menuClick" onClick="menuClick()">Click to start</button>
+    <button id="revient" onClick="menuClick()">Prêt!</button>
+    <button id="anotherR" onClick="anotherR()">Another round</button>    
+    <button id="sonCommence" onClick="sonMenuC1()">5 choix de sons</button>  
+    <button id="son1" onClick="sonMenuC2()">Son1</button>
+    <button id="son2" onClick="sonMenuC3()">Son2</button>
+    <button id="son3" onClick="sonMenuC4()">Son3</button>
+    <button id="son4" onClick="sonMenuC5()">Son4</button>
+    <button id="son5" onClick="sonMenuC1()">Son5</button>
+     
+
+    <input type="range" id="vit" min="1" max="6"  onchange="updateTextInputV(this.value);">
+    <label for="vitesse" id="vitesse">Vitesse 1 à 6</label>
+    <label for="textV" id="textV">VITESSE: 4</label>
+
+    <input type="range" id="taille" min="10" max="40" onChange="updateTextInputT(this.value);">
+    <label for="size" id="size">Size 10 à 40</label>
+    <label for="textT" id="textT">TAILLE: 25</label>
+
+    <input type="color" id="couleurJ" value="">
+    <label for="cCouleurJ" id="cCouleurJ">Padlet Player 1, couleur:</label>
+
+    <input type="color" id="couleurE" value="">
+    <label for="choixCouleurE" id="cCouleurE">Padlet Player 2, couleur:</label>
+ 
+    
+    <canvas id="monCanvas"></canvas>
+    
+<script>
+
+    var canvas=document.getElementById("monCanvas");
+    var c=canvas.getContext("2d");
+
+    canvas.width=window.innerWidth - 50;
+    canvas.height=window.innerHeight - 50;
+//draw canvas
+    var rectangle={
+        x:0, 
+        y:50, 
+        h:25,
+        w:canvas.width,
+        dy:1,
+    }
+
+    var balle={
+        x:50,
+        y:350,
+        r:25,
+        dx:4,
+        dy:4,
+    }
+
+    var carree={
+        x:200,
+        y:200,
+        h:25,
+        w:25,
+        dx:4,
+        dy:4,
+    }
+
+    var pad={
+       x:300,
+       y:canvas.height - 25,
+       w: 80,
+       h: 50, 
+    }
+
+    var padEnemy={
+       x:300,
+       y:canvas.height-25,
+       w: 80,
+       h: 50, 
+    }
+
+    var ligneM={
+       x:0,
+       y:canvas.height/2-5,
+       w: canvas.width,
+       h: 5, 
+    }
+
+//score
+    var scoreJ = 0;
+    var scoreE = 0;
+    var hscore = 0;
+
+//false
+    var start = false;
+    var gameOver = false;
+    var reround = false;
+
+    var cE = false;
+    var cC = false;
+    var cR = false;
+    var cJ = false;
+    var cM = false;
+
+//display none or block
+    var menuNom = document.getElementById("menuNom");
+    var choixE1 = document.getElementById ("choixE");
+    var choixC1 = document.getElementById ("choixC");
+    var choixR1 = document.getElementById ("choixR");
+    var choixJ1 = document.getElementById ("choixJ");
+    var choixM1 = document.getElementById ("choixM");
+    var instructions = document.getElementById("instructions")
+
+    var revient1 = document.getElementById("revient")
+
+    var vit = document.getElementById ("vit");
+    var vitesse = document.getElementById ("vitesse");
+    var vitV = document.getElementById ("vit").value;
+ 
+    var taille = document.getElementById ("taille");
+    var size = document.getElementById ("size");
+    var tailleV = document.getElementById ("taille").value;
+
+    var couleurJ = document.getElementById ("couleurJ");
+    var cCouleurJ = document.getElementById ("cCouleurJ");
+
+    var couleurE = document.getElementById ("couleurE");
+    var cCouleurE = document.getElementById ("cCouleurE");
+
+    var textT = document.getElementById ("textT");
+    var textV = document.getElementById ("textV");
+
+    var anotherR1 = document.getElementById("anotherR")
+
+    var sonCCommence = document.getElementById("sonCommence")
+	var sonC1 = document.getElementById("son1")
+	var sonC2 = document.getElementById("son2")
+	var sonC3 = document.getElementById("son3")
+	var sonC4 = document.getElementById("son4")
+    var sonC5 = document.getElementById("son5")
+
+//son:
+	var sonMenu1 = new Audio();
+	var sonMenu2 = new Audio();
+	var sonMenu3 = new Audio();
+	var sonMenu4 = new Audio();
+    var sonMenu5 = new Audio();
+
+	var sonGameOver = new Audio();
+    var sonWin = new Audio();
+	var sonRound = new Audio();
+
+	var sonPad=new Audio();
+    var sonPadEnemy=new Audio();
+
+	var sonMurD=new Audio();
+    var sonMurG=new Audio();
+
+	
+	sonMenu1.src="sonMenu1.wav";
+	sonMenu2.src="sonMenu2.wav";
+    //https://www.youtube.com/watch?v=b-hYj86ylpU&t=77s
+	sonMenu3.src="sonMenu3.wav";
+    //https://www.youtube.com/watch?v=7QskmAsU9kc
+	sonMenu4.src="sonMenu4.wav";
+    sonMenu5.src="sonMenu5.wav";
+
+	
+	sonGameOver.src="sonGameOver.mp3";
+    sonWin.src="sonWin.mp3";	
+	sonRound.src="sonRound.wav";
+
+	sonPad.src="sonPad.wav";
+    sonPadEnemy.src="sonPadEnemy.wav";
+
+	sonMurD.src="sonMurD.wav";
+    sonMurG.src="sonMurG.wav";
+	
+	
+//function son	
+    function sonMenuC1(){
+        sonMenu1.play()
+        sonMenu1.loop = true
+        sonC5.style.display="none"
+        sonC1.style.display="block"
+        sonCCommence.style.display = "none"
+        sonMenu5.pause();
+        sonMenu5.currentTime = 0;
+        console.log(sonMenuC1)
+        }
+	 	
+    function sonMenuC2(){
+        sonMenu2.play()
+        sonMenu2.loop = true
+        sonC1.style.display="none"
+        sonC2.style.display="block"
+        sonMenu1.pause();
+        sonMenu1.currentTime = 0;
+        }
+    function sonMenuC3(){
+        sonMenu3.play()
+        sonMenu3.loop = true
+        sonC2.style.display="none"
+        sonC3.style.display="block"
+        sonMenu2.pause();
+        sonMenu2.currentTime = 0;
+        }
+                
+    function sonMenuC4(){
+        sonMenu4.play()
+        sonMenu4.loop = true
+        sonC3.style.display="none"
+        sonC4.style.display="block"
+        sonMenu3.pause();
+        sonMenu3.currentTime = 0;
+        }
+
+    function sonMenuC5(){
+        sonMenu5.play()
+        sonMenu5.loop = true
+        sonC4.style.display="none"
+        sonC5.style.display="block"
+        sonMenu4.pause();
+        sonMenu4.currentTime = 0;
+        }
+	
+//page2
+    function menuClick(){
+        var menuClick= document.getElementById ("menuClick")
+        choixE1.style.display = "block";
+        choixC1.style.display = "block";
+        choixR1.style.display = "block";
+        choixJ1.style.display = "block";
+        choixM1.style.display = "block";
+        instructions.style.display = "block";
+
+        menuClick.style.display = "none";
+        menuNom.style.display = "none";
+        vit.style.display = "none";
+        vitesse.style.display = "none";
+        taille.style.display = "none";
+        size.style.display = "none";
+        couleurJ.style.display = "none";
+        cCouleurJ.style.display = "none";
+        couleurE.style.display = "none";
+        cCouleurE.style.display = "none";
+        textT.style.display = "none";
+        textV.style.display = "none";
+        revient1.style.display = "none";
+    }
+
+    function choixE(){
+        choixE1.style.display = "none";
+        choixC1.style.display = "none";
+        choixR1.style.display = "none";
+        choixJ1.style.display = "none";
+        choixM1.style.display = "none";
+        instructions.style.display = "none";
+
+        sonC1.style.display="none";
+        sonC3.style.display="none";
+        sonC2.style.display="none";
+        sonC4.style.display="none";
+        sonC5.style.display="none";
+        sonCCommence.style.display = "none";
+
+        start=true;
+        cE = true
+        
+    }
+
+    function choixC(){
+        choixE1.style.display = "none";
+        choixC1.style.display = "none";
+        choixR1.style.display = "none";
+        choixJ1.style.display = "none";
+        choixM1.style.display = "none";
+        instructions.style.display = "none";
+
+        sonC1.style.display="none";
+        sonC3.style.display="none";
+        sonC2.style.display="none";
+        sonC4.style.display="none";
+        sonC5.style.display="none";
+        sonCCommence.style.display = "none";
+
+        start=true;
+        cC = true;
+        
+    }
+
+    function choixR(){
+        choixE1.style.display = "none";
+        choixC1.style.display = "none";
+        choixR1.style.display = "none";
+        choixJ1.style.display = "none";
+        choixM1.style.display = "none";
+        instructions.style.display = "none";
+
+        sonC1.style.display="none";
+        sonC3.style.display="none";
+        sonC2.style.display="none";
+        sonC4.style.display="none";
+        sonC5.style.display="none";
+        sonCCommence.style.display = "none";
+
+        start=true;
+        cR = true;
+        
+    }
+
+    function choixJ(){
+        choixE1.style.display = "none";
+        choixC1.style.display = "none";
+        choixR1.style.display = "none";
+        choixJ1.style.display = "none";
+        choixM1.style.display = "none";
+        instructions.style.display = "none";
+
+        sonC1.style.display="none"
+        sonC3.style.display="none"
+        sonC2.style.display="none"
+        sonC4.style.display="none"
+        sonC5.style.display="none";
+        sonCCommence.style.display = "none"
+
+        start=true;
+        cJ = true;
+        
+    }
+
+    function choixM(){
+        choixE1.style.display = "none";
+        choixC1.style.display = "none";
+        choixR1.style.display = "none";
+        choixJ1.style.display = "none";
+        choixM1.style.display = "none";
+        instructions.style.display = "none";
+
+        vit.style.display = "block";
+        vitesse.style.display = "block";
+        taille.style.display = "block";
+        size.style.display = "block";
+        couleurJ.style.display = "block";
+        cCouleurJ.style.display = "block";
+        couleurE.style.display = "block";
+        cCouleurE.style.display = "block";
+        textT.style.display = "block";
+        textV.style.display = "block";
+        revient1.style.display = "block";
+
+        cM=true;
+
+    }
+//choix Menu Options pour changer texte et variable
+    function updateTextInputV(val) {
+            textV.innerHTML = "VITESSE: " + val; 
+            balle.dx+=vit.valueAsNumber-4;
+            balle.dy+=vit.valueAsNumber-4;
+            carree.dx+=vit.valueAsNumber-4;
+            carree.dy+=vit.valueAsNumber-4;
+
+    } 
+
+    function updateTextInputT(val) {
+            textT.innerHTML = "TAILLE: " + val;
+            balle.r+=taille.valueAsNumber-25;
+            carree.w+=taille.valueAsNumber-25;
+            carree.h+=taille.valueAsNumber-25;
+    }
+
+//draw Canvas
+    function drawRectangle(){
+        c.fillStyle = "noir";
+        c.fillRect(rectangle.x,rectangle.y,rectangle.w,rectangle.h);
+            
+        if(rectangle.y<=0-rectangle.h-15){
+            rectangle.dy=-rectangle.dy
+        }
+
+        if(rectangle.y+rectangle.h>=canvas.height/2){
+            rectangle.dy=-rectangle.dy
+        }
+        rectangle.y+=rectangle.dy;				
+    }
+//balle
+
+    function drawBalle(){
+        c.fillStyle="darkred";
+        c.beginPath();
+        c.arc(balle.x,balle.y,balle.r,0,Math.PI*2,false);
+        c.fill();
+
+//coté
+        if(balle.x-balle.r<=0){
+            sonMurG.pause();
+            sonMurG.currentTime = 0;
+            sonMurG.play()
+            balle.dx=-balle.dx;
+        
+        }
+        if(balle.x>canvas.width-balle.r){
+            sonMurD.pause();
+        sonMurD.currentTime = 0;
+            sonMurD.play()
+            balle.dx=-balle.dx;		
+        }
+
+//bas et haut       
+        if(cE==true||cR==true){
+
+            if(balle.y<balle.r){
+                balle.dy=-balle.dy;
+            }
+            if (balle.y + balle.r > canvas.height){
+                gameOver=true;
+            }
+        }
+    
+        if (cJ==true){
+
+            if (balle.y - balle.r <= 0 && balle.y - balle.r>=(-6)){
+                scoreJ++;
+                reround=true;
+                sonRound.play()
+            }
+
+            if ((balle.y + balle.r) >= canvas.height && (balle.y + balle.r) <= canvas.height+6){
+                scoreE++;
+                reround=true;
+                sonRound.play()
+            }
+        }
+        balle.x+=balle.dx;
+        balle.y+=balle.dy;
+    }
+//color  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
+
+
+    function drawCarree(){
+        c.fillStyle = "darkred";
+        c.fillRect(carree.x,carree.y,carree.w,carree.h);
+
+        if(carree.x>=canvas.width-carree.w){		
+            sonMurD.pause();
+            sonMurD.currentTime = 0;
+            sonMurD.play()
+            carree.dx=-carree.dx
+        }	
+            
+        if(carree.x<=0){
+            sonMurG.pause();
+            sonMurG.currentTime = 0;
+            sonMurG.play()
+            carree.dx=-carree.dx
+            
+        }
+            
+        if(carree.y<0){
+            carree.dy=-carree.dy
+        }
+
+        if(carree.y>canvas.height-carree.h){
+            gameOver=true;
+        }
+                                    
+        carree.x+=carree.dx			
+        carree.y+=carree.dy	                        
+    }
+
+    //pad
+    function drawPad(){
+       
+        c.fillStyle=couleurJ.value;
+        c.fillRect(pad.x,pad.y,pad.w,pad.h);
+        pad.w = 100;
+        pad.h = 15;
+        pad.y = canvas.height-25-pad.h;
+
+        if(pad.x<=0){
+            pad.x=0
+            }
+        if(pad.x+pad.w>=canvas.width){
+            pad.x=canvas.width-pad.w;
+            }
+    };
+
+    //Pad enemy
+    function drawPadEnemy(){
+        c.fillStyle=couleurE.value;
+        c.fillRect(padEnemy.x,padEnemy.y,padEnemy.w,padEnemy.h);
+        padEnemy.w = 100;
+        padEnemy.h = 15;
+        padEnemy.y = 25;
+
+        if(padEnemy.x<=0){
+            padEnemy.x=0
+            }
+        if(padEnemy.x+padEnemy.w>=canvas.width){
+            padEnemy.x=canvas.width-pad.w;
+            }
+    };
+
+    function drawLigneM(){
+        c.fillStyle="black";
+        c.fillRect(ligneM.x,ligneM.y,ligneM.w,ligneM.h);
+
+    }
+
+
+// collisions avec Padlet(s)
+    
+    function collision(){
+
+    //collision choix Entrainement
+
+        if(cE==true){  
+            //Pad joueur       
+            if(balle.x+balle.r>pad.x && balle.x-balle.r<pad.x+pad.w && balle.y+balle.r>=pad.y && balle.y+balle.r<=pad.y+6){
+                balle.dy=-balle.dy;     
+                scoreJ++;
+                sonPad.play()
+            }           
+        }
+    //collision choix Carree
+        if(cC==true){
+            //pad Joueur
+            if(carree.x+carree.w>pad.x && carree.x<pad.x+pad.w && carree.y+carree.h>=pad.y && carree.y+carree.h<=pad.y+6){
+                carree.dy=-carree.dy;     
+                scoreJ++;
+                sonPad.play()
+            }    
+
+        }
+
+    //collision choix Rectangle 
+        if(cR==true){
+            //pad Joueur
+            if(balle.x+balle.r>pad.x && balle.x-balle.r<pad.x+pad.w && balle.y+balle.r>=pad.y && balle.y+balle.r<=pad.y+6){
+                balle.dy=-balle.dy;     
+                scoreJ++;
+                sonPad.play()
+            } 
+            if (balle.y-balle.r==rectangle.y+rectangle.h){
+                balle.dy=-balle.dy;  
+            } 
+            if (balle.y-balle.r<rectangle.y+rectangle.h){
+                balle.y=rectangle.y+rectangle.h+balle.r;
+                balle.dy=-balle.dy;  
+            }    
+
+        }
+
+    //collision choix deux Joueurs
+        if(cJ==true){
+            //pad Joueur
+            if(balle.x+balle.r>pad.x && balle.x-balle.r<pad.x+pad.w && balle.y+balle.r>=pad.y && balle.y+balle.r<=pad.y+6){
+                balle.dy=-balle.dy;  
+                sonPad.play()   
+            }
+            //pad Enemy
+            if (balle.x+balle.r>padEnemy.x && balle.x-balle.r<padEnemy.x+padEnemy.w && balle.y-balle.r<=padEnemy.y+padEnemy.h && balle.y-balle.r>=padEnemy.y+padEnemy.h-6){
+                balle.dy=-balle.dy;   
+                sonPadEnemy.play() 
+            }
+        }  
+    }
+
+//pointage
+
+    function pointage(){
+
+    //score cE    
+        if (cE==true||cC==true||cR==true){
+            c.fillStyle = "black";
+            c.font = "20px Arial";
+            c.textAlign = "left";
+            c.fillText("Joueur: "+ scoreJ,canvas.width/2,30);
+            
+            //meilleur score
+            c.fillStyle = "black";
+            c.font = "20px Arial";
+            c.textAlign = "left";
+            c.fillText("Meilleur score: " + hscore,30,30);
+        }
+
+    //score cJ
+        if (cJ==true){
+
+            c.fillStyle = "black";
+            c.font = "20px Arial";
+            c.textAlign = "left";
+            c.fillText("Joueur P1: "+ scoreJ,15,canvas.height/2-30);
+
+            //score ennemie
+            c.fillStyle = "black";
+            c.font = "20px Arial";
+            c.textAlign = "left";
+            c.fillText("Joueur P2: "+ scoreE,15,canvas.height/2+30);
+        }
+    
+    }
+
+//mouvement pad et padEnemy
+    function move(){
+        document.addEventListener("keydown", function (a){
+            var y = a.keyCode;
+    
+            if (a.keyCode === 68) { //--> d
+            padEnemy.x+=35;
+            } 
+            
+            if (a.keyCode === 65) { //<-- a
+            padEnemy.x-=35;
+            }
+        }) 
+        document.addEventListener("keydown", function (a){
+            var y = a.keyCode;
+    
+            if (a.keyCode === 39) { //--> 
+                if(cE==true||cC==true){
+                    pad.x+=20;
+                }
+                if(cR==true||cJ==true){
+                    pad.x+=35;
+                }
+
+            } 
+            
+            if (a.keyCode === 37) { //<-- 
+                if(cE==true||cC==true||cJ==true){
+                    pad.x-=20;
+                }
+                if(cR==true||cJ==true){
+                    pad.x-=35;
+                }
+            }
+        })
+    }
+
+//changement
+    function round(){
+        sonMurD.pause();
+        sonMurD.currentTime = 0;
+        sonMurG.pause();
+        sonMurG.currentTime = 0;
+        balle.y = 1000
+            
+    anotherR1.style.display="block";
+
+        if (scoreJ==5||scoreE==5){
+        gameOver=true;
+        anotherR1.style.display="none";
+        }
+    }
+
+    function anotherR(){
+        sonRound.pause();
+        sonRound.currentTime = 0;
+        balle.x=120;
+        balle.y=300;
+        reround=false;
+        anotherR1.style.display="none";
+    }
+
+    function fin(){
+        sonRound.pause();
+        sonRound.currentTime = 0;
+        sonMurD.pause();
+        sonMurD.currentTime = 0;
+        sonMurG.pause();
+        sonMurG.currentTime = 0;
+
+    if(cJ==true){
+
+            if (scoreJ==5){
+                c.fillStyle = "white";
+                c.font = "45px Arial";
+                c.textAlign = "center";
+                c.fillText("WIN", canvas.width / 2, canvas.height / 2);
+                sonWin.play()
+            }
+            if(scoreE==5){ 
+                c.fillStyle = "darkred";
+                c.font = "45px Arial";
+            c.textAlign = "center";
+            c.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+            sonGameOver.play()
+        }
+
+    }
+    
+    rectangle.y = 0;  
+
+    if(cE==true||cJ==true){
+        balle.y = 50;
+    }
+
+    if(cR==true){
+        balle.y = 100;
+    }
+
+    carree.y = 50;
+
+        if(cE==true||cC==true||cR==true){
+            if(scoreJ>hscore){
+                hscore = scoreJ;
+            }
+        c.fillStyle = "darkred";
+        c.font = "45px Arial";
+        c.textAlign = "center";
+        c.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+        sonGameOver.play()
+
+            canvas.addEventListener("click", function(){
+            sonGameOver.pause();
+            sonGameOver.currentTime = 0;
+            gameOver = false;
+            scoreJ = 0;
+
+            });
+        }
+
+    }
+
+    
+    function game(){
+
+        if (start == true){
+            sonMenu1.pause();
+            sonMenu1.currentTime = 0;
+            sonMenu2.pause();
+            sonMenu2.currentTime = 0;
+            sonMenu3.pause();
+            sonMenu3.currentTime = 0;
+            sonMenu4.pause();
+            sonMenu4.currentTime = 0;
+            sonMenu5.pause();
+            sonMenu5.currentTime = 0;
+            
+            c.clearRect(0,0,canvas.width,canvas.height);
+            collision()
+            pointage()
+        
+            if(gameOver == false) {
+                drawPad();
+
+                if (cE==true){
+                    drawBalle();
+                };
+
+                if(cC==true){
+                    drawCarree();
+                };
+
+                if(cR==true){
+                    drawRectangle();
+                    drawBalle();
+                }
+                if(cJ==true){ 
+                    drawLigneM();    
+                    drawPadEnemy();
+                    if(reround==false){
+                        drawBalle();
+                    }
+                    if(reround==true){
+                        round()
+                    }         
+                }
+            }        
+            if(gameOver == true) {
+            fin();
+            }
+        }  
+        requestAnimationFrame(game); 
+    }
+
+    game();
+    move();
+
+    </script>
+</body>
+</html>
