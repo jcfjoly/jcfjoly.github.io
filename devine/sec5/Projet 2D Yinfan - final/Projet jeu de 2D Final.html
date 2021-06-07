@@ -1,0 +1,302 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Roblox</title>
+
+<style>
+
+	canvas{
+		border:2px red solid;
+		background-color:black;
+		margin:auto;
+		display:block;
+	}
+
+</style>	
+
+</head>
+
+<body>
+
+	<canvas id="monCanvas"></canvas>
+
+<script>
+
+// Creation d'un canvas en Javascript au lieu de HTML 
+	var canvas=document.getElementById('monCanvas')
+	var c=canvas.getContext('2d')
+	canvas.width=600
+	canvas.height=600
+
+var joueur={
+	x:0,
+	y:550,
+	w:30,
+	h:30,
+	color:"white",
+	speed:3
+	}
+
+var keyDown={}
+
+//bouttons
+var playB = new Buttons(200,240,200,50,'white','Press "q" to begin')
+var menuB = new Buttons(200,300,200,50,'white','Press "m" to menu')
+
+//menu UI
+var backgroundColor1 = new Buttons(999,240,200,50,'white','White - Press "1"')
+var backgroundColor2 = new Buttons(999,300,200,50,'white','Red - Press "2"')
+var backgroundColor3 = new Buttons(999,360,200,50,'white','Back - "Backscape"')
+
+//fonctions
+
+	function Buttons(x,y,w,h,color,text){
+		this.x=x
+		this.y=y
+		this.w=w
+		this.h=h
+		this.color=color
+		this.text=text
+		this.draw=function(){
+			c.fillStyle=this.color
+			c.fillRect(this.x, this.y, this.w, this.h)
+			c.font="20px Arial"
+			c.fillStyle="Black"
+			c.fillText(text,this.x+15,this.y+35)
+		}
+	}
+
+	function menuC(x,y,w,h,color,text){
+		this.x=x
+		this.y=y
+		this.w=w
+		this.h=h
+		this.color=color
+		this.text=text
+		this.draw=function(){
+			c.fillStyle=this.color
+			c.fillRect(this.x,this.y,this.w,this.h)
+		}
+	}
+
+	document.addEventListener('keydown', choiceB)
+
+	function choiceB(e){
+        if(e.keyCode == 81){
+            playB.x = 999
+			menuB.x = 999	
+        }
+		if(e.keyCode == 77){
+			playB.x = 999
+			menuB.x = 999
+			backgroundColor1.x = 200
+			backgroundColor2.x = 200
+			backgroundColor3.x = 200
+		}
+		if(e.keyCode == 49){
+			joueur.color='white'
+		}
+		if(e.keyCode == 8){
+				playB.x = 200
+				menuB.x = 200
+				backgroundColor1.x = 999
+				backgroundColor2.x = 999
+				backgroundColor3.x = 999
+			}
+		if(e.keyCode == 50){
+			joueur.color='red'
+		}
+		if(playB.x==999&&menuB.x==999&&backgroundColor1.x==999&&backgroundColor2.x==999){
+			o1.x=0
+			o2.x=120
+			o3.x=0
+			o4.x=80
+			o5.x=0
+			o6.x=70
+			mo1.x=500
+			mo2.x=400
+			mo3.x=300
+			mo4.x=200
+			mo5.x=100
+			end1.x=0
+			//o7.x=0
+			//o8.x=50
+		}
+    }
+
+	//obstacles
+	var o1 = new Obstacle(999,80,450,10,'red',0)
+	var o2 = new Obstacle(999,160,480,10,'red',0)
+	var o3 = new Obstacle(999,240,500,10,'red',0)
+	var o4 = new Obstacle(999,320,520,10,'red',0)
+	var o5 = new Obstacle(999,400,540,10,'red',0)
+	var o6 = new Obstacle(999,480,560,10,'red',0)
+	//var o7 = new Obstacle(999,560,350,10,'red',0)
+	//var o8 = new Obstacle(999,500,350,10,'red',0)
+
+	var mo1 = new Obstacle(999,200,50,10,'blue',5)
+	var mo2 = new Obstacle(999,500,50,10,'blue',5)
+	var mo3 = new Obstacle(999,350,50,10,'blue',5)
+	var mo4 = new Obstacle(999,50,50,10,'blue',5)
+	var mo5 = new Obstacle(999,450,50,10,'blue',5)
+
+	var end1 = new Obstacle(999,590,600,10,'yellow',0)
+
+	function Obstacle(x,y,w,h,color,speed){
+		this.x=x
+		this.y=y
+		this.w=w
+		this.h=h
+		this.color=color
+		this.speed=speed
+		this.draw=function(){
+		c.fillStyle=this.color
+		c.fillRect(this.x, this.y, this.w, this.h)
+		if(this.y<0||this.y+this.h>canvas.height){
+			this.speed=-this.speed
+		}
+			this.y+=this.speed
+		}
+	}
+
+
+	function draw(){
+		playB.draw()
+		menuB.draw()
+		backgroundColor1.draw()
+		backgroundColor2.draw()
+		backgroundColor3.draw()
+		o1.draw()
+		o2.draw()
+		o3.draw()
+		o4.draw()
+		o5.draw()
+		o6.draw()
+		//o7.draw()
+		//o8.draw()
+
+		mo1.draw()
+		mo2.draw()
+		mo3.draw()
+		mo4.draw()
+		mo5.draw()
+
+		end1.draw()
+	}
+
+	function checkCollision(){
+		if(collision(joueur,o1)||
+		collision(joueur,o2)||
+		collision(joueur,o3)||
+		collision(joueur,o4)||
+		collision(joueur,o5)||
+		collision(joueur,o6)||
+		collision(joueur,mo1)||
+		collision(joueur,mo2)||
+		collision(joueur,mo3)||
+		collision(joueur,mo4)
+		){
+			joueur.x=0
+			joueur.y=0
+		}
+
+		if(collision(o1,mo2)
+		){
+			mo2.speed=-mo2.speed
+		}
+		if(collision(o3,mo5)
+		){
+			mo5.speed=-mo5.speed
+		}
+		if(collision(o3,mo4)
+		){
+			mo4.speed=-mo4.speed
+		}
+		if(collision(o2,mo1)
+		){
+			mo1.speed=-mo1.speed
+		}
+		if(collision(joueur,end1)
+		){
+			victory()
+		}
+	}
+
+	var imgVictory=new Image()
+	imgVictory.src="victory.jpg"
+
+	function drawJoueur(){
+		c.fillStyle=joueur.color
+		c.fillRect(joueur.x, joueur.y, joueur.w, joueur.h)
+		}
+
+
+	//collisions
+
+	function collision(a,b){
+		if(a.x+a.w>b.x&&
+		a.x<b.x+b.w&&
+		a.y<b.y+b.h&&
+		a.y+a.h>b.y){
+			return(true)}
+		}
+
+
+	//controles
+
+	document.addEventListener("keydown", function(e){
+		keyDown[e.keyCode]=true
+		console.log(keyDown)
+	})
+
+	document.addEventListener("keyup", function(e){
+		delete keyDown[e.keyCode]
+		console.log(keyDown)
+	})
+
+	function clavier(){	
+		if(37 in keyDown &&joueur.x>0){
+			joueur.x-=joueur.speed
+			}
+		if(39 in keyDown &&joueur.x<canvas.width-joueur.w){
+			joueur.x+=joueur.speed
+			}
+		if(38 in keyDown &&joueur.y>0){
+			joueur.y-=joueur.speed
+			}
+		if(40 in keyDown &&joueur.y<canvas.height-joueur.h){
+			joueur.y+=joueur.speed
+			}	
+		}
+
+
+	function victory(){
+		c.drawImage(imgVictory,0,0,600,600)
+	}
+
+	//boucle principale du jeu
+
+	function game(){
+		c.clearRect(0,0,canvas.width,canvas.height)
+		drawJoueur()
+		draw()
+		checkCollision()
+		clavier()
+		requestAnimationFrame(game)
+		}	
+		
+	game()
+
+
+
+	</script>
+
+	</body>
+
+	</html>
+
