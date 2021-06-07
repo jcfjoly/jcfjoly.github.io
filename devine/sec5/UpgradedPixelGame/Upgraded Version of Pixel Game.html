@@ -1,0 +1,2578 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgraded Version of Pixel Game</title>
+    <style>
+        body {
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        //canvas
+        var canvas = document.createElement("canvas");
+        var c = canvas.getContext("2d");
+        canvas.width = 1870
+        canvas.height = 967
+        canvas.style.border = "5px white solid";
+        canvas.style.backgroundColor = "black";
+        canvas.style.display = "block";
+        canvas.style.margin = "auto";
+        document.body.appendChild(canvas);
+
+        //joueur
+        var player = {
+            x: canvas.width / 3,
+            y: 0,
+            w: 30,
+            h: 30,
+            color: "blue",
+            speed: 10
+        }
+        //écran de menu et de fin
+        var menuScreen = new Obstacle(0, 0, canvas.width, canvas.height, "orange", 0)
+        var endScreen = new Obstacle(0, 0, canvas.width, canvas.height, "orange", 0)
+        //trois boutons menu    
+        var button1 = new Bouton(2 * canvas.width / 5.1, 2.5 * canvas.height / 6, canvas.width / 5, canvas.height / 10, "lightblue", "Tutorial", "black")
+        var button2 = new Bouton(2 * canvas.width / 5.1, 3.5 * canvas.height / 6, canvas.width / 5, canvas.height / 10, "lightblue", "Levels", "black")
+        var button3 = new Bouton(2 * canvas.width / 5.1, 4.5 * canvas.height / 6, canvas.width / 5, canvas.height / 10, "lightblue", "Play", "black")
+
+        //boutons dans la page levels
+        var lvl1 = new Bouton(canvas.width / 12, canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "1", "#99ffe6")
+        var lvl2 = new Bouton(3 * canvas.width / 12, canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "2", "#99ffe6")
+        var lvl3 = new Bouton(5 * canvas.width / 12, canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "3", "#99ffe6")
+        var lvl4 = new Bouton(7 * canvas.width / 12, canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "4", "#99ffe6")
+        var lvl5 = new Bouton(9 * canvas.width / 12, canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "5", "#99ffe6")
+        var lvl6 = new Bouton(canvas.width / 12, 2 * canvas.height / 4, 0, canvas.height / 10, "#00e639", "6", "#99ffe6")
+        var lvl7 = new Bouton(3 * canvas.width / 12, 2 * canvas.height / 4, 0, canvas.height / 10, "#00e639", "7", "#99ffe6")
+        var lvl8 = new Bouton(5 * canvas.width / 12, 2 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "8", "#99ffe6")
+        var lvl9 = new Bouton(7 * canvas.width / 12, 2 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "9", "#99ffe6")
+        var lvl10 = new Bouton(9 * canvas.width / 12, 2 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "10", "#99ffe6")
+        var lvl11 = new Bouton(canvas.width / 12, 3 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "11", "#99ffe6")
+        var lvl12 = new Bouton(3 * canvas.width / 12, 3 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "12", "#99ffe6")
+        var lvl13 = new Bouton(5 * canvas.width / 12, 3 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "13", "#99ffe6")
+        var lvl14 = new Bouton(7 * canvas.width / 12, 3 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "14", "#99ffe6")
+        var lvl15 = new Bouton(9 * canvas.width / 12, 3 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "#00e639", "15", "#99ffe6")
+
+        //texts
+        var infoLvl1 = new Bouton(canvas.width / 12, 1.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Normal", "#99ffe6")
+        var infoLvl2 = new Bouton(3 * canvas.width / 12, 1.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Faster", "#99ffe6")
+        var infoLvl3 = new Bouton(5 * canvas.width / 12, 1.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Slower", "#99ffe6")
+        var infoLvl4 = new Bouton(7 * canvas.width / 12, 1.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "One Life", "#99ffe6")
+        var infoLvl5 = new Bouton(9 * canvas.width / 12, 1.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Timer", "#99ffe6")
+        var infoLvl6 = new Bouton(canvas.width / 12, 2.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Inversed", "#99ffe6")
+        var infoLvl7 = new Bouton(3 * canvas.width / 12, 2.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Right Wind", "#99ffe6")
+        var infoLvl8 = new Bouton(5 * canvas.width / 12, 2.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Left Wind", "#99ffe6")
+        var infoLvl9 = new Bouton(7 * canvas.width / 12, 2.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Disappear", "#99ffe6")
+        var infoLvl10 = new Bouton(9 * canvas.width / 12, 2.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Ball Madness", "#99ffe6")
+        var infoLvl11 = new Bouton(canvas.width / 12, 3.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Snow Day", "#99ffe6")
+        var infoLvl12 = new Bouton(3 * canvas.width / 12, 3.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "OP MODE", "#99ffe6")
+        var infoLvl13 = new Bouton(5 * canvas.width / 12, 3.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Crazy Minions", "#99ffe6")
+        var infoLvl14 = new Bouton(7 * canvas.width / 12, 3.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "BIG BOSS", "#99ffe6")
+        var infoLvl15 = new Bouton(9 * canvas.width / 12, 3.5 * canvas.height / 4, canvas.width / 7, canvas.height / 10, "black", "Credits", "#99ffe6")
+
+        //variable qui choisit un chemin aléatoirement
+        var number = Math.round(Math.random() * 2) + 1
+        console.log(number)
+
+        //tuto niv1
+        var obst1 = new Obstacle(0, 0, canvas.width, 10, "green", 0)
+        var obst2 = new Obstacle(0, 0, 10, canvas.height, "green", 0)
+        var obst3 = new Obstacle(canvas.width - 10, 0, 10, canvas.height, "green", 0)
+        var obst4 = new Obstacle(0, canvas.height - 10, canvas.width, 10, "green", 0)
+
+        //tuto niv2
+        var obst5 = new Obstacle(canvas.width / 5, 0, canvas.width / 5, canvas.height / 3, "#ff6633", 0)
+        var obst6 = new Obstacle(canvas.width / 5, canvas.height / 3, canvas.width / 5, canvas.height / 3, "#ff9933", 0)
+        var obst7 = new Obstacle(canvas.width / 5, 2 * canvas.height / 3, canvas.width / 5, canvas.height / 3, "#ffcc33", 0)
+        var obst8 = new Obstacle(3 * canvas.width / 5, 0, canvas.width / 5, canvas.height / 3, "#33ffcc", 0)
+        var obst9 = new Obstacle(3 * canvas.width / 5, canvas.height / 3, canvas.width / 5, canvas.height / 3, "#33ffff", 0)
+        var obst10 = new Obstacle(3 * canvas.width / 5, 2 * canvas.height / 3, canvas.width / 5, canvas.height / 3, "#33ccff", 0)
+
+        //tuto niv3
+        var obst11 = new Obstacle(canvas.width / 10, 0, canvas.width / 7, 2 * canvas.height / 3, "white", 0)
+        var obst12 = new Obstacle(3 * canvas.width / 10, canvas.height - obst11.h, canvas.width / 7, 2 * canvas.height / 3, "white", 0)
+        var obst13 = new Obstacle(5 * canvas.width / 10, 0, canvas.width / 7, 2 * canvas.height / 3, "white", 0)
+        var obst14 = new Obstacle(7 * canvas.width / 10, canvas.height - obst11.h, canvas.width / 7, 2 * canvas.height / 3, "white", 0)
+
+        //tuto niv4
+        //tuto walls
+        var obst15 = new Obstacle(canvas.width / 5, 0, 10, 2 * canvas.height / 3, "white", 0)
+        var obst16 = new Obstacle(2 * canvas.width / 5, 0, 10, 2 * canvas.height / 3, "white", 0)
+        var obst17 = new Obstacle(3 * canvas.width / 5, 0, 10, 2 * canvas.height / 3, "white", 0)
+        var obst18 = new Obstacle(4 * canvas.width / 5, 0, 10, 2 * canvas.height / 3, "white", 0)
+        //tuto keys
+        var key1 = new Obstacle(canvas.width / 10, 5, 20, 20, "#ff3333", 0)
+        var key2 = new Obstacle(3 * canvas.width / 10, 5, 20, 20, "#ffff33", 0)
+        var key3 = new Obstacle(7 * canvas.width / 10, 5, 20, 20, "#66ff33", 0)
+        var key4 = new Obstacle(5 * canvas.width / 10, 5, 20, 20, "#3333ff", 0)
+        //tuto doors
+        var obst19 = new Obstacle(3 * canvas.width / 5, 2 * canvas.height / 3, canvas.width / 5, 10, "#ff3333", 0)
+        var obst20 = new Obstacle(2 * canvas.width / 5, 2 * canvas.height / 3, canvas.width / 5, 10, "#ffff33", 0)
+        var obst21 = new Obstacle(canvas.width / 5, 2 * canvas.height / 3, canvas.width / 5, 10, "#66ff33", 0)
+        var obst22 = new Obstacle(4 * canvas.width / 5, 2 * canvas.height / 3, canvas.width / 5, 10, "#3333ff", 0)
+
+        //tuto niv5
+        var obst23 = new Obstacle(canvas.width / 7, canvas.height / 2, canvas.width / 15, canvas.height / 3, "white", 3)
+        var obst24 = new Obstacle(2 * canvas.width / 7, canvas.height / 2, canvas.width / 14, canvas.height / 20, "white", 15)
+        var obst25 = new Obstacle(3 * canvas.width / 7, canvas.height / 2, canvas.width / 7, canvas.height / 11, "white", 10)
+        var obst26 = new Obstacle(4 * canvas.width / 7, canvas.height / 2, canvas.width / 10, canvas.height / 15, "white", 5)
+        var obst27 = new Obstacle(5 * canvas.width / 7, canvas.height / 2, canvas.width / 13, canvas.height / 9, "white", 3)
+        var obst28 = new Obstacle(6 * canvas.width / 7, canvas.height / 2, canvas.width / 20, canvas.height / 5, "white", 3)
+
+        //tuto niv6
+        var obst29 = new Obstacle(canvas.width / 9, 0, canvas.width / 5, canvas.height, "#ff9933", 0)
+        var obst30 = new Obstacle(2.5 * canvas.width / 8, 0, canvas.width / 2.8, canvas.height / 2, "#ffff66", 0)
+        var obst31 = new Obstacle(2.5 * canvas.width / 8, canvas.height / 2, canvas.width / 2.8, canvas.height / 2, "#66ffcc", 0)
+        var obst32 = new Obstacle(4 * canvas.width / 6, 0, canvas.width / 5, canvas.height, "#ff3366", 0)
+
+        //tuto niv7
+        var obst33 = new Obstacle(0, 0, 2 * canvas.width / 3, canvas.height, "pink", 0)
+
+        //augmenteur de niv dans tuto
+        var next1 = new Obstacle(canvas.width - 30, canvas.height / 2 - 50, 30, 50, "green", 0)
+
+        //var des niv du tuto
+        var next = 0
+        console.log(next)
+
+        //obstacles du jeu
+        var bar1 = new Obstacle(canvas.width / 5 - 10, 0, 10, canvas.height - 300, "white", 0)
+        var bar2 = new Obstacle(2 * canvas.width / 5 - 10, canvas.height - bar1.h, 10, canvas.height - 300, "white", 0)
+        var bar3 = new Obstacle(3 * canvas.width / 5 - 10, 0, 10, canvas.height - 300, "white", 0)
+        var bar4 = new Obstacle(4 * canvas.width / 5 - 10, canvas.height - bar1.h, 10, canvas.height - 300, "white", 0)
+        var obstacle1 = new Obstacle(0, canvas.height / 7, canvas.width / 8, canvas.height / 11, "white", 0)
+        var obstacle2 = new Obstacle(canvas.width / 14, canvas.height / 3.2, canvas.width / 8, canvas.height / 11, "white", 0)
+        var obstacle3 = new Obstacle(0, 3.4 * canvas.height / 7, canvas.width / 8, canvas.height / 11, "white", 0)
+        var color1 = new Obstacle(canvas.width / 5, canvas.height / 2 - 200, canvas.width / 17, canvas.height / 2, "#33ccff", 0)
+        var color2 = new Obstacle(canvas.width / 3.8, canvas.height / 2 - 200, canvas.width / 17, canvas.height / 2, "#33ffff", 0)
+        var color3 = new Obstacle(canvas.width / 3.05, canvas.height / 2 - 200, canvas.width / 17, canvas.height / 2, "#33ffcc", 0)
+        var movingRectangle1 = new Obstacle(canvas.width / 2, canvas.height / 2, canvas.width / 10, canvas.height / 10, "red", 10)
+        var movingRectangle2 = new Obstacle(canvas.width / 2.5, canvas.height / 2, canvas.width / 10, canvas.height / 10, "red", -10)
+        var key = new Obstacle(canvas.width / 10, 5, 20, 20, "orange", 0)
+        var door = new Obstacle(canvas.width / 1.67, canvas.height / 2, canvas.width / 5, 20, "orange", 0)
+        var up = new Obstacle(3 * canvas.width / 5, 0, 2 * canvas.width / 5, canvas.height / 4.5, "#ffff66", 0)
+        var left = new Obstacle(3 * canvas.width / 5, canvas.height / 4.5, canvas.width / 5.2, canvas.height / 4, "#ff0066", 0)
+        var right = new Obstacle(4 * canvas.width / 5, canvas.height / 4.5, canvas.width / 5.2, canvas.height / 4, "pink", 0)
+        var lava1 = new Obstacle(3 * canvas.width / 5, 0, 2 * canvas.width / 5, 5, "red", 0)
+        var lava2 = new Obstacle(3 * canvas.width / 5, 0, 5, canvas.height / 2, "red", 0)
+        var lava3 = new Obstacle(4 * canvas.width / 5 - 10, canvas.height / 10, 10, 2 * canvas.height / 4, "red", 0)
+        var lava4 = new Obstacle(canvas.width - 5, 0, 5, canvas.height / 2, "red", 0)
+
+        var bot1 = new Bot(canvas.width / 12, 50, 60, 60, "white", 5, 10)
+        var bot2 = new Bot(3 * canvas.width / 12, 50, 60, 60, "blue", 5, 10)
+        var bot3 = new Bot(5 * canvas.width / 12, 50, 60, 60, "grey", 5, 10)
+        var bot4 = new Bot(7 * canvas.width / 12, 50, 60, 60, "purple", 5, 10)
+        var bot5 = new Bot(9 * canvas.width / 12, 50, 60, 60, "yellow", 5, 10)
+
+        //boss phase 1
+        var boss1 = new Bot(6 * canvas.width / 12, 50, 300, 300, "white", 1, 100)
+
+        //boss phase 2
+        var boss2 = new Bot(2 * canvas.width / 6, 50, 200, 200, "#00ffff", 3, 50)
+        var boss3 = new Bot(4 * canvas.width / 6, 50, 200, 200, "#00bfff", 3, 50)
+
+        //boss phase 3                   
+        var boss4 = new Bot(3 * canvas.width / 12, 50, 100, 100, "#0080ff", 5, 25)
+        var boss5 = new Bot(5 * canvas.width / 12, 50, 100, 100, "#0040ff", 5, 25)
+        var boss6 = new Bot(7 * canvas.width / 12, 50, 100, 100, "#0000ff", 5, 25)
+        var boss7 = new Bot(9 * canvas.width / 12, 50, 100, 100, "#4000ff", 5, 25)
+
+        //boss phase 4
+        var boss8 = new Bot(2 * canvas.width / 12, 50, 50, 50, "#8000ff", 6, 13)
+        var boss9 = new Bot(4 * canvas.width / 12, 50, 50, 50, "#bf00ff", 6, 13)
+        var boss10 = new Bot(6 * canvas.width / 12, 50, 50, 50, "#ff00ff", 6, 13)
+        var boss11 = new Bot(8 * canvas.width / 12, 50, 50, 50, "#ff00bf", 6, 13)
+        var boss12 = new Bot(2 * canvas.width / 12, 150, 50, 50, "#ff0080", 6, 13)
+        var boss13 = new Bot(4 * canvas.width / 12, 150, 50, 50, "#ff0040", 6, 13)
+        var boss14 = new Bot(6 * canvas.width / 12, 150, 50, 50, "#ff0000", 6, 13)
+        var boss15 = new Bot(8 * canvas.width / 12, 150, 50, 50, "#ffff33", 6, 13)
+
+        var bossPhase = 1
+        //var vieBoss=404
+        //var bossVie=new Obstacle(canvas.width/4,9*canvas.height/10,404,70,"red",0)
+
+        var trophy=new Obstacle(2.1*canvas.width/5,3*canvas.height/5,300,300,"white",0)
+        
+
+        //zone de passage au prochain niveau
+        var finish = new Obstacle(4 * canvas.width / 5, canvas.height - canvas.height / 5, canvas.width / 5.2, canvas.height / 5, "lightgreen", 0)
+
+        //var pour lvls du jeu
+        var lvl = 0
+        console.log(lvl)
+        //boîte du temps lvl5
+        var timer = {
+            x: 0,
+            y: canvas.height - 150,
+            w: 100,
+            h: 70,
+        }
+
+        //var temps lvl5
+        var time = 0
+
+        var sacFlocons = []
+        var sacMissiles = []
+
+        //seulement lvl8 pour les bugs
+        var clé = new Obstacle(7.5 * canvas.width / 10, 3 * canvas.height / 4, 20, 20, "#1affc6", 0)
+        var door2 = new Obstacle(canvas.width / 5 - 10, canvas.height - 300, 10, 300, "#1affc6", 0)
+
+        var ball = {
+            x: 50,
+            y: 50,
+            dx: 28,
+            dy: 20,
+            r: 20,
+            color: "#ffcc33",
+        }
+
+        //bouton pour retourner au menu    
+        var button4 = new Bouton(2 * canvas.width / 5.1, 2 * canvas.height / 3, canvas.width / 5, canvas.height / 10, "lightblue", "Back to Menu", "black")
+
+        //var du jeu
+        var menu = true
+        var tutorial = false
+        var levels = false
+        var gameOver = false
+
+        //en rapport avec clavier    
+        var keyDown = {}
+        var direction
+
+        //sons
+        var button = new Audio()
+        button.src = "sons/click.wav"
+        var win = new Audio()
+        win.src = "sons/win.mp3"
+        var win2 = new Audio()
+        win2.src = "sons/win2.wav"
+        var lose = new Audio()
+        lose.src = "sons/lose.flac"
+        var music = new Audio()
+        music.src = "sons/music.mp3"
+        var music2 = new Audio()
+        music2.src = "sons/music2.mp3"
+        var music3 = new Audio()
+        music3.src = "sons/music3.mp3"
+        var music4 = new Audio()
+        music4.src = "sons/music4.mp3"
+        var music5 = new Audio()
+        music5.src = "sons/music5.mp3"
+        //variables pour 5 choix
+        var soundtrack = 0
+        //bouton des choix musicaux
+        var sound = {
+            x: 0,
+            y: canvas.height - 150,
+            w: 100,
+            h: 70,
+        }
+
+        //images
+        var lava = new Image()
+        lava.src = "images/lava.jpg"
+        var spikes = new Image()
+        spikes.src = "images/spike.jpg"
+        var rocks = new Image()
+        rocks.src = "images/rocks.jpg"
+        var bas = new Image()
+        bas.src = "images/down.png"
+        var haut = new Image()
+        haut.src = "images/up.png"
+        var droite = new Image()
+        droite.src = "images/right.png"
+        var gauche = new Image()
+        gauche.src = "images/left.png"
+        var trophée=new Image()
+        trophée.src="images/trophée.jpg"
+
+        //page de menu
+        function showMenu() {
+            if (soundtrack == 0) {
+                music.pause()
+                music.currentTime = 0
+                music2.pause()
+                music2.currentTime = 0
+                music3.pause()
+                music.currentTime = 0
+                music4.pause()
+                music4.currentTime = 0
+                music5.pause()
+                music5.currentTime = 0
+            }
+            if (soundtrack == 1) {
+                music.play()
+                music2.pause()
+                music3.pause()
+                music4.pause()
+                music5.pause()
+            }
+            if (soundtrack == 2) {
+                music.pause()
+                music2.play()
+                music3.pause()
+                music4.pause()
+                music5.pause()
+            }
+            if (soundtrack == 3) {
+                music.pause()
+                music2.pause()
+                music3.play()
+                music4.pause()
+                music5.pause()
+            }
+            if (soundtrack == 4) {
+                music.pause()
+                music2.pause()
+                music3.pause()
+                music4.play()
+                music5.pause()
+            }
+            if (soundtrack == 5) {
+                music.pause()
+                music2.pause()
+                music3.pause()
+                music4.pause()
+                music5.play()
+            }
+            time = 0
+            sacFlocons.splice(0, sacFlocons.length)
+            sacMissiles.splice(0, sacMissiles.length)
+            lvl7.w = 0
+            lvl8.w = 0
+            lvl13.w = 0
+            lvl=0
+            bossPhase=1
+            button1.w = canvas.width / 5
+            button2.w = canvas.width / 5
+            button3.w = canvas.width / 5
+            menuScreen.draw()
+            drawMusic()
+            c.font = "50px Arial"
+            c.fillStyle = "#0000ff"
+            c.fillText("A simple video game or is it?", canvas.width / 2 - 10, canvas.height / 5)
+            c.font = "50px Arial"
+            c.fillStyle = "black"
+            c.fillText("Menu", canvas.width / 2 - 10, canvas.height / 2 - 100)
+            c.textAlign = "center"
+        }
+
+        //func choisir musiques
+        function drawMusic() {
+            c.fillStyle = "#00ffbf"
+            c.fillRect(sound.x, sound.y, sound.w, sound.h)
+            c.font = "25px Arial"
+            c.fillStyle = "white"
+            c.fillText("Music: " + soundtrack, 50, sound.y + 45)
+        }
+
+
+
+        //func constructeur pour créer des boutons
+        function Bouton(x, y, w, h, color, text, fillStyle) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.text = text
+            this.fillStyle = fillStyle
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x, this.y, this.w, this.h)
+                c.font = "25px Arial"
+                c.fillStyle = this.fillStyle
+                c.fillText("" + this.text, this.x + this.w / 2, this.y + this.h / 2)
+
+            }
+        }
+
+        //func avec paramètres pour dessiner les images par-dessus les obstacles
+        function images(a, b) {
+            c.drawImage(a, b.x, b.y, b.w, b.h)
+        }
+
+        //dessiner encadré pour montrer le temps
+        function drawTimer() {
+            c.fillStyle = "#00ffbf"
+            c.fillRect(timer.x, timer.y, timer.w, timer.h)
+            c.font = "25px Arial"
+            c.fillStyle = "white"
+            c.fillText("Timer: " + time, 50, timer.y + 45)
+
+        }
+
+        //trois boutons dans la page de menu
+        function drawBoutons() {
+            button1.draw()
+            button2.draw()
+            button3.draw()
+
+        }
+
+        //évènements en cliquant les boutons
+        document.addEventListener("click", press)
+        function press(e) {
+            //boutons de menu
+            if (e.offsetX > sound.x && e.offsetX < sound.x + sound.w && e.offsetY < sound.y + sound.h && e.offsetY > sound.y) {
+                if (soundtrack < 5) {
+                    soundtrack += 1
+                }
+                else if (soundtrack == 5) {
+                    soundtrack = 0
+                }
+                console.log(soundtrack)
+            }
+            if (e.offsetX > button1.x && e.offsetX < button1.x + button1.w && e.offsetY < button1.y + button1.h && e.offsetY > button1.y) {
+                button.play()
+                menu = false
+                tutorial = true
+                levels = false
+                player.x = 50
+                player.y = canvas.height / 2
+            }
+            if (e.offsetX > button2.x && e.offsetX < button2.x + button2.w && e.offsetY < button2.y + button2.h && e.offsetY > button2.y) {
+                button.play()
+                button4.w = 0
+                menu = false
+                tutorial = false
+                levels = true
+                lvl1.w = canvas.width / 7
+                lvl2.w = canvas.width / 7
+                lvl3.w = canvas.width / 7
+                lvl3.w = canvas.width / 7
+                lvl4.w = canvas.width / 7
+                lvl5.w = canvas.width / 7
+                lvl6.w = canvas.width / 7
+                lvl7.w = canvas.width / 7
+                lvl8.w = canvas.width / 7
+                lvl9.w = canvas.width / 7
+                lvl10.w = canvas.width / 7
+                lvl11.w = canvas.width / 7
+                lvl12.w = canvas.width / 7
+                lvl13.w = canvas.width / 7
+                lvl14.w = canvas.width / 7
+                lvl15.w = canvas.width / 7
+
+            }
+            if (e.offsetX > button3.x && e.offsetX < button3.x + button3.w && e.offsetY < button3.y + button3.h && e.offsetY > button3.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 1
+            }
+
+            //boutons pour lvls 1-8
+            if (e.offsetX > lvl1.x && e.offsetX < lvl1.x + lvl1.w && e.offsetY < lvl1.y + lvl1.h && e.offsetY > lvl1.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 1
+            }
+            if (e.offsetX > lvl2.x && e.offsetX < lvl2.x + lvl2.w && e.offsetY < lvl2.y + lvl2.h && e.offsetY > lvl2.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 2
+            }
+            if (e.offsetX > lvl3.x && e.offsetX < lvl3.x + lvl3.w && e.offsetY < lvl3.y + lvl3.h && e.offsetY > lvl3.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 3
+            }
+            if (e.offsetX > lvl4.x && e.offsetX < lvl4.x + lvl4.w && e.offsetY < lvl4.y + lvl4.h && e.offsetY > lvl4.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 4
+            }
+            if (e.offsetX > lvl5.x && e.offsetX < lvl5.x + lvl5.w && e.offsetY < lvl5.y + lvl5.h && e.offsetY > lvl5.y) {
+                button.play()
+                time = 0
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 5
+            }
+            if (e.offsetX > lvl6.x && e.offsetX < lvl6.x + lvl6.w && e.offsetY < lvl6.y + lvl6.h && e.offsetY > lvl6.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 6
+            }
+            if (e.offsetX > lvl7.x && e.offsetX < lvl7.x + lvl7.w && e.offsetY < lvl7.y + lvl7.h && e.offsetY > lvl7.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                moveLeft = true
+                lvl = 7
+                door2.draw()
+                clé.draw()
+                clé.w = 20
+                door2.h = 300
+                door2.w = 10
+                console.log(moveLeft)
+            }
+            if (e.offsetX > lvl8.x && e.offsetX < lvl8.x + lvl8.w && e.offsetY < lvl8.y + lvl8.h && e.offsetY > lvl8.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 8
+            }
+            if (e.offsetX > lvl9.x && e.offsetX < lvl9.x + lvl9.w && e.offsetY < lvl9.y + lvl9.h && e.offsetY > lvl9.y) {
+                button.play()
+                time = 0
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 9
+            }
+            if (e.offsetX > lvl10.x && e.offsetX < lvl10.x + lvl10.w && e.offsetY < lvl10.y + lvl10.h && e.offsetY > lvl10.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 10
+            }
+            if (e.offsetX > lvl11.x && e.offsetX < lvl11.x + lvl11.w && e.offsetY < lvl11.y + lvl11.h && e.offsetY > lvl11.y) {
+                button.play()
+                menu = false
+                time = 0
+                tutorial = false
+                levels = false
+                lvl = 11
+            }
+            if (e.offsetX > lvl12.x && e.offsetX < lvl12.x + lvl12.w && e.offsetY < lvl12.y + lvl12.h && e.offsetY > lvl12.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 12
+                finish.w = canvas.width / 5.2
+                finish.h = canvas.height/5
+                bar1.h = canvas.height - 300
+                bar2.h = canvas.height - 300
+                bar3.h = canvas.height - 300
+                bar4.h = canvas.height - 300
+                bar1.w = 10
+                bar2.w = 10
+                bar3.w = 10
+                bar4.w = 10
+                obstacle1.w = canvas.width / 8
+                obstacle2.w = canvas.width / 8
+                obstacle3.w = canvas.width / 8
+                obstacle1.h = canvas.height / 11
+                obstacle2.h = canvas.height / 11
+                obstacle3.h = canvas.height / 11
+                movingRectangle1.w = canvas.width / 10
+                movingRectangle2.w = canvas.width / 10
+                movingRectangle1.h = canvas.height / 10
+                movingRectangle2.h = canvas.height / 10
+                lava1.h = 5
+                lava2.h = canvas.height / 2
+                lava3.h = 2 * canvas.height / 4
+                lava4.h = canvas.height / 2
+                lava1.w = 2 * canvas.width / 5
+                lava2.w = 5
+                lava3.w = 10
+                lava4.w = 5
+                color1.h = canvas.height / 2
+                color3.h = canvas.height / 2
+                color2.h = canvas.height / 2
+                color1.w = canvas.width / 17
+                color2.w = canvas.width / 17
+                color3.w = canvas.width / 17
+                up.h = canvas.height / 4.5
+                left.h = canvas.height / 4
+                right.h = canvas.height / 4
+                door.h = 20
+                door.w = canvas.width / 5
+                key.h = 20
+            }
+            if (e.offsetX > lvl13.x && e.offsetX < lvl13.x + lvl13.w && e.offsetY < lvl13.y + lvl13.h && e.offsetY > lvl13.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 13
+            }
+            if (e.offsetX > lvl14.x && e.offsetX < lvl14.x + lvl14.w && e.offsetY < lvl14.y + lvl14.h && e.offsetY > lvl14.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 14
+            }
+            if (e.offsetX > lvl15.x && e.offsetX < lvl15.x + lvl15.w && e.offsetY < lvl15.y + lvl15.h && e.offsetY > lvl15.y) {
+                button.play()
+                menu = false
+                tutorial = false
+                levels = false
+                lvl = 15
+            }
+
+            //bouton de retour au menu
+            if (e.offsetX > button4.x && e.offsetX < button4.x + button4.w && e.offsetY < button4.y + button4.h && e.offsetY > button4.y) {
+                menu = true
+                tutorial = true
+                levels = false
+                gameOver = false
+                time = 0
+                door.w = canvas.width / 5
+                key.w = 20
+                player.x = canvas.width / 3
+                player.y = 0
+                player.speed=10
+                number = Math.round(Math.random() * 2) + 1
+                console.log(number)
+            }
+            if(lvl!=12&&lvl!=13&&lvl!=14&&lvl!=15){
+                finish.w = canvas.width / 5.2
+                finish.h = canvas.height/5
+                bar1.h = canvas.height - 300
+                bar2.h = canvas.height - 300
+                bar3.h = canvas.height - 300
+                bar4.h = canvas.height - 300
+                bar1.w = 10
+                bar2.w = 10
+                bar3.w = 10
+                bar4.w = 10
+                obstacle1.w = canvas.width / 8
+                obstacle2.w = canvas.width / 8
+                obstacle3.w = canvas.width / 8
+                obstacle1.h = canvas.height / 11
+                obstacle2.h = canvas.height / 11
+                obstacle3.h = canvas.height / 11
+                movingRectangle1.w = canvas.width / 10
+                movingRectangle2.w = canvas.width / 10
+                movingRectangle1.h = canvas.height / 10
+                movingRectangle2.h = canvas.height / 10
+                lava1.h = 5
+                lava2.h = canvas.height / 2
+                lava3.h = 2 * canvas.height / 4
+                lava4.h = canvas.height / 2
+                lava1.w = 2 * canvas.width / 5
+                lava2.w = 5
+                lava3.w = 10
+                lava4.w = 5
+                color1.h = canvas.height / 2
+                color3.h = canvas.height / 2
+                color2.h = canvas.height / 2
+                color1.w = canvas.width / 17
+                color2.w = canvas.width / 17
+                color3.w = canvas.width / 17
+                up.h = canvas.height / 4.5
+                left.h = canvas.height / 4
+                right.h = canvas.height / 4
+                door.h = 20
+                door.w = canvas.width / 5
+                key.h = 20
+            }
+        }
+
+        //niveaux du tutoriel
+        function showTutorial() {
+            sacFlocons.splice(0, sacFlocons.length)
+            sacMissiles.splice(0, sacMissiles.length)
+            next1.draw()
+            if (collision(player, next1) && next < 7) {
+                win.play()
+                next++
+                player.x = 50
+                player.y = canvas.height / 2
+                console.log(next)
+            }
+
+            if (next == 0) {
+                obst1.draw()
+                images(lava, obst1)
+                obst2.draw()
+                images(lava, obst2)
+                obst3.draw()
+                images(lava, obst3)
+                obst4.draw()
+                images(lava, obst4)
+            }
+
+            if (next == 1) {
+
+                obst5.draw()
+                obst6.draw()
+                obst7.draw()
+                obst8.draw()
+                obst9.draw()
+                obst10.draw()
+                tutoRng(player, obst5, obst6, obst7)
+                tutoRng(player, obst9, obst10, obst8)
+            }
+
+            if (next == 2) {
+                obst11.draw()
+                images(spikes, obst11)
+                obst12.draw()
+                images(spikes, obst12)
+                obst13.draw()
+                images(spikes, obst13)
+                obst14.draw()
+                images(spikes, obst14)
+            }
+
+            if (next == 3) {
+                obst15.draw()
+                obst16.draw()
+                obst17.draw()
+                obst18.draw()
+                obst19.draw()
+                obst20.draw()
+                obst21.draw()
+                obst22.draw()
+                key1.draw()
+                key2.draw()
+                key3.draw()
+                key4.draw()
+                tutoCheckHitWall()
+            }
+
+            if (next == 4) {
+                obst23.draw()
+                images(rocks, obst23)
+                obst24.draw()
+                images(rocks, obst24)
+                obst25.draw()
+                images(rocks, obst25)
+                obst26.draw()
+                images(rocks, obst26)
+                obst27.draw()
+                images(rocks, obst27)
+                obst28.draw()
+                images(rocks, obst28)
+            }
+
+            if (next == 5) {
+                obst29.draw()
+                images(gauche, obst29)
+                obst30.draw()
+                images(haut, obst30)
+                obst31.draw()
+                images(bas, obst31)
+                obst32.draw()
+                images(droite, obst32)
+            }
+
+            if (next == 6) {
+                obst33.draw()
+            }
+
+            if (next == 7) {
+                win2.play()
+                menu = true
+            }
+        }
+
+        //collisions dans le tutoriel
+        function tutoCollisions() {
+            if (next == 0) {
+                if (collision(player, obst1) ||
+                    collision(player, obst2) ||
+                    collision(player, obst3) ||
+                    collision(player, obst4)) {
+                    player.x = 50
+                    player.y = canvas.height / 2
+                }
+            }
+
+            if (next == 2) {
+                if (collision(player, obst11) ||
+                    collision(player, obst12) ||
+                    collision(player, obst13) ||
+                    collision(player, obst14)) {
+                    player.x = 50
+                    player.y = canvas.height / 2
+                }
+            }
+
+            if (next == 3) {
+                if (collision(player, obst22) && key4.w > 0) {
+                    player.x = 50
+                    player.y = canvas.height / 2
+                }
+            }
+
+            if (next == 4) {
+                if (collision(player, obst23) ||
+                    collision(player, obst24) ||
+                    collision(player, obst25) ||
+                    collision(player, obst26) ||
+                    collision(player, obst27) ||
+                    collision(player, obst28)) {
+                    player.x = 50
+                    player.y = canvas.height / 2
+                }
+            }
+
+            if (next == 5) {
+                if (collision(player, obst29)) {
+                    player.x -= 3
+                }
+                if (collision(player, obst30) && player.y > 0) {
+                    player.y -= 3
+                }
+                if (collision(player, obst31) && player.y + player.h < canvas.height) {
+                    player.y += 3
+                }
+                if (collision(player, obst32)) {
+                    player.x += 3
+                }
+            }
+
+            if (next == 6) {
+                if (collision(player, obst33)) {
+                    if (38 in keyDown && player.y < canvas.height - player.h) {
+                        direction = "haut"
+                        player.y += 2 * player.speed
+                    }
+                    if (40 in keyDown && player.y > 0) {
+                        direction = "bas"
+                        player.y -= 2 * player.speed
+                    }
+                    if (37 in keyDown && player.x < canvas.width - player.w) {
+                        direction = "gauche"
+                        player.x += 2 * player.speed
+                    }
+                    if (39 in keyDown && player.x > 0) {
+                        direction = "droite"
+                        player.x -= 2 * player.speed
+                    }
+                }
+            }
+
+        }
+
+        //fonction qui choisit aléatoirement un passage lorsque next==1
+        function tutoRng(a, b, c, d) {
+            if (number == 1) {
+                if (collision(a, c) || collision(a, d)) {
+                    a.x = 50
+                    a.y = canvas.height / 2
+                }
+            }
+            if (number == 2) {
+                if (collision(a, b) || collision(a, d)) {
+                    a.x = 50
+                    a.y = canvas.height / 2
+                }
+            }
+            if (number == 3) {
+                if (collision(a, c) || collision(a, b)) {
+                    a.x = 50
+                    a.y = canvas.height / 2
+                }
+            }
+
+        }
+
+        //tuto pour le principe de clés/portes lorsque next==3
+        function tutoCheckHitWall() {
+            hitWall(player, obst15)
+            hitWall(player, obst16)
+            hitWall(player, obst17)
+            hitWall(player, obst18)
+            if (collision(player, key1)) {
+                obst19.w = 0
+                obst19.h = 0
+                key1.w = 0
+                key1.h = 0
+            }
+            else {
+                hitWall(player, obst19)
+            }
+            if (collision(player, key2)) {
+                obst20.w = 0
+                obst20.h = 0
+                key2.w = 0
+                key2.h = 0
+            }
+            else {
+                hitWall(player, obst20)
+            }
+            if (collision(player, key3)) {
+                obst21.w = 0
+                obst21.h = 0
+                key3.w = 0
+                key3.h = 0
+            }
+            else {
+                hitWall(player, obst21)
+            }
+            if (collision(player, key4)) {
+                obst22.w = 0
+                obst22.h = 0
+                key4.w = 0
+                key4.h = 0
+            }
+            else {
+                collision(player, obst22)
+            }
+
+        }
+
+        //page de lvls
+        function showLevels() {
+            c.font = "50px Arial"
+            c.fillStyle = "lightgreen"
+            c.fillText("Levels", canvas.width / 2 - 20, 100)
+            c.textAlign = "center"
+
+            lvl1.draw()
+            lvl2.draw()
+            lvl3.draw()
+            lvl4.draw()
+            lvl5.draw()
+            lvl6.draw()
+            lvl7.draw()
+            lvl8.draw()
+            lvl9.draw()
+            lvl10.draw()
+            lvl11.draw()
+            lvl12.draw()
+            lvl13.draw()
+            lvl14.draw()
+            lvl15.draw()
+            infoLvl1.draw()
+            infoLvl2.draw()
+            infoLvl3.draw()
+            infoLvl4.draw()
+            infoLvl5.draw()
+            infoLvl6.draw()
+            infoLvl7.draw()
+            infoLvl8.draw()
+            infoLvl9.draw()
+            infoLvl10.draw()
+            infoLvl11.draw()
+            infoLvl12.draw()
+            infoLvl13.draw()
+            infoLvl14.draw()
+            infoLvl15.draw()
+            sacFlocons.splice(0, sacFlocons.length)
+            sacMissiles.splice(0, sacMissiles.length)
+
+        }
+
+        //8 niveaux
+        function niveaux() {
+            button1.w = 0
+            button2.w = 0
+            button3.w = 0
+            lvl1.w = 0
+            lvl2.w = 0
+            lvl3.w = 0
+            lvl4.w = 0
+            lvl5.w = 0
+            lvl6.w = 0
+            lvl7.w = 0
+            lvl8.w = 0
+            lvl9.w = 0
+            lvl10.w = 0
+            lvl11.w = 0
+            lvl12.w = 0
+            lvl13.w = 0
+            lvl14.w = 0
+            lvl15.w = 0
+
+            //normal
+            if (lvl == 1) {
+                door2.h = 0
+                clé.w = 0
+                time = 0
+                player.speed = 10
+            }
+
+            //plus vite
+            if (lvl == 2) {
+                door2.h = 0
+                clé.w = 0
+                time = 0
+                player.speed = 20
+            }
+
+            //plus lent
+            if (lvl == 3) {
+                door2.h = 0
+                clé.w = 0
+                time = 0
+                player.speed = 5
+            }
+
+            //une vie
+            if (lvl == 4) {
+                door2.h = 0
+                clé.w = 0
+                time = 0
+                player.speed = 10
+                if (collision(player, obstacle1) ||
+                    collision(player, obstacle2) ||
+                    collision(player, obstacle3) ||
+                    collision(player, movingRectangle1) ||
+                    collision(player, movingRectangle2) ||
+                    collision(player, lava1) ||
+                    collision(player, lava2) ||
+                    collision(player, lava3) ||
+                    collision(player, lava4)) {
+                    gameOver = true
+                }
+                if (number == 1) {
+                    if (collision(player, color2) || collision(player, color3)) {
+                        gameOver = true
+                    }
+                }
+                if (number == 2) {
+                    if (collision(player, color1) || collision(player, color3)) {
+                        gameOver = true
+                    }
+                }
+                if (number == 3) {
+                    if (collision(player, color2) || collision(player, color1)) {
+                        gameOver = true
+                    }
+                }
+            }
+
+            //timer
+            if (lvl == 5) {
+                door2.h = 0
+                clé.w = 0
+                drawTimer()
+                if (time == 20) {
+                    gameOver = true
+                }
+            }
+
+            //controles inversés
+            if (lvl == 6) {
+                door2.h = 0
+                clé.w = 0
+                if (38 in keyDown && player.y < canvas.height - player.h) {
+                    direction = "haut"
+                    player.y += 2 * player.speed
+                }
+                if (40 in keyDown && player.y > 0) {
+                    direction = "bas"
+                    player.y -= 2 * player.speed
+                }
+                if (37 in keyDown && player.x < canvas.width - player.w) {
+                    direction = "gauche"
+                    player.x += 2 * player.speed
+                }
+                if (39 in keyDown && player.x > 0) {
+                    direction = "droite"
+                    player.x -= 2 * player.speed
+                }
+                reverseHitWall(player, bar1)
+                reverseHitWall(player, bar2)
+                reverseHitWall(player, bar3)
+                reverseHitWall(player, bar4)
+            }
+
+            //vers la gauche
+            if (lvl == 7) {
+                door2.h = 0
+                clé.w = 0
+                if (collision(player, bar1)
+                    || collision(player, bar2)
+                    || collision(player, bar3)
+                    || collision(player, bar4)
+                    || player.x + player.w > canvas.width) {
+                    player.x -= 3
+                }
+                else {
+                    player.x += 3
+                }
+                if (player.x + player.w > bar4.x + bar4.w && door.w !== 0) {
+                    player.x = canvas.width / 3
+                    player.y = 0
+                    lvl = 7
+                }
+                if (collision(player, finish) && lvl == 7) {
+                    door2.h = 300
+                    clé.w = 20
+                }
+
+            }
+
+            //vers la droite
+            if (lvl == 8) {
+                time = 0
+                clé.draw()
+                door2.draw()
+                if (collision(player, bar1)
+                    || collision(player, bar2)
+                    || collision(player, bar3)
+                    || collision(player, bar4)
+                    || player.x < 0) {
+                    player.x += 3
+                }
+                else {
+                    player.x -= 3
+                }
+                if (player.x < bar1.x + bar1.w && door2.h !== 0) {
+                    player.x = canvas.width / 3
+                    player.y = 0
+                }
+
+            }
+            if (lvl == 9) {
+                door2.h = 0
+                clé.w = 0
+                if (time == 1) {
+                    player.color = "blue"
+                }
+                if (time == 2) {
+                    player.color = "black"
+                }
+                if (time > 2) {
+                    time = 0
+                }
+
+            }
+            if (lvl == 10) {
+                player.color = "blue"
+                door2.h = 0
+                clé.w = 0
+                drawBall()
+            }
+            if (lvl == 11) {
+                door2.h = 0
+                clé.w = 0
+                for (i = 0; i < sacFlocons.length; i++) {
+                    sacFlocons[i].draw()
+                }
+                if (time == 0) {
+                    player.speed = 10
+                    météo()
+                    météo()
+                }
+                if (time == 1) {
+                    player.speed = 10
+                    météo()
+                    météo()
+                    météo()
+
+                }
+                if (time == 2) {
+                    player.speed = 10
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+  
+                }
+                if (time == 3) {
+                    player.speed = 10
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 4) {
+                    player.speed = 10
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 6) {
+                    player.speed = 9
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 7) {
+                    player.speed = 9
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 8) {
+                    player.speed = 9
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+  
+                }
+                if (time == 9) {
+                    player.speed = 8
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 10) {
+                    player.speed = 8
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 11) {
+                    player.speed = 8
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 12) {
+                    player.speed = 7
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 13) {
+                    player.speed = 7
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 14) {
+                    player.speed = 6
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 15) {
+                    player.speed = 6
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 16) {
+                    player.speed = 5
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 17) {
+                    player.speed = 4
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 18) {
+                    player.speed = 4
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                    météo()
+                }
+                if (time == 20) {
+                    gameOver = true
+                }
+            }
+            if (lvl == 12) {
+                sacFlocons.splice(0, sacFlocons.length)
+                for (i = 0; i < sacMissiles.length; i++) {
+                    sacMissiles[i].draw()
+                    if (ballCollision(sacMissiles[i], bar1) ||
+                        ballCollision(sacMissiles[i], bar2) ||
+                        ballCollision(sacMissiles[i], bar3) ||
+                        ballCollision(sacMissiles[i], bar4) ||
+                        ballCollision(sacMissiles[i], obstacle1) ||
+                        ballCollision(sacMissiles[i], obstacle2) ||
+                        ballCollision(sacMissiles[i], obstacle3) ||
+                        ballCollision(sacMissiles[i], movingRectangle1) ||
+                        ballCollision(sacMissiles[i], movingRectangle2) ||
+                        ballCollision(sacMissiles[i], lava1) ||
+                        ballCollision(sacMissiles[i], lava2) ||
+                        ballCollision(sacMissiles[i], lava3) ||
+                        ballCollision(sacMissiles[i], lava4) ||
+                        ballCollision(sacMissiles[i], color1) ||
+                        ballCollision(sacMissiles[i], color2) ||
+                        ballCollision(sacMissiles[i], color3) ||
+                        ballCollision(sacMissiles[i], up) ||
+                        ballCollision(sacMissiles[i], left) ||
+                        ballCollision(sacMissiles[i], right) ||
+                        ballCollision(sacMissiles[i], door)) {
+                        sacMissiles.splice(i, 1)
+                    }
+                }
+                door2.h = 0
+                clé.w = 0
+                key.w = 0
+                key.h = 0
+                player.speed = 10
+
+            }
+            if (lvl == 13) {
+                for (i = 0; i < sacMissiles.length; i++) {
+                    sacMissiles[i].draw()
+                    botLife(sacMissiles[i], bot1)
+                    botLife(sacMissiles[i], bot2)
+                    botLife(sacMissiles[i], bot3)
+                    botLife(sacMissiles[i], bot4)
+                    botLife(sacMissiles[i], bot5)
+                }
+                sacFlocons.splice(0, sacFlocons.length)
+                botCollision()
+                door2.h = 0
+                door2.w = 0
+                clé.w = 0
+                boss1.w = 0
+                boss1.h = 0
+                finish.w = 0
+                finish.h = 0
+                bar1.h = 0
+                bar2.h = 0
+                bar3.h = 0
+                bar4.h = 0
+                bar1.w = 0
+                bar2.w = 0
+                bar3.w = 0
+                bar4.w = 0
+                obstacle1.w = 0
+                obstacle2.w = 0
+                obstacle3.w = 0
+                obstacle1.h = 0
+                obstacle2.h = 0
+                obstacle3.h = 0
+                movingRectangle1.w = 0
+                movingRectangle2.w = 0
+                movingRectangle1.h = 0
+                movingRectangle2.h = 0
+                lava1.h = 0
+                lava2.h = 0
+                lava3.h = 0
+                lava4.h = 0
+                lava1.w = 0
+                lava2.w = 0
+                lava3.w = 0
+                lava4.w = 0
+                color1.h = 0
+                color2.h = 0
+                color3.h = 0
+                color1.w = 0
+                color2.w = 0
+                color3.w = 0
+                up.h = 0
+                left.h = 0
+                right.h = 0
+                door.h = 0
+                door.w = 0
+                key.h = 0
+                bot1.draw()
+                bot2.draw()
+                bot3.draw()
+                bot4.draw()
+                bot5.draw()
+                bot1.w=60
+                bot2.w=60
+                bot3.w=60
+                bot4.w=60
+                bot5.w=60
+                bot1.h=60
+                bot2.h=60
+                bot3.h=60
+                bot4.h=60
+                bot5.h=60
+                if (bot1.speed == 0 && bot2.speed == 0 && bot3.speed == 0 && bot4.speed == 0 && bot5.speed == 0) {
+                    lvl = 14
+                    //bossPhase=1
+                    boss1.w=300
+                    boss1.h=300
+                }
+
+            }
+            if (lvl == 14) {
+                sacFlocons.splice(0, sacFlocons.length)
+                for (i = 0; i < sacMissiles.length; i++) {
+                    sacMissiles[i].draw()
+                    if(bossLife(sacMissiles[i], boss1)||
+                    bossLife(sacMissiles[i], boss2)||
+                    bossLife(sacMissiles[i], boss3)||
+                    bossLife(sacMissiles[i], boss4)||
+                    bossLife(sacMissiles[i], boss5)||
+                    bossLife(sacMissiles[i], boss6)||
+                    bossLife(sacMissiles[i], boss8)||
+                    bossLife(sacMissiles[i], boss7)||
+                    bossLife(sacMissiles[i], boss9)||
+                    bossLife(sacMissiles[i], boss10)||
+                    bossLife(sacMissiles[i], boss11)||
+                    bossLife(sacMissiles[i], boss12)||
+                    bossLife(sacMissiles[i], boss13)||
+                    bossLife(sacMissiles[i], boss14)||
+                    bossLife(sacMissiles[i], boss15)){
+                        //vieBoss--
+                        //bossVie.w+=vieBoss
+                    }
+                }
+                botCollision()
+                bot1.w = 0
+                bot2.w = 0
+                bot3.w = 0
+                bot4.w = 0
+                bot5.w = 0
+                bot1.w = 0
+                bot2.w = 0
+                bot3.w = 0
+                bot4.w = 0
+                bot5.w = 0
+                door2.h = 0
+                door2.w = 0
+                clé.w = 0
+                finish.w = 0
+                finish.h = 0
+                bar1.h = 0
+                bar2.h = 0
+                bar3.h = 0
+                bar4.h = 0
+                bar1.w = 0
+                bar2.w = 0
+                bar3.w = 0
+                bar4.w = 0
+                bar1.x = 0
+                bar2.x = 0
+                bar3.x = 0
+                bar4.x = 0
+                obstacle1.w = 0
+                obstacle2.w = 0
+                obstacle3.w = 0
+                obstacle1.h = 0
+                obstacle2.h = 0
+                obstacle3.h = 0
+                movingRectangle1.w = 0
+                movingRectangle2.w = 0
+                movingRectangle1.h = 0
+                movingRectangle2.h = 0
+                lava1.h = 0
+                lava2.h = 0
+                lava3.h = 0
+                lava4.h = 0
+                lava1.w = 0
+                lava2.w = 0
+                lava3.w = 0
+                lava4.w = 0
+                color1.h = 0
+                color2.h = 0
+                color3.h = 0
+                color1.w = 0
+                color2.w = 0
+                color3.w = 0
+                up.h = 0
+                left.h = 0
+                right.h = 0
+                door.h = 0
+                door.w = 0
+                key.h = 0
+                //bossVie.draw()
+                c.font = "50px Arial"
+                c.fillStyle = "white"
+                c.fillText("Boss phase: " + bossPhase, canvas.width/2-30, 75)
+                if (bossPhase == 1) {
+                    boss1.draw()
+                    boss1.speed = 1
+                    boss2.speed = 0
+                    boss3.speed = 0
+                    boss4.speed = 0
+                    boss5.speed = 0
+                    boss6.speed = 0
+                    boss7.speed = 0
+                    boss8.speed = 0
+                    boss9.speed = 0
+                    boss10.speed = 0
+                    boss11.speed = 0
+                    boss12.speed = 0
+                    boss13.speed = 0
+                    boss14.speed = 0
+                    boss15.speed = 0
+                    if (collision(player, boss1)) {
+                        player.y = canvas.height - 50
+                        player.x = canvas.width / 2
+                        boss1.life = 100
+                        boss1.speed = 1
+                        boss1.x = canvas.width / 2
+                        boss1.y = 50
+                        boss1.w=300
+                        boss1.h=300
+                    }
+                }
+                if (bossPhase == 2) {
+                    boss2.draw()
+                    boss3.draw()
+                    boss1.speed = 0
+                    boss2.speed = 3
+                    boss3.speed = 3
+                    boss4.speed = 0
+                    boss5.speed = 0
+                    boss6.speed = 0
+                    boss7.speed = 0
+                    boss8.speed = 0
+                    boss9.speed = 0
+                    boss10.speed = 0
+                    boss11.speed = 0
+                    boss12.speed = 0
+                    boss13.speed = 0
+                    boss14.speed = 0
+                    boss15.speed=0
+                    boss1.x=canvas.width/2
+                    boss1.y=50
+                    boss1.w = 0
+                    boss1.h = 0
+                    boss2.w = 200
+                    boss3.w = 200
+                    boss2.h = 200
+                    boss3.h = 200
+                    if (collision(player, boss2) || collision(player, boss3)) {
+                        bossPhase=1
+                        player.y = canvas.height - 50
+                        player.x = canvas.width / 2
+                        boss1.life = 100
+                        boss2.life = 50
+                        boss3.life = 50
+                        boss1.speed = 1
+                        boss2.speed = 0
+                        boss3.speed = 0
+                        boss1.x = canvas.width / 2
+                        boss1.y = 50
+                        boss2.x = 2*canvas.width / 6
+                        boss2.y = 50
+                        boss3.x = 4*canvas.width / 6
+                        boss3.y = 50
+                        boss1.w=300
+                        boss1.h=300
+                        boss2.w = 0
+                        boss3.w = 0
+
+                    }
+                }
+                if (bossPhase == 3) {
+                    boss4.draw()
+                    boss5.draw()
+                    boss6.draw()
+                    boss7.draw()
+                    boss1.speed = 1
+                    boss1.w = 0
+                    boss1.h = 0
+                    boss2.speed = 0
+                    boss3.speed = 0
+                    boss4.speed = 5
+                    boss5.speed = 5
+                    boss6.speed = 5
+                    boss7.speed = 5
+                    boss8.speed = 0
+                    boss9.speed = 0
+                    boss10.speed = 0
+                    boss11.speed = 0
+                    boss12.speed = 0
+                    boss13.speed = 0
+                    boss14.speed = 0
+                    boss15.speed = 0
+                    boss4.w = 100
+                    boss5.w = 100
+                    boss6.w = 100
+                    boss7.w = 100
+                    boss4.h = 100
+                    boss5.h = 100
+                    boss6.h = 100
+                    boss7.h = 100
+                    boss1.x=2*canvas.width/6
+                    boss1.y=50
+                    boss2.x=4*canvas.width/6
+                    boss2.y=50
+                     if (collision(player, boss4) || collision(player, boss5)||collision(player, boss6) || collision(player, boss7)) {
+                        bossPhase=1
+                        player.y = canvas.height - 50
+                        player.x = canvas.width / 2
+                        boss1.life = 100
+                        boss2.life = 50
+                        boss3.life = 50
+                        boss4.life = 25
+                        boss5.life = 25
+                        boss6.life = 25
+                        boss7.life = 25
+                        boss1.speed = 1
+                        boss2.speed = 0
+                        boss3.speed = 0
+                        boss4.speed = 0
+                        boss5.speed = 0
+                        boss6.speed = 0
+                        boss7.speed = 0
+                        boss1.x = canvas.width / 2
+                        boss1.y = 50
+                        boss2.x = 2*canvas.width / 6
+                        boss2.y = 50
+                        boss3.x = 4*canvas.width / 6
+                        boss3.y = 50
+                        boss4.x = 3*canvas.width / 12
+                        boss4.y = 50
+                        boss5.x = 5*canvas.width / 12
+                        boss5.y = 50
+                        boss6.x = 7*canvas.width / 12
+                        boss6.y = 50
+                        boss7.x = 9*canvas.width / 12
+                        boss7.y = 50
+                        boss1.w=300
+                        boss1.h=300
+                        boss2.w = 0
+                        boss3.w = 0
+                        boss4.w = 0
+                        boss5.w = 0
+                        boss6.w = 0
+                        boss7.w = 0
+            
+                    }
+                }
+                if (bossPhase == 4) {
+                    boss8.draw()
+                    boss9.draw()
+                    boss10.draw()
+                    boss11.draw()
+                    boss12.draw()
+                    boss13.draw()
+                    boss14.draw()
+                    boss15.draw()
+                    boss1.speed = 0
+                    boss2.speed = 0
+                    boss3.speed = 0
+                    boss4.speed = 0
+                    boss5.speed = 0
+                    boss6.speed = 0
+                    boss7.speed = 0
+                    boss8.speed = 6
+                    boss9.speed = 6
+                    boss10.speed = 6
+                    boss11.speed = 6
+                    boss12.speed = 6
+                    boss13.speed = 6
+                    boss14.speed = 6
+                    boss15.speed = 6
+                    boss8.w = 50
+                    boss9.w = 50
+                    boss10.w = 50
+                    boss11.w = 50
+                    boss12.w = 50
+                    boss13.w = 50
+                    boss14.w = 50
+                    boss15.w = 50
+                    boss8.h = 50
+                    boss9.h = 50
+                    boss10.h = 50
+                    boss11.h = 50
+                    boss12.h = 50
+                    boss13.h = 50
+                    boss14.h = 50
+                    boss15.h = 50
+                    boss4.x=2*canvas.width/12
+                    boss4.y=50
+                    boss5.x=4*canvas.width/12
+                    boss5.y=50
+                    boss6.x=6*canvas.width/12
+                    boss6.y=50
+                    boss7.x=8*canvas.width/12
+                    boss7.y=50
+                    if (collision(player, boss8) || collision(player, boss9)||collision(player, boss10) || collision(player, boss11)||collision(player, boss12) || collision(player, boss13||collision(player, boss14) || collision(player, boss15))) {
+                    bossPhase=1
+                    player.y = canvas.height - 50
+                    player.x = canvas.width / 2
+                    boss1.life = 100
+                    boss2.life = 50
+                    boss3.life = 50
+                    boss4.life = 25
+                    boss5.life = 25
+                    boss6.life = 25
+                    boss7.life = 25
+                    boss8.life = 13
+                    boss9.life = 13
+                    boss10.life = 13
+                    boss11.life = 13
+                    boss12.life = 13
+                    boss13.life = 13
+                    boss14.life = 13
+                    boss15.life = 13
+                    boss1.w=300
+                    boss2.w = 0
+                    boss3.w = 0
+                    boss4.w = 0
+                    boss5.w = 0
+                    boss6.w = 0
+                    boss7.w = 0
+                    boss8.w = 0
+                    boss9.w = 0
+                    boss10.w = 0
+                    boss11.w = 0
+                    boss12.w = 0
+                    boss13.w = 0
+                    boss14.w = 0
+                    boss15.w = 0
+                    boss1.h=300
+                    boss2.h = 0
+                    boss3.h = 0
+                    boss4.h = 0
+                    boss5.h = 0
+                    boss6.h = 0
+                    boss7.h = 0
+                    boss8.h = 0
+                    boss9.h = 0
+                    boss10.h = 0
+                    boss11.h = 0
+                    boss12.h = 0
+                    boss13.h = 0
+                    boss14.h = 0
+                    boss15.h = 0
+                    boss1.speed = 1
+                    boss2.speed = 0
+                    boss3.speed = 0
+                    boss4.speed = 0
+                    boss5.speed = 0
+                    boss6.speed = 0
+                    boss7.speed = 0
+                    boss8.speed = 0
+                    boss9.speed = 0
+                    boss10.speed = 0
+                    boss11.speed = 0
+                    boss12.speed = 0
+                    boss13.speed = 0
+                    boss14.speed = 0
+                    boss15.speed = 0
+                    boss1.x = canvas.width / 2
+                    boss1.y = 50
+                    boss2.x = 2*canvas.width / 6
+                    boss2.y = 50
+                    boss3.x = 4*canvas.width / 6
+                    boss3.y = 50
+                    boss4.x = 3*canvas.width / 12
+                    boss4.y = 50
+                    boss5.x = 5*canvas.width / 12
+                    boss5.y = 50
+                    boss6.x = 7*canvas.width / 12
+                    boss6.y = 50
+                    boss7.x = 9*canvas.width / 12
+                    boss7.y = 50
+                    boss8.x = 2*canvas.width / 12
+                    boss8.y = 50
+                    boss9.x = 4*canvas.width / 12
+                    boss9.y = 50
+                    boss10.x = 6*canvas.width / 12
+                    boss10.y = 50
+                    boss11.x = 8*canvas.width / 12
+                    boss11.y = 50
+                    boss12.x = 2*canvas.width / 12
+                    boss12.y = 150
+                    boss13.x = 4*canvas.width / 12
+                    boss13.y = 150
+                    boss14.x = 6*canvas.width / 12
+                    boss14.y = 150
+                    boss15.x = 8*canvas.width / 12
+                    boss15.y = 150
+                }
+                }
+                if (boss1.life == 0) {
+                    bossPhase = 2
+
+                }
+                if (boss2.life == 0 && boss3.life == 0) {
+                    bossPhase = 3
+
+                }
+                if (boss4.life == 0 && boss5.life == 0 && boss6.life == 0 && boss7.life == 0) {
+                    bossPhase = 4
+                }
+
+                if (boss8.life == 0 && boss9.life == 0 && boss10.life == 0 && boss11.life == 0 &&
+                    boss12.life == 0 && boss13.life == 0 && boss14.life == 0 && boss15.life == 0) {
+                    lvl = 15
+                    bossPhase = 0
+                }
+
+            }
+            if (lvl == 15) {
+                sacFlocons.splice(0, sacFlocons.length)
+                trophy.draw()
+                images(trophée, trophy)
+                if(collision(player,trophy)){
+                    lvl=16
+                }
+                door2.h = 0
+                door2.w = 0
+                clé.w = 0
+                boss1.w = 0
+                boss1.h = 0
+                finish.w = 0
+                finish.h = 0
+                bar1.h = 0
+                bar2.h = 0
+                bar3.h = 0
+                bar4.h = 0
+                bar1.w = 0
+                bar2.w = 0
+                bar3.w = 0
+                bar4.w = 0
+                obstacle1.w = 0
+                obstacle2.w = 0
+                obstacle3.w = 0
+                obstacle1.h = 0
+                obstacle2.h = 0
+                obstacle3.h = 0
+                movingRectangle1.w = 0
+                movingRectangle2.w = 0
+                movingRectangle1.h = 0
+                movingRectangle2.h = 0
+                lava1.h = 0
+                lava2.h = 0
+                lava3.h = 0
+                lava4.h = 0
+                lava1.w = 0
+                lava2.w = 0
+                lava3.w = 0
+                lava4.w = 0
+                color1.h = 0
+                color2.h = 0
+                color3.h = 0
+                color1.w = 0
+                color2.w = 0
+                color3.w = 0
+                up.h = 0
+                left.h = 0
+                right.h = 0
+                door.h = 0
+                door.w = 0
+                key.h = 0
+                c.font = "25px Arial"
+                c.textAlign = "center"
+                c.fillStyle = "white"
+                c.fillText("Merci d'avoir joué à mon jeu!  ", canvas.width / 2, 50)
+                c.fillText("J'aimerais remercier Monsieur Fortin-Joly pour ces trois belles années en informatique", canvas.width / 2, 80)
+                c.fillText("de m'avoir appris à programmer et à m'aider dans les divers jeux qu'on devait créer", canvas.width / 2, 110)
+                c.fillText("J'aimerais aussi remercier Vincent Ly pour m'avoir aidé plusieurs fois dans mon programme ", canvas.width / 2, 140)
+                c.fillText("lorsque je ne savais pas comment fix des bugs ou animer des events que je voulais faire.", canvas.width / 2, 170)
+                c.fillText("Pour terminer, j'aimerais aussi remercier mon petit frère Daniel pour avoir tester mon jeu.", canvas.width / 2, 200)
+
+            }
+        }
+        //pour lvl5
+        function myTimer() {
+            time++
+
+        }
+
+        function Flocons(x, y, w, h, color, speed) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.speed = Math.random() * 9 + 1
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x, this.y += this.speed, this.w, this.h)
+            }
+        }
+
+        function Missiles(x, y, r, color, angle, dx, dy) {
+            this.x = x
+            this.y = y
+            this.r = r
+            this.color = color
+            this.angle = angle
+            this.dx = dx
+            this.dy = dy
+            this.draw = function () {
+                c.beginPath()
+                c.fillStyle = this.color
+                c.arc(this.x += this.dx, this.y += this.dy, this.r, 0, Math.PI * 2, false)
+                c.fill()
+
+            }
+        }
+
+        function météo() {
+            sacFlocons.push(new Flocons(Math.random() * canvas.width, 0, 5, 10, "white", 10))
+            console.log(sacFlocons)
+        }
+
+        document.addEventListener("click", ammunition)
+        function ammunition(e) {
+            posX = e.offsetX
+            posY = e.offsetY
+            angle = Math.atan2(posX - player.x + player.w / 2, posY - player.y + player.h / 2)
+            dx = Math.sin(angle)
+            dy = Math.cos(angle)
+            sacMissiles.push(new Missiles(player.x + player.w / 2, player.y + player.h / 2, 5, "white", angle, dx * 10, dy * 10))
+            //console.log(sacMissiles)
+        }
+
+        function erase() {
+            for (i = 0; i < sacFlocons.length; i++) {
+                if (sacFlocons[i].y + sacFlocons[i].h > canvas.height) {
+                    sacFlocons.splice(i, 1)
+                }
+            }
+            for (i = 0; i < sacMissiles.length; i++) {
+                if (sacMissiles[i].x - sacMissiles[i].r < 0 || sacMissiles[i].x + sacMissiles[i].r > canvas.width || sacMissiles[i].y - sacMissiles[i].r < 0 || sacMissiles[i].y + sacMissiles[i].r > canvas.height) {
+                    sacMissiles.splice(i, 1)
+
+                }
+            }
+        }
+
+
+        //pour lvl6
+        function reverseHitWall(a, b) {
+            if (collision(a, b) && direction == "gauche") {
+                a.x = b.x - a.w
+            }
+            if (collision(a, b) && direction == "droite") {
+                a.x = b.x + b.w
+            }
+            if (collision(a, b) && direction == "haut") {
+                a.y = b.y - a.h
+            }
+            if (collision(a, b) && direction == "bas") {
+                a.y = b.y + b.h
+            }
+        }
+
+        //les trois obstacles qui varient la position
+        function move() {
+            if (collision(player, up) && player.y > 0) {
+                player.y -= 1
+            }
+            if (collision(player, left)) {
+                player.x -= 1
+            }
+            if (collision(player, right) && player.x + player.w < canvas.width) {
+                player.x += 1
+            }
+
+        }
+
+        //frappant un mur
+        function hitWall(a, b) {
+            if (collision(a, b) && direction == "gauche") {
+                a.x = b.x + b.w
+            }
+            if (collision(a, b) && direction == "droite") {
+                a.x = b.x - a.w
+            }
+            if (collision(a, b) && direction == "haut") {
+                a.y = b.y + b.h
+            }
+            if (collision(a, b) && direction == "bas") {
+                a.y = b.y - a.h
+            }
+        }
+
+        //appelle hitWall 
+        function gameCheckHitWall() {
+            if (lvl != 13 && lvl != 14 && lvl != 15) {
+                hitWall(player, bar1)
+                hitWall(player, bar2)
+                hitWall(player, bar3)
+                hitWall(player, bar4)
+                if (collision(player, key)) {
+                    door.w = 0
+                    key.w = 0
+                }
+                else {
+                    hitWall(player, door)
+                }
+                if (collision(player, clé)) {
+                    door2.h = 0
+                    clé.w = 0
+                }
+                else {
+                    hitWall(player, door2)
+                }
+            }
+        }
+
+        //func constructeur pour la création d'obstacles
+        function Bot(x, y, w, h, color, speed, life) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.speed = speed
+            this.life = life
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x, this.y, this.w, this.h)
+                if (player.x < this.x) {
+                    this.x -= this.speed
+                }
+                if (player.x > this.x&&this.x+this.w<canvas.width) {
+                    this.x += this.speed
+                }
+                if (player.y < this.y) {
+                    this.y -= this.speed
+                }
+                if (player.y > this.y&&this.y+this.h<canvas.height) {
+                    this.y += this.speed
+                }
+            }
+        }
+
+        function botLife(a, b) {
+            if (a.x - a.r < b.x + b.w && a.x + a.r > b.x && a.y - a.r < b.y + b.h && a.y + a.r > b.y) {
+                b.life--
+                console.log(b.life)
+            }
+            if (b.life == 0) {
+                b.speed = 0
+            }
+        }
+
+        function bossLife(a, b) {
+            if (a.x - a.r < b.x + b.w && a.x + a.r > b.x && a.y - a.r < b.y + b.h && a.y + a.r > b.y) {
+                b.life--
+                //vieBoss--
+                //console.log(vieBoss)
+                console.log(b.life)
+            }
+            if (b.life == 0) {
+                b.speed = 0
+                b.w = 0
+                b.h = 0
+                b.x = canvas.height
+                b.y = canvas.width
+            }
+        }
+
+        function botCollision() {
+            for (i = 0; i < sacMissiles.length; i++) {
+                if (sacMissiles[i].x - sacMissiles[i].r < bot1.x + bot1.w && sacMissiles[i].x + sacMissiles[i].r > bot1.x && sacMissiles[i].y - sacMissiles[i].r < bot1.y + bot1.h && sacMissiles[i].y + sacMissiles[i].r > bot1.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < bot2.x + bot2.w && sacMissiles[i].x + sacMissiles[i].r > bot2.x && sacMissiles[i].y - sacMissiles[i].r < bot2.y + bot2.h && sacMissiles[i].y + sacMissiles[i].r > bot2.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < bot3.x + bot3.w && sacMissiles[i].x + sacMissiles[i].r > bot3.x && sacMissiles[i].y - sacMissiles[i].r < bot3.y + bot3.h && sacMissiles[i].y + sacMissiles[i].r > bot3.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < bot4.x + bot4.w && sacMissiles[i].x + sacMissiles[i].r > bot4.x && sacMissiles[i].y - sacMissiles[i].r < bot4.y + bot4.h && sacMissiles[i].y + sacMissiles[i].r > bot4.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < bot5.x + bot5.w && sacMissiles[i].x + sacMissiles[i].r > bot5.x && sacMissiles[i].y - sacMissiles[i].r < bot5.y + bot5.h && sacMissiles[i].y + sacMissiles[i].r > bot5.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss1.x + boss1.w && sacMissiles[i].x + sacMissiles[i].r > boss1.x && sacMissiles[i].y - sacMissiles[i].r < boss1.y + boss1.h && sacMissiles[i].y + sacMissiles[i].r > boss1.y||
+                    sacMissiles[i].x - sacMissiles[i].r < boss2.x + boss2.w && sacMissiles[i].x + sacMissiles[i].r > boss2.x && sacMissiles[i].y - sacMissiles[i].r < boss2.y + boss2.h && sacMissiles[i].y + sacMissiles[i].r > boss2.y|| 
+                    sacMissiles[i].x - sacMissiles[i].r < boss3.x + boss3.w && sacMissiles[i].x + sacMissiles[i].r > boss3.x && sacMissiles[i].y - sacMissiles[i].r < boss3.y + boss3.h && sacMissiles[i].y + sacMissiles[i].r > boss3.y||
+                    sacMissiles[i].x - sacMissiles[i].r < boss4.x + boss4.w && sacMissiles[i].x + sacMissiles[i].r > boss4.x && sacMissiles[i].y - sacMissiles[i].r < boss4.y + boss4.h && sacMissiles[i].y + sacMissiles[i].r > boss4.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss5.x + boss5.w && sacMissiles[i].x + sacMissiles[i].r > boss5.x && sacMissiles[i].y - sacMissiles[i].r < boss5.y + boss5.h && sacMissiles[i].y + sacMissiles[i].r > boss5.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss6.x + boss6.w && sacMissiles[i].x + sacMissiles[i].r > boss6.x && sacMissiles[i].y - sacMissiles[i].r < boss6.y + boss6.h && sacMissiles[i].y + sacMissiles[i].r > boss6.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss7.x + boss7.w && sacMissiles[i].x + sacMissiles[i].r > boss7.x && sacMissiles[i].y - sacMissiles[i].r < boss7.y + boss7.h && sacMissiles[i].y + sacMissiles[i].r > boss7.y||
+                    sacMissiles[i].x - sacMissiles[i].r < boss8.x + boss8.w && sacMissiles[i].x + sacMissiles[i].r > boss8.x && sacMissiles[i].y - sacMissiles[i].r < boss8.y + boss8.h && sacMissiles[i].y + sacMissiles[i].r > boss8.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss9.x + boss9.w && sacMissiles[i].x + sacMissiles[i].r > boss9.x && sacMissiles[i].y - sacMissiles[i].r < boss9.y + boss9.h && sacMissiles[i].y + sacMissiles[i].r > boss9.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss10.x + boss10.w && sacMissiles[i].x + sacMissiles[i].r > boss10.x && sacMissiles[i].y - sacMissiles[i].r < boss10.y + boss10.h && sacMissiles[i].y + sacMissiles[i].r > boss10.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss11.x + boss11.w && sacMissiles[i].x + sacMissiles[i].r > boss11.x && sacMissiles[i].y - sacMissiles[i].r < boss11.y + boss11.h && sacMissiles[i].y + sacMissiles[i].r > boss11.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss12.x + boss12.w && sacMissiles[i].x + sacMissiles[i].r > boss12.x && sacMissiles[i].y - sacMissiles[i].r < boss12.y + boss12.h && sacMissiles[i].y + sacMissiles[i].r > boss12.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss13.x + boss13.w && sacMissiles[i].x + sacMissiles[i].r > boss13.x && sacMissiles[i].y - sacMissiles[i].r < boss13.y + boss13.h && sacMissiles[i].y + sacMissiles[i].r > boss13.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss14.x + boss14.w && sacMissiles[i].x + sacMissiles[i].r > boss14.x && sacMissiles[i].y - sacMissiles[i].r < boss14.y + boss14.h && sacMissiles[i].y + sacMissiles[i].r > boss14.y ||
+                    sacMissiles[i].x - sacMissiles[i].r < boss15.x + boss15.w && sacMissiles[i].x + sacMissiles[i].r > boss15.x && sacMissiles[i].y - sacMissiles[i].r < boss15.y + boss15.h && sacMissiles[i].y + sacMissiles[i].r > boss15.y){
+                    sacMissiles.splice(i, 1)
+                 }
+            }
+        }
+
+        function Obstacle(x, y, w, h, color, speed) {
+            this.x = x
+            this.y = y
+            this.w = w
+            this.h = h
+            this.color = color
+            this.speed = speed
+            this.draw = function () {
+                c.fillStyle = this.color
+                c.fillRect(this.x, this.y, this.w, this.h)
+                if (this.y < 0 || this.y + this.h > canvas.height) {
+                    this.speed = -this.speed
+                }
+                this.y += this.speed
+            }
+        }
+
+        //dessine les obstacles
+        function draw() {
+            door.draw()
+            obstacle1.draw()
+            images(spikes, obstacle1)
+            obstacle2.draw()
+            images(spikes, obstacle2)
+            obstacle3.draw()
+            images(spikes, obstacle3)
+            color1.draw()
+            color2.draw()
+            color3.draw()
+            movingRectangle1.draw()
+            images(rocks, movingRectangle1)
+            movingRectangle2.draw()
+            images(rocks, movingRectangle2)
+            key.draw()
+            up.draw()
+            images(haut, up)
+            left.draw()
+            images(gauche, left)
+            right.draw()
+            images(droite, right)
+            lava1.draw()
+            images(lava, lava1)
+            lava2.draw()
+            images(lava, lava2)
+            lava3.draw()
+            images(lava, lava3)
+            lava4.draw()
+            images(lava, lava4)
+            bar1.draw()
+            bar2.draw()
+            bar3.draw()
+            bar4.draw()
+            finish.draw()
+        }
+
+        //dessine joueur
+        function drawPlayer() {
+            c.fillStyle = player.color
+            c.fillRect(player.x, player.y, player.w, player.h)
+        }
+
+        function drawBall() {
+            c.beginPath()
+            c.fillStyle = ball.color
+            c.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2, false)
+            c.fill()
+
+            if (ball.x - ball.r < 0 || ball.x + ball.r > canvas.width) {
+                ball.dx = -ball.dx
+            }
+            if (ball.y - ball.r < 0 || ball.y + ball.r > canvas.height) {
+                ball.dy = -ball.dy
+            }
+            if (ball.x + ball.r > bar1.x && ball.x - ball.r < bar1.x + bar1.w && ball.y + ball.r > bar1.y && ball.y - ball.r < bar1.y + bar1.h ||
+                ball.x + ball.r > bar2.x && ball.x - ball.r < bar2.x + bar2.w && ball.y + ball.r > bar2.y && ball.y - ball.r < bar2.y + bar2.h ||
+                ball.x + ball.r > bar3.x && ball.x - ball.r < bar3.x + bar3.w && ball.y + ball.r > bar3.y && ball.y - ball.r < bar3.y + bar3.h ||
+                ball.x + ball.r > bar4.x && ball.x - ball.r < bar4.x + bar4.w && ball.y + ball.r > bar4.y && ball.y - ball.r < bar4.y + bar4.h) {
+                ball.dx = -ball.dx
+            }
+            ball.x += ball.dx
+            ball.y += ball.dy
+        }
+
+        //clavier
+        document.addEventListener("keydown", function (e) {
+            keyDown[e.keyCode] = true
+            //console.log(keyDown)
+        })
+        document.addEventListener("keyup", function (e) {
+            delete keyDown[e.keyCode]
+            //console.log(keyDown)
+        })
+
+        //pour décider aléatoirement un chemin
+        function gameRng() {
+            if (lvl != 13 || lvl != 14 || lvl != 15) {
+                if (number == 1) {
+                    if (collision(player, color2) || collision(player, color3)) {
+                        player.x = canvas.width / 3
+                        player.y = 0
+                    }
+                }
+                if (number == 2) {
+                    if (collision(player, color1) || collision(player, color3)) {
+                        player.x = canvas.width / 3
+                        player.y = 0
+                    }
+                }
+                if (number == 3) {
+                    if (collision(player, color2) || collision(player, color1)) {
+                        player.x = canvas.width / 3
+                        player.y = 0
+                    }
+                }
+            }
+        }
+
+        //clavier
+        function clavier() {
+            if (38 in keyDown && player.y > 0) {
+                direction = "haut"
+                player.y -= player.speed
+            }
+            if (40 in keyDown && player.y < canvas.height - player.h) {
+                direction = "bas"
+                player.y += player.speed
+            }
+            if (37 in keyDown && player.x > 0) {
+                direction = "gauche"
+                player.x -= player.speed
+            }
+            if (39 in keyDown && player.x < canvas.width - player.w) {
+                direction = "droite"
+                player.x += player.speed
+            }
+        }
+
+        //collision dans le jeu
+        function gameCollisions() {
+            if (lvl != 13 && lvl != 14 && lvl != 15) {
+                if (collision(player, obstacle1) ||
+                    collision(player, obstacle1) ||
+                    collision(player, obstacle2) ||
+                    collision(player, obstacle3) ||
+                    collision(player, movingRectangle1) ||
+                    collision(player, movingRectangle2) ||
+                    collision(player, lava1) ||
+                    collision(player, lava2) ||
+                    collision(player, lava3) ||
+                    collision(player, lava4)) {
+                    player.x = canvas.width / 3
+                    player.y = 0
+                    console.log(1)
+                }
+            }
+            if (lvl == 13) {
+                if (collision(player, bot1) ||
+                    collision(player, bot2) ||
+                    collision(player, bot3) ||
+                    collision(player, bot4) ||
+                    collision(player, bot5)) {
+                    player.y = canvas.height - 50
+                    player.x = canvas.width / 2
+                    bot1.x = 2 * canvas.width / 12
+                    bot2.x = 4 * canvas.width / 12
+                    bot3.x = 6 * canvas.width / 12
+                    bot4.x = 8 * canvas.width / 12
+                    bot5.x = 10 * canvas.width / 12
+                    bot1.y = 50
+                    bot2.y = 50
+                    bot3.y = 50
+                    bot4.y = 50
+                    bot5.y = 50
+                    bot1.speed = 5
+                    bot2.speed = 5
+                    bot3.speed = 5
+                    bot4.speed = 5
+                    bot5.speed = 5
+                    bot1.life = 5
+                    bot2.life = 5
+                    bot3.life = 5
+                    bot4.life = 5
+                    bot5.life = 5
+
+                }
+            }
+
+            if (lvl == 10) {
+                if (ball.x + ball.r > player.x && ball.x - ball.r < player.x + player.w && ball.y + ball.r > player.y && ball.y - ball.r < player.y + player.h) {
+                    player.x = canvas.width / 3
+                    player.y = 0
+                }
+            }
+            if (lvl != 13 && lvl != 14 && lvl != 15) {
+                if (collision(player, finish) || lvl > 15) {
+                    win.play()
+                    lvl++
+                    time=0
+                    player.x = canvas.width / 3
+                    player.y = 0
+                    door.w = canvas.width / 5
+                    key.w = 20
+                }
+
+                if (lvl>15) {
+                    winEnd()
+                    player.x = canvas.width / 3
+                    player.y = 0
+                }
+            }
+        }
+
+        //collision
+        function collision(a, b) {
+            if (a.x + a.w > b.x && a.x < b.x + b.w && a.y < b.y + b.h && a.y + a.h > b.y) {
+                return (true)
+                console.log(1)
+            }
+        }
+
+        function ballCollision(a, b) {
+            if (a.x - a.r < b.x + b.w && a.x + a.r > b.x && a.y - a.r < b.y + b.h && a.y + a.r > b.y) {
+                b.w = 0
+                b.h = 0
+                return (true)
+                console.log(1)
+
+            }
+        }
+
+        //page de victoire
+        function winEnd() {
+            win2.play()
+            button4.w = canvas.width / 5
+            c.fillStyle = endScreen.color
+            c.fillRect(endScreen.x, endScreen.y, endScreen.w, endScreen.h)
+            c.font = "50px Arial"
+            c.fillStyle = "black"
+            c.fillText("YOU HAVE WON!!!", canvas.width / 2, canvas.height / 2)
+            c.textAlign = "center"
+            button4.draw()
+        }
+
+        //page de défaite
+        function loseEnd() {
+            lose.play()
+            button4.w = canvas.width / 5
+            c.fillStyle = endScreen.color
+            c.fillRect(endScreen.x, endScreen.y, endScreen.w, endScreen.h)
+            c.font = "50px Arial"
+            c.fillStyle = "black"
+            if (lvl == 11 && gameOver == true) {
+                sacFlocons.splice(0, sacFlocons.length)
+                c.fillText("You have frozen to death...", canvas.width / 2, canvas.height / 2)
+            }
+            else {
+                c.fillText("RESTART NOOB!!!", canvas.width / 2, canvas.height / 2)
+            }
+            c.textAlign = "center"
+            button4.draw()
+        }
+
+        //pour pas que le temps soit dans un loop (lvl5)
+        setInterval(myTimer, 1000)
+        if (lvl == 5||lvl==11) {
+            time = 0
+            
+        }
+        console.log(time)
+
+
+        //setInterval(disappear,2000)
+
+        //func game
+        function game() {
+            if (menu == true) {
+                showMenu()
+                drawBoutons()
+
+            }
+            else {
+                c.clearRect(0, 0, canvas.width, canvas.height)
+                if (tutorial == true) {
+                    showTutorial()
+                    drawPlayer()
+                    clavier()
+                    tutoCollisions()
+                }
+                else if (levels == true) {
+                    showLevels()
+                }
+                else if (gameOver == false) {
+                    draw()
+                    drawPlayer()
+                    move()
+                    gameCollisions()
+                    erase()
+                    gameRng()
+                    clavier()
+                    gameCheckHitWall()
+                    niveaux()
+
+                }
+                else if (gameOver == true) {
+                    loseEnd()
+                }
+            }
+            requestAnimationFrame(game)
+        }
+        game()
+    </script>
+</body>
+
+</html>
