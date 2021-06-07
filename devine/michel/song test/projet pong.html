@@ -1,0 +1,292 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pong, new gen</title>
+
+<style>
+#monCanvas{
+    border:5px lightslategray solid;
+    background-color:black;
+    margin:auto;
+    display:block;
+}
+</style>
+</head>
+<body>
+<canvas id="monCanvas"></canvas>
+
+
+
+<script>
+    var canvas=document.getElementById("monCanvas")
+    var c=canvas.getContext("2d")
+
+    canvas.width=window.innerWidth-50
+    canvas.height=window.innerHeight-50
+
+    var balle={
+        x:canvas.width/2,
+        y:45,
+        r:20,
+        dx:5,
+        dy:3,
+    }
+
+    var pad={
+        x:25,
+        y:30,
+        h:150,
+        w:25,
+    }
+
+    var comPad={
+        x:canvas.width-50,
+        y:30,
+        h:150,
+        w:25
+    }
+	
+    var line={
+            x:canvas.width/2,
+            y:0,
+            w:3,
+            h:canvas.height,
+        }
+
+	var score=0
+	
+	var comScore=0
+	
+	var menu=true
+
+    var win=false
+
+    var lose=false
+	
+	var pong=new Audio();
+        pong.src="pong.mp3"
+
+    var lost=new Audio();
+        lost.src="youbad.mp3"
+
+    var winner=new Audio();
+        winner.src="youWin.mp3";
+
+	
+
+    function drawBalle(){
+        c.fillStyle="white"
+        c.beginPath()
+        c.arc(balle.x,balle.y,balle.r,0,Math.PI*2,false)
+        c.fill()
+
+        if(balle.x<balle.r || balle.x>canvas.width-balle.r){
+        balle.dx=-balle.dx
+        }
+
+        if(balle.y<balle.r || balle.y>canvas.height-balle.r){
+            balle.dy=-balle.dy
+        }
+        balle.x+=balle.dx
+        balle.y+=balle.dy
+
+    }    
+
+    function drawLine(){
+            c.fillStyle="white", 
+            c.fillRect(line.x,line.y,line.w,line.h,)
+        }
+
+	
+    function pointage(){
+	c.fillStyle="white"
+	c.font="25px Arial"
+	c.textAlign="left"
+	c.fillText("Score:"+score, canvas.width/4, 30)
+	c.font="25px Arial"
+	c.textAlign="left"
+	c.fillText("Score:"+comScore, canvas.width/4*3, 30)
+	}
+
+    function collision(){
+        if(balle.y+balle.r<pad.y+pad.h && balle.y-balle.r>pad.y && balle.x-balle.r<pad.x+pad.w){
+           balle.dx=-balle.dx
+		   balle.dx=balle.dx+2
+		   balle.dy=balle.dy-3
+           pong.play()
+        }
+		if(balle.y-balle.r<comPad.y+comPad.h && balle.y+balle.r>comPad.y && balle.x+balle.r>comPad.x-comPad.w/2){
+			balle.dx=-balle.dx
+		   balle.dx=balle.dx-2
+		   balle.dy=balle.dy+3
+           pong.play()
+			}
+    }
+
+    function goal(){
+        if(balle.x+balle.r>canvas.width-40){
+            setTimeout(function(){}, 5000)
+            restart()
+            score++
+            
+    }}
+
+    function comGoal(){
+        if(balle.x-balle.r<canvas.width-canvas.width+20){
+            setTimeout(function(){}, 5000)
+            restart()
+            comScore++
+            
+    }}
+   
+   function restart(){
+        balle.x=canvas.width/2
+        balle.y=canvas.height/2
+        balle.dx=5
+        balle.dy=3
+   }
+
+    function drawPad(){
+        c.fillStyle="cyan"
+        c.fillRect(pad.x,pad.y,pad.w,pad.h)
+    }
+
+    function comDrawPad(){
+        c.fillStyle="red"
+        c.fillRect(comPad.x,comPad.y,comPad.w,comPad.h)
+		if(balle.y<comPad.y+comPad.h/2){
+			comPad.y-=10
+			}
+		if(balle.y>comPad.y+comPad.h/2){
+			comPad.y+=10
+			}
+			//comPad.y=(balle.y*0.70)
+			
+			
+		if(comPad.y<=0){
+			comPad.y=0
+			}
+		if(comPad.y+comPad.h>=canvas.height){
+			comPad.y=canvas.height-comPad.h}
+			
+		
+    }
+		
+   
+
+    function fin(){
+            if(score==5){
+            
+            c.strokeRect(canvas.width/2-200,canvas.height/2-100,400,200)
+            c.fillStyle="green"
+            c.fillRect(canvas.width/2-200,canvas.height/2-100,400,200)
+            c.lineStyle=10
+            c.fillStyle="black"
+            c.font="35px Arial"
+            c.textAlign="center"
+            c.fillText("YOU WIN", canvas.width/2,canvas.height/2)
+            c.fillText("Press to play again", canvas.width/2,canvas.height/2+50)
+            winner.play
+
+
+        canvas.addEventListener("click",function()
+        {win=false
+        menu=true
+        newGame()})
+            }
+
+            if(comScore==5){
+                
+            c.strokeRect(canvas.width/2-200,canvas.height/2-100,400,200)
+            c.fillStyle="red"
+            c.fillRect(canvas.width/2-200,canvas.height/2-100,400,200)
+            c.lineStyle=10
+            c.fillStyle="black"
+            c.font="35px Arial"
+            c.textAlign="center"
+            c.fillText("YOU LOSE", canvas.width/2,canvas.height/2)
+            c.fillText("Press to play again", canvas.width/2,canvas.height/2+50)
+            lost.play
+
+        canvas.addEventListener("click",function()
+        {lose=false
+        menu=true
+        newGame()})
+            }
+    }       
+
+    function newGame(){
+        if(menu==true){
+            score=0
+            comScore=0
+            
+        }
+
+    }
+        
+    
+
+    
+       
+    
+		
+	function showMenu(){
+			c.strokeRect(canvas.width/2-200,canvas.height/2-100,400,200)
+			c.fillStyle="white"
+			c.fillRect(canvas.width/2-200,canvas.height/2-100,400,200)
+			c.lineWidth=10
+			c.fillStyle="black"
+			c.font="35px Arial"
+			c.textAlign="center"
+			c.fillText("MINI PONG click to start", canvas.width/2,canvas.height/2)
+           
+		
+		canvas.addEventListener("click",function()
+		{menu=false})
+			}
+    function souris(e){
+    //console.log(e)
+    if(e.offsetY<canvas.height-pad.h)
+    {
+        pad.y=e.offsetY
+    }else{
+        pad.y=canvas.height-pad.h
+    }
+    }
+
+
+
+canvas.addEventListener("mousemove", souris)
+    
+    function game(){
+		if(menu==true){
+            showMenu()
+        }
+        else if(score==5){
+            fin()
+            }
+        else if(comScore==5){
+            fin()
+        }else{
+
+        c.clearRect(0,0,canvas.width,canvas.height)
+        drawBalle()
+        drawLine()
+        drawPad()
+        comDrawPad()
+        collision()
+		pointage()
+        comGoal()
+        goal()
+      
+    }
+	requestAnimationFrame(game)}
+    game()
+</script>
+
+
+
+</body>
+
+</html>
